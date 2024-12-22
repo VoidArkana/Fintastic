@@ -574,7 +574,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         float prevRoll =  this.currentRoll;
         float targetRoll = Math.max(-0.45F, Math.min(0.45F, (this.getYRot() - this.yRotO) * 0.1F));
         targetRoll = -targetRoll;
-        this.currentRoll = prevRoll + (targetRoll - this.currentRoll) * 0.05F;
+        this.currentRoll = prevRoll + (targetRoll - prevRoll) * 0.05F;
 
         if (this.isAlive() && !this.getCanGrowUp()) {
             if (this.getAge() >- 500){

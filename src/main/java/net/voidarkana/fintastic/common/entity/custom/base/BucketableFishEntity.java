@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.voidarkana.fintastic.common.entity.custom.CatfishEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -91,6 +92,12 @@ public abstract class BucketableFishEntity extends BreedableWaterAnimal implemen
     }
 
     public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
+
+        if (this instanceof CatfishEntity catfish){
+            if (catfish.getVariant() == 0)
+                return super.mobInteract(pPlayer, pHand);
+        }
+
         return Bucketable.bucketMobPickup(pPlayer, pHand, this).orElse(super.mobInteract(pPlayer, pHand));
     }
 

@@ -7,15 +7,20 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.common.Tags;
+import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
 import net.voidarkana.fintastic.common.item.YAFMItems;
+import net.voidarkana.fintastic.util.YAFMTags;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -34,6 +39,15 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
         super(pEntityType, pLevel);
     }
 
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
+    }
+
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F);
@@ -50,6 +64,8 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
         compoundnbt.putFloat("Health", this.getHealth());
+        compoundnbt.putInt("Age", this.getAge());
+        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
         compoundnbt.putInt("VariantModel", this.getVariantModel());
         compoundnbt.putInt("VariantSkin", this.getVariantSkin());
         if (this.hasCustomName()) {
@@ -71,6 +87,9 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
         if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantModel", 3)) {
             this.setVariantModel(pDataTag.getInt("VariantModel"));
             this.setVariantSkin(pDataTag.getInt("VariantSkin"));
+            if (pDataTag.contains("Age")) {
+                this.setAge(pDataTag.getInt("Age"));}
+            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
         }else{
 
             int skin = this.random.nextInt(4);
@@ -112,7 +131,19 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        return null;
+        MinnowEntity baby = YAFMEntities.MINNOW.get().create(pLevel);
+        if (baby != null){
+            baby.setFromBucket(true);
+            baby.setVariantModel(this.getVariantModel());
+            baby.setVariantSkin(this.getVariantSkin());
+        }
+        return baby;
+    }
+
+    @Override
+    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
+        MinnowEntity mate = (MinnowEntity) pOtherAnimal;
+        return super.canMate(pOtherAnimal) && mate.getVariantModel() == this.getVariantModel() && mate.getVariantSkin() == this.getVariantSkin();
     }
 
     @Override

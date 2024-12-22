@@ -55,9 +55,5 @@ public class ArapaimaModel extends GeoModel<ArapaimaEntity> {
         tailRot.setRotY(-animatable.currentRoll);
         tailTipRot.setRotY(-animatable.currentRoll);
 
-//        float targetRoll = Math.max(-0.45F, Math.min(0.45F, (animatable.getYRot() - animatable.yRotO) * 0.1F));
-//        targetRoll = -targetRoll;
-//        animatable.currentRoll = animatable.currentRoll + (targetRoll - animatable.currentRoll) * 0.05F;
-//        swimControl.setRotZ(animatable.currentRoll);
     }
 }
