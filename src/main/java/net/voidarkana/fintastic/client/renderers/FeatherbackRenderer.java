@@ -42,6 +42,8 @@ public class FeatherbackRenderer extends GeoEntityRenderer<FeatherbackEntity> {
     protected void applyRotations(FeatherbackEntity animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
         super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
         if (animatable.isInWater()){
-            poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, -animatable.prevTilt, -animatable.tilt)));
-        }    }
+            poseStack.mulPose(Axis.ZP.rotationDegrees(animatable.currentRoll*360/4));
+            //poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, -animatable.prevTilt, -animatable.tilt)));
+        }
+    }
 }

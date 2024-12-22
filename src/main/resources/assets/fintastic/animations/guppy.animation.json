@@ -6,31 +6,31 @@
 			"bones": {
 				"body": {
 					"rotation": {
-						"vector": [0, "math.sin(query.anim_time * 360) * 5", 0],
+						"vector": [0, "math.sin(query.anim_time * 360) * 5*2", 0],
 						"easing": "linear"
 					}
 				},
 				"fin_r": {
 					"rotation": {
-						"vector": [0, "math.cos(query.anim_time * 360/2-30) * 10", 0],
+						"vector": [0, "math.cos(query.anim_time * 360/2-30) * 10*2", 0],
 						"easing": "linear"
 					}
 				},
 				"fin_l": {
 					"rotation": {
-						"vector": [0, "-math.cos(query.anim_time * 360/2-30) * 10", 0],
+						"vector": [0, "-math.cos(query.anim_time * 360/2-30) * 10*2", 0],
 						"easing": "linear"
 					}
 				},
 				"tail": {
 					"rotation": {
-						"vector": [0, "-math.cos(query.anim_time * 360) * 10", 0],
+						"vector": [0, "-math.cos(query.anim_time * 360) * 10*2", 0],
 						"easing": "linear"
 					}
 				},
 				"tail_tip": {
 					"rotation": {
-						"vector": [0, "-math.cos(query.anim_time * 360-30) * 15", 0],
+						"vector": [0, "-math.cos(query.anim_time * 360-30) * 25", 0],
 						"easing": "linear"
 					}
 				}
@@ -41,7 +41,7 @@
 			"bones": {
 				"body": {
 					"rotation": {
-						"vector": [0, "math.sin(query.anim_time * 360*2) * 10", -90],
+						"vector": [0, "math.sin(query.anim_time * 360*2) * 10*2", -90],
 						"easing": "linear"
 					},
 					"position": {
@@ -51,25 +51,25 @@
 				},
 				"fin_r": {
 					"rotation": {
-						"vector": [0, "math.cos(query.anim_time * 360-30) * 10", 0],
+						"vector": [0, "math.cos(query.anim_time * 360-30) * 10*2", 0],
 						"easing": "linear"
 					}
 				},
 				"fin_l": {
 					"rotation": {
-						"vector": [0, "-math.cos(query.anim_time * 360-30) * 10", 0],
+						"vector": [0, "-math.cos(query.anim_time * 360-30) * 10*2", 0],
 						"easing": "linear"
 					}
 				},
 				"tail": {
 					"rotation": {
-						"vector": [0, "-math.cos(query.anim_time * 360*2) * 10", 0],
+						"vector": [0, "-math.cos(query.anim_time * 360*2) * 10*2", 0],
 						"easing": "linear"
 					}
 				},
 				"tail_tip": {
 					"rotation": {
-						"vector": [0, "-math.cos(query.anim_time * 360*2-30) * 10", 0],
+						"vector": [0, "-math.cos(query.anim_time * 360*2-30) * 10*2", 0],
 						"easing": "linear"
 					}
 				}

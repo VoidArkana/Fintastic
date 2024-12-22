@@ -45,10 +45,19 @@ public class ArapaimaModel extends GeoModel<ArapaimaEntity> {
         tailRot.setRotX(-((entityData.headPitch() * ((float) Math.PI / 180F))/4));
         tailTipRot.setRotX(-((entityData.headPitch() * ((float) Math.PI / 180F))/4));
 
-        head.setRotY(-(animatable.tilt * ((float) Math.PI / 180F)));
-        bodyRot.setRotY(-(animatable.tilt * ((float) Math.PI / 180F))/2);
-        tailRot.setRotY(animatable.tilt * ((float) Math.PI / 180F));
-        tailTipRot.setRotY(animatable.tilt * ((float) Math.PI / 180F));
+//        head.setRotY(-(animatable.tilt * ((float) Math.PI / 180F)));
+//        bodyRot.setRotY(-(animatable.tilt * ((float) Math.PI / 180F))/2);
+//        tailRot.setRotY(animatable.tilt * ((float) Math.PI / 180F));
+//        tailTipRot.setRotY(animatable.tilt * ((float) Math.PI / 180F));
 
+        head.setRotY(animatable.currentRoll);
+        bodyRot.setRotY(animatable.currentRoll/2);
+        tailRot.setRotY(-animatable.currentRoll);
+        tailTipRot.setRotY(-animatable.currentRoll);
+
+//        float targetRoll = Math.max(-0.45F, Math.min(0.45F, (animatable.getYRot() - animatable.yRotO) * 0.1F));
+//        targetRoll = -targetRoll;
+//        animatable.currentRoll = animatable.currentRoll + (targetRoll - animatable.currentRoll) * 0.05F;
+//        swimControl.setRotZ(animatable.currentRoll);
     }
 }

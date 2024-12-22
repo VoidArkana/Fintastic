@@ -47,6 +47,8 @@ public class CatfishModel extends GeoModel<CatfishEntity> {
 
         CoreGeoBone swimControl = this.getAnimationProcessor().getBone("swim_control");
 
+        //swimControl.setRotZ(animatable.currentRoll);
+
         CoreGeoBone head = this.getAnimationProcessor().getBone("head_rot");
         CoreGeoBone tailRot = this.getAnimationProcessor().getBone("tail_rot");
         CoreGeoBone tailTipRot = this.getAnimationProcessor().getBone("tail_tip_rot");
@@ -57,11 +59,19 @@ public class CatfishModel extends GeoModel<CatfishEntity> {
 
         swimControl.setRotX(((entityData.headPitch() * ((float) Math.PI / 180F))/2));
 
-        head.setRotY(-((animatable.tilt * ((float) Math.PI / 180F))));
-        tailRot.setRotY(((animatable.tilt * ((float) Math.PI / 180F))));
-        tailTipRot.setRotY(((animatable.tilt * ((float) Math.PI / 180F))));
-        whiskerBR.setRotZ(-((animatable.tilt * ((float) Math.PI / 180F))));
-        whiskerBL.setRotZ(-((animatable.tilt * ((float) Math.PI / 180F))));
+//        head.setRotY(-((animatable.tilt * ((float) Math.PI / 180F))));
+//        tailRot.setRotY(((animatable.tilt * ((float) Math.PI / 180F))));
+//        tailTipRot.setRotY(((animatable.tilt * ((float) Math.PI / 180F))));
+
+        head.setRotY(animatable.currentRoll);
+        tailRot.setRotY(-animatable.currentRoll);
+        tailTipRot.setRotY(-animatable.currentRoll);
+
+//        whiskerBR.setRotZ(-((animatable.tilt * ((float) Math.PI / 180F))));
+//        whiskerBL.setRotZ(-((animatable.tilt * ((float) Math.PI / 180F))));
+
+        whiskerBR.setRotZ(-animatable.currentRoll);
+        whiskerBL.setRotZ(-animatable.currentRoll);
 
         if (animatable.getVariant() == 0) {
             CoreGeoBone tailFinRot = this.getAnimationProcessor().getBone("tail_fin_rot");
@@ -69,11 +79,17 @@ public class CatfishModel extends GeoModel<CatfishEntity> {
             CoreGeoBone whiskerTR = this.getAnimationProcessor().getBone("whisker_tr_rot");
             CoreGeoBone whiskerTL = this.getAnimationProcessor().getBone("whisker_tl_rot");
 
-            tailFinRot.setRotY(((animatable.tilt * ((float) Math.PI / 180F))));
+            //tailFinRot.setRotY(((animatable.tilt * ((float) Math.PI / 180F))));
 
-            whiskerTR.setRotZ(((animatable.tilt * ((float) Math.PI / 180F))));
-            whiskerTL.setRotZ(((animatable.tilt * ((float) Math.PI / 180F))));
+            tailFinRot.setRotY(-animatable.currentRoll);
+
+//            whiskerTR.setRotZ(((animatable.tilt * ((float) Math.PI / 180F))));
+//            whiskerTL.setRotZ(((animatable.tilt * ((float) Math.PI / 180F))));
+
+            whiskerTR.setRotZ(animatable.currentRoll);
+            whiskerTL.setRotZ(animatable.currentRoll);
         }
+
     }
 
 }

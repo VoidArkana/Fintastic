@@ -35,6 +35,7 @@ import java.util.UUID;
 
 public abstract class BreedableWaterAnimal extends WaterAnimal {
 
+    public float currentRoll = 0.0F;
 
     //ageable mob
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(BreedableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
@@ -569,6 +570,11 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         } else {
             tilt = 0;
         }
+
+        float prevRoll =  this.currentRoll;
+        float targetRoll = Math.max(-0.45F, Math.min(0.45F, (this.getYRot() - this.yRotO) * 0.1F));
+        targetRoll = -targetRoll;
+        this.currentRoll = prevRoll + (targetRoll - this.currentRoll) * 0.05F;
 
         if (this.isAlive() && !this.getCanGrowUp()) {
             if (this.getAge() >- 500){

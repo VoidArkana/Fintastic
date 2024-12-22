@@ -41,6 +41,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class ArapaimaEntity extends WaterAnimal implements GeoEntity, Bucketable {
 
+    public float currentRoll = 0.0F;
+
     public final ArapaimaPart head;
     public final ArapaimaPart tail;
     public final ArapaimaPart[] allParts;
@@ -123,6 +125,11 @@ public class ArapaimaEntity extends WaterAnimal implements GeoEntity, Bucketable
         } else {
             tilt = 0;
         }
+
+        float prevRoll =  this.currentRoll;
+        float targetRoll = Math.max(-0.45F, Math.min(0.45F, (this.getYRot() - this.yRotO) * 0.1F));
+        targetRoll = -targetRoll;
+        this.currentRoll = prevRoll + (targetRoll - this.currentRoll) * 0.05F;
 
         if (!this.isNoAi()) {
             if (this.ringBufferIndex < 0) {

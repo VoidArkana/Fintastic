@@ -22,7 +22,7 @@ public class YAFMItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, Fintastic.MOD_ID);
 
     public static final RegistryObject<Item> FEATHERBACK_SPAWN_EGG = ITEMS.register("featherback_spawn_egg",
-            () -> new ForgeSpawnEggItem(YAFMEntities.FEATHERBACK, 0x82827a, 0xd7d7a7, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.FEATHERBACK, 0x82827a, 0xd7d7a7, new Item.Properties()));
 
     public static final RegistryObject<Item> FEATHERBACK_BUCKET = ITEMS.register("featherback_bucket", () -> {
         return new FishBucketItem(YAFMEntities.FEATHERBACK, () -> {
@@ -32,7 +32,7 @@ public class YAFMItems {
 
 
     public static final RegistryObject<Item> BARB_SPAWN_EGG = ITEMS.register("minnow_spawn_egg",
-            () -> new ForgeSpawnEggItem(YAFMEntities.MINNOW, 0x40cb97, 0xd04a20, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.MINNOW, 0x40cb97, 0xd04a20, new Item.Properties()));
 
     public static final RegistryObject<Item> BARB_BUCKET = ITEMS.register("minnow_bucket", () -> {
         return new FishBucketItem(YAFMEntities.MINNOW, () -> {
@@ -42,7 +42,7 @@ public class YAFMItems {
 
 
     public static final RegistryObject<Item> CATFISH_SPAWN_EGG = ITEMS.register("catfish_spawn_egg",
-            () -> new ForgeSpawnEggItem(YAFMEntities.CATFISH, 0x33485b, 0x7f8c96, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.CATFISH, 0x33485b, 0x7f8c96, new Item.Properties()));
 
     public static final RegistryObject<Item> CATFISH_BUCKET = ITEMS.register("catfish_bucket", () -> {
         return new FishBucketItem(YAFMEntities.CATFISH, () -> {
@@ -52,7 +52,7 @@ public class YAFMItems {
 
 
     public static final RegistryObject<Item> GUPPY_SPAWN_EGG = ITEMS.register("guppy_spawn_egg",
-            () -> new ForgeSpawnEggItem(YAFMEntities.GUPPY, 0x343a5b, 0x71788b, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.GUPPY, 0x343a5b, 0x71788b, new Item.Properties()));
 
     public static final RegistryObject<Item> GUPPY_BUCKET = ITEMS.register("guppy_bucket", () -> {
         return new FishBucketItem(YAFMEntities.GUPPY, () -> {
@@ -62,7 +62,7 @@ public class YAFMItems {
 
 
     public static final RegistryObject<Item> FRESHWATER_SHARK_SPAWN_EGG = ITEMS.register("freshwater_shark_spawn_egg",
-            () -> new ForgeSpawnEggItem(YAFMEntities.FRESHWATER_SHARK, 0x292929, 0x7b0b0b, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.FRESHWATER_SHARK, 0x292929, 0x7b0b0b, new Item.Properties()));
 
     public static final RegistryObject<Item> FRESHWATER_SHARK_BUCKET = ITEMS.register("freshwater_shark_bucket", () -> {
         return new FishBucketItem(YAFMEntities.FRESHWATER_SHARK, () -> {
@@ -72,7 +72,7 @@ public class YAFMItems {
 
 
     public static final RegistryObject<Item> PLECO_SPAWN_EGG = ITEMS.register("pleco_spawn_egg",
-            () -> new ForgeSpawnEggItem(YAFMEntities.PLECO, 0x24211e, 0x97874b, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.PLECO, 0x24211e, 0x97874b, new Item.Properties()));
 
     public static final RegistryObject<Item> PLECO_BUCKET = ITEMS.register("pleco_bucket", () -> {
         return new FishBucketItem(YAFMEntities.PLECO, () -> {
@@ -85,7 +85,7 @@ public class YAFMItems {
             () -> new FullFishnetItem(YAFMEntities.ARAPAIMA, new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> ARAPAIMA_SPAWN_EGG = ITEMS.register("arapaima_spawn_egg",
-            () -> new ForgeSpawnEggItem(YAFMEntities.ARAPAIMA, 0x1b2321, 0x521c1a, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.ARAPAIMA, 0x1b2321, 0x521c1a, new Item.Properties()));
 
 
 
@@ -117,7 +117,7 @@ public class YAFMItems {
 
 
     public static final RegistryObject<Item> ARTEMIA_SPAWN_EGG = ITEMS.register("artemia_spawn_egg",
-            () -> new ForgeSpawnEggItem(YAFMEntities.ARTEMIA, 0xb66259, 0x9e3c0e, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.ARTEMIA, 0xb66259, 0x9e3c0e, new Item.Properties()));
 
     public static final RegistryObject<Item> ARTEMIA_BUCKET = ITEMS.register("artemia_bucket", () -> {
         return new FishBucketItem(YAFMEntities.ARTEMIA, () -> {
@@ -127,7 +127,7 @@ public class YAFMItems {
 
 
     public static final RegistryObject<Item> DAPHNIA_SPAWN_EGG = ITEMS.register("daphnia_spawn_egg",
-            () -> new ForgeSpawnEggItem(YAFMEntities.DAPHNIA, 0x90ba6d, 0xbdcdb0, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.DAPHNIA, 0x90ba6d, 0xbdcdb0, new Item.Properties()));
 
     public static final RegistryObject<Item> DAPHNIA_BUCKET = ITEMS.register("daphnia_bucket", () -> {
         return new FishBucketItem(YAFMEntities.DAPHNIA, () -> {

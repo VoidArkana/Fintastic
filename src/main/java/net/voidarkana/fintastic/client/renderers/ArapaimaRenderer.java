@@ -18,8 +18,16 @@ public class ArapaimaRenderer extends GeoEntityRenderer<ArapaimaEntity> {
     protected void applyRotations(ArapaimaEntity animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
         super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
         if (animatable.isInWater()){
-            poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, -animatable.prevTilt, -animatable.tilt)));
-        }    }
+
+//            float targetRoll = Math.max(-0.45F, Math.min(0.45F, (animatable.getYRot() - animatable.yRotO) * 0.1F));
+//            targetRoll = -targetRoll;
+//            animatable.currentRoll = animatable.currentRoll + (targetRoll - animatable.currentRoll) * 0.05F;
+            //swimControl.setRotZ(animatable.currentRoll);
+
+            poseStack.mulPose(Axis.ZP.rotationDegrees(animatable.currentRoll*360/4));
+            //poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, -animatable.prevTilt, -animatable.tilt)));
+        }
+    }
 
 //    @Override
 //    public boolean shouldRender(ArapaimaEntity livingEntityIn, Frustum pCamera, double pCamX, double pCamY, double pCamZ) {

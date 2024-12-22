@@ -32,7 +32,8 @@ public class PlecoRenderer extends GeoEntityRenderer<PlecoEntity> {
     protected void applyRotations(PlecoEntity animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
         super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
         if (animatable.isInWater() && !animatable.onGround()){
-            poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, -animatable.prevTilt, -animatable.tilt)));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(animatable.currentRoll*360/4));
+           // poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, -animatable.prevTilt, -animatable.tilt)));
         }
     }
 }
