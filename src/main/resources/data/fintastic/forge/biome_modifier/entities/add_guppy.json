@@ -3,7 +3,7 @@
   "biomes": "#fintastic:guppy_biomes",
   "spawners": {
     "type": "fintastic:guppy",
-    "weight": 8,
+    "weight": 7,
     "minCount": 4,
     "maxCount": 10,
     "category": "water_creature"

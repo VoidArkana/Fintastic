@@ -3,7 +3,7 @@
   "biomes": "#fintastic:fwshark_biomes",
   "spawners": {
     "type": "fintastic:freshwater_shark",
-    "weight": 8,
+    "weight": 7,
     "minCount": 2,
     "maxCount": 5,
     "category": "water_creature"
