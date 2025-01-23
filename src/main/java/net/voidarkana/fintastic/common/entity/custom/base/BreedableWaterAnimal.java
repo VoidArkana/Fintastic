@@ -47,10 +47,10 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         if (pSpawnData == null) {
-            pSpawnData = new AgeableMob.AgeableMobGroupData(true);
+            pSpawnData = new BreedableWaterAnimal.AgeableFishGroupData(true);
         }
 
-        AgeableMob.AgeableMobGroupData ageablemob$ageablemobgroupdata = (AgeableMob.AgeableMobGroupData)pSpawnData;
+        BreedableWaterAnimal.AgeableFishGroupData ageablemob$ageablemobgroupdata = (BreedableWaterAnimal.AgeableFishGroupData)pSpawnData;
         if (ageablemob$ageablemobgroupdata.isShouldSpawnBaby() && ageablemob$ageablemobgroupdata.getGroupSize() > 0 && pLevel.getRandom().nextFloat() <= ageablemob$ageablemobgroupdata.getBabySpawnChance()) {
             this.setAge(-24000);
         }
