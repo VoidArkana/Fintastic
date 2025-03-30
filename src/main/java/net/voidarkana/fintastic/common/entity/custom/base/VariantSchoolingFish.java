@@ -175,7 +175,7 @@ public abstract class VariantSchoolingFish extends BucketableFishEntity{
         public final VariantSchoolingFish leader;
 
         public SchoolSpawnGroupData(VariantSchoolingFish pLeader) {
-            super(false);
+            super(true);
             this.leader = pLeader;
         }
     }

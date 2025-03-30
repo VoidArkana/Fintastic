@@ -18,7 +18,7 @@
   "axolotl": {
     "sounds": [
       {
-        "name": "fintastic:axolotl",
+        "name": "music/game/water/axolotl",
         "stream": true
       }
     ]
@@ -26,7 +26,7 @@
   "dragonfish": {
     "sounds": [
       {
-        "name": "fintastic:dragonfish",
+        "name": "music/game/water/dragon_fish",
         "stream": true
       }
     ]
@@ -34,7 +34,7 @@
   "shunji": {
     "sounds": [
       {
-        "name": "fintastic:shunji",
+        "name": "music/game/water/shuniji",
         "stream": true
       }
     ]

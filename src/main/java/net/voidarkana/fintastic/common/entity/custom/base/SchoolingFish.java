@@ -163,9 +163,10 @@ public abstract class SchoolingFish extends BucketableFishEntity{
         });
     }
 
-    public static class SchoolSpawnGroupData implements SpawnGroupData {
+    public static class SchoolSpawnGroupData extends AgeableFishGroupData {
         public final SchoolingFish leader;
         public SchoolSpawnGroupData(SchoolingFish pLeader) {
+            super(true);
             this.leader = pLeader;
         }
     }
