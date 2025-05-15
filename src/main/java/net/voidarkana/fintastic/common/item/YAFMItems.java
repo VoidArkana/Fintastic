@@ -5,7 +5,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
@@ -31,10 +30,10 @@ public class YAFMItems {
     });
 
 
-    public static final RegistryObject<Item> BARB_SPAWN_EGG = ITEMS.register("minnow_spawn_egg",
+    public static final RegistryObject<Item> MINNOW_SPAWN_EGG = ITEMS.register("minnow_spawn_egg",
             () -> new FishSpawnEggItem(YAFMEntities.MINNOW, 0x40cb97, 0xd04a20, new Item.Properties()));
 
-    public static final RegistryObject<Item> BARB_BUCKET = ITEMS.register("minnow_bucket", () -> {
+    public static final RegistryObject<Item> MINNOW_BUCKET = ITEMS.register("minnow_bucket", () -> {
         return new FishBucketItem(YAFMEntities.MINNOW, () -> {
             return Fluids.WATER;
         }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
@@ -134,6 +133,14 @@ public class YAFMItems {
             return Fluids.WATER;
         }, Items.BUCKET, false, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1));});
 
+
+    public static final RegistryObject<Item> MOONY_SPAWN_EGG = ITEMS.register("moony_spawn_egg",
+            () -> new FishSpawnEggItem(YAFMEntities.MOONY, 0x99adc7, 0xdfbb1a, new Item.Properties()));
+
+    public static final RegistryObject<Item> MOONY_BUCKET = ITEMS.register("moony_bucket", () -> {
+        return new FishBucketItem(YAFMEntities.MOONY, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1));});
 
 
     public static final RegistryObject<Item> FRESH_MUSIC_DISC = ITEMS.register("fresh_music_disc",

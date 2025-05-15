@@ -68,7 +68,7 @@ public class YAFMModEvents {
 
             trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 20),
-                    new ItemStack(YAFMItems.BARB_BUCKET.get(), 1),
+                    new ItemStack(YAFMItems.MINNOW_BUCKET.get(), 1),
                     5, 9, 0.035f));
 
             trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
@@ -166,7 +166,7 @@ public class YAFMModEvents {
 
         genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
                 new ItemStack(Items.EMERALD, 5),
-                new ItemStack(YAFMItems.BARB_BUCKET.get(), 1),
+                new ItemStack(YAFMItems.MINNOW_BUCKET.get(), 1),
                 3, 2, 0.2f));
 
         genericTrades.add((pTrader, pRandom) -> new MerchantOffer(

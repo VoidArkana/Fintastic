@@ -7,11 +7,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.voidarkana.fintastic.Fintastic;
+import net.voidarkana.fintastic.client.models.moonies.MoonyMidModel;
+import net.voidarkana.fintastic.client.models.moonies.MoonySmallModel;
+import net.voidarkana.fintastic.client.models.moonies.MoonyTallModel;
 import net.voidarkana.fintastic.client.renderers.*;
 import net.voidarkana.fintastic.common.block.YAFMBlocks;
 import net.voidarkana.fintastic.common.entity.YAFMEntities;
@@ -22,6 +26,15 @@ import static net.voidarkana.fintastic.Fintastic.PROXY;
 
 @Mod.EventBusSubscriber(modid = Fintastic.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class YAFMClientEvents {
+
+    @SubscribeEvent
+    public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        
+        event.registerLayerDefinition(FintasticLayers.MOONYMID_LAYER, MoonyMidModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.MOONYSMALL_LAYER, MoonySmallModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.MOONYTALL_LAYER, MoonyTallModel::createBodyLayer);
+
+    }
 
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event){

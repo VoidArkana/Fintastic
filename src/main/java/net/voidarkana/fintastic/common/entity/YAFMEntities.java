@@ -68,6 +68,14 @@ public class YAFMEntities {
                             .sized(0.8f, 0.8f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "daphnia").toString()));
 
+
+
+    public static final RegistryObject<EntityType<Moony>> MOONY =
+            ENTITY_TYPES.register("moony",
+                    () -> EntityType.Builder.of(Moony::new, MobCategory.WATER_AMBIENT)
+                            .sized(0.3f, 0.2f)
+                            .build(new ResourceLocation(Fintastic.MOD_ID, "moony").toString()));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

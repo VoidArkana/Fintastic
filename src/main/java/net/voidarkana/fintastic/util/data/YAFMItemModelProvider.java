@@ -20,8 +20,8 @@ public class YAFMItemModelProvider extends ItemModelProvider {
         withExistingParent(YAFMItems.FEATHERBACK_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
         simpleItem(YAFMItems.FEATHERBACK_BUCKET);
 
-        withExistingParent(YAFMItems.BARB_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
-        simpleItem(YAFMItems.BARB_BUCKET);
+        withExistingParent(YAFMItems.MINNOW_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(YAFMItems.MINNOW_BUCKET);
 
         withExistingParent(YAFMItems.CATFISH_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
         simpleItem(YAFMItems.CATFISH_BUCKET);
@@ -51,6 +51,9 @@ public class YAFMItemModelProvider extends ItemModelProvider {
 
         simpleItem(YAFMItems.ARTEMIA_BUCKET);
         withExistingParent(YAFMItems.ARTEMIA_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+
+        simpleItem(YAFMItems.MOONY_BUCKET);
+        withExistingParent(YAFMItems.MOONY_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
 
         simpleItem(YAFMItems.SALTY_MUSIC_DISC);
         simpleItem(YAFMItems.FRESH_MUSIC_DISC);

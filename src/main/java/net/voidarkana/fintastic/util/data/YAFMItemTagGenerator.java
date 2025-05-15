@@ -6,7 +6,6 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.item.YAFMItems;
@@ -34,7 +33,7 @@ public class YAFMItemTagGenerator extends ItemTagsProvider {
         this.tag(ItemTags.FISHES).add(YAFMItems.RAW_FISH.get()).add(YAFMItems.COOKED_FISH.get());
 
         this.tag(ItemTags.AXOLOTL_TEMPT_ITEMS)
-                .add(YAFMItems.BARB_BUCKET.get())
+                .add(YAFMItems.MINNOW_BUCKET.get())
                 .add(YAFMItems.FRESHWATER_SHARK_BUCKET.get())
                 .add(YAFMItems.GUPPY_BUCKET.get())
                 .add(YAFMItems.FEATHERBACK_BUCKET.get())

@@ -27,11 +27,13 @@ import net.voidarkana.fintastic.common.item.YAFMItems;
 import net.voidarkana.fintastic.util.YAFMTags;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class DaphniaEntity extends SchoolingFish implements GeoEntity {
 
@@ -254,5 +256,12 @@ public class DaphniaEntity extends SchoolingFish implements GeoEntity {
 
     public boolean isFood(ItemStack pStack) {
         return FOOD_ITEMS.test(pStack);
+    }
+
+
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
     }
 }

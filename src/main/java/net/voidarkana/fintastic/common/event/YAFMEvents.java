@@ -25,6 +25,8 @@ public class YAFMEvents {
 
         event.put(YAFMEntities.ARTEMIA.get(), ArtemiaEntity.createAttributes().build());
         event.put(YAFMEntities.DAPHNIA.get(), DaphniaEntity.createAttributes().build());
+
+        event.put(YAFMEntities.MOONY.get(), Moony.createAttributes().build());
     }
 
 }

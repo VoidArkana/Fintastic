@@ -70,9 +70,6 @@ public abstract class SchoolingFish extends BucketableFishEntity{
     @Override
     public abstract ItemStack getBucketItemStack();
 
-    @Override
-    public abstract void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar);
-
     @Nullable
     protected SchoolingFish leader;
     private int schoolSize = 1;

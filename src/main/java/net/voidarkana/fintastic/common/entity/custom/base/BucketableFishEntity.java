@@ -29,8 +29,9 @@ import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public abstract class BucketableFishEntity extends BreedableWaterAnimal implements Bucketable, GeoAnimatable {
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+public abstract class BucketableFishEntity extends BreedableWaterAnimal implements Bucketable {
+
+
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(BucketableFishEntity.class, EntityDataSerializers.BOOLEAN);
 
     protected BucketableFishEntity(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
@@ -162,8 +163,5 @@ public abstract class BucketableFishEntity extends BreedableWaterAnimal implemen
         return super.requiresCustomPersistence() || this.fromBucket();
     }
 
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
-    }
 
 }

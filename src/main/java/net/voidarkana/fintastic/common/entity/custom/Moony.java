@@ -17,27 +17,20 @@ import net.minecraftforge.common.Tags;
 import net.voidarkana.fintastic.common.entity.YAFMEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
-import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
+import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
 import net.voidarkana.fintastic.common.item.YAFMItems;
 import net.voidarkana.fintastic.util.YAFMTags;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
 
-public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
+public class Moony extends VariantSchoolingFish {
 
-    protected static final RawAnimation SWIM = RawAnimation.begin().thenLoop("animation.genericfish.swim");
-    protected static final RawAnimation FLOP = RawAnimation.begin().thenLoop("animation.genericfish.flop");
+    public final AnimationState idleAnimationState = new AnimationState();
+    public final AnimationState flopAnimationState = new AnimationState();
+    public final AnimationState swimAnimationState = new AnimationState();
 
-    public MinnowEntity(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
+    public Moony(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -80,6 +73,23 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
     }
 
+
+    @Override
+    public void tick() {
+        if (this.level().isClientSide()){
+            this.setupAnimationStates();
+        }
+        super.tick();
+    }
+
+    private void setupAnimationStates() {
+        this.idleAnimationState.animateWhen(this.isInWaterOrBubble(), this.tickCount);
+
+        this.swimAnimationState.animateWhen(this.walkAnimation.isMoving() && this.isInWaterOrBubble(), this.tickCount);
+
+        this.flopAnimationState.animateWhen(!this.isInWaterOrBubble(), this.tickCount);
+    }
+
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
@@ -94,10 +104,10 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
         }else{
 
-            int skin = this.random.nextInt(4);
+            int skin = this.random.nextInt(2);
 
             if(pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
-                this.setVariantModel(this.random.nextInt(4));
+                this.setVariantModel(this.random.nextInt(3));
             }else {
                 int model;
 
@@ -111,15 +121,18 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
                     this.startFollowing(groupData.leader);
 
                 }else {
-                    if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
-                        model = 3;
-                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
-                        model = this.random.nextBoolean() ? 1 : 0;
-                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
-                        model = 2;
-                    }else {
-                        model = this.random.nextInt(4);
-                    }
+//                    if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
+//                        model = 3;
+//                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
+//                        model = this.random.nextBoolean() ? 1 : 0;
+//                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
+//                        model = 2;
+//                    }else {
+//                        model = this.random.nextInt(4);
+//                    }
+
+                    model = this.random.nextInt(3);
+
 
                     pSpawnData = new MinnowGroupData(this, model, skin);
                 }
@@ -136,7 +149,7 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        MinnowEntity baby = YAFMEntities.MINNOW.get().create(pLevel);
+        Moony baby = YAFMEntities.MOONY.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
             baby.setVariantModel(this.getVariantModel());
@@ -147,27 +160,13 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
 
     @Override
     public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        MinnowEntity mate = (MinnowEntity) pOtherAnimal;
+        Moony mate = (Moony) pOtherAnimal;
         return super.canMate(pOtherAnimal) && mate.getVariantModel() == this.getVariantModel() && mate.getVariantSkin() == this.getVariantSkin();
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController[]{new AnimationController(this, "Normal", 5, this::Controller)});
-    }
-
-    protected <E extends MinnowEntity> PlayState Controller(AnimationState<E> event) {
-        if (this.isInWater()){
-            event.setAndContinue(SWIM);
-        }else{
-            event.setAndContinue(FLOP);
-        }
-        return PlayState.CONTINUE;
-    }
-
-    @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(YAFMItems.MINNOW_BUCKET.get());
+        return new ItemStack(YAFMItems.MOONY_BUCKET.get());
     }
 
 
@@ -175,7 +174,7 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
         final int variantModel;
         final int variantSkin;
 
-        MinnowGroupData(MinnowEntity pLeader, int pVariantModel, int pVariantSkin) {
+        MinnowGroupData(Moony pLeader, int pVariantModel, int pVariantSkin) {
             super(pLeader);
             this.variantModel = pVariantModel;
             this.variantSkin = pVariantSkin;
@@ -190,11 +189,26 @@ public class MinnowEntity extends VariantSchoolingFish implements GeoEntity {
         }
     }
 
+    public String getVariantName(){
+        String variant;
 
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+        switch (this.getVariantModel()){
+            case 1:
+                variant = "moonysmall";
+                break;
+            case 2:
+                variant = "moonytall";
+                break;
+            default:
+                variant = "moony";
+        }
 
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
+        if (this.getVariantSkin() == 0){
+            variant = variant + "_0";
+        }else {
+            variant = variant + "_1";
+        }
+
+        return variant;
     }
-
 }
