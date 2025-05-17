@@ -89,11 +89,20 @@ public class MoonySmallModel<T extends Moony> extends FintasticModel<T> {
 		this.animate(pEntity.flopAnimationState, MoonyAnims.FLOP, pAgeInTicks, 1.0F);
 
 		this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
+		this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		poseStack.pushPose();
+
+		if (this.young){
+			poseStack.scale(0.6f, 0.6f, 0.6f);
+			poseStack.translate(0, 1, 0);
+		}
+
 		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		poseStack.popPose();
 	}
 
 	@Override

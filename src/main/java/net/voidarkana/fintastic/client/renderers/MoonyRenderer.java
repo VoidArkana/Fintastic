@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -12,6 +13,7 @@ import net.voidarkana.fintastic.client.models.base.FintasticModel;
 import net.voidarkana.fintastic.client.models.moonies.MoonyMidModel;
 import net.voidarkana.fintastic.client.models.moonies.MoonySmallModel;
 import net.voidarkana.fintastic.client.models.moonies.MoonyTallModel;
+import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
 import net.voidarkana.fintastic.common.entity.custom.Moony;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,5 +56,11 @@ public class MoonyRenderer extends MobRenderer<Moony, FintasticModel<Moony>> {
     @Override
     protected @Nullable RenderType getRenderType(Moony pEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
         return RenderType.entityCutout(new ResourceLocation(Fintastic.MOD_ID,"textures/entity/moony/"+pEntity.getVariantName()+".png"));
+    }
+
+    @Override
+    protected void setupRotations(Moony pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));
     }
 }

@@ -13,4 +13,17 @@ public class FintasticLayers {
     public static final ModelLayerLocation MOONYSMALL_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "moony_small"), "main");
 
+    public static final ModelLayerLocation MINNOW_BIG_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_big"), "main");
+    public static final ModelLayerLocation MINNOW_HATCHET_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_hatchet"), "main");
+    public static final ModelLayerLocation MINNOW_ROUND_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_round"), "main");
+    public static final ModelLayerLocation MINNOW_SLIM_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_slim"), "main");
+    public static final ModelLayerLocation MINNOW_SMALL_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_small"), "main");
+    public static final ModelLayerLocation MINNOW_THIN_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_thin"), "main");
+
 }

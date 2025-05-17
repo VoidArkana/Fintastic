@@ -13,6 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.voidarkana.fintastic.Fintastic;
+import net.voidarkana.fintastic.client.models.minnows.*;
 import net.voidarkana.fintastic.client.models.moonies.MoonyMidModel;
 import net.voidarkana.fintastic.client.models.moonies.MoonySmallModel;
 import net.voidarkana.fintastic.client.models.moonies.MoonyTallModel;
@@ -33,6 +34,13 @@ public class YAFMClientEvents {
         event.registerLayerDefinition(FintasticLayers.MOONYMID_LAYER, MoonyMidModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.MOONYSMALL_LAYER, MoonySmallModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.MOONYTALL_LAYER, MoonyTallModel::createBodyLayer);
+
+        event.registerLayerDefinition(FintasticLayers.MINNOW_BIG_LAYER, MinnowBigModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.MINNOW_HATCHET_LAYER, MinnowHatchetModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.MINNOW_ROUND_LAYER, MinnowRoundModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.MINNOW_SLIM_LAYER, MinnowSlimModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.MINNOW_SMALL_LAYER, MinnowSmallModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.MINNOW_THIN_LAYER, MinnowThinModel::createBodyLayer);
 
     }
 

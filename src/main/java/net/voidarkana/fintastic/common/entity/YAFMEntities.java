@@ -23,7 +23,7 @@ public class YAFMEntities {
     public static final RegistryObject<EntityType<MinnowEntity>> MINNOW =
             ENTITY_TYPES.register("minnow",
                     () -> EntityType.Builder.of(MinnowEntity::new, MobCategory.WATER_AMBIENT)
-                            .sized(0.3f, 0.2f)
+                            .sized(0.4f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "minnow").toString()));
 
     public static final RegistryObject<EntityType<CatfishEntity>> CATFISH =
@@ -73,7 +73,7 @@ public class YAFMEntities {
     public static final RegistryObject<EntityType<Moony>> MOONY =
             ENTITY_TYPES.register("moony",
                     () -> EntityType.Builder.of(Moony::new, MobCategory.WATER_AMBIENT)
-                            .sized(0.3f, 0.2f)
+                            .sized(0.3f, 0.5f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "moony").toString()));
 
     public static void register(IEventBus eventBus) {
