@@ -91,6 +91,7 @@ public class Fintastic
 
             ComposterBlock.COMPOSTABLES.put(YAFMBlocks.DUCKWEED.get().asItem(), 0.4F);
             ComposterBlock.COMPOSTABLES.put(YAFMBlocks.HORNWORT.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(YAFMBlocks.ANUBIAS.get().asItem(), 0.4F);
         });
     }
 

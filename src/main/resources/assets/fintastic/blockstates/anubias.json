@@ -1,0 +1,39 @@
+{
+  "variants": {
+    "face=floor,facing=east": {
+      "model": "fintastic:block/anubias",
+      "y": 90
+    },
+    "face=floor,facing=north": {
+      "model": "fintastic:block/anubias"
+    },
+    "face=floor,facing=south": {
+      "model": "fintastic:block/anubias",
+      "y": 180
+    },
+    "face=floor,facing=west": {
+      "model": "fintastic:block/anubias",
+      "y": 270
+    },
+
+    "face=wall,facing=east": {
+      "model": "fintastic:block/anubias",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=north": {
+      "model": "fintastic:block/anubias",
+      "x": 90
+    },
+    "face=wall,facing=south": {
+      "model": "fintastic:block/anubias",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=west": {
+      "model": "fintastic:block/anubias",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

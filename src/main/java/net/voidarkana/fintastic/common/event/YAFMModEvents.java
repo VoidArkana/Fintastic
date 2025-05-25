@@ -37,6 +37,11 @@ public class YAFMModEvents {
                     10, 8, 0.02f));
 
             trades.get(1).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(YAFMBlocks.ANUBIAS.get(), 10),
+                    new ItemStack(Items.EMERALD, 1),
+                    10, 8, 0.02f));
+
+            trades.get(1).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 10),
                     new ItemStack(YAFMItems.REGULAR_FEED.get(), 6),
                     10, 8, 0.02f));
@@ -51,6 +56,11 @@ public class YAFMModEvents {
             trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 15),
                     new ItemStack(YAFMBlocks.HORNWORT.get(), 2),
+                    10, 8, 0.02f));
+
+            trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 15),
+                    new ItemStack(YAFMBlocks.ANUBIAS.get(), 2),
                     10, 8, 0.02f));
 
             trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
@@ -125,6 +135,11 @@ public class YAFMModEvents {
                     new ItemStack(Items.EMERALD, 40),
                     new ItemStack(YAFMItems.PREMIUM_FEED.get(), 6),
                     5, 9, 0.035f));
+
+            trades.get(5).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 15),
+                    new ItemStack(YAFMItems.FISHING_HAT.get(), 1),
+                    5, 9, 0.035f));
         }
 
 
@@ -144,7 +159,12 @@ public class YAFMModEvents {
 
         genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
                 new ItemStack(Items.EMERALD, 1),
-                new ItemStack(YAFMBlocks.DUCKWEED.get(), 1),
+                new ItemStack(YAFMBlocks.HORNWORT.get(), 1),
+                3, 2, 0.2f));
+
+        genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 1),
+                new ItemStack(YAFMBlocks.ANUBIAS.get(), 1),
                 3, 2, 0.2f));
 
 
@@ -215,6 +235,11 @@ public class YAFMModEvents {
                 new ItemStack(Items.EMERALD, 24),
                 new ItemStack(YAFMItems.AXOLOTL_MUSIC_DISC.get(), 1),
                 2, 12, 0.15f));
+
+        rareTrades.add((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 30),
+                new ItemStack(YAFMItems.FISHING_HAT.get(), 1),
+                1, 12, 0.15f));
     }
 
 }

@@ -22,6 +22,9 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
 
+        this.tag(BlockTags.UNDERWATER_BONEMEALS)
+                .add(YAFMBlocks.HORNWORT.get());
+
         this.tag(YAFMTags.Blocks.AQUARIUM_GLASS)
                 .add(YAFMBlocks.AQUARIUM_GLASS.get())
                 .add(YAFMBlocks.AQUARIUM_GLASS_PANE.get())

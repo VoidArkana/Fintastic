@@ -28,9 +28,12 @@ public class YAFMBlocks {
                     .instabreak().noCollission()),
                     (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
 
-
     public static final RegistryObject<Block> HORNWORT = registerBlock("hornwort",
             ()-> new HornwortBlock(BlockBehaviour.Properties.copy(Blocks.SEAGRASS).noOcclusion().instabreak().noCollission()));
+
+    public static final RegistryObject<Block> ANUBIAS = registerBlock("anubias",
+            ()-> new AnubiasBlock(BlockBehaviour.Properties.copy(Blocks.SEAGRASS).noOcclusion().instabreak().noCollission()));
+
 
 
     public static final RegistryObject<Block> AQUARIUM_GLASS = registerBlock("aquarium_glass",

@@ -279,5 +279,13 @@
   "fintastic.translatable.fishfeed.3" : "Babies produced inherit a mix of only the parents' traits or has an even higher chance of producing more babies",
   "fintastic.translatable.fishfeed.4" : "Babies produced will be a copy of either parent or has the highest chance of producing multiple babies ",
 
-  "fintastic.translatable.fishnet_description": "Allows bigger water creatures to be caught, even if not bucketable"
+  "fintastic.translatable.fishnet_description": "Allows bigger water creatures to be caught, even if not bucketable",
+
+  "item.fintastic.moony_spawn_egg" : "Moony Spawn Egg",
+  "item.fintastic.moony_bucket" : "Bucket of Moony",
+  "entity.fintastic.moony" : "Moony",
+
+  "item.fintastic.fishing_hat" : "Fishing Hat",
+  "item.fintastic.fishing_hat.desc" : "A hat that induces fear in the hearts of fish and women alike.",
+  "block.fintastic.anubias" : "Anubias"
 }

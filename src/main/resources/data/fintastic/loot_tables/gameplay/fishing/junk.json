@@ -14,6 +14,11 @@
           "type": "minecraft:item",
           "weight": 10,
           "name": "fintastic:duckweed"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "fintastic:anubias"
         }
       ]
     }

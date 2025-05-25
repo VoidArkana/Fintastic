@@ -1,9 +1,6 @@
 package net.voidarkana.fintastic.common.item;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +16,12 @@ import net.voidarkana.fintastic.common.sound.YAFMSounds;
 public class YAFMItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Fintastic.MOD_ID);
+
+    public static final RegistryObject<Item> FISHNET = ITEMS.register("fishnet",
+            () -> new FishnetItem(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> FISHING_HAT = ITEMS.register("fishing_hat",
+            ()-> new HatItem(YAFMArmorMaterials.HAT, ArmorItem.Type.HELMET, new Item.Properties()));
 
     public static final RegistryObject<Item> FEATHERBACK_SPAWN_EGG = ITEMS.register("featherback_spawn_egg",
             () -> new FishSpawnEggItem(YAFMEntities.FEATHERBACK, 0x82827a, 0xd7d7a7, new Item.Properties()));
@@ -110,8 +113,6 @@ public class YAFMItems {
     public static final RegistryObject<Item> COOKED_FISH = ITEMS.register("cooked_fish",
             () -> new Item(new Item.Properties().food(YAFMFoods.COOKED_FISH)));
 
-    public static final RegistryObject<Item> FISHNET = ITEMS.register("fishnet",
-            () -> new FishnetItem(new Item.Properties().stacksTo(1)));
 
 
 

@@ -10,7 +10,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
 import net.voidarkana.fintastic.Fintastic;
-import net.voidarkana.fintastic.client.renderers.*;
+import net.voidarkana.fintastic.client.renderers.entity.*;
+import net.voidarkana.fintastic.client.renderers.item.CustomArmorRenderProperties;
 import net.voidarkana.fintastic.common.entity.YAFMEntities;
 import net.voidarkana.fintastic.common.item.YAFMItems;
 import net.voidarkana.fintastic.common.item.custom.FishnetItem;
@@ -48,5 +49,10 @@ public class ClientProxy extends CommonProxy{
 
     public Player getClientSidePlayer() {
         return Minecraft.getInstance().player;
+    }
+
+    @Override
+    public Object getArmorRenderProperties() {
+        return new CustomArmorRenderProperties();
     }
 }

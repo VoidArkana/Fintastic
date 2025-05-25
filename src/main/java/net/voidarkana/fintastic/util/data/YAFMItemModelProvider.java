@@ -8,6 +8,7 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import net.voidarkana.fintastic.Fintastic;
+import net.voidarkana.fintastic.common.block.YAFMBlocks;
 import net.voidarkana.fintastic.common.item.YAFMItems;
 
 public class YAFMItemModelProvider extends ItemModelProvider {
@@ -17,6 +18,8 @@ public class YAFMItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        simpleItem(YAFMItems.FISHING_HAT);
+
         withExistingParent(YAFMItems.FEATHERBACK_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
         simpleItem(YAFMItems.FEATHERBACK_BUCKET);
 

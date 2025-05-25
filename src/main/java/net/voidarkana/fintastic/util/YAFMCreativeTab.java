@@ -54,6 +54,7 @@ public class YAFMCreativeTab {
 
                         output.accept(YAFMBlocks.DUCKWEED.get());
                         output.accept(YAFMBlocks.HORNWORT.get());
+                        output.accept(YAFMBlocks.ANUBIAS.get());
 
                         output.accept(YAFMBlocks.AQUARIUM_GLASS.get());
                         output.accept(YAFMBlocks.AQUARIUM_GLASS_PANE.get());
@@ -79,6 +80,8 @@ public class YAFMCreativeTab {
                         output.accept(YAFMItems.AXOLOTL_MUSIC_DISC.get());
                         output.accept(YAFMItems.DRAGONFISH_MUSIC_DISC.get());
                         output.accept(YAFMItems.SHUNJI_MUSIC_DISC.get());
+
+                        output.accept(YAFMItems.FISHING_HAT.get());
                     })
                     .build());
 
