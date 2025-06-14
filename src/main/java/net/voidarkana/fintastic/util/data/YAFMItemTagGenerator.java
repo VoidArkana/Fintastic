@@ -38,6 +38,7 @@ public class YAFMItemTagGenerator extends ItemTagsProvider {
                 .add(YAFMItems.GUPPY_BUCKET.get())
                 .add(YAFMItems.FEATHERBACK_BUCKET.get())
                 .add(YAFMItems.PLECO_BUCKET.get())
+                .add(YAFMItems.ARAPAIMA_BUCKET.get())
                 .add(YAFMItems.CATFISH_BUCKET.get())
                 .add(YAFMItems.ARTEMIA_BUCKET.get());
 

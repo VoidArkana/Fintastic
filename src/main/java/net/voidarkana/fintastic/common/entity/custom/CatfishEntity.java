@@ -107,6 +107,11 @@ public class CatfishEntity extends BucketableFishEntity implements GeoEntity {
         return this.entityData.get(VARIANT);
     }
 
+    @Override
+    public boolean canBeBucketed() {
+        return this.getVariant()!=0 || (this.getVariant() == 0 && this.isBaby());
+    }
+
     public void setVariant(int variant) {
         this.entityData.set(VARIANT, variant);
     }
@@ -143,6 +148,10 @@ public class CatfishEntity extends BucketableFishEntity implements GeoEntity {
         }else{
             if (pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
                 this.setVariant(this.random.nextInt(7));
+
+                if (this.getVariant() == 0){
+                    this.setAge(-24000);
+                }
             }
             else {
                 if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){

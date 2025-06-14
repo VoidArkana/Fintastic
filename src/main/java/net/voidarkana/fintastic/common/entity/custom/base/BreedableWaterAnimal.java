@@ -7,6 +7,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
@@ -36,6 +38,22 @@ import java.util.UUID;
 public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     public float currentRoll = 0.0F;
+
+    protected BreedableWaterAnimal(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
+        if (hasNormalControls()){
+            this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
+            this.lookControl = new SmoothSwimmingLookControl(this, 10);
+        }
+    }
+
+    public boolean hasNormalControls(){
+        return true;
+    }
+
+    public boolean canFlop(){
+        return true;
+    }
 
     //ageable mob
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(BreedableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
@@ -451,11 +469,6 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     private static final EntityDataAccessor<Integer> FEED_TYPE = SynchedEntityData.defineId(BreedableWaterAnimal.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> CAN_GROW_UP = SynchedEntityData.defineId(BreedableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 
-    protected BreedableWaterAnimal(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
-        this.lookControl = new SmoothSwimmingLookControl(this, 10);
-    }
 
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -513,6 +526,14 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     @Override
     public void aiStep() {
+
+        if (!this.isInWater() && this.onGround() && this.verticalCollision && this.canFlop()) {
+            this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F), (double)0.4F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F)));
+            this.setOnGround(false);
+            this.hasImpulse = true;
+            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
+        }
+
         super.aiStep();
 
         //ageable mob
@@ -664,9 +685,11 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         return (int)((float)(pTicksUntilAdult / 20) * 0.1F * (multiplier+1));
     }
 
-
     public boolean isFood(ItemStack pStack) {
         return FOOD_ITEMS.test(pStack);
     }
 
+    protected SoundEvent getFlopSound() {
+        return SoundEvents.COD_FLOP;
+    }
 }

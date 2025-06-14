@@ -10,6 +10,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.client.models.armor.HatModel;
+import net.voidarkana.fintastic.client.models.entity.arapaima.ArapaimaModel;
+import net.voidarkana.fintastic.client.models.entity.arapaima.BabyArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.minnows.*;
 import net.voidarkana.fintastic.client.models.entity.moonies.MoonyMidModel;
 import net.voidarkana.fintastic.client.models.entity.moonies.MoonySmallModel;
@@ -32,6 +34,9 @@ public class YAFMClientEvents {
         event.registerLayerDefinition(FintasticLayers.MINNOW_SLIM_LAYER, MinnowSlimModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.MINNOW_SMALL_LAYER, MinnowSmallModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.MINNOW_THIN_LAYER, MinnowThinModel::createBodyLayer);
+
+        event.registerLayerDefinition(FintasticLayers.ARAPAIMA_LAYER, ArapaimaModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.BABY_ARAPAIMA_LAYER, BabyArapaimaModel::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.HAT_LAYER, HatModel::createArmorLayer);
 

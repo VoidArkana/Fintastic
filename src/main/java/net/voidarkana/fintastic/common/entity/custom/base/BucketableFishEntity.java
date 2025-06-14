@@ -83,29 +83,16 @@ public abstract class BucketableFishEntity extends BreedableWaterAnimal implemen
 
     }
 
-    public void aiStep() {
-        if (!this.isInWater() && this.onGround() && this.verticalCollision) {
-            this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F), (double)0.4F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F)));
-            this.setOnGround(false);
-            this.hasImpulse = true;
-            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
+    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
+        if (canBeBucketed()){
+            return Bucketable.bucketMobPickup(pPlayer, pHand, this).orElse(super.mobInteract(pPlayer, pHand));
+        }else {
+            return super.mobInteract(pPlayer, pHand);
         }
-
-        super.aiStep();
     }
 
-    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
-
-        if (this instanceof ArapaimaEntity){
-            super.mobInteract(pPlayer, pHand);
-        }
-
-        if (this instanceof CatfishEntity catfish){
-            if (catfish.getVariant() == 0)
-                return super.mobInteract(pPlayer, pHand);
-        }
-
-        return Bucketable.bucketMobPickup(pPlayer, pHand, this).orElse(super.mobInteract(pPlayer, pHand));
+    public boolean canBeBucketed(){
+        return true;
     }
 
     public void saveToBucketTag(ItemStack pStack) {
@@ -122,10 +109,6 @@ public abstract class BucketableFishEntity extends BreedableWaterAnimal implemen
 
     protected boolean canRandomSwim() {
         return true;
-    }
-
-    protected SoundEvent getFlopSound() {
-        return SoundEvents.COD_FLOP;
     }
 
     protected SoundEvent getHurtSound(DamageSource pDamageSource) {

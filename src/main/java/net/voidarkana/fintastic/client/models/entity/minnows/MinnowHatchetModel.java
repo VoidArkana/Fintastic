@@ -62,18 +62,16 @@ public class MinnowHatchetModel<T extends MinnowEntity> extends FintasticModel<T
 	public void setupAnim(MinnowEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		if (pEntity.isInWater()){
+		if (pEntity.isInWaterOrBubble()){
+			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
+			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
+			this.animateIdle(pEntity.idleAnimationState, MinnowAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
 			this.animateWalk(MinnowAnims.SWIM, pLimbSwing, pLimbSwingAmount, 2f, 3f);
 		}else {
+			this.swim_rot.resetPose();
 			this.applyStatic(MinnowAnims.HATCHET_FLOP);
+			this.animate(pEntity.flopAnimationState, MinnowAnims.FLOP, pAgeInTicks, 1.0F);
 		}
-
-		this.animateIdle(pEntity.idleAnimationState, MinnowAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
-
-		this.animate(pEntity.flopAnimationState, MinnowAnims.FLOP, pAgeInTicks, 1.0F);
-
-		this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
-		this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
 	}
 
 	@Override

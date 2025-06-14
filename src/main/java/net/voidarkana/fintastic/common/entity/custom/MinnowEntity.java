@@ -112,7 +112,6 @@ public class MinnowEntity extends VariantSchoolingFish {
                 this.setAge(pDataTag.getInt("Age"));}
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
         }else{
-
             MinnowVariant variant;
 
             int model;
@@ -324,8 +323,10 @@ public class MinnowEntity extends VariantSchoolingFish {
                 this.setVariantModel(model);
                 this.setVariantSkin(skin);
             }
-
         }
+
+        this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F), (double)0.4F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F)));
+
 
         return pSpawnData;
     }

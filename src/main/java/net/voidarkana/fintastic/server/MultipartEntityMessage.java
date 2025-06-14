@@ -23,7 +23,6 @@ public class MultipartEntityMessage {
         this.damage = damage;
     }
 
-
     public MultipartEntityMessage() {
     }
 

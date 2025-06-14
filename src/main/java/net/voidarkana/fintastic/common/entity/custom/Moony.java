@@ -230,6 +230,29 @@ public class Moony extends VariantBoidingFish {
         return variant;
     }
 
+    public static String getVariantName(int variantModel, int variantSkin){
+        String variant;
+
+        switch (variantModel){
+            case 1:
+                variant = "moonysmall";
+                break;
+            case 2:
+                variant = "moonytall";
+                break;
+            default:
+                variant = "moony";
+        }
+
+        if (variantSkin == 0){
+            variant = variant + "_0";
+        }else {
+            variant = variant + "_1";
+        }
+
+        return variant;
+    }
+
     @Override
     public boolean canBabiesSchoolWithAdults() {
         return true;

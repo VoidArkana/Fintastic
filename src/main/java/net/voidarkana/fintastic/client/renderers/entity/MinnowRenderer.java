@@ -26,6 +26,7 @@ public class MinnowRenderer extends MobRenderer<MinnowEntity, FintasticModel<Min
 
     public MinnowRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new MinnowBigModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_BIG_LAYER)), 0.25f);
+
         this.minnowBigModel = new MinnowBigModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_BIG_LAYER));
         this.minnowHatchetModel = new MinnowHatchetModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_HATCHET_LAYER));
         this.minnowRoundModel = new MinnowRoundModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_ROUND_LAYER));

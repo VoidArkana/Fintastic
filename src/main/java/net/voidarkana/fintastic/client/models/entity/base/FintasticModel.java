@@ -57,9 +57,11 @@ public abstract class FintasticModel <E extends Entity> extends HierarchicalMode
     }
 
     protected void animateWalk(AnimationDefinition pAnimationDefinition, float pLimbSwing, float pLimbSwingAmount, float pMaxAnimationSpeed, float pAnimationScaleFactor) {
-        long i = (long)(pLimbSwing * 50.0F * pMaxAnimationSpeed);
-        float f = Math.min(pLimbSwingAmount * pAnimationScaleFactor, 1.0F);
-        KeyframeAnimations.animate(this, pAnimationDefinition, i, f, FintasticModel.ANIMATION_VECTOR_CACHE);
+        if (pLimbSwing != 0 && pLimbSwingAmount != 0){
+            long i = (long)(pLimbSwing * 50.0F * pMaxAnimationSpeed);
+            float f = Math.min(pLimbSwingAmount * pAnimationScaleFactor, 1.0F);
+            KeyframeAnimations.animate(this, pAnimationDefinition, i, f, FintasticModel.ANIMATION_VECTOR_CACHE);
+        }
     }
 
     protected void animate(AnimationState pAnimationState, AnimationDefinition pAnimationDefinition, float pAgeInTicks, float pSpeed) {

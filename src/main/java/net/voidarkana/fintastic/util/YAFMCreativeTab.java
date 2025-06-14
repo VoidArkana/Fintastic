@@ -16,8 +16,8 @@ public class YAFMCreativeTab {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Fintastic.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> YAFM_CREATIVE_TAB =
-            CREATIVE_MODE_TABS.register("yafm_creative_tab", ()-> CreativeModeTab.builder().icon(() -> new ItemStack(YAFMItems.FEATHERBACK_BUCKET.get()))
-                    .title(Component.translatable("creativetab.yafm_creative_tab"))
+            CREATIVE_MODE_TABS.register("fintastic_creative_tab", ()-> CreativeModeTab.builder().icon(() -> new ItemStack(YAFMItems.FEATHERBACK_BUCKET.get()))
+                    .title(Component.translatable("creativetab.fintastic_creative_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(YAFMItems.RAW_FISH.get());
@@ -31,6 +31,7 @@ public class YAFMCreativeTab {
 
                         output.accept(YAFMItems.FISHNET.get());
 
+                        output.accept(YAFMItems.ARAPAIMA_BUCKET.get());
                         output.accept(YAFMItems.ARTEMIA_BUCKET.get());
                         output.accept(YAFMItems.CATFISH_BUCKET.get());
                         output.accept(YAFMItems.DAPHNIA_BUCKET.get());

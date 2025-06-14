@@ -26,6 +26,11 @@ public class FintasticLayers {
     public static final ModelLayerLocation MINNOW_THIN_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_thin"), "main");
 
+    public static final ModelLayerLocation ARAPAIMA_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "arapaima_layer"), "main");
+    public static final ModelLayerLocation BABY_ARAPAIMA_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "baby_arapaima_layer"), "main");
+
 
     public static final ModelLayerLocation HAT_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fishing_hat"), "main");

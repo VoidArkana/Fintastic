@@ -83,6 +83,12 @@ public class YAFMItems {
     });
 
 
+    public static final RegistryObject<Item> ARAPAIMA_BUCKET = ITEMS.register("arapaima_bucket", () -> {
+        return new FishBucketItem(YAFMEntities.ARAPAIMA, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
+    });
+
     public static final RegistryObject<Item> ARAPAIMA_FISHNET = ITEMS.register("arapaima_fishnet",
             () -> new FullFishnetItem(YAFMEntities.ARAPAIMA, new Item.Properties().stacksTo(1)));
 

@@ -19,7 +19,6 @@ import net.voidarkana.fintastic.common.item.YAFMItems;
 import net.voidarkana.fintastic.common.loot.YAFMLootModifiers;
 import net.voidarkana.fintastic.common.sound.YAFMSounds;
 import net.voidarkana.fintastic.common.worldgen.YAFMConfiguredFeatures;
-import net.voidarkana.fintastic.server.MessageHurtMultipart;
 import net.voidarkana.fintastic.server.MultipartEntityMessage;
 import net.voidarkana.fintastic.util.ClientProxy;
 import net.voidarkana.fintastic.util.CommonProxy;
@@ -85,9 +84,7 @@ public class Fintastic
         event.enqueueWork(()->{
             YAFMEntityPlacements.entityPlacement();
 
-            NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageHurtMultipart.class, MessageHurtMultipart::write, MessageHurtMultipart::read, MessageHurtMultipart.Handler::handle);
             NETWORK_WRAPPER.registerMessage(packetsRegistered++, MultipartEntityMessage.class, MultipartEntityMessage::write, MultipartEntityMessage::read, MultipartEntityMessage::handle);
-
 
             ComposterBlock.COMPOSTABLES.put(YAFMBlocks.DUCKWEED.get().asItem(), 0.4F);
             ComposterBlock.COMPOSTABLES.put(YAFMBlocks.HORNWORT.get().asItem(), 0.4F);

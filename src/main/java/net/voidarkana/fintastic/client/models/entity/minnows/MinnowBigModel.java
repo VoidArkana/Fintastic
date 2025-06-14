@@ -64,20 +64,22 @@ public class MinnowBigModel<T extends MinnowEntity> extends FintasticModel<T> {
 
 	@Override
 	public void setupAnim(MinnowEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		if (pEntity.isInWater()){
+		if (pEntity.isInWaterOrBubble()){
+			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
+			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
+			this.animateIdle(pEntity.idleAnimationState, MinnowAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
+
 			this.animateWalk(MinnowAnims.BIG_SWIM, pLimbSwing, pLimbSwingAmount, 2f, 3f);
-		}else {
+		}
+		else {
+			this.swim_rot.resetPose();
 			this.applyStatic(MinnowAnims.BIG_FLOP);
+			this.animate(pEntity.flopAnimationState, MinnowAnims.FLOP, pAgeInTicks, 1.0F);
 		}
 
-		this.animateIdle(pEntity.idleAnimationState, MinnowAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
-
-		this.animate(pEntity.flopAnimationState, MinnowAnims.FLOP, pAgeInTicks, 1.0F);
-
-		this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
-		this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
 	}
 
 	@Override
@@ -85,9 +87,11 @@ public class MinnowBigModel<T extends MinnowEntity> extends FintasticModel<T> {
 		poseStack.pushPose();
 
 		if (this.young){
-			poseStack.scale(0.6f, 0.6f, 0.6f);
-			poseStack.translate(0, 1, 0);
+			poseStack.scale(0.4f, 0.4f, 0.4f);
+			poseStack.translate(0, 2.25, 0);
 		}
+
+		poseStack.translate(0, 0.2, 0);
 
 		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		poseStack.popPose();

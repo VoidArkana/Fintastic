@@ -76,18 +76,19 @@ public class MoonyTallModel<T extends Moony> extends FintasticModel<T> {
 	public void setupAnim(Moony pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		if (pEntity.isInWater()){
+		if (pEntity.isInWaterOrBubble()){
 			this.animateWalk(MoonyAnims.SWIM, pLimbSwing, pLimbSwingAmount, 2f, 3f);
+			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
+			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
 		}else {
 			this.applyStatic(MoonyAnims.MOONYTALL_FLOP);
+			this.swim_rot.resetPose();
 		}
 
 		this.animateIdle(pEntity.idleAnimationState, MoonyAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
 
 		this.animate(pEntity.flopAnimationState, MoonyAnims.FLOP, pAgeInTicks, 1.0F);
 
-		this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
-		this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
 	}
 
 	@Override

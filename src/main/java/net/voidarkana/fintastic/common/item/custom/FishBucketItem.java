@@ -21,6 +21,8 @@ import net.minecraftforge.fml.DistExecutor;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.entity.YAFMEntities;
 import net.voidarkana.fintastic.common.entity.custom.GuppyEntity;
+import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
+import net.voidarkana.fintastic.common.entity.custom.Moony;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -62,8 +64,8 @@ public class FishBucketItem extends MobBucketItem {
                 int i = compoundtag.getInt("Variant");
 
 
-                String featherback_sci = "yafm.featherback_sci." + i;
-                String common = "yafm.featherback_common." + i;
+                String featherback_sci = "fintastic.featherback_sci." + i;
+                String common = "fintastic.featherback_common." + i;
 
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
@@ -93,38 +95,38 @@ public class FishBucketItem extends MobBucketItem {
                 Boolean has_main_pattern = compoundtag.getBoolean("HasMainPattern");
                 Boolean has_second_pattern = compoundtag.getBoolean("HasSecondaryPattern");
 
-                String base = "yafm.guppy_base." + skin;
+                String base = "fintastic.guppy_base." + skin;
 
-                String fins = "yafm.guppy_fin." + GuppyEntity.getFinsName(fin_model);
-                String finsColor = "yafm.guppy_color." + fin_color;
+                String fins = "fintastic.guppy_fin." + GuppyEntity.getFinsName(fin_model);
+                String finsColor = "fintastic.guppy_color." + fin_color;
 
-                String tail = "yafm.guppy_tail." + GuppyEntity.getTailName(tail_model);
-                String tailColor = "yafm.guppy_color." + tail_color;
+                String tail = "fintastic.guppy_tail." + GuppyEntity.getTailName(tail_model);
+                String tailColor = "fintastic.guppy_color." + tail_color;
 
-                String mainPattern = "yafm.guppy_pattern." + GuppyEntity.getMainPatternName(main_pattern);
-                String mainPatternColor = "yafm.guppy_color." + main_pattern_color;
+                String mainPattern = "fintastic.guppy_pattern." + GuppyEntity.getMainPatternName(main_pattern);
+                String mainPatternColor = "fintastic.guppy_color." + main_pattern_color;
 
-                String secondPattern = "yafm.guppy_pattern." + GuppyEntity.getSecondPatternName(second_pattern);
-                String secondPatternColor = "yafm.guppy_color." + second_pattern_color;
+                String secondPattern = "fintastic.guppy_pattern." + GuppyEntity.getSecondPatternName(second_pattern);
+                String secondPatternColor = "fintastic.guppy_color." + second_pattern_color;
 
-                String sci = "yafm.guppy.sci";
+                String sci = "fintastic.guppy.sci";
 
 
-                MutableComponent finInfo = Component.translatable("yafm.guppy_fin").append(":");
+                MutableComponent finInfo = Component.translatable("fintastic.guppy_fin").append(":");
                 finInfo.append(CommonComponents.SPACE).append(Component.translatable(fins)).append(",");
                 finInfo.append(CommonComponents.SPACE).append(Component.translatable(finsColor));
 
                 finInfo.withStyle(achatformatting);
 
 
-                MutableComponent tailInfo = Component.translatable("yafm.guppy_tail").append(":");
+                MutableComponent tailInfo = Component.translatable("fintastic.guppy_tail").append(":");
                 tailInfo.append(CommonComponents.SPACE).append(Component.translatable(tail)).append(",");
                 tailInfo.append(CommonComponents.SPACE).append(Component.translatable(tailColor));
 
                 tailInfo.withStyle(achatformatting);
 
 
-                MutableComponent mainPatternInfo = Component.translatable("yafm.guppy_pattern_1").append(":");
+                MutableComponent mainPatternInfo = Component.translatable("fintastic.guppy_pattern_1").append(":");
                 mainPatternInfo.append(CommonComponents.SPACE).append(Component.translatable(mainPattern)).append(",");
                 mainPatternInfo.append(CommonComponents.SPACE).append(Component.translatable(mainPatternColor));
 
@@ -132,7 +134,7 @@ public class FishBucketItem extends MobBucketItem {
 
 
 
-                MutableComponent secondPatternInfo = Component.translatable("yafm.guppy_pattern_2").append(":");
+                MutableComponent secondPatternInfo = Component.translatable("fintastic.guppy_pattern_2").append(":");
                 secondPatternInfo.append(CommonComponents.SPACE).append(Component.translatable(secondPattern)).append(",");
                 secondPatternInfo.append(CommonComponents.SPACE).append(Component.translatable(secondPatternColor));
 
@@ -165,8 +167,8 @@ public class FishBucketItem extends MobBucketItem {
                 int i = compoundtag.getInt("Variant");
 
 
-                String featherback_sci = "yafm.catfish_sci." + i;
-                String common = "yafm.catfish_common." + i;
+                String featherback_sci = "fintastic.catfish_sci." + i;
+                String common = "fintastic.catfish_common." + i;
 
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
@@ -184,14 +186,14 @@ public class FishBucketItem extends MobBucketItem {
             if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
                 int i = compoundtag.getInt("VariantModel");
 
-                String featherback_sci = "yafm.freshwater_shark_sci." + i;
-                String common = "yafm.freshwater_shark_common." + i;
+                String featherback_sci = "fintastic.freshwater_shark_sci." + i;
+                String common = "fintastic.freshwater_shark_common." + i;
 
                 MutableComponent commonName = Component.translatable(common);
 
                 if (i==1){
                     int j = compoundtag.getInt("VariantSkin");
-                    String skinVariant = "yafm.highfin_skin." + j;
+                    String skinVariant = "fintastic.highfin_skin." + j;
                     commonName.append(Component.translatable(skinVariant));
                 }
 
@@ -210,12 +212,12 @@ public class FishBucketItem extends MobBucketItem {
         if (getFishType() == YAFMEntities.MINNOW.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
-                int i = compoundtag.getInt("VariantModel");
-                int j = compoundtag.getInt("VariantSkin");
 
-                String featherback_sci = "yafm.minnow_sci." + i + "." + j;
-                String common = "yafm.minnow_common." + i + "." + j;
+                int joinedVariantID = Integer.decode(String.valueOf(compoundtag.getInt("VariantModel")) + compoundtag.getInt("VariantSkin"));
+                MinnowEntity.MinnowVariant minnowVariant = MinnowEntity.MinnowVariant.byId(joinedVariantID);
 
+                String featherback_sci = "fintastic.minnow_sci." + minnowVariant.getName();
+                String common = "fintastic.minnow_common." + minnowVariant.getName();
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
@@ -229,13 +231,9 @@ public class FishBucketItem extends MobBucketItem {
         }
 
         if (getFishType() == YAFMEntities.PLECO.get()) {
-//            CompoundTag compoundtag = pStack.getTag();
-//            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
-//                int i = compoundtag.getInt("Variant");
 
-                String featherback_sci = "yafm.pleco_sci";
-                String common = "yafm.pleco_common";
-
+                String featherback_sci = "fintastic.pleco_sci";
+                String common = "fintastic.pleco_common";
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
@@ -245,7 +243,6 @@ public class FishBucketItem extends MobBucketItem {
 
                     pTooltipComponents.add(mutablecomponent);
                 }
-            //}
         }
 
         if (getFishType() == YAFMEntities.ARTEMIA.get()) {
@@ -253,8 +250,8 @@ public class FishBucketItem extends MobBucketItem {
             if (compoundtag != null && compoundtag.contains("VariantSkin", 3)) {
                 int j = compoundtag.getInt("VariantSkin");
 
-                String featherback_sci = "yafm.artemia_sci." + j;
-                String common = "yafm.artemia_common." + j;
+                String featherback_sci = "fintastic.artemia_sci." + j;
+                String common = "fintastic.artemia_common." + j;
 
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
@@ -269,9 +266,44 @@ public class FishBucketItem extends MobBucketItem {
         }
 
         if (getFishType() == YAFMEntities.DAPHNIA.get()) {
-            String featherback_sci = "yafm.daphnia_sci";
-            String common = "yafm.daphnia_common";
+            String featherback_sci = "fintastic.daphnia_sci";
+            String common = "fintastic.daphnia_common";
 
+
+            MutableComponent mutablecomponent = Component.translatable(featherback_sci);
+            mutablecomponent.withStyle(bchatformatting);
+
+            if (Screen.hasShiftDown()){
+                pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+
+                pTooltipComponents.add(mutablecomponent);
+            }
+        }
+
+        if (getFishType() == YAFMEntities.MOONY.get()) {
+            CompoundTag compoundtag = pStack.getTag();
+            if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
+
+                int i = compoundtag.getInt("VariantModel");
+                int j = compoundtag.getInt("VariantSkin");
+
+                String featherback_sci = "fintastic.moony_sci." + Moony.getVariantName(i, j);
+                String common = "fintastic.moony_common." + Moony.getVariantName(i, j);
+
+                MutableComponent mutablecomponent = Component.translatable(featherback_sci);
+                mutablecomponent.withStyle(bchatformatting);
+
+                if (Screen.hasShiftDown()){
+                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+                    pTooltipComponents.add(mutablecomponent);
+                }
+            }
+        }
+
+        if (getFishType() == YAFMEntities.ARAPAIMA.get()) {
+
+            String featherback_sci = "fintastic.arapaima_sci";
+            String common = "fintastic.arapaima_common";
 
             MutableComponent mutablecomponent = Component.translatable(featherback_sci);
             mutablecomponent.withStyle(bchatformatting);
