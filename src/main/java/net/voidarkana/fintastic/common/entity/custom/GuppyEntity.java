@@ -73,7 +73,13 @@ public class GuppyEntity extends SchoolingFish implements GeoEntity {
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
         this.goalSelector.addGoal(5, new FollowIndiscriminateSchoolLeaderGoal(this));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
-        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, EntitySelector.NO_SPECTATORS::test));
+
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
+            if (entity instanceof Player player){
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(YAFMItems.FISHING_HAT.get());
+            }
+            return false;}));
+
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 25));
     }
 

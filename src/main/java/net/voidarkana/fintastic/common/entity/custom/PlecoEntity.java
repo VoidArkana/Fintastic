@@ -55,7 +55,13 @@ public class PlecoEntity extends AbstractSwimmingBottomDweller implements GeoEnt
         this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 4.0F, 1.5D, 1.5D, EntitySelector.NO_SPECTATORS::test));
+
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
+            if (entity instanceof Player player){
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(YAFMItems.FISHING_HAT.get());
+            }
+            return false;}));
+
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 50) {
             @Override
             public boolean canUse() {

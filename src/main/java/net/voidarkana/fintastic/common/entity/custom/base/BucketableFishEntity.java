@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
@@ -25,6 +26,8 @@ import net.minecraft.world.phys.Vec3;
 import net.voidarkana.fintastic.common.entity.custom.ArapaimaEntity;
 import net.voidarkana.fintastic.common.entity.custom.ArapaimaPart;
 import net.voidarkana.fintastic.common.entity.custom.CatfishEntity;
+import net.voidarkana.fintastic.common.item.YAFMItems;
+import net.voidarkana.fintastic.util.YAFMTags;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -42,7 +45,13 @@ public abstract class BucketableFishEntity extends BreedableWaterAnimal implemen
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, EntitySelector.NO_SPECTATORS::test));
+
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
+            if (entity instanceof Player player){
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(YAFMItems.FISHING_HAT.get());
+            }
+            return false;}));
+
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10));
     }
 
