@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "fintastic:block/porous_live_rock_1"
+      },
+      {
+        "model": "fintastic:block/porous_live_rock_2"
+      }
+    ]
+  }
+}

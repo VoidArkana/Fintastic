@@ -22,6 +22,22 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
 
+        this.tag(BlockTags.WALLS).add(YAFMBlocks.STROMATOLITE_BRICKS_WALL.get());
+
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(YAFMBlocks.STROMATOLITE_BRICKS.get())
+                .add(YAFMBlocks.STROMATOLITE_BRICKS_WALL.get())
+                .add(YAFMBlocks.STROMATOLITE_BRICKS_SLAB.get())
+                .add(YAFMBlocks.STROMATOLITE_BRICKS_STAIRS.get())
+                .add(YAFMBlocks.STROMATOLITE_BLOCK.get())
+                .add(YAFMBlocks.FOSSIL_STROMATOLITE_BLOCK.get())
+                .add(YAFMBlocks.STROMATOLITE.get())
+                .add(YAFMBlocks.FOSSIL_STROMATOLITE.get())
+                .add(YAFMBlocks.LIVE_ROCK.get())
+                .add(YAFMBlocks.POROUS_LIVE_ROCK.get())
+                .add(YAFMBlocks.DEAD_LIVE_ROCK.get())
+                .add(YAFMBlocks.DEAD_POROUS_LIVE_ROCK.get());
+
         this.tag(BlockTags.UNDERWATER_BONEMEALS)
                 .add(YAFMBlocks.HORNWORT.get());
 
@@ -57,8 +73,6 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
                 .add(YAFMBlocks.TINTED_SUGAR_AQUARIUM_GLASS.get());
 
         this.tag(BlockTags.IMPERMEABLE).addTag(YAFMTags.Blocks.AQUARIUM_GLASS);
-
-        this.tag(BlockTags.UNDERWATER_BONEMEALS).add(YAFMBlocks.HORNWORT.get());
 
         this.tag(Tags.Blocks.GLASS).addTags(YAFMTags.Blocks.AQUARIUM_GLASS);
     }

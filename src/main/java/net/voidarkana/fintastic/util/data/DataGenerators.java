@@ -24,6 +24,7 @@ public class DataGenerators {
 
         //generator.addProvider(event.includeServer(), YAFMLootTableProvider.create(packOutput));
 
+        generator.addProvider(event.includeClient(), new YAFMBlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new YAFMItemModelProvider(packOutput, existingFileHelper));
 
         YAFMBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),

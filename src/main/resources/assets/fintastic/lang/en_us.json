@@ -363,5 +363,21 @@
   "fintastic.moony_sci.moonytall_1": "Monodactylus kottelati",
 
   "fintastic.moony_sci.moony_0": "Monodactylus argenteus",
-  "fintastic.moony_sci.moony_1": "Monodactylus falciformis"
+  "fintastic.moony_sci.moony_1": "Monodactylus falciformis",
+
+  "block.fintastic.live_rock": "Coraline Live Rock Block",
+  "block.fintastic.dead_live_rock": "Coraline Dry Rock Block",
+
+  "block.fintastic.porous_live_rock": "Poriferous Live Rock Block",
+  "block.fintastic.dead_porous_live_rock": "Poriferous Dry Rock Block",
+
+  "block.fintastic.stromatolite": "Stromatolite",
+  "block.fintastic.fossil_stromatolite": "Fossilized Stromatolite",
+  "block.fintastic.stromatolite_block": "Stromatolite Block",
+  "block.fintastic.fossil_stromatolite_block": "Fossilized Stromatolite Block",
+
+  "block.fintastic.stromatolite_bricks": "Stromatolite Bricks",
+  "block.fintastic.stromatolite_bricks_slab": "Stromatolite Brick Slab",
+  "block.fintastic.stromatolite_bricks_stairs": "Stromatolite Brick Stairs",
+  "block.fintastic.stromatolite_bricks_wall": "Stromatolite Brick Wall"
 }

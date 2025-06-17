@@ -57,6 +57,21 @@ public class YAFMCreativeTab {
                         output.accept(YAFMBlocks.HORNWORT.get());
                         output.accept(YAFMBlocks.ANUBIAS.get());
 
+                        output.accept(YAFMBlocks.LIVE_ROCK.get());
+                        output.accept(YAFMBlocks.POROUS_LIVE_ROCK.get());
+                        output.accept(YAFMBlocks.DEAD_LIVE_ROCK.get());
+                        output.accept(YAFMBlocks.DEAD_POROUS_LIVE_ROCK.get());
+
+                        output.accept(YAFMBlocks.STROMATOLITE.get());
+                        output.accept(YAFMBlocks.FOSSIL_STROMATOLITE.get());
+                        output.accept(YAFMBlocks.STROMATOLITE_BLOCK.get());
+                        output.accept(YAFMBlocks.FOSSIL_STROMATOLITE_BLOCK.get());
+
+                        output.accept(YAFMBlocks.STROMATOLITE_BRICKS.get());
+                        output.accept(YAFMBlocks.STROMATOLITE_BRICKS_SLAB.get());
+                        output.accept(YAFMBlocks.STROMATOLITE_BRICKS_STAIRS.get());
+                        output.accept(YAFMBlocks.STROMATOLITE_BRICKS_WALL.get());
+
                         output.accept(YAFMBlocks.AQUARIUM_GLASS.get());
                         output.accept(YAFMBlocks.AQUARIUM_GLASS_PANE.get());
                         output.accept(YAFMBlocks.TINTED_AQUARIUM_GLASS.get());

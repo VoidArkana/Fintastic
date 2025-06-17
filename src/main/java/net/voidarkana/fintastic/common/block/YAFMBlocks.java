@@ -3,9 +3,9 @@ package net.voidarkana.fintastic.common.block;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PlaceOnWaterBlockItem;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -83,6 +83,62 @@ public class YAFMBlocks {
     public static final RegistryObject<Block> TINTED_SUGAR_AQUARIUM_GLASS = registerBlock("tinted_sugar_aquarium_glass",
             ()-> new TintedAquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.TINTED_GLASS).mapColor(MapColor.COLOR_PURPLE)));
 
+
+
+    public static final RegistryObject<Block> DEAD_LIVE_ROCK = registerBlock("dead_live_rock",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).forceSolidOn()
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F)));
+
+    public static final RegistryObject<Block> DEAD_POROUS_LIVE_ROCK = registerBlock("dead_porous_live_rock",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).forceSolidOn()
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F)));
+
+    public static final RegistryObject<Block> LIVE_ROCK = registerBlock("live_rock",
+            () -> new CoralBlock(DEAD_LIVE_ROCK.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F).sound(SoundType.CORAL_BLOCK)));
+
+    public static final RegistryObject<Block> POROUS_LIVE_ROCK = registerBlock("porous_live_rock",
+            () -> new CoralBlock(DEAD_POROUS_LIVE_ROCK.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F).sound(SoundType.CORAL_BLOCK)));
+
+
+
+    public static final RegistryObject<Block> STROMATOLITE = registerBlock("stromatolite",
+            () -> new StromatoliteBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY)
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F)));
+
+    public static final RegistryObject<Block> FOSSIL_STROMATOLITE = registerBlock("fossil_stromatolite",
+            () -> new StromatoliteBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F)));
+
+    public static final RegistryObject<Block> STROMATOLITE_BLOCK = registerBlock("stromatolite_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).forceSolidOn()
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F)));
+
+    public static final RegistryObject<Block> FOSSIL_STROMATOLITE_BLOCK = registerBlock("fossil_stromatolite_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).forceSolidOn()
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F)));
+
+
+    public static final RegistryObject<Block> STROMATOLITE_BRICKS = registerBlock("stromatolite_bricks",
+            ()-> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    public static final RegistryObject<Block> STROMATOLITE_BRICKS_SLAB = registerBlock("stromatolite_bricks_slab",
+            ()-> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    public static final RegistryObject<Block> STROMATOLITE_BRICKS_STAIRS = registerBlock("stromatolite_bricks_stairs",
+            ()-> new StairBlock(() -> YAFMBlocks.STROMATOLITE_BRICKS.get().defaultBlockState(),BlockBehaviour.Properties.copy(Blocks.STONE)));
+
+    public static final RegistryObject<Block> STROMATOLITE_BRICKS_WALL = registerBlock("stromatolite_bricks_wall",
+            ()-> new WallBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
 
 
 

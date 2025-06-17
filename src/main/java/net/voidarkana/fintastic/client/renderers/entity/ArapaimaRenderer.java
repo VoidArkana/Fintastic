@@ -24,7 +24,7 @@ public class ArapaimaRenderer extends MobRenderer<ArapaimaEntity, FintasticModel
     private final BabyArapaimaModel<ArapaimaEntity> babyArapaimaModel;
 
     public ArapaimaRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new ArapaimaModel<>(pContext.bakeLayer(FintasticLayers.ARAPAIMA_LAYER)), 0.25f);
+        super(pContext, new ArapaimaModel<>(pContext.bakeLayer(FintasticLayers.ARAPAIMA_LAYER)), 1f);
         this.arapaimaModel = new ArapaimaModel<>(pContext.bakeLayer(FintasticLayers.ARAPAIMA_LAYER));
         this.babyArapaimaModel = new BabyArapaimaModel<>(pContext.bakeLayer(FintasticLayers.BABY_ARAPAIMA_LAYER));
     }

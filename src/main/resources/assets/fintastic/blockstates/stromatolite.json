@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "fintastic:block/stromatolite"
+      },
+      {
+        "model": "fintastic:block/stromatolite"
+      }
+    ]
+  }
+}

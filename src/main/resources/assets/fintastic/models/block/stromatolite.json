@@ -1,0 +1,7 @@
+{
+  "parent": "fintastic:block/stromatolite_base",
+  "textures": {
+    "texture": "fintastic:block/stromatolite",
+    "item": "fintastic:item/stromatolite"
+  }
+}

@@ -87,7 +87,12 @@ public class ArapaimaEntity extends BucketableFishEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D));
+        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D){
+            @Override
+            protected boolean shouldPanic() {
+                return super.shouldPanic() && ArapaimaEntity.this.isInWaterOrBubble();
+            }
+        });
         this.goalSelector.addGoal(1, new MoveToWaterGoal(this, 0.5D));
         this.goalSelector.addGoal(2, new FishFollowParentGoal(this, 1.1D));
 
@@ -136,7 +141,7 @@ public class ArapaimaEntity extends BucketableFishEntity {
     public void aiStep() {
         super.aiStep();
 
-        if (!this.isNoAi()) {
+        if (!this.isNoAi() && !this.isBaby()) {
             if (this.ringBufferIndex < 0) {
                 for (int i = 0; i < this.ringBuffer.length; ++i) {
                     this.ringBuffer[i][0] = this.getYRot();
@@ -247,12 +252,16 @@ public class ArapaimaEntity extends BucketableFishEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
 
         if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Age", 3)) {
+
             if (pDataTag.contains("Age")) {
                 this.setAge(pDataTag.getInt("Age"));
             }
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
+            this.setAirSupply(this.getMaxAirSupply());
+
         }else if (pReason == MobSpawnType.BUCKET && pDataTag == null){
             this.setAge(-24000);
+            this.setAirSupply(this.getMaxAirSupply());
         }
 
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);

@@ -100,7 +100,7 @@ public class ArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<T> {
 
 			this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.IDLE_SWIM, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
 
-			this.animateWalk(ArapaimaAnims.SWIM, pLimbSwing*1.5f, pLimbSwingAmount*1.5f, 2f, 3f);
+			this.animateWalk(ArapaimaAnims.SWIM, pLimbSwing, pLimbSwingAmount*5f, 2f, 3f);
 		}
 		else {
 			this.swim_rot.resetPose();
@@ -109,7 +109,7 @@ public class ArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<T> {
 			this.body.resetPose();
 
 			this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.GROUND_IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
-			this.animateWalk(ArapaimaAnims.CRAWL, pLimbSwing*1.5f, pLimbSwingAmount*1.5f, 2f, 3f);
+			this.animateWalk(ArapaimaAnims.CRAWL, pLimbSwing, pLimbSwingAmount*5f, 2f, 3f);
 		}
 	}
 

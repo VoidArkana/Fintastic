@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "fintastic:block/live_rock_1"
+      },
+      {
+        "model": "fintastic:block/live_rock_2"
+      }
+    ]
+  }
+}

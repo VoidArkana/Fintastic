@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "fintastic:block/porous_live_rock_2"
+  }
+}
