@@ -27,6 +27,12 @@ public class YAFMBlockStateProvider extends BlockStateProvider {
                 "fossil_stromatolite_block_top",
                 "fossil_stromatolite_block_side");
 
+        simpleBlockWithItem(YAFMBlocks.STROMATOLITE_GROWTHS.get(), models().cross(blockTexture(YAFMBlocks.STROMATOLITE_GROWTHS.get()).getPath(),
+                blockTexture(YAFMBlocks.STROMATOLITE_GROWTHS.get())).renderType("cutout"));
+
+        simpleBlockWithItem(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS.get(), models().cross(blockTexture(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS.get()).getPath(),
+                blockTexture(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS.get())).renderType("cutout"));
+
         this.blockWithItem(YAFMBlocks.DEAD_LIVE_ROCK);
 
         this.blockWithItem(YAFMBlocks.DEAD_POROUS_LIVE_ROCK);

@@ -117,10 +117,17 @@ public class YAFMBlocks {
                     .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F)));
 
+    public static final RegistryObject<Block> STROMATOLITE_GROWTHS = registerBlock("stromatolite_growths",
+            () -> new BaseCoralPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY)
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().noCollission().instabreak()));
+
+    public static final RegistryObject<Block> FOSSIL_STROMATOLITE_GROWTHS = registerBlock("fossil_stromatolite_growths",
+            () -> new BaseCoralPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().noCollission().instabreak()));
+
     public static final RegistryObject<Block> STROMATOLITE_BLOCK = registerBlock("stromatolite_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).forceSolidOn()
-                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
-                    .strength(1.5F, 6.0F)));
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().instabreak()));
 
     public static final RegistryObject<Block> FOSSIL_STROMATOLITE_BLOCK = registerBlock("fossil_stromatolite_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).forceSolidOn()

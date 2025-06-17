@@ -70,6 +70,15 @@ public class YAFMItemModelProvider extends ItemModelProvider {
         evenSimplerBlockItem(YAFMBlocks.STROMATOLITE_BRICKS_SLAB);
         evenSimplerBlockItem(YAFMBlocks.STROMATOLITE_BRICKS_STAIRS);
         wallItem(YAFMBlocks.STROMATOLITE_BRICKS_WALL, YAFMBlocks.STROMATOLITE_BRICKS);
+
+        simpleBlockItemBlockTexture(YAFMBlocks.STROMATOLITE_GROWTHS);
+        simpleBlockItemBlockTexture(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS);
+    }
+
+    private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(Fintastic.MOD_ID,"block/" + item.getId().getPath()));
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item){

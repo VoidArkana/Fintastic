@@ -1,0 +1,8 @@
+{
+  "parent": "fintastic:block/algae_carpet_base",
+  "textures": {
+    "side": "fintastic:block/green_algae_side",
+    "particle": "fintastic:item/green_algae_top",
+    "top": "fintastic:item/green_algae_top"
+  }
+}

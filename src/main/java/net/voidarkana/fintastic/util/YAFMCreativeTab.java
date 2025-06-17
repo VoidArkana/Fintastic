@@ -63,8 +63,11 @@ public class YAFMCreativeTab {
                         output.accept(YAFMBlocks.DEAD_POROUS_LIVE_ROCK.get());
 
                         output.accept(YAFMBlocks.STROMATOLITE.get());
-                        output.accept(YAFMBlocks.FOSSIL_STROMATOLITE.get());
+                        output.accept(YAFMBlocks.STROMATOLITE_GROWTHS.get());
                         output.accept(YAFMBlocks.STROMATOLITE_BLOCK.get());
+
+                        output.accept(YAFMBlocks.FOSSIL_STROMATOLITE.get());
+                        output.accept(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS.get());
                         output.accept(YAFMBlocks.FOSSIL_STROMATOLITE_BLOCK.get());
 
                         output.accept(YAFMBlocks.STROMATOLITE_BRICKS.get());
