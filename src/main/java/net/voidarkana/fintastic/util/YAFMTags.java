@@ -50,6 +50,9 @@ public class YAFMTags {
 
         public static final TagKey<Block> FRESHWATER_PLANTS = tag("freshwater_plants");
 
+        public static final TagKey<Block> RED_ALGAE = tag("propagates_red_algae");
+        public static final TagKey<Block> GREEN_ALGAE = tag("propagates_green_algae");
+
         private static TagKey<Block> tag(String name){
             return BlockTags.create(new ResourceLocation(Fintastic.MOD_ID, name));
         }

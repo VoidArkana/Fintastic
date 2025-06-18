@@ -30,6 +30,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.YAFMBlocks;
 import net.voidarkana.fintastic.common.block.custom.AlgaeCarpetBlock;
+import net.voidarkana.fintastic.common.worldgen.features.AlgaeBonemealFeature;
 import net.voidarkana.fintastic.common.worldgen.features.HornWortFeature;
 import net.voidarkana.fintastic.common.worldgen.features.UnderwaterVegetationPatchFeature;
 import net.voidarkana.fintastic.common.worldgen.features.UnderwaterWaterloggedVegetationPatchFeature;
@@ -46,13 +47,18 @@ public class YAFMConfiguredFeatures {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> GREEN_ALGAE_VEGETATION = registerKey("green_algae_vegetation");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GREEN_ALGAE_PATCH_BONEMEAL = registerKey("green_algae_patch_bonemeal");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GREEN_ALGAE_VEGETATION_BONEMEAL = registerKey("green_algae_vegetation_bonemeal");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> RED_ALGAE_VEGETATION = registerKey("red_algae_vegetation");
     public static final ResourceKey<ConfiguredFeature<?, ?>> RED_ALGAE_PATCH_BONEMEAL = registerKey("red_algae_patch_bonemeal");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> RED_ALGAE_VEGETATION_BONEMEAL = registerKey("red_algae_vegetation_bonemeal");
 
 
     public static final RegistryObject<Feature<VegetationPatchConfiguration>> ALGAE_PATCH_FEATURE =
             register_feature("algae_patch_feature", () -> new UnderwaterVegetationPatchFeature(VegetationPatchConfiguration.CODEC));
+
+    public static final RegistryObject<Feature<AlgaeBonemealConfig>> ALGAE_BONEMEAL_FEATURE =
+            register_feature("algae_bonemeal_feature", () -> new AlgaeBonemealFeature(AlgaeBonemealConfig.CODEC));
 
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> HORNWORT_FEATURE =
             register_feature("hornwort_feature", () -> new HornWortFeature(NoneFeatureConfiguration.CODEC));
@@ -69,12 +75,14 @@ public class YAFMConfiguredFeatures {
 
 
 
+        WeightedStateProvider greenAlgaeWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+                .add(Blocks.SEA_PICKLE.defaultBlockState(), 4)
+                .add(YAFMBlocks.GREEN_ALGAE_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
+                .add(Blocks.SEAGRASS.defaultBlockState(), 50)
+                .add(Blocks.KELP_PLANT.defaultBlockState(), 10));
+
         register(context, GREEN_ALGAE_VEGETATION, Feature.SIMPLE_BLOCK,
-                new SimpleBlockConfiguration(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                        .add(Blocks.SEA_PICKLE.defaultBlockState(), 4)
-                        .add(YAFMBlocks.GREEN_ALGAE_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
-                        .add(Blocks.SEAGRASS.defaultBlockState(), 50)
-                        .add(Blocks.KELP_PLANT.defaultBlockState(), 10))));
+                new SimpleBlockConfiguration(greenAlgaeWSP));
 
         register(context, GREEN_ALGAE_PATCH_BONEMEAL, ALGAE_PATCH_FEATURE.get(),
                 new VegetationPatchConfiguration(BlockTags.MOSS_REPLACEABLE, BlockStateProvider.simple(YAFMBlocks.GREEN_ALGAE_BLOCK.get()),
@@ -83,20 +91,28 @@ public class YAFMConfiguredFeatures {
                         UniformInt.of(1, 2), 0.75F));
 
 
+        register(context, GREEN_ALGAE_VEGETATION_BONEMEAL, ALGAE_BONEMEAL_FEATURE.get(),
+                new AlgaeBonemealConfig(greenAlgaeWSP, 3, 1));
+
+
+
+        WeightedStateProvider redAlgaeWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+                .add(Blocks.FIRE_CORAL.defaultBlockState(), 4)
+                .add(YAFMBlocks.RED_ALGAE_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
+                .add(YAFMBlocks.RED_ALGAE.get().defaultBlockState().setValue(BaseCoralPlantBlock.WATERLOGGED, true), 50)
+                .add(YAFMBlocks.RED_ALGAE_FAN.get().defaultBlockState().setValue(BaseCoralPlantBlock.WATERLOGGED, true), 10));
 
         register(context, RED_ALGAE_VEGETATION, Feature.SIMPLE_BLOCK,
-                new SimpleBlockConfiguration(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                        .add(Blocks.FIRE_CORAL.defaultBlockState(), 4)
-                        .add(YAFMBlocks.RED_ALGAE_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
-                        .add(YAFMBlocks.RED_ALGAE.get().defaultBlockState().setValue(BaseCoralPlantBlock.WATERLOGGED, true), 50)
-                        .add(YAFMBlocks.RED_ALGAE_FAN.get().defaultBlockState().setValue(BaseCoralPlantBlock.WATERLOGGED, true), 10)
-                )));
+                new SimpleBlockConfiguration(redAlgaeWSP));
 
         register(context, RED_ALGAE_PATCH_BONEMEAL, ALGAE_PATCH_FEATURE.get(),
                 new VegetationPatchConfiguration(BlockTags.MOSS_REPLACEABLE, BlockStateProvider.simple(YAFMBlocks.RED_ALGAE_BLOCK.get()),
                         PlacementUtils.inlinePlaced(holdergetter.getOrThrow(RED_ALGAE_VEGETATION)),
                         CaveSurface.FLOOR, ConstantInt.of(1), 0.0F, 5, 0.6F,
                         UniformInt.of(1, 2), 0.75F));
+
+        register(context, RED_ALGAE_VEGETATION_BONEMEAL, ALGAE_BONEMEAL_FEATURE.get(),
+                new AlgaeBonemealConfig(redAlgaeWSP, 3, 1));
     }
 
 

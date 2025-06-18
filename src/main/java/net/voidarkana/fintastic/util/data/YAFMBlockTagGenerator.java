@@ -33,10 +33,14 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
                 .add(YAFMBlocks.FOSSIL_STROMATOLITE_BLOCK.get())
                 .add(YAFMBlocks.STROMATOLITE.get())
                 .add(YAFMBlocks.FOSSIL_STROMATOLITE.get())
+                .add(YAFMBlocks.STROMATOLITE_GROWTHS.get())
+                .add(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS.get())
                 .add(YAFMBlocks.LIVE_ROCK.get())
                 .add(YAFMBlocks.POROUS_LIVE_ROCK.get())
                 .add(YAFMBlocks.DEAD_LIVE_ROCK.get())
-                .add(YAFMBlocks.DEAD_POROUS_LIVE_ROCK.get());
+                .add(YAFMBlocks.DEAD_POROUS_LIVE_ROCK.get())
+                .add(YAFMBlocks.RED_ALGAE_LIVE_ROCK.get())
+                .add(YAFMBlocks.GREEN_ALGAE_LIVE_ROCK.get());
 
         this.tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(YAFMBlocks.GREEN_ALGAE_BLOCK.get())
@@ -81,5 +85,13 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(YAFMTags.Blocks.FRESHWATER_PLANTS)
                 .add(YAFMBlocks.HORNWORT.get());
+
+        this.tag(YAFMTags.Blocks.GREEN_ALGAE)
+                .add(YAFMBlocks.GREEN_ALGAE_LIVE_ROCK.get())
+                .add(YAFMBlocks.GREEN_ALGAE_BLOCK.get());
+
+        this.tag(YAFMTags.Blocks.RED_ALGAE)
+                .add(YAFMBlocks.RED_ALGAE_LIVE_ROCK.get())
+                .add(YAFMBlocks.RED_ALGAE_BLOCK.get());
     }
 }

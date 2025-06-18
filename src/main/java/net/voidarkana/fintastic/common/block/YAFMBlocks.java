@@ -97,12 +97,23 @@ public class YAFMBlocks {
                     .strength(1.5F, 6.0F)));
 
     public static final RegistryObject<Block> LIVE_ROCK = registerBlock("live_rock",
-            () -> new CoralBlock(DEAD_LIVE_ROCK.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+            () -> new LiveRockBlock(DEAD_LIVE_ROCK.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
                     .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F).sound(SoundType.CORAL_BLOCK)));
 
     public static final RegistryObject<Block> POROUS_LIVE_ROCK = registerBlock("porous_live_rock",
-            () -> new CoralBlock(DEAD_POROUS_LIVE_ROCK.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+            () -> new LiveRockBlock(DEAD_POROUS_LIVE_ROCK.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F).sound(SoundType.CORAL_BLOCK)));
+
+
+    public static final RegistryObject<Block> GREEN_ALGAE_LIVE_ROCK = registerBlock("green_algae_live_rock",
+            () -> new AlgaeLiveRockBlock(DEAD_LIVE_ROCK.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F).sound(SoundType.CORAL_BLOCK)));
+
+    public static final RegistryObject<Block> RED_ALGAE_LIVE_ROCK = registerBlock("red_algae_live_rock",
+            () -> new AlgaeLiveRockBlock(DEAD_POROUS_LIVE_ROCK.get(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                     .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F).sound(SoundType.CORAL_BLOCK)));
 

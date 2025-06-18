@@ -391,5 +391,8 @@
   "block.fintastic.red_algae": "Red Algae",
   "block.fintastic.red_algae_fan": "Red Algae Fan",
   "block.fintastic.red_algae_wall_fan": "Red Algae Wall Fan",
-  "item.fintastic.red_algae_fan": "Red Algae Fan"
+  "item.fintastic.red_algae_fan": "Red Algae Fan",
+
+  "block.fintastic.red_algae_live_rock": "Red Algae Porous Live Rock",
+  "block.fintastic.green_algae_live_rock": "Green Algae Porous Live Rock"
 }

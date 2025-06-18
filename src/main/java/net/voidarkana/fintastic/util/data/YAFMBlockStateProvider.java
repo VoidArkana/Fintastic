@@ -46,6 +46,12 @@ public class YAFMBlockStateProvider extends BlockStateProvider {
 
         simpleBlockWithItem(YAFMBlocks.RED_ALGAE.get(), models().cross(blockTexture(YAFMBlocks.RED_ALGAE.get()).getPath(),
                 blockTexture(YAFMBlocks.RED_ALGAE.get())).renderType("cutout"));
+
+        nonRotateablePillarBlock(YAFMBlocks.RED_ALGAE_LIVE_ROCK,
+                "red_algae_block", "porous_live_rock", "red_algae_live_rock");
+
+        nonRotateablePillarBlock(YAFMBlocks.GREEN_ALGAE_LIVE_ROCK,
+                "green_algae_block", "live_rock", "green_algae_live_rock");
     }
 
     private void leavesBlock(RegistryObject<Block> blockRegistryObject) {
