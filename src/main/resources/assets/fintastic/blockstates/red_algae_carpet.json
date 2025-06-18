@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "fintastic:block/red_algae_carpet"
+      },
+      {
+        "model": "fintastic:block/red_algae_carpet"
+      }
+    ]
+  }
+}

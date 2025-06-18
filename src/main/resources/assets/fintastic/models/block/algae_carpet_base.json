@@ -6,6 +6,7 @@
 		"particle": "#particle",
 		"top": "#top"
 	},
+	"render_type": "minecraft:cutout",
 	"elements": [
 		{
 			"from": [0, 0, 0],

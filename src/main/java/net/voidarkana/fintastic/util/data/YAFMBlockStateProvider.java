@@ -34,13 +34,18 @@ public class YAFMBlockStateProvider extends BlockStateProvider {
                 blockTexture(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS.get())).renderType("cutout"));
 
         this.blockWithItem(YAFMBlocks.DEAD_LIVE_ROCK);
-
         this.blockWithItem(YAFMBlocks.DEAD_POROUS_LIVE_ROCK);
 
         blockWithItem(YAFMBlocks.STROMATOLITE_BRICKS);
         stairsBlock(((StairBlock) YAFMBlocks.STROMATOLITE_BRICKS_STAIRS.get()), blockTexture(YAFMBlocks.STROMATOLITE_BRICKS.get()));
         slabBlock(((SlabBlock) YAFMBlocks.STROMATOLITE_BRICKS_SLAB.get()), blockTexture(YAFMBlocks.STROMATOLITE_BRICKS.get()), blockTexture(YAFMBlocks.STROMATOLITE_BRICKS.get()));
         wallBlock((WallBlock) YAFMBlocks.STROMATOLITE_BRICKS_WALL.get(), blockTexture(YAFMBlocks.STROMATOLITE_BRICKS.get()));
+
+        this.blockWithItem(YAFMBlocks.GREEN_ALGAE_BLOCK);
+        this.blockWithItem(YAFMBlocks.RED_ALGAE_BLOCK);
+
+        simpleBlockWithItem(YAFMBlocks.RED_ALGAE.get(), models().cross(blockTexture(YAFMBlocks.RED_ALGAE.get()).getPath(),
+                blockTexture(YAFMBlocks.RED_ALGAE.get())).renderType("cutout"));
     }
 
     private void leavesBlock(RegistryObject<Block> blockRegistryObject) {

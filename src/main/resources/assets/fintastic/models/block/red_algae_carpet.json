@@ -2,7 +2,7 @@
   "parent": "fintastic:block/algae_carpet_base",
   "textures": {
     "side": "fintastic:block/red_algae_side",
-    "particle": "fintastic:item/red_algae_top",
-    "top": "fintastic:item/red_algae_top"
+    "particle": "fintastic:block/red_algae_block",
+    "top": "fintastic:block/red_algae_block"
   }
 }

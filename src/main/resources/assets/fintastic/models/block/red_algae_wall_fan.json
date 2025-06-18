@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/coral_wall_fan",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "fan": "fintastic:block/red_algae_fan"
+  }
+}

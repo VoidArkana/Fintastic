@@ -381,5 +381,15 @@
   "block.fintastic.stromatolite_bricks": "Stromatolite Bricks",
   "block.fintastic.stromatolite_bricks_slab": "Stromatolite Brick Slab",
   "block.fintastic.stromatolite_bricks_stairs": "Stromatolite Brick Stairs",
-  "block.fintastic.stromatolite_bricks_wall": "Stromatolite Brick Wall"
+  "block.fintastic.stromatolite_bricks_wall": "Stromatolite Brick Wall",
+
+  "block.fintastic.green_algae_block": "Green Algae Block",
+  "block.fintastic.green_algae_carpet": "Green Algae Carpet",
+
+  "block.fintastic.red_algae_block": "Red Algae Block",
+  "block.fintastic.red_algae_carpet": "Red Algae Carpet",
+  "block.fintastic.red_algae": "Red Algae",
+  "block.fintastic.red_algae_fan": "Red Algae Fan",
+  "block.fintastic.red_algae_wall_fan": "Red Algae Wall Fan",
+  "item.fintastic.red_algae_fan": "Red Algae Fan"
 }

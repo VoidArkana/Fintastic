@@ -73,6 +73,7 @@ public class YAFMItemModelProvider extends ItemModelProvider {
 
         simpleBlockItemBlockTexture(YAFMBlocks.STROMATOLITE_GROWTHS);
         simpleBlockItemBlockTexture(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS);
+        simpleBlockItemBlockTexture(YAFMBlocks.RED_ALGAE);
     }
 
     private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {

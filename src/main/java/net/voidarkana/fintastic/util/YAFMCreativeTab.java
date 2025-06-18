@@ -57,6 +57,14 @@ public class YAFMCreativeTab {
                         output.accept(YAFMBlocks.HORNWORT.get());
                         output.accept(YAFMBlocks.ANUBIAS.get());
 
+                        output.accept(YAFMBlocks.GREEN_ALGAE_CARPET.get());
+                        output.accept(YAFMBlocks.GREEN_ALGAE_BLOCK.get());
+
+                        output.accept(YAFMBlocks.RED_ALGAE.get());
+                        output.accept(YAFMItems.RED_ALGAE_FAN.get());
+                        output.accept(YAFMBlocks.RED_ALGAE_CARPET.get());
+                        output.accept(YAFMBlocks.RED_ALGAE_BLOCK.get());
+
                         output.accept(YAFMBlocks.LIVE_ROCK.get());
                         output.accept(YAFMBlocks.POROUS_LIVE_ROCK.get());
                         output.accept(YAFMBlocks.DEAD_LIVE_ROCK.get());

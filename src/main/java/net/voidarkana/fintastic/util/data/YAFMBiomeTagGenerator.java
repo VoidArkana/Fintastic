@@ -54,6 +54,8 @@ public class YAFMBiomeTagGenerator extends BiomeTagsProvider {
         this.tag(YAFMTags.Biomes.DAPHNIA_BIOMES)
                 .addTag(BiomeTags.IS_RIVER);
 
+        this.tag(YAFMTags.Biomes.FRESHWATER_PLANT_BIOME_BLACKLIST)
+                .addTag(BiomeTags.IS_OCEAN);
     }
 
 }

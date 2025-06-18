@@ -38,8 +38,11 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
                 .add(YAFMBlocks.DEAD_LIVE_ROCK.get())
                 .add(YAFMBlocks.DEAD_POROUS_LIVE_ROCK.get());
 
-        this.tag(BlockTags.UNDERWATER_BONEMEALS)
-                .add(YAFMBlocks.HORNWORT.get());
+        this.tag(BlockTags.MINEABLE_WITH_HOE)
+                .add(YAFMBlocks.GREEN_ALGAE_BLOCK.get())
+                .add(YAFMBlocks.RED_ALGAE_BLOCK.get())
+                .add(YAFMBlocks.GREEN_ALGAE_CARPET.get())
+                .add(YAFMBlocks.RED_ALGAE_CARPET.get());
 
         this.tag(YAFMTags.Blocks.AQUARIUM_GLASS)
                 .add(YAFMBlocks.AQUARIUM_GLASS.get())
@@ -74,6 +77,9 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(BlockTags.IMPERMEABLE).addTag(YAFMTags.Blocks.AQUARIUM_GLASS);
 
-        this.tag(Tags.Blocks.GLASS).addTags(YAFMTags.Blocks.AQUARIUM_GLASS);
+        this.tag(Tags.Blocks.GLASS).addTag(YAFMTags.Blocks.AQUARIUM_GLASS);
+
+        this.tag(YAFMTags.Blocks.FRESHWATER_PLANTS)
+                .add(YAFMBlocks.HORNWORT.get());
     }
 }

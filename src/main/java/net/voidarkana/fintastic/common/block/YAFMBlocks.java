@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -105,6 +106,36 @@ public class YAFMBlocks {
                     .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F).sound(SoundType.CORAL_BLOCK)));
 
+
+
+    public static final RegistryObject<Block> GREEN_ALGAE_BLOCK = registerBlock("green_algae_block",
+            () -> new AlgaeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                    .strength(0.5F, 2.5F).sound(SoundType.WET_GRASS)));
+
+    public static final RegistryObject<Block> GREEN_ALGAE_CARPET = registerBlock("green_algae_carpet",
+            () -> new AlgaeCarpetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(0.1F)
+                    .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+
+    public static final RegistryObject<Block> RED_ALGAE_BLOCK = registerBlock("red_algae_block",
+            () -> new AlgaeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(0.5F, 2.5F).sound(SoundType.WET_GRASS)));
+
+    public static final RegistryObject<Block> RED_ALGAE_CARPET = registerBlock("red_algae_carpet",
+            () -> new AlgaeCarpetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(0.1F)
+                    .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> RED_ALGAE = registerBlock("red_algae",
+            () -> new AlgaeGrowthBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
+                    .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> RED_ALGAE_FAN = BLOCKS.register("red_algae_fan",
+            () -> new AlgaeFanBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
+                    .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> RED_ALGAE_WALL_FAN = BLOCKS.register("red_algae_wall_fan",
+            () -> new AlgaeWallFanBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
+                    .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
 
     public static final RegistryObject<Block> STROMATOLITE = registerBlock("stromatolite",

@@ -296,7 +296,9 @@ public class MinnowEntity extends VariantSchoolingFish {
                             default -> MinnowVariant.DELTA_SMELT.getSkin();
                         };
 
-                    } else if (this.blockPosition().getY() <= pLevel.getSeaLevel() - 33){
+                    } else if (this.blockPosition().getY() <= pLevel.getSeaLevel() - 33 &&
+                            pLevel.getRawBrightness(this.blockPosition(), 0) == 0 &&
+                            pLevel.getBlockState(this.blockPosition()).is(Blocks.WATER)){
 
                         if (this.getRandom().nextBoolean()){
                             model = MinnowVariant.MEXICAN_CAVE_TETRA.getModel();

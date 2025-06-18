@@ -1,5 +1,6 @@
 package net.voidarkana.fintastic.common.item;
 
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -8,6 +9,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.voidarkana.fintastic.Fintastic;
+import net.voidarkana.fintastic.common.block.YAFMBlocks;
 import net.voidarkana.fintastic.common.entity.YAFMEntities;
 import net.voidarkana.fintastic.common.item.custom.*;
 import net.voidarkana.fintastic.common.sound.YAFMSounds;
@@ -170,6 +172,10 @@ public class YAFMItems {
     public static final RegistryObject<Item> SHUNJI_MUSIC_DISC = ITEMS.register("shunji_music_disc",
             () -> new RecordItem(9, YAFMSounds.SHUNJI, new Item.Properties().stacksTo(1)
                     .rarity(Rarity.RARE), 4960));
+
+    public static final RegistryObject<Item> RED_ALGAE_FAN = ITEMS.register("red_algae_fan",
+            ()-> new StandingAndWallBlockItem(YAFMBlocks.RED_ALGAE_FAN.get(), YAFMBlocks.RED_ALGAE_WALL_FAN.get(),
+                    new Item.Properties(), Direction.DOWN));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

@@ -22,6 +22,8 @@ public class YAFMTags {
         public static final TagKey<Biome> ARTEMIA_BIOMES = tag("artemia_biomes");
         public static final TagKey<Biome> DAPHNIA_BIOMES = tag("daphnia_biomes");
 
+        public static final TagKey<Biome> FRESHWATER_PLANT_BIOME_BLACKLIST = tag("non_freshwater_plant_biomes");
+
         private static TagKey<Biome> tag(String pName) {
             return TagKey.create(Registries.BIOME, new ResourceLocation(Fintastic.MOD_ID, pName));
         }
@@ -45,6 +47,8 @@ public class YAFMTags {
         public static final TagKey<Block> INFERNAL_AQUARIUM_GLASS = tag("infernal_aquarium_glass_blocks");
         public static final TagKey<Block> RADON_AQUARIUM_GLASS = tag("radon_aquarium_glass_blocks");
         public static final TagKey<Block> SUGAR_AQUARIUM_GLASS = tag("sugar_aquarium_glass_blocks");
+
+        public static final TagKey<Block> FRESHWATER_PLANTS = tag("freshwater_plants");
 
         private static TagKey<Block> tag(String name){
             return BlockTags.create(new ResourceLocation(Fintastic.MOD_ID, name));
