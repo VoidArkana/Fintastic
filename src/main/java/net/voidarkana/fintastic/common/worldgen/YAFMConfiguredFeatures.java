@@ -3,7 +3,6 @@ package net.voidarkana.fintastic.common.worldgen;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
-import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -13,16 +12,13 @@ import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.BaseCoralPlantBlock;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CoralBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.WaterloggedVegetationPatchFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -30,10 +26,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.YAFMBlocks;
 import net.voidarkana.fintastic.common.block.custom.AlgaeCarpetBlock;
-import net.voidarkana.fintastic.common.worldgen.features.AlgaeBonemealFeature;
-import net.voidarkana.fintastic.common.worldgen.features.HornWortFeature;
-import net.voidarkana.fintastic.common.worldgen.features.UnderwaterVegetationPatchFeature;
-import net.voidarkana.fintastic.common.worldgen.features.UnderwaterWaterloggedVegetationPatchFeature;
+import net.voidarkana.fintastic.common.worldgen.features.*;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -53,6 +46,7 @@ public class YAFMConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> RED_ALGAE_PATCH_BONEMEAL = registerKey("red_algae_patch_bonemeal");
     public static final ResourceKey<ConfiguredFeature<?, ?>> RED_ALGAE_VEGETATION_BONEMEAL = registerKey("red_algae_vegetation_bonemeal");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> LIVE_ROCK_BOULDER = registerKey("live_rock_boulder");
 
     public static final RegistryObject<Feature<VegetationPatchConfiguration>> ALGAE_PATCH_FEATURE =
             register_feature("algae_patch_feature", () -> new UnderwaterVegetationPatchFeature(VegetationPatchConfiguration.CODEC));
@@ -62,6 +56,9 @@ public class YAFMConfiguredFeatures {
 
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> HORNWORT_FEATURE =
             register_feature("hornwort_feature", () -> new HornWortFeature(NoneFeatureConfiguration.CODEC));
+
+    public static final RegistryObject<Feature<LiveRockBoulderConfig>> LIVE_ROCK_BOULDER_FEATURE =
+            register_feature("live_rock_boulder_feature", () -> new LiveRockBoulderFeature(LiveRockBoulderConfig.CODEC));
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
 
@@ -113,6 +110,11 @@ public class YAFMConfiguredFeatures {
 
         register(context, RED_ALGAE_VEGETATION_BONEMEAL, ALGAE_BONEMEAL_FEATURE.get(),
                 new AlgaeBonemealConfig(redAlgaeWSP, 3, 1));
+
+
+        register(context, LIVE_ROCK_BOULDER, LIVE_ROCK_BOULDER_FEATURE.get(),
+                new LiveRockBoulderConfig(BlockStateProvider.simple(YAFMBlocks.RED_ALGAE_LIVE_ROCK.get()),
+                        BlockStateProvider.simple(YAFMBlocks.GREEN_ALGAE_LIVE_ROCK.get()), 0.6F));
     }
 
 

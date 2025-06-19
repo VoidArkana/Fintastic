@@ -2,6 +2,7 @@ package net.voidarkana.fintastic.common.worldgen.features;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -39,6 +40,7 @@ public class AlgaeBonemealFeature extends Feature<AlgaeBonemealConfig> {
                     if (worldgenlevel.getBlockState(blockpos1).is(Blocks.WATER)
                             && blockpos1.getY() > worldgenlevel.getMinBuildHeight()
                             && blockstate1.canSurvive(worldgenlevel, blockpos1)) {
+
                         worldgenlevel.setBlock(blockpos1, blockstate1, 2);
                         ++j;
                     }

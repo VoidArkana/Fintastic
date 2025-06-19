@@ -4,6 +4,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.voidarkana.fintastic.Fintastic;
@@ -39,10 +40,11 @@ public class YAFMBiomeTagGenerator extends BiomeTagsProvider {
         this.tag(YAFMTags.Biomes.FWSHARK_BIOMES)
                 .addTag(BiomeTags.IS_RIVER);
 
-        this.tag(YAFMTags.Biomes.MINNOW_BIOMES)
+        this.tag(YAFMTags.Biomes.MINNOW_SURFACE_BIOMES)
                 .addTag(BiomeTags.IS_RIVER)
                 .addTag(BiomeTags.IS_JUNGLE)
                 .addTag(Tags.Biomes.IS_SWAMP);
+
 
         this.tag(YAFMTags.Biomes.PLECO_BIOMES)
                 .addTag(BiomeTags.IS_JUNGLE)

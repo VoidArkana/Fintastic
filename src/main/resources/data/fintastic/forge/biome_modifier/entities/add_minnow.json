@@ -1,6 +1,6 @@
 {
   "type": "forge:add_spawns",
-  "biomes": "#fintastic:minnow_biomes",
+  "biomes": "#minecraft:is_overworld",
   "spawners": {
     "type": "fintastic:minnow",
     "weight": 7,

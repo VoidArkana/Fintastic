@@ -134,7 +134,18 @@ public class MinnowEntity extends VariantSchoolingFish {
 
                 }else {
 
-                    if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
+                    if (this.blockPosition().getY() <= pLevel.getSeaLevel() - 33
+                            && pLevel.getBlockState(this.blockPosition()).is(Blocks.WATER)){
+
+                        if (this.getRandom().nextBoolean()){
+                            model = MinnowVariant.MEXICAN_CAVE_TETRA.getModel();
+                            skin = MinnowVariant.MEXICAN_CAVE_TETRA.getSkin();
+                        }else {
+                            model = MinnowVariant.SOUTHERN_CAVE_FISH.getModel();
+                            skin = MinnowVariant.SOUTHERN_CAVE_FISH.getSkin();
+                        }
+
+                    } else if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
 
                         int var = this.getRandom().nextInt(16);
 
@@ -177,8 +188,7 @@ public class MinnowEntity extends VariantSchoolingFish {
                         };
 
 
-                    }
-                    else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
+                    } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
 
                         int var = this.getRandom().nextInt(21);
 
@@ -229,8 +239,7 @@ public class MinnowEntity extends VariantSchoolingFish {
                             case 20 -> MinnowVariant.ALESTES_TETRA.getSkin();
                             default -> MinnowVariant.SIXBAR_DISTICHODUS.getSkin();
                         };
-                    }
-                    else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
+                    } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
 
                         int var = this.getRandom().nextInt(10);
 
@@ -260,8 +269,7 @@ public class MinnowEntity extends VariantSchoolingFish {
                             default -> MinnowVariant.DELTA_SMELT.getSkin();
                         };
 
-                    }
-                    else if (pLevel.getBiome(this.blockPosition()).is(Biomes.MANGROVE_SWAMP)){
+                    } else if (pLevel.getBiome(this.blockPosition()).is(Biomes.MANGROVE_SWAMP)){
 
                         int var = this.getRandom().nextInt(3);
 
@@ -277,8 +285,7 @@ public class MinnowEntity extends VariantSchoolingFish {
                             default -> MinnowVariant.DELTA_SMELT.getSkin();
                         };
 
-                    }
-                    else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
+                    } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
 
                         int var = this.getRandom().nextInt(4);
 
@@ -296,21 +303,7 @@ public class MinnowEntity extends VariantSchoolingFish {
                             default -> MinnowVariant.DELTA_SMELT.getSkin();
                         };
 
-                    } else if (this.blockPosition().getY() <= pLevel.getSeaLevel() - 33 &&
-                            pLevel.getRawBrightness(this.blockPosition(), 0) == 0 &&
-                            pLevel.getBlockState(this.blockPosition()).is(Blocks.WATER)){
-
-                        if (this.getRandom().nextBoolean()){
-                            model = MinnowVariant.MEXICAN_CAVE_TETRA.getModel();
-                            skin = MinnowVariant.MEXICAN_CAVE_TETRA.getSkin();
-                        }else {
-                            model = MinnowVariant.SOUTHERN_CAVE_FISH.getModel();
-                            skin = MinnowVariant.SOUTHERN_CAVE_FISH.getSkin();
-                        }
-
-                    }
-
-                    else {
+                    } else {
 
                         variant = Util.getRandom(MinnowVariant.values(), this.random);
 
@@ -470,8 +463,8 @@ public class MinnowEntity extends VariantSchoolingFish {
     public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends WaterAnimal> pWaterAnimal, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
         int i = pLevel.getSeaLevel();
         int j = i - 13;
-        return (pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
-                || (pPos.getY() <= pLevel.getSeaLevel() - 33 && pLevel.getRawBrightness(pPos, 0) == 0 && pLevel.getBlockState(pPos).is(Blocks.WATER));
+        return !pLevel.getBiome(pPos).is(BiomeTags.IS_OCEAN) && ((pLevel.getBiome(pPos).is(YAFMTags.Biomes.MINNOW_SURFACE_BIOMES) && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
+                || (pPos.getY() <= pLevel.getSeaLevel() - 33 && pLevel.getBlockState(pPos).is(Blocks.WATER)));
     }
 
 }

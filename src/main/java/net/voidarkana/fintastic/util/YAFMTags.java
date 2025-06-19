@@ -14,7 +14,7 @@ public class YAFMTags {
 
         public static final TagKey<Biome> GUPPY_BIOMES = tag("guppy_biomes");
         public static final TagKey<Biome> ARAPAIMA_BIOMES = tag("arapaima_biomes");
-        public static final TagKey<Biome> MINNOW_BIOMES = tag("minnow_biomes");
+        public static final TagKey<Biome> MINNOW_SURFACE_BIOMES = tag("minnow_surface_biomes");
         public static final TagKey<Biome> PLECO_BIOMES = tag("pleco_biomes");
         public static final TagKey<Biome> CATFISH_BIOMES = tag("catfish_biomes");
         public static final TagKey<Biome> FEATHERBACK_BIOMES = tag("featherback_biomes");

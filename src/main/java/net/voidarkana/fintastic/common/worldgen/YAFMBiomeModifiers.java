@@ -17,6 +17,7 @@ public class YAFMBiomeModifiers {
 
     public static final ResourceKey<BiomeModifier> ADD_HORNWORT = registerKey("add_hornwort");
     public static final ResourceKey<BiomeModifier> ADD_DUCKWEED = registerKey("add_duckweed");
+    public static final ResourceKey<BiomeModifier> ADD_LIVE_ROCK = registerKey("add_live_rock_boulder");
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -31,6 +32,11 @@ public class YAFMBiomeModifiers {
                 biomes.getOrThrow(Tags.Biomes.IS_SWAMP),
                 HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.DUCKWEED_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_LIVE_ROCK, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL),
+                HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.LIVE_ROCK_PLACED_KEY)),
+                GenerationStep.Decoration.LOCAL_MODIFICATIONS));
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {
