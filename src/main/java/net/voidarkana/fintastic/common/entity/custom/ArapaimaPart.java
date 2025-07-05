@@ -9,14 +9,13 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.entity.PartEntity;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.server.MultipartEntityMessage;
+import net.voidarkana.fintastic.util.network.MultipartEntityMessage;
 
 import javax.annotation.Nullable;
 import java.util.List;

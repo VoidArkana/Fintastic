@@ -114,7 +114,9 @@ public class YAFMConfiguredFeatures {
 
         register(context, LIVE_ROCK_BOULDER, LIVE_ROCK_BOULDER_FEATURE.get(),
                 new LiveRockBoulderConfig(BlockStateProvider.simple(YAFMBlocks.RED_ALGAE_LIVE_ROCK.get()),
-                        BlockStateProvider.simple(YAFMBlocks.GREEN_ALGAE_LIVE_ROCK.get()), 0.6F));
+                        BlockStateProvider.simple(YAFMBlocks.GREEN_ALGAE_LIVE_ROCK.get()), 0.6F,
+                        PlacementUtils.inlinePlaced(holdergetter.getOrThrow(RED_ALGAE_VEGETATION)),
+                        PlacementUtils.inlinePlaced(holdergetter.getOrThrow(GREEN_ALGAE_VEGETATION))));
     }
 
 

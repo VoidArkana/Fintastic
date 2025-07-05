@@ -1,4 +1,4 @@
-package net.voidarkana.fintastic.server;
+package net.voidarkana.fintastic.util.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;

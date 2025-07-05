@@ -19,7 +19,7 @@ import net.voidarkana.fintastic.common.item.YAFMItems;
 import net.voidarkana.fintastic.common.loot.YAFMLootModifiers;
 import net.voidarkana.fintastic.common.sound.YAFMSounds;
 import net.voidarkana.fintastic.common.worldgen.YAFMConfiguredFeatures;
-import net.voidarkana.fintastic.server.MultipartEntityMessage;
+import net.voidarkana.fintastic.util.network.MultipartEntityMessage;
 import net.voidarkana.fintastic.util.ClientProxy;
 import net.voidarkana.fintastic.util.CommonProxy;
 import net.voidarkana.fintastic.util.YAFMCreativeTab;

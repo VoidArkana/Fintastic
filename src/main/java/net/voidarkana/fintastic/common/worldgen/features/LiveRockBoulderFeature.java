@@ -2,6 +2,7 @@ package net.voidarkana.fintastic.common.worldgen.features;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -58,8 +59,11 @@ public class LiveRockBoulderFeature extends Feature<LiveRockBoulderConfig> {
                     worldgenlevel.scheduleTick(blockpos1, blockstate.getBlock(), 0);
 
                     if (worldgenlevel.getBlockState(blockpos1).getBlock() instanceof AlgaeLiveRockBlock block
-                            && worldgenlevel instanceof ServerLevel level && pRandom.nextInt(4)==0){
-                        block.performBonemeal(level, pRandom, blockpos1, worldgenlevel.getBlockState(blockpos1));
+                            && pRandom.nextInt(4)==0){
+                        if (type)
+                            pConfig.vegetationFeature1.value().place(worldgenlevel, pContext.chunkGenerator(), pRandom, blockpos1.relative(Direction.UP));
+                        else
+                            pConfig.vegetationFeature2.value().place(worldgenlevel, pContext.chunkGenerator(), pRandom, blockpos1.relative(Direction.UP));
                     }
                 }
             }
