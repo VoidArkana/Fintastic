@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "#fintastic:moony_biomes",
+  "spawners": {
+    "type": "fintastic:moony",
+    "weight": 9,
+    "minCount": 3,
+    "maxCount": 8,
+    "category": "water_creature"
+  }
+}

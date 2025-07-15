@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.material.Fluids;
 import net.voidarkana.fintastic.common.block.custom.AlgaeLiveRockBlock;
 import net.voidarkana.fintastic.common.worldgen.AlgaeBonemealConfig;
 
@@ -37,7 +38,7 @@ public class AlgaeBonemealFeature extends Feature<AlgaeBonemealConfig> {
                             randomsource.nextInt(algaeBonemealConfig.spreadWidth) - randomsource.nextInt(algaeBonemealConfig.spreadWidth));
 
                     BlockState blockstate1 = algaeBonemealConfig.stateProvider.getState(randomsource, blockpos1);
-                    if (worldgenlevel.getBlockState(blockpos1).is(Blocks.WATER)
+                    if (worldgenlevel.getFluidState(blockpos1).is(Fluids.WATER)
                             && blockpos1.getY() > worldgenlevel.getMinBuildHeight()
                             && blockstate1.canSurvive(worldgenlevel, blockpos1)) {
 

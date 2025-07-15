@@ -346,21 +346,21 @@
 
 
 
-  "fintastic.moony_common.moonysmall_0": "African moony",
-  "fintastic.moony_common.moonysmall_1": "African moony",
+  "fintastic.moony_common.moonysmall_0": "Dwarf Moony",
+  "fintastic.moony_common.moonysmall_1": "Dwarf Moony",
 
-  "fintastic.moony_common.moonytall_0": "Dwarf Moony",
-  "fintastic.moony_common.moonytall_1": "Dwarf Moony",
+  "fintastic.moony_common.moonytall_0": "African moony",
+  "fintastic.moony_common.moonytall_1": "African moony",
 
   "fintastic.moony_common.moony_0": "Silver Moony",
   "fintastic.moony_common.moony_1": "Full Moony",
 
 
-  "fintastic.moony_sci.moonysmall_0": "Monodactylus sebae",
-  "fintastic.moony_sci.moonysmall_1": "Monodactylus sebae",
+  "fintastic.moony_sci.moonysmall_0": "Monodactylus kottelati",
+  "fintastic.moony_sci.moonysmall_1": "Monodactylus kottelati",
 
-  "fintastic.moony_sci.moonytall_0": "Monodactylus kottelati",
-  "fintastic.moony_sci.moonytall_1": "Monodactylus kottelati",
+  "fintastic.moony_sci.moonytall_0": "Monodactylus sebae",
+  "fintastic.moony_sci.moonytall_1": "Monodactylus sebae",
 
   "fintastic.moony_sci.moony_0": "Monodactylus argenteus",
   "fintastic.moony_sci.moony_1": "Monodactylus falciformis",
@@ -394,5 +394,10 @@
   "item.fintastic.red_algae_fan": "Red Algae Fan",
 
   "block.fintastic.red_algae_live_rock": "Red Algae Porous Live Rock",
-  "block.fintastic.green_algae_live_rock": "Green Algae Porous Live Rock"
+  "block.fintastic.green_algae_live_rock": "Green Algae Porous Live Rock",
+
+  "item.fintastic.coelacanth_spawn_egg" : "Coelacanth Spawn Egg",
+  "entity.fintastic.coelacanth" : "Coelacanth",
+  "fintastic.coelacanth_common": "Coelacanth",
+  "fintastic.coelacanth_sci": "Latimeria sp."
 }

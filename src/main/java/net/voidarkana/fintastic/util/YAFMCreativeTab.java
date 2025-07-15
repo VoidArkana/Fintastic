@@ -45,6 +45,7 @@ public class YAFMCreativeTab {
                         output.accept(YAFMItems.ARAPAIMA_SPAWN_EGG.get());
                         output.accept(YAFMItems.ARTEMIA_SPAWN_EGG.get());
                         output.accept(YAFMItems.CATFISH_SPAWN_EGG.get());
+                        output.accept(YAFMItems.COELACANTH_SPAWN_EGG.get());
                         output.accept(YAFMItems.DAPHNIA_SPAWN_EGG.get());
                         output.accept(YAFMItems.FEATHERBACK_SPAWN_EGG.get());
                         output.accept(YAFMItems.FRESHWATER_SHARK_SPAWN_EGG.get());

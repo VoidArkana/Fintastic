@@ -76,6 +76,12 @@ public class YAFMEntities {
                             .sized(0.3f, 0.5f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "moony").toString()));
 
+    public static final RegistryObject<EntityType<Coelacanth>> COELACANTH =
+            ENTITY_TYPES.register("coelacanth",
+                    () -> EntityType.Builder.of(Coelacanth::new, MobCategory.WATER_AMBIENT)
+                            .sized(1.5f, 1f)
+                            .build(new ResourceLocation(Fintastic.MOD_ID, "coelacanth").toString()));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

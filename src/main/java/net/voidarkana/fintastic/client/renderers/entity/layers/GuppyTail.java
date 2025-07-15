@@ -1,4 +1,4 @@
-package net.voidarkana.fintastic.client.layer;
+package net.voidarkana.fintastic.client.renderers.entity.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,9 +12,9 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
-public class GuppyFins extends GeoRenderLayer<GuppyEntity> {
+public class GuppyTail extends GeoRenderLayer<GuppyEntity> {
 
-    public GuppyFins(GeoRenderer<GuppyEntity> entityRendererIn) {
+    public GuppyTail(GeoRenderer<GuppyEntity> entityRendererIn) {
         super(entityRendererIn);
     }
 
@@ -23,8 +23,8 @@ public class GuppyFins extends GeoRenderLayer<GuppyEntity> {
 
         if (!entity.isInvisible() && !entity.isBaby()) {
             RenderType cameo = RenderType.entityCutoutNoCull(new ResourceLocation(Fintastic.MOD_ID,
-                    "textures/entity/guppy/fins/"+entity.getFinsName(entity.getFinModel())
-                            +"/guppy_fin_"+entity.getFinsName(entity.getFinModel())+"_"+entity.getFinColor()+".png"));
+                    "textures/entity/guppy/tail/"+entity.getTailName(entity.getTailModel())
+                            +"/guppy_tail_"+entity.getTailName(entity.getTailModel())+"_"+entity.getTailColor()+".png"));
 
             ResourceLocation trilobiteModel = new ResourceLocation(Fintastic.MOD_ID, "geo/guppy.geo.json");
 

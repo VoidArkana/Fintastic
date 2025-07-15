@@ -118,7 +118,8 @@ public class Moony extends VariantBoidingFish {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
 
-        pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        if (pSpawnData == null)
+            pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
 
         if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantModel", 3)) {
             this.setVariantModel(pDataTag.getInt("VariantModel"));
@@ -137,26 +138,20 @@ public class Moony extends VariantBoidingFish {
 
                 if (pSpawnData instanceof MinnowGroupData groupData){
 
-//                    System.out.println(groupData.getVariantModel());
-//                    System.out.println(groupData.getVariantSkin());
-
                     model = groupData.getVariantModel();
                     skin = groupData.getVariantSkin();
                     this.startFollowing(groupData.leader);
 
                 }else {
-//                    if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
-//                        model = 3;
-//                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
-//                        model = this.random.nextBoolean() ? 1 : 0;
-//                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
-//                        model = 2;
-//                    }else {
-//                        model = this.random.nextInt(4);
-//                    }
-
-                    model = this.random.nextInt(3);
-
+                    if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
+                        model = this.random.nextInt(3);
+                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
+                        model = 0;
+                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_OCEAN)){
+                        model = this.random.nextInt(1, 3);
+                    }else {
+                        model = this.random.nextInt(3);
+                    }
 
                     pSpawnData = new MinnowGroupData(this, model, skin);
                 }

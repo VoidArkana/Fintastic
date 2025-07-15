@@ -5,6 +5,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.voidarkana.fintastic.Fintastic;
@@ -58,6 +59,13 @@ public class YAFMBiomeTagGenerator extends BiomeTagsProvider {
 
         this.tag(YAFMTags.Biomes.FRESHWATER_PLANT_BIOME_BLACKLIST)
                 .addTag(BiomeTags.IS_OCEAN);
+
+        this.tag(YAFMTags.Biomes.MOONY_BIOMES)
+                .add(Biomes.MANGROVE_SWAMP)
+                .add(Biomes.BEACH)
+                .add(Biomes.LUKEWARM_OCEAN)
+                .add(Biomes.WARM_OCEAN)
+                .add(Biomes.DEEP_LUKEWARM_OCEAN);
     }
 
 }

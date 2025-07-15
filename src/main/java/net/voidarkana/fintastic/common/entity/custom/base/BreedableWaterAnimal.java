@@ -18,6 +18,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.WaterAnimal;
@@ -45,6 +48,20 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
             this.lookControl = new SmoothSwimmingLookControl(this, 10);
         }
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
+
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
+            if (entity instanceof Player player){
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(YAFMItems.FISHING_HAT.get());
+            }
+            return false;}));
+
+        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10));
     }
 
     public boolean hasNormalControls(){
@@ -209,6 +226,40 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         }
 
         super.customServerAiStep();
+    }
+
+    public void travel(Vec3 pTravelVector) {
+        if (this.isEffectiveAi() && this.isInWater()) {
+            this.moveRelative(this.getSpeed(), pTravelVector);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+            }
+        } else {
+            super.travel(pTravelVector);
+        }
+
+    }
+
+    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+        return SoundEvents.COD_HURT;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.COD_AMBIENT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.COD_DEATH;
+    }
+
+    protected SoundEvent getSwimSound() {
+        return SoundEvents.FISH_SWIM;
+    }
+
+    protected void playSwimSound(float pVolume) {
+        this.playSound(this.getSwimSound(), 0, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
     }
 
     public boolean hurt(DamageSource pSource, float pAmount) {

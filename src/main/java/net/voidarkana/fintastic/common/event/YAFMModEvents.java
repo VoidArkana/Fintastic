@@ -129,6 +129,10 @@ public class YAFMModEvents {
                     new ItemStack(YAFMItems.ARAPAIMA_FISHNET.get(), 1),
                     5, 9, 0.035f));
 
+            trades.get(4).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 35),
+                    new ItemStack(YAFMItems.COELACANTH_FISHNET.get(), 1),
+                    5, 9, 0.035f));
 
             //level 5
             trades.get(5).add((pTrader, pRandom) -> new MerchantOffer(

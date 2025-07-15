@@ -100,7 +100,7 @@ public class FreshwaterSharkEntity extends VariantSchoolingFish implements GeoEn
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
 
-        pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
 
         if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantModel", 3)) {
             this.setVariantModel(pDataTag.getInt("VariantModel"));
@@ -114,10 +114,12 @@ public class FreshwaterSharkEntity extends VariantSchoolingFish implements GeoEn
             int model;
             int skin;
 
-            if (pSpawnData instanceof FreshwaterSharkEntity.FishGroupData){
+            if (pSpawnData instanceof FishGroupData){
                 FreshwaterSharkEntity.FishGroupData fish$fishgroupdata = (FreshwaterSharkEntity.FishGroupData)pSpawnData;
                 model = fish$fishgroupdata.variantModel;
                 skin = fish$fishgroupdata.variantSkin;
+
+                this.startFollowing(((FreshwaterSharkEntity.FishGroupData)pSpawnData).leader);
             }else {
                 model = this.random.nextInt(4);
 

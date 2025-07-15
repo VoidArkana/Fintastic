@@ -4,7 +4,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
-import net.minecraft.data.worldgen.features.MiscOverworldFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -22,12 +21,13 @@ public class YAFMPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> LIVE_ROCK_PLACED_KEY = registerKey("live_rock_boulder_placed");
 
+    public static final ResourceKey<PlacedFeature> STROMATOLITE_PLACED_KEY = registerKey("stromatolite_placed");
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
         register(context, HORNWORT_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.HORNWORT_KEY),
-                hornwortPlacement(48));
+                aquaticPlantPlacement(48));
 
         register(context, DUCKWEED_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.DUCKWEED_KEY),
                 worldSurfaceSquaredWithCount(12));
@@ -35,9 +35,12 @@ public class YAFMPlacedFeatures {
         register(context, LIVE_ROCK_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.LIVE_ROCK_BOULDER)
                 ,underwaterBoulderPlacement(1));
 
+
+        register(context, STROMATOLITE_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.STROMATOLITE_PATCH),
+                aquaticPlantPlacement(2));
     }
 
-    private static List<PlacementModifier> hornwortPlacement(int pCount) {
+    private static List<PlacementModifier> aquaticPlantPlacement(int pCount) {
         return List.of(InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_TOP_SOLID, CountPlacement.of(pCount), BiomeFilter.biome());
     }
 

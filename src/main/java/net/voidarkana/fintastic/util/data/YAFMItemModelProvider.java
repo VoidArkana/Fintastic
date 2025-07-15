@@ -61,6 +61,8 @@ public class YAFMItemModelProvider extends ItemModelProvider {
         simpleItem(YAFMItems.MOONY_BUCKET);
         withExistingParent(YAFMItems.MOONY_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
 
+        withExistingParent(YAFMItems.COELACANTH_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+
         simpleItem(YAFMItems.SALTY_MUSIC_DISC);
         simpleItem(YAFMItems.FRESH_MUSIC_DISC);
         simpleItem(YAFMItems.AXOLOTL_MUSIC_DISC);

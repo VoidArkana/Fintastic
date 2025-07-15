@@ -1,4 +1,4 @@
-package net.voidarkana.fintastic.client.layer;
+package net.voidarkana.fintastic.client.renderers.entity.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,9 +12,9 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
-public class GuppyPatternMain extends GeoRenderLayer<GuppyEntity> {
+public class GuppyPatternSecond extends GeoRenderLayer<GuppyEntity> {
 
-    public GuppyPatternMain(GeoRenderer<GuppyEntity> entityRendererIn) {
+    public GuppyPatternSecond(GeoRenderer<GuppyEntity> entityRendererIn) {
         super(entityRendererIn);
     }
 
@@ -22,10 +22,10 @@ public class GuppyPatternMain extends GeoRenderLayer<GuppyEntity> {
     public void render(PoseStack poseStack, GuppyEntity entity, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
 
         if (!entity.isInvisible() && !entity.isBaby()) {
-            if (entity.getHasMainPattern()) {
+            if (entity.getHasSecondPattern()) {
                 RenderType cameo = RenderType.entityCutoutNoCull(new ResourceLocation(Fintastic.MOD_ID,
-                        "textures/entity/guppy/patterns/"+entity.getMainPatternName(entity.getMainPattern())
-                                +"/guppy_pattern_"+entity.getMainPatternName(entity.getMainPattern())+"_"+entity.getMainPatternColor()+".png"));
+                        "textures/entity/guppy/patterns/"+entity.getSecondPatternName(entity.getSecondPattern())
+                                +"/guppy_pattern_"+entity.getSecondPatternName(entity.getSecondPattern())+"_"+entity.getSecondPatternColor()+".png"));
 
                 ResourceLocation trilobiteModel = new ResourceLocation(Fintastic.MOD_ID, "geo/guppy.geo.json");
 

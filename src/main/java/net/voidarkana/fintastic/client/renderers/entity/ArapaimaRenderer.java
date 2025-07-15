@@ -11,12 +11,7 @@ import net.voidarkana.fintastic.client.FintasticLayers;
 import net.voidarkana.fintastic.client.models.entity.arapaima.ArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.arapaima.BabyArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
-import net.voidarkana.fintastic.client.models.entity.minnows.MinnowBigModel;
-import net.voidarkana.fintastic.client.models.entity.minnows.MinnowSmallModel;
-import net.voidarkana.fintastic.client.models.entity.minnows.MinnowThinModel;
 import net.voidarkana.fintastic.common.entity.custom.ArapaimaEntity;
-import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class ArapaimaRenderer extends MobRenderer<ArapaimaEntity, FintasticModel<ArapaimaEntity>> {
 

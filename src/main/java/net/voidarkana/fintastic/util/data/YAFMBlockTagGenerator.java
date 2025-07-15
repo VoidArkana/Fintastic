@@ -93,5 +93,13 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
         this.tag(YAFMTags.Blocks.RED_ALGAE)
                 .add(YAFMBlocks.RED_ALGAE_LIVE_ROCK.get())
                 .add(YAFMBlocks.RED_ALGAE_BLOCK.get());
+
+        this.tag(YAFMTags.Blocks.ALGAE_REPLACEABLE)
+                .addTags(BlockTags.MOSS_REPLACEABLE)
+                .addTags(Tags.Blocks.SAND);
+
+        this.tag(YAFMTags.Blocks.STROMATOLITE_REPLACEABLE)
+                .addTags(Tags.Blocks.STONE).addTags(Tags.Blocks.SAND)
+                .addTags(BlockTags.DEEPSLATE_ORE_REPLACEABLES).addTags(BlockTags.MOSS_REPLACEABLE);
     }
 }
