@@ -36,8 +36,8 @@ public class YAFMPlacedFeatures {
                 ,underwaterBoulderPlacement(1));
 
 
-        register(context, STROMATOLITE_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.STROMATOLITE_PATCH),
-                aquaticPlantPlacement(2));
+        register(context, STROMATOLITE_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.STROMATOLITE_RANDOM_PATCH),
+                aquaticPlantPlacement(1));
     }
 
     private static List<PlacementModifier> aquaticPlantPlacement(int pCount) {

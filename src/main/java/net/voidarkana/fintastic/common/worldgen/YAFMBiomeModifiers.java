@@ -42,7 +42,7 @@ public class YAFMBiomeModifiers {
         context.register(ADD_STROMATOLITE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_BEACH),
                 HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.STROMATOLITE_PLACED_KEY)),
-                GenerationStep.Decoration.VEGETAL_DECORATION));
+                GenerationStep.Decoration.LOCAL_MODIFICATIONS));
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {

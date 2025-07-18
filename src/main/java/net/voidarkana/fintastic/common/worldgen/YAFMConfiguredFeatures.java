@@ -1,5 +1,6 @@
 package net.voidarkana.fintastic.common.worldgen;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
@@ -9,11 +10,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.valueproviders.BiasedToBottomInt;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.BaseCoralPlantBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.SimpleBlockFeature;
@@ -21,6 +24,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -28,6 +32,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.YAFMBlocks;
 import net.voidarkana.fintastic.common.block.custom.AlgaeCarpetBlock;
+import net.voidarkana.fintastic.common.block.custom.StromatoliteBlock;
 import net.voidarkana.fintastic.common.worldgen.features.*;
 import net.voidarkana.fintastic.util.YAFMTags;
 
@@ -52,6 +57,7 @@ public class YAFMConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> LIVE_ROCK_BOULDER = registerKey("live_rock_boulder");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> STROMATOLITE_PATCH = registerKey("stromatolite_patch");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> STROMATOLITE_RANDOM_PATCH = registerKey("stromatolite_random_patch");
     public static final ResourceKey<ConfiguredFeature<?, ?>> STROMATOLITE_DECORATION = registerKey("stromatolite_decoration");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_STROMATOLITE_PATCH = registerKey("fossil_stromatolite_patch");
@@ -61,7 +67,7 @@ public class YAFMConfiguredFeatures {
             register_feature("algae_patch_feature", () -> new UnderwaterVegetationPatchFeature(VegetationPatchConfiguration.CODEC));
 
     public static final RegistryObject<Feature<VegetationPatchConfiguration>> STROMATOLITE_PATCH_FEATURE =
-            register_feature("stromatolite_patch_feature", () -> new AmphibiousVegetationPatchFeature(VegetationPatchConfiguration.CODEC));
+            register_feature("stromatolite_patch_feature", () -> new AmphibiousGroundCircleFeature(VegetationPatchConfiguration.CODEC));
 
     public static final RegistryObject<Feature<AlgaeBonemealConfig>> ALGAE_BONEMEAL_FEATURE =
             register_feature("algae_bonemeal_feature", () -> new AlgaeBonemealFeature(AlgaeBonemealConfig.CODEC));
@@ -133,18 +139,40 @@ public class YAFMConfiguredFeatures {
 
 
         WeightedStateProvider stromatoliteWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                .add(YAFMBlocks.STROMATOLITE_GROWTHS.get().defaultBlockState(), 10)
-                .add(YAFMBlocks.STROMATOLITE.get().defaultBlockState(), 4));
+                .add(YAFMBlocks.STROMATOLITE_GROWTHS.get().defaultBlockState().setValue(StromatoliteBlock.WATERLOGGED, false), 10)
+                .add(YAFMBlocks.STROMATOLITE.get().defaultBlockState().setValue(StromatoliteBlock.WATERLOGGED, true), 4));
+
 
         register(context, STROMATOLITE_DECORATION, SIMPLE_WATERLOGGABLE_BLOCK.get(),
                 new SimpleBlockConfiguration(stromatoliteWSP));
 
         register(context, STROMATOLITE_PATCH, STROMATOLITE_PATCH_FEATURE.get(),
-                new VegetationPatchConfiguration(YAFMTags.Blocks.STROMATOLITE_REPLACEABLE, BlockStateProvider.simple(YAFMBlocks.STROMATOLITE_BLOCK.get()),
+                new VegetationPatchConfiguration(YAFMTags.Blocks.STROMATOLITE_REPLACEABLE,
+                        BlockStateProvider.simple(YAFMBlocks.STROMATOLITE_BLOCK.get()),
                         PlacementUtils.inlinePlaced(holdergetter.getOrThrow(STROMATOLITE_DECORATION)),
-                        CaveSurface.FLOOR, ConstantInt.of(1), 0.0F, 5, 0.8F,
-                        UniformInt.of(4, 7), 0.3F));
+                        CaveSurface.FLOOR,
+                        ConstantInt.of(1),
+                        0.0F,
+                        3,
+                        0.75F,
+                        UniformInt.of(4, 7),
+                        0.2F));
 
+        register(context, STROMATOLITE_RANDOM_PATCH, Feature.RANDOM_PATCH,
+                new RandomPatchConfiguration(5, 3, 0,
+                        PlacementUtils.inlinePlaced(holdergetter.getOrThrow(STROMATOLITE_PATCH),
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.anyOf(
+                                                BlockPredicate.matchesFluids(new BlockPos(1, -1, 0), Fluids.WATER, Fluids.FLOWING_WATER),
+                                                BlockPredicate.matchesFluids(new BlockPos(-1, -1, 0), Fluids.WATER, Fluids.FLOWING_WATER),
+                                                BlockPredicate.matchesFluids(new BlockPos(0, -1, 1), Fluids.WATER, Fluids.FLOWING_WATER),
+                                                BlockPredicate.matchesFluids(new BlockPos(0, -1, -1), Fluids.WATER, Fluids.FLOWING_WATER)
+                                        )
+
+                                )
+                        )
+                )
+        );
     }
 
 
