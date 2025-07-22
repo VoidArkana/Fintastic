@@ -15,6 +15,7 @@ import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.BaseCoralPlantBlock;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SeaPickleBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -92,9 +93,9 @@ public class YAFMConfiguredFeatures {
                         new SimpleBlockConfiguration(BlockStateProvider.simple(YAFMBlocks.DUCKWEED.get())))));
 
         WeightedStateProvider greenAlgaeWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                .add(Blocks.SEA_PICKLE.defaultBlockState(), 4)
+                .add(Blocks.SEA_PICKLE.defaultBlockState().setValue(SeaPickleBlock.PICKLES, 2), 4)
                 .add(YAFMBlocks.GREEN_ALGAE_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
-                .add(Blocks.SEAGRASS.defaultBlockState(), 50)
+                .add(YAFMBlocks.CAULERPA.get().defaultBlockState(), 50)
                 .add(Blocks.KELP_PLANT.defaultBlockState(), 10));
 
         register(context, GREEN_ALGAE_VEGETATION, Feature.SIMPLE_BLOCK,
@@ -113,10 +114,10 @@ public class YAFMConfiguredFeatures {
 
 
         WeightedStateProvider redAlgaeWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                .add(Blocks.FIRE_CORAL.defaultBlockState(), 4)
+                .add(YAFMBlocks.DRAGONS_BREATH_ALGAE.get().defaultBlockState(), 15)
                 .add(YAFMBlocks.RED_ALGAE_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
-                .add(YAFMBlocks.RED_ALGAE.get().defaultBlockState().setValue(BaseCoralPlantBlock.WATERLOGGED, true), 50)
-                .add(YAFMBlocks.RED_ALGAE_FAN.get().defaultBlockState().setValue(BaseCoralPlantBlock.WATERLOGGED, true), 10));
+                .add(YAFMBlocks.RED_ALGAE.get().defaultBlockState(), 30)
+                .add(YAFMBlocks.RED_ALGAE_FAN.get().defaultBlockState().setValue(BaseCoralPlantBlock.WATERLOGGED, true), 25));
 
         register(context, RED_ALGAE_VEGETATION, Feature.SIMPLE_BLOCK,
                 new SimpleBlockConfiguration(redAlgaeWSP));
@@ -159,7 +160,7 @@ public class YAFMConfiguredFeatures {
                         0.2F));
 
         register(context, STROMATOLITE_RANDOM_PATCH, Feature.RANDOM_PATCH,
-                new RandomPatchConfiguration(5, 3, 0,
+                new RandomPatchConfiguration(2, 3, 0,
                         PlacementUtils.inlinePlaced(holdergetter.getOrThrow(STROMATOLITE_PATCH),
                                 BlockPredicateFilter.forPredicate(
                                         BlockPredicate.anyOf(
@@ -173,6 +174,25 @@ public class YAFMConfiguredFeatures {
                         )
                 )
         );
+
+        WeightedStateProvider fossilStromatoliteWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+                .add(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS.get().defaultBlockState().setValue(StromatoliteBlock.WATERLOGGED, false), 10)
+                .add(YAFMBlocks.FOSSIL_STROMATOLITE.get().defaultBlockState().setValue(StromatoliteBlock.WATERLOGGED, true), 4));
+
+        register(context, FOSSIL_STROMATOLITE_DECORATION, SIMPLE_WATERLOGGABLE_BLOCK.get(),
+                new SimpleBlockConfiguration(fossilStromatoliteWSP));
+
+        register(context, FOSSIL_STROMATOLITE_PATCH, STROMATOLITE_PATCH_FEATURE.get(),
+                new VegetationPatchConfiguration(YAFMTags.Blocks.STROMATOLITE_REPLACEABLE,
+                        BlockStateProvider.simple(YAFMBlocks.FOSSIL_STROMATOLITE_BLOCK.get()),
+                        PlacementUtils.inlinePlaced(holdergetter.getOrThrow(FOSSIL_STROMATOLITE_DECORATION)),
+                        CaveSurface.FLOOR,
+                        ConstantInt.of(1),
+                        0.0F,
+                        1,
+                        0.75F,
+                        UniformInt.of(4, 7),
+                        0.2F));
     }
 
 

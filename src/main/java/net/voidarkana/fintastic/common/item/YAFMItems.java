@@ -158,6 +158,11 @@ public class YAFMItems {
     public static final RegistryObject<Item> COELACANTH_SPAWN_EGG = ITEMS.register("coelacanth_spawn_egg",
             () -> new FishSpawnEggItem(YAFMEntities.COELACANTH, 0x152342, 0x6090a2, new Item.Properties()));
 
+    public static final RegistryObject<Item> COELACANTH_BUCKET = ITEMS.register("baby_coelacanth_bucket", () -> {
+        return new FishBucketItem(YAFMEntities.COELACANTH, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1));});
+
 
 
     public static final RegistryObject<Item> FRESH_MUSIC_DISC = ITEMS.register("fresh_music_disc",

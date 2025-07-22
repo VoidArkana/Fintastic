@@ -91,20 +91,20 @@ public class CoelacanthModel<T extends Coelacanth> extends FintasticModel<T> {
 		}
 
 		if (pEntity.isInWaterOrBubble()){
-			this.head.xRot = (((headPitch * ((float) Math.PI / 180F))/16));
-			this.body.xRot = (((headPitch * ((float) Math.PI / 180F))/16));
-			this.backbody.xRot = (-((headPitch * ((float) Math.PI / 180F))/8));
+			this.head.xRot = (((headPitch * ((float) Math.PI / 180F))/32));
+			this.body.xRot = -(((headPitch * ((float) Math.PI / 180F))/32));
+			this.backbody.xRot = (-((headPitch * ((float) Math.PI / 180F))/16));
 
 			this.head.yRot = (pEntity.currentRoll)/2;
 			this.body.yRot = (pEntity.currentRoll/4);
 			this.backbody.yRot = (-pEntity.currentRoll)/2;
 
-			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/4;
-			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/4);
+			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/2;
+			this.swim_rot.zRot = -netHeadYaw * (((float)Math.PI / 180F)/2);
 
 			this.animateIdle(pEntity.idleAnimationState, CoelacanthAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
 
-			this.animateWalk(CoelacanthAnims.SWIM, pLimbSwing, pLimbSwingAmount*10f, 2f, 3f);
+			this.animateWalk(CoelacanthAnims.SWIM, pLimbSwing*3, pLimbSwingAmount*5f, 2f, 3f);
 		}
 		else {
 			this.swim_rot.resetPose();

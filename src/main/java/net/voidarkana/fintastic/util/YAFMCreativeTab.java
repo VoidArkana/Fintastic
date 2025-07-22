@@ -54,6 +54,8 @@ public class YAFMCreativeTab {
                         output.accept(YAFMItems.MOONY_SPAWN_EGG.get());
                         output.accept(YAFMItems.PLECO_SPAWN_EGG.get());
 
+                        output.accept(YAFMBlocks.CAULERPA.get());
+                        output.accept(YAFMBlocks.DRAGONS_BREATH_ALGAE.get());
                         output.accept(YAFMBlocks.DUCKWEED.get());
                         output.accept(YAFMBlocks.HORNWORT.get());
                         output.accept(YAFMBlocks.ANUBIAS.get());
@@ -77,6 +79,7 @@ public class YAFMCreativeTab {
                         output.accept(YAFMBlocks.STROMATOLITE.get());
                         output.accept(YAFMBlocks.STROMATOLITE_GROWTHS.get());
                         output.accept(YAFMBlocks.STROMATOLITE_BLOCK.get());
+                        output.accept(YAFMBlocks.CUT_STROMATOLITE_BLOCK.get());
 
                         output.accept(YAFMBlocks.FOSSIL_STROMATOLITE.get());
                         output.accept(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS.get());

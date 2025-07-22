@@ -127,6 +127,10 @@ public class YAFMBlocks {
             () -> new AlgaeCarpetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(0.1F)
                     .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
+    public static final RegistryObject<Block> CAULERPA = registerBlock("caulerpa",
+            () -> new AlgaeGrowthBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).replaceable()
+                    .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
 
     public static final RegistryObject<Block> RED_ALGAE_BLOCK = registerBlock("red_algae_block",
             () -> new AlgaeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
@@ -146,6 +150,10 @@ public class YAFMBlocks {
 
     public static final RegistryObject<Block> RED_ALGAE_WALL_FAN = BLOCKS.register("red_algae_wall_fan",
             () -> new AlgaeWallFanBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
+                    .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> DRAGONS_BREATH_ALGAE = registerBlock("dragons_breath_algae",
+            () -> new AlgaeGrowthBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
                     .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
 
@@ -169,6 +177,10 @@ public class YAFMBlocks {
 
     public static final RegistryObject<Block> STROMATOLITE_BLOCK = registerBlock("stromatolite_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).forceSolidOn()
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().instabreak()));
+
+    public static final RegistryObject<Block> CUT_STROMATOLITE_BLOCK = registerBlock("cut_stromatolite_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_YELLOW).forceSolidOn()
                     .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().instabreak()));
 
     public static final RegistryObject<Block> FOSSIL_STROMATOLITE_BLOCK = registerBlock("fossil_stromatolite_block",

@@ -23,6 +23,10 @@ public class YAFMBlockStateProvider extends BlockStateProvider {
                 "stromatolite_block_top",
                 "stromatolite_block_side");
 
+        this.nonRotateablePillarBlock(YAFMBlocks.CUT_STROMATOLITE_BLOCK,
+                "cut_stromatolite_block_top",
+                "cut_stromatolite_block_side");
+
         this.nonRotateablePillarBlock(YAFMBlocks.FOSSIL_STROMATOLITE_BLOCK,
                 "fossil_stromatolite_block_top",
                 "fossil_stromatolite_block_side");
@@ -46,6 +50,12 @@ public class YAFMBlockStateProvider extends BlockStateProvider {
 
         simpleBlockWithItem(YAFMBlocks.RED_ALGAE.get(), models().cross(blockTexture(YAFMBlocks.RED_ALGAE.get()).getPath(),
                 blockTexture(YAFMBlocks.RED_ALGAE.get())).renderType("cutout"));
+
+        simpleBlockWithItem(YAFMBlocks.DRAGONS_BREATH_ALGAE.get(), models().cross(blockTexture(YAFMBlocks.DRAGONS_BREATH_ALGAE.get()).getPath(),
+                blockTexture(YAFMBlocks.DRAGONS_BREATH_ALGAE.get())).renderType("cutout"));
+
+        simpleBlockWithItem(YAFMBlocks.CAULERPA.get(), models().cross(blockTexture(YAFMBlocks.CAULERPA.get()).getPath(),
+                blockTexture(YAFMBlocks.CAULERPA.get())).renderType("cutout"));
 
         nonRotateablePillarBlock(YAFMBlocks.RED_ALGAE_LIVE_ROCK,
                 "red_algae_block", "porous_live_rock", "red_algae_live_rock");

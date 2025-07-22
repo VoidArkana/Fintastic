@@ -1,5 +1,6 @@
 package net.voidarkana.fintastic.common.worldgen;
 
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -7,6 +8,9 @@ import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.voidarkana.fintastic.Fintastic;
@@ -23,6 +27,8 @@ public class YAFMPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> STROMATOLITE_PLACED_KEY = registerKey("stromatolite_placed");
 
+    public static final ResourceKey<PlacedFeature> FOSSIL_STROMATOLITE_PLACED_KEY = registerKey("fossil_stromatolite_placed");
+
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
@@ -33,15 +39,27 @@ public class YAFMPlacedFeatures {
                 worldSurfaceSquaredWithCount(12));
 
         register(context, LIVE_ROCK_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.LIVE_ROCK_BOULDER)
-                ,underwaterBoulderPlacement(1));
+                ,underwaterBoulderPlacement(4));
 
 
         register(context, STROMATOLITE_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.STROMATOLITE_RANDOM_PATCH),
-                aquaticPlantPlacement(1));
+                stromatolitePlacement());
+
+        register(context, FOSSIL_STROMATOLITE_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.FOSSIL_STROMATOLITE_PATCH),
+                CountPlacement.of(1), InSquarePlacement.spread(),
+                PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT, BiomeFilter.biome());
+
+//                HeightRangePlacement.uniform(VerticalAnchor.absolute(-50),
+//                        VerticalAnchor.absolute(0)),BiomeFilter.biome());
+
     }
 
     private static List<PlacementModifier> aquaticPlantPlacement(int pCount) {
         return List.of(InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_TOP_SOLID, CountPlacement.of(pCount), BiomeFilter.biome());
+    }
+
+    private static List<PlacementModifier> stromatolitePlacement() {
+        return List.of(InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_TOP_SOLID, RarityFilter.onAverageOnceEvery(4), BiomeFilter.biome());
     }
 
     public static List<PlacementModifier> worldSurfaceSquaredWithCount(int pCount) {
@@ -49,7 +67,7 @@ public class YAFMPlacedFeatures {
     }
 
     public static List<PlacementModifier> underwaterBoulderPlacement(int pCount) {
-        return List.of(CountPlacement.of(pCount), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_TOP_SOLID, BiomeFilter.biome());
+        return List.of(RarityFilter.onAverageOnceEvery(pCount), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_TOP_SOLID, BiomeFilter.biome());
     }
 
     public static void register(BootstapContext<PlacedFeature> pContext,

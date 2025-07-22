@@ -61,6 +61,7 @@ public class YAFMItemModelProvider extends ItemModelProvider {
         simpleItem(YAFMItems.MOONY_BUCKET);
         withExistingParent(YAFMItems.MOONY_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
 
+        simpleItem(YAFMItems.COELACANTH_BUCKET);
         withExistingParent(YAFMItems.COELACANTH_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
 
         simpleItem(YAFMItems.SALTY_MUSIC_DISC);
@@ -76,6 +77,8 @@ public class YAFMItemModelProvider extends ItemModelProvider {
         simpleBlockItemBlockTexture(YAFMBlocks.STROMATOLITE_GROWTHS);
         simpleBlockItemBlockTexture(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS);
         simpleBlockItemBlockTexture(YAFMBlocks.RED_ALGAE);
+        simpleBlockItemBlockTexture(YAFMBlocks.DRAGONS_BREATH_ALGAE);
+        simpleBlockItemBlockTexture(YAFMBlocks.CAULERPA);
     }
 
     private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {

@@ -315,5 +315,20 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
+        if (getFishType() == YAFMEntities.COELACANTH.get()) {
+
+            String featherback_sci = "fintastic.coelacanth_sci";
+            String common = "fintastic.coelacanth_common";
+
+            MutableComponent mutablecomponent = Component.translatable(featherback_sci);
+            mutablecomponent.withStyle(bchatformatting);
+
+            if (Screen.hasShiftDown()){
+                pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+
+                pTooltipComponents.add(mutablecomponent);
+            }
+        }
+
     }
 }

@@ -397,7 +397,11 @@
   "block.fintastic.green_algae_live_rock": "Green Algae Porous Live Rock",
 
   "item.fintastic.coelacanth_spawn_egg" : "Coelacanth Spawn Egg",
+  "item.fintastic.baby_coelacanth_bucket" : "Bucket of Baby Coelacanth",
   "entity.fintastic.coelacanth" : "Coelacanth",
   "fintastic.coelacanth_common": "Coelacanth",
-  "fintastic.coelacanth_sci": "Latimeria sp."
+  "fintastic.coelacanth_sci": "Latimeria sp.",
+
+  "block.fintastic.dragons_breath_algae": "Dragon's Breath Algae",
+  "block.fintastic.caulerpa": "Common Caulerpa"
 }

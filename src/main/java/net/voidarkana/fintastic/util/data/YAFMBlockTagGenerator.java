@@ -30,6 +30,7 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
                 .add(YAFMBlocks.STROMATOLITE_BRICKS_SLAB.get())
                 .add(YAFMBlocks.STROMATOLITE_BRICKS_STAIRS.get())
                 .add(YAFMBlocks.STROMATOLITE_BLOCK.get())
+                .add(YAFMBlocks.CUT_STROMATOLITE_BLOCK.get())
                 .add(YAFMBlocks.FOSSIL_STROMATOLITE_BLOCK.get())
                 .add(YAFMBlocks.STROMATOLITE.get())
                 .add(YAFMBlocks.FOSSIL_STROMATOLITE.get())
