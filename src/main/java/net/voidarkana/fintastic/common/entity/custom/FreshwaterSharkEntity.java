@@ -187,25 +187,6 @@ public class FreshwaterSharkEntity extends VariantSchoolingFish implements GeoEn
         return PlayState.CONTINUE;
     }
 
-    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
-
-        if (itemstack.is(YAFMItems.REGULAR_FEED.get())){
-            this.setFeedQuality(0);
-        }
-        if (itemstack.is(YAFMItems.QUALITY_FEED.get())){
-            this.setFeedQuality(1);
-        }
-        if (itemstack.is(YAFMItems.GREAT_FEED.get())){
-            this.setFeedQuality(2);
-        }
-        if (itemstack.is(YAFMItems.PREMIUM_FEED.get())){
-            this.setFeedQuality(3);
-        }
-
-        return super.mobInteract(pPlayer, pHand);
-    }
-
     @Override
     public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
         FreshwaterSharkEntity mate = (FreshwaterSharkEntity) pOtherAnimal;

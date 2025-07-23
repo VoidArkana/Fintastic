@@ -43,6 +43,8 @@ public class ClientProxy extends CommonProxy{
         EntityRenderers.register(YAFMEntities.MOONY.get(), MoonyRenderer::new);
         EntityRenderers.register(YAFMEntities.COELACANTH.get(), CoelacanthRenderer::new);
 
+        EntityRenderers.register(YAFMEntities.GOURAMI.get(), GouramiRenderer::new);
+
         ItemProperties.register(YAFMItems.FISHNET.get(), new ResourceLocation("has_entity"),
                 (stack, level, living, i) -> FishnetItem.containsEntity(stack) ? 1 : 0);
 

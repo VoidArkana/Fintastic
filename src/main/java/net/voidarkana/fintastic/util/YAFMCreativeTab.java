@@ -31,6 +31,8 @@ public class YAFMCreativeTab {
 
                         output.accept(YAFMItems.FISHNET.get());
 
+                        output.accept(YAFMItems.FISHING_HAT.get());
+
                         output.accept(YAFMItems.ARAPAIMA_BUCKET.get());
                         output.accept(YAFMItems.ARTEMIA_BUCKET.get());
                         output.accept(YAFMItems.CATFISH_BUCKET.get());
@@ -38,6 +40,7 @@ public class YAFMCreativeTab {
                         output.accept(YAFMItems.FEATHERBACK_BUCKET.get());
                         output.accept(YAFMItems.FRESHWATER_SHARK_BUCKET.get());
                         output.accept(YAFMItems.GUPPY_BUCKET.get());
+                        output.accept(YAFMItems.GOURAMI_BUCKET.get());
                         output.accept(YAFMItems.MINNOW_BUCKET.get());
                         output.accept(YAFMItems.MOONY_BUCKET.get());
                         output.accept(YAFMItems.PLECO_BUCKET.get());
@@ -49,16 +52,17 @@ public class YAFMCreativeTab {
                         output.accept(YAFMItems.DAPHNIA_SPAWN_EGG.get());
                         output.accept(YAFMItems.FEATHERBACK_SPAWN_EGG.get());
                         output.accept(YAFMItems.FRESHWATER_SHARK_SPAWN_EGG.get());
+                        output.accept(YAFMItems.GOURAMI_SPAWN_EGG.get());
                         output.accept(YAFMItems.GUPPY_SPAWN_EGG.get());
                         output.accept(YAFMItems.MINNOW_SPAWN_EGG.get());
                         output.accept(YAFMItems.MOONY_SPAWN_EGG.get());
                         output.accept(YAFMItems.PLECO_SPAWN_EGG.get());
 
+                        output.accept(YAFMBlocks.ANUBIAS.get());
                         output.accept(YAFMBlocks.CAULERPA.get());
                         output.accept(YAFMBlocks.DRAGONS_BREATH_ALGAE.get());
                         output.accept(YAFMBlocks.DUCKWEED.get());
                         output.accept(YAFMBlocks.HORNWORT.get());
-                        output.accept(YAFMBlocks.ANUBIAS.get());
 
                         output.accept(YAFMBlocks.GREEN_ALGAE_CARPET.get());
                         output.accept(YAFMBlocks.GREEN_ALGAE_BLOCK.get());
@@ -115,7 +119,6 @@ public class YAFMCreativeTab {
                         output.accept(YAFMItems.DRAGONFISH_MUSIC_DISC.get());
                         output.accept(YAFMItems.SHUNJI_MUSIC_DISC.get());
 
-                        output.accept(YAFMItems.FISHING_HAT.get());
                     })
                     .build());
 

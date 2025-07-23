@@ -14,6 +14,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
@@ -27,6 +31,8 @@ import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
 import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
+import net.voidarkana.fintastic.common.entity.custom.ai.FishFollowParentGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
 import net.voidarkana.fintastic.common.item.YAFMItems;
@@ -48,28 +54,16 @@ public class Coelacanth extends BucketableFishEntity {
         super(pEntityType, pLevel);
     }
 
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
+    }
+
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.6F);
-    }
-
-    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
-
-        if (itemstack.is(YAFMItems.REGULAR_FEED.get())){
-            this.setFeedQuality(0);
-        }
-        if (itemstack.is(YAFMItems.QUALITY_FEED.get())){
-            this.setFeedQuality(1);
-        }
-        if (itemstack.is(YAFMItems.GREAT_FEED.get())){
-            this.setFeedQuality(2);
-        }
-        if (itemstack.is(YAFMItems.PREMIUM_FEED.get())){
-            this.setFeedQuality(3);
-        }
-
-        return super.mobInteract(pPlayer, pHand);
     }
 
     @Override

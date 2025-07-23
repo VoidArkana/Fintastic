@@ -452,8 +452,7 @@ public class MinnowEntity extends VariantSchoolingFish {
         }
 
         private static final IntFunction<MinnowEntity.MinnowVariant> BY_ID
-                = ByIdMap.sparse(MinnowEntity.MinnowVariant::getJoinedVariant,
-                values(), TINFOIL_BARB);
+                = ByIdMap.sparse(MinnowEntity.MinnowVariant::getJoinedVariant, values(), TINFOIL_BARB);
 
 
         public static MinnowVariant byId(int pId) {

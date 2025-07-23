@@ -28,6 +28,8 @@ public class YAFMEvents {
 
         event.put(YAFMEntities.MOONY.get(), Moony.createAttributes().build());
         event.put(YAFMEntities.COELACANTH.get(), Coelacanth.createAttributes().build());
+
+        event.put(YAFMEntities.GOURAMI.get(), Gourami.createAttributes().build());
     }
 
 }

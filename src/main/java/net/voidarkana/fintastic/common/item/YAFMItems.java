@@ -164,6 +164,15 @@ public class YAFMItems {
         }, Items.BUCKET, false, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1));});
 
 
+    public static final RegistryObject<Item> GOURAMI_SPAWN_EGG = ITEMS.register("gourami_spawn_egg",
+            () -> new FishSpawnEggItem(YAFMEntities.GOURAMI, 0x241613, 0xcc3224, new Item.Properties()));
+
+    public static final RegistryObject<Item> GOURAMI_BUCKET = ITEMS.register("gourami_bucket", () -> {
+        return new FishBucketItem(YAFMEntities.GOURAMI, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1));});
+
+
 
     public static final RegistryObject<Item> FRESH_MUSIC_DISC = ITEMS.register("fresh_music_disc",
             () -> new RecordItem(5, YAFMSounds.FRESH, new Item.Properties().stacksTo(1)

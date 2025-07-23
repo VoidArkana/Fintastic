@@ -1,5 +1,7 @@
 package net.voidarkana.fintastic.common.entity.custom.base;
 
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -29,6 +31,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.*;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.voidarkana.fintastic.common.item.YAFMItems;
@@ -479,6 +482,11 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         }).ifPresent((p_277486_) -> {
             p_277486_.awardStat(Stats.ANIMALS_BRED);
             //CriteriaTriggers.BRED_ANIMALS.trigger(p_277486_, this, pAnimal, pBaby);
+
+            LootContext $$4 = EntityPredicate.createContext(p_277486_, this);
+            LootContext $$5 = EntityPredicate.createContext(p_277486_, pAnimal);
+            LootContext $$6 = pBaby != null ? EntityPredicate.createContext(p_277486_, pBaby) : null;
+            CriteriaTriggers.BRED_ANIMALS.trigger(p_277486_, (p_18653_) -> p_18653_.matches($$4, $$5, $$6));
         });
         this.setAge(6000);
         pAnimal.setAge(6000);
@@ -489,6 +497,25 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             pLevel.addFreshEntity(new ExperienceOrb(pLevel, this.getX(), this.getY(), this.getZ(), this.getRandom().nextInt(7) + 1));
         }
 
+    }
+
+    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+
+        if (itemstack.is(YAFMItems.REGULAR_FEED.get())){
+            this.setFeedQuality(0);
+        }
+        if (itemstack.is(YAFMItems.QUALITY_FEED.get())){
+            this.setFeedQuality(1);
+        }
+        if (itemstack.is(YAFMItems.GREAT_FEED.get())){
+            this.setFeedQuality(2);
+        }
+        if (itemstack.is(YAFMItems.PREMIUM_FEED.get())){
+            this.setFeedQuality(3);
+        }
+
+        return super.mobInteract(pPlayer, pHand);
     }
 
     public void handleEntityEvent(byte pId) {

@@ -34,6 +34,13 @@ public class FintasticLayers {
     public static final ModelLayerLocation COELACANTH_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "coelacanth_layer"), "main");
 
+    public static final ModelLayerLocation GOURAMI_HUGE_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "gourami_huge"), "main");
+    public static final ModelLayerLocation GOURAMI_MED_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "gourami_med"), "main");
+    public static final ModelLayerLocation GOURAMI_SMALL_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "gourami_small"), "main");
+
 
     public static final ModelLayerLocation HAT_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fishing_hat"), "main");

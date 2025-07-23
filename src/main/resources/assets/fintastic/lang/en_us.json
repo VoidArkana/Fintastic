@@ -398,10 +398,18 @@
 
   "item.fintastic.coelacanth_spawn_egg" : "Coelacanth Spawn Egg",
   "item.fintastic.baby_coelacanth_bucket" : "Bucket of Baby Coelacanth",
+  "item.fintastic.coelacanth_fishnet" : "Fishnet of Arapaima",
   "entity.fintastic.coelacanth" : "Coelacanth",
   "fintastic.coelacanth_common": "Coelacanth",
   "fintastic.coelacanth_sci": "Latimeria sp.",
 
   "block.fintastic.dragons_breath_algae": "Dragon's Breath Algae",
-  "block.fintastic.caulerpa": "Common Caulerpa"
+  "block.fintastic.caulerpa": "Common Caulerpa",
+
+  "item.fintastic.gourami_spawn_egg" : "Gourami Spawn Egg",
+  "item.fintastic.gourami_bucket" : "Bucket of Gourami",
+  "entity.fintastic.gourami" : "Gourami",
+
+  "fintastic.gourami_common.0": "Coelacanth",
+  "fintastic.gourami_sci.0": "Latimeria sp."
 }

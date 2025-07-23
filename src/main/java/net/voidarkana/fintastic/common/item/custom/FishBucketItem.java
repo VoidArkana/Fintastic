@@ -330,5 +330,27 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
+
+        if (getFishType() == YAFMEntities.GOURAMI.get()) {
+            CompoundTag compoundtag = pStack.getTag();
+            if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
+
+                int joinedVariantID = Integer.decode(String.valueOf(compoundtag.getInt("VariantModel")) + compoundtag.getInt("VariantSkin"));
+                MinnowEntity.MinnowVariant minnowVariant = MinnowEntity.MinnowVariant.byId(joinedVariantID);
+
+                String featherback_sci = "fintastic.gourami_sci." + minnowVariant.getName();
+                String common = "fintastic.gourami_common." + minnowVariant.getName();
+
+                MutableComponent mutablecomponent = Component.translatable(featherback_sci);
+                mutablecomponent.withStyle(bchatformatting);
+
+                if (Screen.hasShiftDown()){
+                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+
+                    pTooltipComponents.add(mutablecomponent);
+                }
+            }
+        }
+
     }
 }

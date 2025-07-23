@@ -13,6 +13,9 @@ import net.voidarkana.fintastic.client.models.armor.HatModel;
 import net.voidarkana.fintastic.client.models.entity.CoelacanthModel;
 import net.voidarkana.fintastic.client.models.entity.arapaima.ArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.arapaima.BabyArapaimaModel;
+import net.voidarkana.fintastic.client.models.entity.gourami.GouramiHugeModel;
+import net.voidarkana.fintastic.client.models.entity.gourami.GouramiMedModel;
+import net.voidarkana.fintastic.client.models.entity.gourami.GouramiSmallModel;
 import net.voidarkana.fintastic.client.models.entity.minnows.*;
 import net.voidarkana.fintastic.client.models.entity.moonies.MoonyMidModel;
 import net.voidarkana.fintastic.client.models.entity.moonies.MoonySmallModel;
@@ -40,6 +43,10 @@ public class YAFMClientEvents {
         event.registerLayerDefinition(FintasticLayers.BABY_ARAPAIMA_LAYER, BabyArapaimaModel::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.COELACANTH_LAYER, CoelacanthModel::createBodyLayer);
+
+        event.registerLayerDefinition(FintasticLayers.GOURAMI_HUGE_LAYER, GouramiHugeModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.GOURAMI_MED_LAYER, GouramiMedModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.GOURAMI_SMALL_LAYER, GouramiSmallModel::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.HAT_LAYER, HatModel::createArmorLayer);
 
