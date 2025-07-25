@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "M": {
+      "item": "fintastic:red_algae_carpet"
+    }
+  },
+  "pattern": [
+    "MM",
+    "MM"
+  ],
+  "result": {
+    "count": 2,
+    "item": "fintastic:red_algae_block"
+  },
+  "show_notification": true
+}
