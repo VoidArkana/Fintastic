@@ -57,6 +57,13 @@ public class YAFMBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(YAFMBlocks.CAULERPA.get(), models().cross(blockTexture(YAFMBlocks.CAULERPA.get()).getPath(),
                 blockTexture(YAFMBlocks.CAULERPA.get())).renderType("cutout"));
 
+        simpleBlockWithItem(YAFMBlocks.SEA_GRAPES.get(), models().cross(blockTexture(YAFMBlocks.SEA_GRAPES.get()).getPath(),
+                blockTexture(YAFMBlocks.SEA_GRAPES.get())).renderType("cutout"));
+        
+        simpleBlockWithItem(YAFMBlocks.SEA_GRAPES_PLANT.get(), models().cross(blockTexture(YAFMBlocks.SEA_GRAPES_PLANT.get()).getPath(),
+                blockTexture(YAFMBlocks.SEA_GRAPES_PLANT.get())).renderType("cutout"));
+
+
         nonRotateablePillarBlock(YAFMBlocks.RED_ALGAE_LIVE_ROCK,
                 "red_algae_block", "porous_live_rock", "red_algae_live_rock");
 

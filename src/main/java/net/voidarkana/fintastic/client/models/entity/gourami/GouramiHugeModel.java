@@ -78,11 +78,11 @@ public class GouramiHugeModel<T extends Gourami> extends FintasticModel<T> {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		if (pEntity.isInWaterOrBubble()){
-			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
-			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
+			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F)/2;
+			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/4);
 			this.animateIdle(pEntity.idleAnimationState, GouramiAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
 
-			this.animateWalk(GouramiAnims.SWIM_HUGE, pLimbSwing, pLimbSwingAmount, 2f, 3f);
+			this.animateWalk(GouramiAnims.SWIM_HUGE, pLimbSwing*2, pLimbSwingAmount, 2f, 3f);
 		}
 		else {
 			this.swim_rot.resetPose();
@@ -90,7 +90,7 @@ public class GouramiHugeModel<T extends Gourami> extends FintasticModel<T> {
 			this.animate(pEntity.flopAnimationState, GouramiAnims.HUGE_FLOP, pAgeInTicks, 1.0F);
 		}
 
-		this.animate(pEntity.investigatingAnimationState, GouramiAnims.INVESTIGATE, pAgeInTicks);
+		this.animate(pEntity.investigatingAnimationState, GouramiAnims.INVESTIGATE_LONG, pAgeInTicks);
 	}
 
 	@Override
@@ -98,8 +98,10 @@ public class GouramiHugeModel<T extends Gourami> extends FintasticModel<T> {
 		poseStack.pushPose();
 
 		if (this.young){
-			poseStack.scale(0.6f, 0.6f, 0.6f);
-			poseStack.translate(0, 1, 0);
+			poseStack.scale(0.4f, 0.4f, 0.4f);
+			poseStack.translate(0, 2.35, 0);
+		}else {
+			poseStack.translate(0, 0.2, 0);
 		}
 
 		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

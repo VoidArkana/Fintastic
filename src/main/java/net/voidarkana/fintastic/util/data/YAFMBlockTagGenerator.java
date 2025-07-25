@@ -3,6 +3,7 @@ package net.voidarkana.fintastic.util.data;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -96,11 +97,34 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
                 .add(YAFMBlocks.RED_ALGAE_BLOCK.get());
 
         this.tag(YAFMTags.Blocks.ALGAE_REPLACEABLE)
-                .addTags(BlockTags.MOSS_REPLACEABLE)
-                .addTags(Tags.Blocks.SAND);
+                .addTag(BlockTags.MOSS_REPLACEABLE)
+                .addTag(Tags.Blocks.SAND);
 
         this.tag(YAFMTags.Blocks.STROMATOLITE_REPLACEABLE)
-                .addTags(Tags.Blocks.STONE).addTags(Tags.Blocks.SAND)
-                .addTags(BlockTags.DEEPSLATE_ORE_REPLACEABLES).addTags(BlockTags.MOSS_REPLACEABLE);
+                .addTag(Tags.Blocks.STONE).addTag(Tags.Blocks.SAND)
+                .addTag(BlockTags.DEEPSLATE_ORE_REPLACEABLES).addTag(BlockTags.MOSS_REPLACEABLE);
+
+        this.tag(YAFMTags.Blocks.AQUATIC_PLANTS)
+                .add(YAFMBlocks.ANUBIAS.get())
+                .add(YAFMBlocks.CAULERPA.get())
+                .add(YAFMBlocks.HORNWORT.get())
+                .add(YAFMBlocks.DUCKWEED.get())
+                .add(YAFMBlocks.RED_ALGAE.get())
+                .add(YAFMBlocks.RED_ALGAE_FAN.get())
+                .add(YAFMBlocks.RED_ALGAE_WALL_FAN.get())
+                .add(YAFMBlocks.SEA_GRAPES.get())
+                .add(YAFMBlocks.SEA_GRAPES_PLANT.get())
+                .addTag(BlockTags.UNDERWATER_BONEMEALS)
+                .add(Blocks.SEA_PICKLE)
+                .add(Blocks.TALL_SEAGRASS)
+                .add(Blocks.KELP_PLANT)
+                .add(Blocks.KELP);
+
+        this.tag(YAFMTags.Blocks.GOURAMI_INVESTIGATION_TARGETS)
+                .addTag(YAFMTags.Blocks.AQUATIC_PLANTS)
+                .add(YAFMBlocks.STROMATOLITE.get())
+                .add(YAFMBlocks.STROMATOLITE_GROWTHS.get())
+                .add(YAFMBlocks.FOSSIL_STROMATOLITE.get())
+                .add(YAFMBlocks.FOSSIL_STROMATOLITE_GROWTHS.get());
     }
 }

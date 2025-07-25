@@ -47,10 +47,7 @@ public class YAFMPlacedFeatures {
 
         register(context, FOSSIL_STROMATOLITE_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.FOSSIL_STROMATOLITE_PATCH),
                 CountPlacement.of(1), InSquarePlacement.spread(),
-                PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT, BiomeFilter.biome());
-
-//                HeightRangePlacement.uniform(VerticalAnchor.absolute(-50),
-//                        VerticalAnchor.absolute(0)),BiomeFilter.biome());
+                HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(20)), BiomeFilter.biome());
 
     }
 

@@ -42,6 +42,16 @@ public class YAFMModEvents {
                     10, 8, 0.02f));
 
             trades.get(1).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(YAFMBlocks.CAULERPA.get(), 10),
+                    new ItemStack(Items.EMERALD, 1),
+                    10, 8, 0.02f));
+
+            trades.get(1).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(YAFMBlocks.SEA_GRAPES.get(), 20),
+                    new ItemStack(Items.EMERALD, 1),
+                    10, 8, 0.02f));
+
+            trades.get(1).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 10),
                     new ItemStack(YAFMItems.REGULAR_FEED.get(), 6),
                     10, 8, 0.02f));
@@ -61,6 +71,16 @@ public class YAFMModEvents {
             trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 15),
                     new ItemStack(YAFMBlocks.ANUBIAS.get(), 2),
+                    10, 8, 0.02f));
+
+            trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 15),
+                    new ItemStack(YAFMBlocks.CAULERPA.get(), 2),
+                    10, 8, 0.02f));
+
+            trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 15),
+                    new ItemStack(YAFMBlocks.SEA_GRAPES.get(), 5),
                     10, 8, 0.02f));
 
             trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
@@ -94,6 +114,16 @@ public class YAFMModEvents {
             trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 20),
                     new ItemStack(YAFMItems.FEATHERBACK_BUCKET.get(), 1),
+                    5, 9, 0.035f));
+
+            trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 20),
+                    new ItemStack(YAFMItems.MOONY_BUCKET.get(), 1),
+                    5, 9, 0.035f));
+
+            trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 20),
+                    new ItemStack(YAFMItems.GOURAMI_BUCKET.get(), 1),
                     5, 9, 0.035f));
 
 
@@ -171,6 +201,26 @@ public class YAFMModEvents {
                 new ItemStack(YAFMBlocks.ANUBIAS.get(), 1),
                 3, 2, 0.2f));
 
+        genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 1),
+                new ItemStack(YAFMBlocks.CAULERPA.get(), 1),
+                3, 2, 0.2f));
+
+        genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 1),
+                new ItemStack(YAFMBlocks.RED_ALGAE.get(), 1),
+                3, 2, 0.2f));
+
+        genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 1),
+                new ItemStack(YAFMBlocks.RED_ALGAE_FAN.get(), 1),
+                3, 2, 0.2f));
+
+        genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 1),
+                new ItemStack(YAFMBlocks.SEA_GRAPES.get(), 1),
+                3, 2, 0.2f));
+
 
 
         genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
@@ -216,6 +266,21 @@ public class YAFMModEvents {
         genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
                 new ItemStack(Items.EMERALD, 15),
                 new ItemStack(YAFMItems.ARAPAIMA_FISHNET.get(), 1),
+                3, 2, 0.2f));
+
+        genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 15),
+                new ItemStack(YAFMItems.COELACANTH_FISHNET.get(), 1),
+                3, 2, 0.2f));
+
+        genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 5),
+                new ItemStack(YAFMItems.GOURAMI_BUCKET.get(), 1),
+                3, 2, 0.2f));
+
+        genericTrades.add((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 5),
+                new ItemStack(YAFMItems.MOONY_BUCKET.get(), 1),
                 3, 2, 0.2f));
 
 

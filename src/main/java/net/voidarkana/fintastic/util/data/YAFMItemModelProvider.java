@@ -82,6 +82,10 @@ public class YAFMItemModelProvider extends ItemModelProvider {
         simpleBlockItemBlockTexture(YAFMBlocks.RED_ALGAE);
         simpleBlockItemBlockTexture(YAFMBlocks.DRAGONS_BREATH_ALGAE);
         simpleBlockItemBlockTexture(YAFMBlocks.CAULERPA);
+
+        simpleItem(YAFMItems.SEA_GRAPE_SALAD);
+
+        simpleBlockItem(YAFMBlocks.SEA_GRAPES);
     }
 
     private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {
@@ -104,5 +108,11 @@ public class YAFMItemModelProvider extends ItemModelProvider {
     public void wallItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/wall_inventory"))
                 .texture("wall", new ResourceLocation(Fintastic.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+    }
+
+    private ItemModelBuilder simpleBlockItem(RegistryObject<Block> item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(Fintastic.MOD_ID,"item/" + item.getId().getPath()));
     }
 }

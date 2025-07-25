@@ -201,6 +201,13 @@ public class YAFMBlocks {
     public static final RegistryObject<Block> STROMATOLITE_BRICKS_WALL = registerBlock("stromatolite_bricks_wall",
             ()-> new WallBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
 
+    public static final RegistryObject<Block> SEA_GRAPES = registerBlock("sea_grapes",
+            ()-> new SeaGrapesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER)
+                    .noCollission().randomTicks().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> SEA_GRAPES_PLANT = registerBlock("sea_grapes_plant",
+            ()-> new SeaGrapesPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER)
+                    .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
 
     private static <T extends Block> Supplier<T> registerBlockWithItem(String key, Supplier<T> block, Function<Supplier<T>, Item> item) {

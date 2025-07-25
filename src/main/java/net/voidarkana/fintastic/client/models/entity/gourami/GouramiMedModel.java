@@ -87,13 +87,22 @@ public class GouramiMedModel<T extends Gourami> extends FintasticModel<T> {
 			this.applyStatic(GouramiAnims.MED_FLOP_OFFSET);
 			this.animate(pEntity.flopAnimationState, GouramiAnims.FLOP, pAgeInTicks, 1.0F);
 		}
-		this.animate(pEntity.investigatingAnimationState, GouramiAnims.INVESTIGATE, pAgeInTicks);
+		this.animate(pEntity.investigatingAnimationState, GouramiAnims.INVESTIGATE_LONG, pAgeInTicks);
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		poseStack.pushPose();
+
+		if (this.young){
+			poseStack.scale(0.5f, 0.5f, 0.5f);
+			poseStack.translate(0, 1.6, 0);
+		}else {
+			poseStack.translate(0, 0.2, 0);
+		}
+
 		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
+		poseStack.popPose();	}
 
 	@Override
 	public ModelPart root() {

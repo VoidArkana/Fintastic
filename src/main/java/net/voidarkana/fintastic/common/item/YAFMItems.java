@@ -173,6 +173,8 @@ public class YAFMItems {
         }, Items.BUCKET, false, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1));});
 
 
+    public static final RegistryObject<Item> SEA_GRAPE_SALAD = ITEMS.register("sea_grape_salad",
+            () -> new StackableBowlFoodItem(new Item.Properties().food(YAFMFoods.SEA_GRAPE_SALAD).stacksTo(16)));
 
     public static final RegistryObject<Item> FRESH_MUSIC_DISC = ITEMS.register("fresh_music_disc",
             () -> new RecordItem(5, YAFMSounds.FRESH, new Item.Properties().stacksTo(1)

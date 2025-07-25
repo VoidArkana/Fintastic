@@ -96,7 +96,7 @@ public class YAFMConfiguredFeatures {
                 .add(Blocks.SEA_PICKLE.defaultBlockState().setValue(SeaPickleBlock.PICKLES, 2), 4)
                 .add(YAFMBlocks.GREEN_ALGAE_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
                 .add(YAFMBlocks.CAULERPA.get().defaultBlockState(), 50)
-                .add(Blocks.KELP_PLANT.defaultBlockState(), 10));
+                .add(YAFMBlocks.SEA_GRAPES.get().defaultBlockState(), 10));
 
         register(context, GREEN_ALGAE_VEGETATION, Feature.SIMPLE_BLOCK,
                 new SimpleBlockConfiguration(greenAlgaeWSP));

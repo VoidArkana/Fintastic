@@ -59,6 +59,10 @@ public class YAFMTags {
 
         public static final TagKey<Block> STROMATOLITE_REPLACEABLE = tag("stromatolite_replaceable");
 
+        public static final TagKey<Block> AQUATIC_PLANTS = tag("aquatic_plants");
+
+        public static final TagKey<Block> GOURAMI_INVESTIGATION_TARGETS = tag("gourami_investigation_targets");
+
         private static TagKey<Block> tag(String name){
             return BlockTags.create(new ResourceLocation(Fintastic.MOD_ID, name));
         }

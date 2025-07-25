@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -8,18 +9,24 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.Tags;
+import net.voidarkana.fintastic.common.block.YAFMBlocks;
 import net.voidarkana.fintastic.common.entity.YAFMEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
@@ -28,6 +35,7 @@ import net.voidarkana.fintastic.common.item.YAFMItems;
 import net.voidarkana.fintastic.util.YAFMTags;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
 import java.util.function.IntFunction;
 
 public class Gourami extends BucketableFishEntity {
@@ -35,12 +43,14 @@ public class Gourami extends BucketableFishEntity {
     public final AnimationState idleAnimationState = new AnimationState();
     public final AnimationState flopAnimationState = new AnimationState();
     public final AnimationState investigatingAnimationState = new AnimationState();
+    boolean canFloat;
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
 
     private static final EntityDataAccessor<Integer> VARIANT_MODEL = SynchedEntityData.defineId(Gourami.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> VARIANT_SKIN = SynchedEntityData.defineId(Gourami.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> INVESTIGATING_TIME = SynchedEntityData.defineId(Gourami.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> WANTS_TO_INVESTIGATE = SynchedEntityData.defineId(Gourami.class, EntityDataSerializers.BOOLEAN);
 
     public boolean isFood(ItemStack pStack) {
         return FOOD_ITEMS.test(pStack);
@@ -49,6 +59,7 @@ public class Gourami extends BucketableFishEntity {
     public Gourami(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.refreshDimensions();
+        this.setCanFloat(true);
     }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
@@ -60,7 +71,7 @@ public class Gourami extends BucketableFishEntity {
     public EntityDimensions getDimensions(Pose pPose) {
         return switch (this.getVariantModel()){
             case 1, 2 ->super.getDimensions(pPose);
-            default ->super.getDimensions(pPose).scale(1.25F, 1.5F);
+            default ->super.getDimensions(pPose).scale(2F, 3.5F);
         };
     }
 
@@ -69,6 +80,7 @@ public class Gourami extends BucketableFishEntity {
         super.registerGoals();
         this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
+        this.goalSelector.addGoal(4, new GouramiInvestigateGoal(this, 40));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -81,6 +93,7 @@ public class Gourami extends BucketableFishEntity {
         this.entityData.define(VARIANT_MODEL, 0);
         this.entityData.define(VARIANT_SKIN, 0);
         this.entityData.define(INVESTIGATING_TIME, 0);
+        this.entityData.define(WANTS_TO_INVESTIGATE, false);
     }
 
     public void addAdditionalSaveData(CompoundTag pCompound) {
@@ -123,6 +136,23 @@ public class Gourami extends BucketableFishEntity {
         return this.getInvestigatingTime()>0;
     }
 
+    public void setWantsToInvestigate(boolean wantsToInvestigate) {
+        this.entityData.set(WANTS_TO_INVESTIGATE, wantsToInvestigate);
+    }
+
+    public boolean wantsToInvestigate(){
+        return this.entityData.get(WANTS_TO_INVESTIGATE);
+    }
+
+    @Override
+    public boolean canFloat() {
+        return canFloat;
+    }
+
+    public void setCanFloat(boolean canFloat) {
+        this.canFloat = canFloat;
+    }
+
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
@@ -142,16 +172,25 @@ public class Gourami extends BucketableFishEntity {
         }
 
         super.tick();
+
+        if (!this.wantsToInvestigate() && this.random.nextInt(10)==0){
+            this.setWantsToInvestigate(true);
+        }
+
+        if (this.isInvestigating()){
+            int invTime = this.getInvestigatingTime();
+            this.setInvestigatingTime(invTime-1);
+        }
     }
 
     private void setupAnimationStates() {
         this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
         this.flopAnimationState.animateWhen(!this.isInWaterOrBubble(), this.tickCount);
-    }
 
-    @Override
-    public ItemStack getPickedResult(HitResult target) {
-        return new ItemStack(YAFMItems.COELACANTH_SPAWN_EGG.get());
+        this.investigatingAnimationState.animateWhen(this.isInvestigating(), this.tickCount);
+//        if (this.getInvestigatingTime()==39){
+//            this.idleAnimationState.start(this.tickCount);
+//        }
     }
 
     @Override
@@ -161,6 +200,8 @@ public class Gourami extends BucketableFishEntity {
         compoundnbt.putFloat("Health", this.getHealth());
         compoundnbt.putInt("Age", this.getAge());
         compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        compoundnbt.putInt("VariantModel", this.getVariantModel());
+        compoundnbt.putInt("VariantSkin", this.getVariantSkin());
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
         }
@@ -202,7 +243,7 @@ public class Gourami extends BucketableFishEntity {
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(YAFMItems.COELACANTH_BUCKET.get());
+        return new ItemStack(YAFMItems.GOURAMI_BUCKET.get());
     }
 
     @Override
@@ -221,6 +262,86 @@ public class Gourami extends BucketableFishEntity {
         return SoundEvents.BUCKET_FILL_FISH;
     }
 
+    public static class GouramiInvestigateGoal extends MoveToBlockGoal{
+        private final Gourami fish;
+        int duration;
+        int currentDuration;
+
+        public GouramiInvestigateGoal(Gourami pMob, int duration) {
+            super(pMob, 0.9, 16, 16);
+            this.fish = pMob;
+            this.duration = duration;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            return super.canUse() && this.fish.wantsToInvestigate();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return super.canContinueToUse() && this.currentDuration>0;
+        }
+
+        public void start() {
+            this.currentDuration = duration;
+            this.fish.level().broadcastEntityEvent(this.fish, (byte)10);
+            this.fish.setInvestigatingTime(0);
+        }
+        
+        public void tick() {
+            BlockPos blockpos = this.getMoveToTarget();
+            this.fish.getLookControl().setLookAt((double)blockpos.getX() + 0.5D, blockpos.getY() + 0.5D,
+                    (double)blockpos.getZ() + 0.5D, 10.0F, (float)this.fish.getMaxHeadXRot());
+
+            if (!blockpos.closerToCenterThan(this.mob.position(), this.acceptedDistance())) {
+                ++this.tryTicks;
+                if (this.shouldRecalculatePath()) {
+                    this.mob.getNavigation().moveTo((double)((float)blockpos.getX()) + 0.5D, blockpos.getY()-0.5D,
+                            (double)((float)blockpos.getZ()) + 0.5D, this.speedModifier);
+                }
+            } else {
+
+                if (!this.fish.isInvestigating() && this.currentDuration > 0){
+                    this.fish.setInvestigatingTime(40);
+                    this.fish.getNavigation().stop();
+                }
+
+                this.nextStartTick = 10;
+                this.currentDuration--;
+
+                if (this.currentDuration <=0){
+                    this.stop();
+                }
+                --this.tryTicks;
+            }
+
+        }
+
+        public void stop() {
+            this.nextStartTick = 10;
+            if (this.currentDuration<=0){
+                if (this.fish.randomSwimmingGoal != null) {
+                    this.fish.randomSwimmingGoal.trigger();
+                }
+            }else {
+                this.currentDuration = 0;
+            }
+            this.fish.setInvestigatingTime(0);
+            this.fish.setWantsToInvestigate(false);
+            this.fish.setCanFloat(true);
+
+        }
+
+        @Override
+        protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
+            BlockState blockstate = pLevel.getBlockState(pPos);
+            return blockstate.is(YAFMTags.Blocks.GOURAMI_INVESTIGATION_TARGETS) &&
+                    !(blockstate.is(Blocks.SEAGRASS) || blockstate.is(Blocks.TALL_SEAGRASS));
+        }
+    }
+    
     public enum GouramiVariant{
         OSPHRONEMUS_GORAMI(0, "osphronemus_gorami"),
         REDTAIL_GIANT_GOURAMI(1, "redtail_giant_gourami"),

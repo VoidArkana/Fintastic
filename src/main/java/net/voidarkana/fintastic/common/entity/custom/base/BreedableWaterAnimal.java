@@ -22,6 +22,7 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
@@ -44,6 +45,8 @@ import java.util.UUID;
 public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     public float currentRoll = 0.0F;
+    @Nullable
+    public RandomSwimmingGoal randomSwimmingGoal;
 
     protected BreedableWaterAnimal(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -64,7 +67,9 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             }
             return false;}));
 
-        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10));
+        this.randomSwimmingGoal = new RandomSwimmingGoal(this, 1.0D, 10);
+
+        this.goalSelector.addGoal(4, randomSwimmingGoal);
     }
 
     public boolean hasNormalControls(){
@@ -236,13 +241,17 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             this.moveRelative(this.getSpeed(), pTravelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-            if (this.getTarget() == null) {
+            if (this.getTarget() == null && this.canFloat()) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             }
         } else {
             super.travel(pTravelVector);
         }
 
+    }
+
+    public boolean canFloat(){
+        return true;
     }
 
     protected SoundEvent getHurtSound(DamageSource pDamageSource) {

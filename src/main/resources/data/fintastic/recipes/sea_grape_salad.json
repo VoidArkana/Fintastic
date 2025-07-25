@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "item": "fintastic:sea_grapes"
+    },
+    {
+      "item": "fintastic:sea_grapes"
+    },
+    {
+      "item": "fintastic:sea_grapes"
+    }
+  ],
+  "result": {
+    "item": "fintastic:sea_grape_salad",
+    "count": 1
+  }
+}

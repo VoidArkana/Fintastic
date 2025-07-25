@@ -63,6 +63,8 @@ public class YAFMCreativeTab {
                         output.accept(YAFMBlocks.DRAGONS_BREATH_ALGAE.get());
                         output.accept(YAFMBlocks.DUCKWEED.get());
                         output.accept(YAFMBlocks.HORNWORT.get());
+                        output.accept(YAFMBlocks.SEA_GRAPES.get());
+                        output.accept(YAFMItems.SEA_GRAPE_SALAD.get());
 
                         output.accept(YAFMBlocks.GREEN_ALGAE_CARPET.get());
                         output.accept(YAFMBlocks.GREEN_ALGAE_BLOCK.get());

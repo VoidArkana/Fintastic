@@ -85,7 +85,7 @@ public class YAFMEntities {
     public static final RegistryObject<EntityType<Gourami>> GOURAMI =
             ENTITY_TYPES.register("gourami",
                     () -> EntityType.Builder.of(Gourami::new, MobCategory.WATER_AMBIENT)
-                            .sized(0.8f, 0.5f)
+                            .sized(0.6f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "gourami").toString()));
 
     public static void register(IEventBus eventBus) {

@@ -1163,4 +1163,23 @@ public class GouramiAnims {
 			new Keyframe(0.0F, KeyframeAnimations.posVec(5.0F, 2.5F, 1.0F), AnimationChannel.Interpolations.LINEAR)
 		))
 		.build();
+
+	public static final AnimationDefinition INVESTIGATE_LONG = AnimationDefinition.Builder.withLength(2.0F)
+			.addAnimation("pelvicfinleft", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+					new Keyframe(0.0833F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.4583F, KeyframeAnimations.degreeVec(-99.5F, 0.0F, 45.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.9167F, KeyframeAnimations.degreeVec(-79.5F, 0.0F, 45.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(1.1667F, KeyframeAnimations.degreeVec(-79.5F, 0.0F, 45.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(1.6667F, KeyframeAnimations.degreeVec(-99.5F, 0.0F, 45.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(2.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.addAnimation("pelvicfinright", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+					new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.3333F, KeyframeAnimations.degreeVec(-102.5F, 0.0F, -43.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(0.7083F, KeyframeAnimations.degreeVec(-82.5F, 0.0F, -40.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(1.0F, KeyframeAnimations.degreeVec(-82.5F, 0.0F, -40.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(1.6667F, KeyframeAnimations.degreeVec(-102.5F, 0.0F, -43.0F), AnimationChannel.Interpolations.CATMULLROM),
+					new Keyframe(1.9583F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.build();
 }
