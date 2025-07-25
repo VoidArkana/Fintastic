@@ -336,10 +336,9 @@ public class FishBucketItem extends MobBucketItem {
             if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
 
                 int joinedVariantID = Integer.decode(String.valueOf(compoundtag.getInt("VariantModel")) + compoundtag.getInt("VariantSkin"));
-                MinnowEntity.MinnowVariant minnowVariant = MinnowEntity.MinnowVariant.byId(joinedVariantID);
 
-                String featherback_sci = "fintastic.gourami_sci." + minnowVariant.getName();
-                String common = "fintastic.gourami_common." + minnowVariant.getName();
+                String featherback_sci = "fintastic.gourami_sci." + joinedVariantID;
+                String common = "fintastic.gourami_common." + joinedVariantID;
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);

@@ -38,5 +38,20 @@
         "stream": true
       }
     ]
+  },
+  "gourami_croak": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "fintastic:gourami_croak_1"
+      },
+      {
+        "name": "fintastic:gourami_croak_2"
+      },
+      {
+        "name": "fintastic:gourami_croak_3"
+      }
+    ],
+    "subtitle": "fintastic.sound.subtitle.gourami_croak"
   }
 }

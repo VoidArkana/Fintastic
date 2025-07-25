@@ -19,6 +19,8 @@ public class YAFMSounds {
     public static final RegistryObject<SoundEvent> DRAGONFISH = registerSoundEvents("dragonfish");
     public static final RegistryObject<SoundEvent> SHUNJI = registerSoundEvents("shunji");
 
+    public static final RegistryObject<SoundEvent> GOURAMI_CROAK = registerSoundEvents("gourami_croak");
+
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Fintastic.MOD_ID, name)));
     }

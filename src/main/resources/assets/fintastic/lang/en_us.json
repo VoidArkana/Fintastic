@@ -375,6 +375,7 @@
   "block.fintastic.fossil_stromatolite": "Fossilized Stromatolite",
   "block.fintastic.stromatolite_block": "Stromatolite Block",
   "block.fintastic.fossil_stromatolite_block": "Fossilized Stromatolite Block",
+  "block.fintastic.cut_stromatolite_block": "Cut Stromatolite Block",
   "block.fintastic.stromatolite_growths": "Stromatolite Growths",
   "block.fintastic.fossil_stromatolite_growths": "Fossilized Stromatolite Growths",
 
@@ -398,7 +399,7 @@
 
   "item.fintastic.coelacanth_spawn_egg" : "Coelacanth Spawn Egg",
   "item.fintastic.baby_coelacanth_bucket" : "Bucket of Baby Coelacanth",
-  "item.fintastic.coelacanth_fishnet" : "Fishnet of Arapaima",
+  "item.fintastic.coelacanth_fishnet" : "Fishnet of Coelacanth",
   "entity.fintastic.coelacanth" : "Coelacanth",
   "fintastic.coelacanth_common": "Coelacanth",
   "fintastic.coelacanth_sci": "Latimeria sp.",
@@ -410,6 +411,41 @@
   "item.fintastic.gourami_bucket" : "Bucket of Gourami",
   "entity.fintastic.gourami" : "Gourami",
 
-  "fintastic.gourami_common.0": "Coelacanth",
-  "fintastic.gourami_sci.0": "Latimeria sp."
+  "fintastic.sound.subtitle.gourami_croak" : "Gourami croaks",
+
+  "fintastic.gourami_common.0": "Giant Gourami",
+  "fintastic.gourami_common.1": "Redtail Giant Gourami",
+  "fintastic.gourami_common.2": "Ruby Red Giant Gourami",
+
+  "fintastic.gourami_common.10": "Blue Three Spot Gourami",
+  "fintastic.gourami_common.11": "Dwarf Gourami",
+  "fintastic.gourami_common.12": "Honey Gorami",
+  "fintastic.gourami_common.13": "Kissing Gorami",
+  "fintastic.gourami_common.14": "Lavender Three Spot Gorami",
+  "fintastic.gourami_common.15": "Pearl Gorami",
+  "fintastic.gourami_common.16": "Yellow Three Spot Gorami",
+
+  "fintastic.gourami_common.20": "Betta Albimarginata",
+  "fintastic.gourami_common.21": "Betta Mahachai",
+  "fintastic.gourami_common.22": "Wild Betta",
+  "fintastic.gourami_common.23": "Croaking Gorami",
+
+
+
+  "fintastic.gourami_sci.0": "Osphronemus goramy",
+  "fintastic.gourami_sci.1": "Osphronemus laticlavius",
+  "fintastic.gourami_sci.2": "Osphronemus septemfasciatus sp.",
+
+  "fintastic.gourami_sci.10": "Trichopodus trichopterus",
+  "fintastic.gourami_sci.11": "Trichogaster lalius",
+  "fintastic.gourami_sci.12": "Trichogaster chuna",
+  "fintastic.gourami_sci.13": "Helostoma temminckii",
+  "fintastic.gourami_sci.14": "Trichopodus trichopterus",
+  "fintastic.gourami_sci.15": "Trichogaster leerii",
+  "fintastic.gourami_sci.16": "Trichopodus trichopterus",
+
+  "fintastic.gourami_sci.20": "Betta albimarginata",
+  "fintastic.gourami_sci.21": "Betta mahachaiensis",
+  "fintastic.gourami_sci.22": "Betta splendens",
+  "fintastic.gourami_sci.23": "Trichopsis vittata"
 }

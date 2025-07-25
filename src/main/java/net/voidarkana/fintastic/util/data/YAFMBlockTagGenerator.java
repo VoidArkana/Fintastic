@@ -118,7 +118,8 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
                 .add(Blocks.SEA_PICKLE)
                 .add(Blocks.TALL_SEAGRASS)
                 .add(Blocks.KELP_PLANT)
-                .add(Blocks.KELP);
+                .add(Blocks.KELP)
+                .add(Blocks.LILY_PAD);
 
         this.tag(YAFMTags.Blocks.GOURAMI_INVESTIGATION_TARGETS)
                 .addTag(YAFMTags.Blocks.AQUATIC_PLANTS)

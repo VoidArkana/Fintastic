@@ -66,6 +66,9 @@ public class YAFMBiomeTagGenerator extends BiomeTagsProvider {
                 .add(Biomes.LUKEWARM_OCEAN)
                 .add(Biomes.WARM_OCEAN)
                 .add(Biomes.DEEP_LUKEWARM_OCEAN);
+
+        this.tag(YAFMTags.Biomes.GOURAMI_BIOMES)
+                .addTag(Tags.Biomes.IS_SWAMP);
     }
 
 }

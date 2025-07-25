@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "#fintastic:gourami_biomes",
+  "spawners": {
+    "type": "fintastic:gourami",
+    "weight": 6,
+    "minCount": 2,
+    "maxCount": 3,
+    "category": "water_creature"
+  }
+}

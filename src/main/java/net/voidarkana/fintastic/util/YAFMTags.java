@@ -23,6 +23,7 @@ public class YAFMTags {
         public static final TagKey<Biome> DAPHNIA_BIOMES = tag("daphnia_biomes");
 
         public static final TagKey<Biome> MOONY_BIOMES = tag("moony_biomes");
+        public static final TagKey<Biome> GOURAMI_BIOMES = tag("gourami_biomes");
 
         public static final TagKey<Biome> FRESHWATER_PLANT_BIOME_BLACKLIST = tag("non_freshwater_plant_biomes");
 
