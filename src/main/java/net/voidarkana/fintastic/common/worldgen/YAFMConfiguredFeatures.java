@@ -46,6 +46,7 @@ public class YAFMConfiguredFeatures {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> HORNWORT_KEY = registerKey("hornwort_key");
     public static final ResourceKey<ConfiguredFeature<?, ?>> DUCKWEED_KEY = registerKey("duckweed_key");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ANUBIAS_KEY = registerKey("anubias_key");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> GREEN_ALGAE_VEGETATION = registerKey("green_algae_vegetation");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GREEN_ALGAE_PATCH_BONEMEAL = registerKey("green_algae_patch_bonemeal");
@@ -76,6 +77,9 @@ public class YAFMConfiguredFeatures {
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> HORNWORT_FEATURE =
             register_feature("hornwort_feature", () -> new HornWortFeature(NoneFeatureConfiguration.CODEC));
 
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ANUBIAS_FEATURE =
+            register_feature("anubias_feature", () -> new AnubiasLogFeature(NoneFeatureConfiguration.CODEC));
+
     public static final RegistryObject<Feature<LiveRockBoulderConfig>> LIVE_ROCK_BOULDER_FEATURE =
             register_feature("live_rock_boulder_feature", () -> new LiveRockBoulderFeature(LiveRockBoulderConfig.CODEC));
 
@@ -87,6 +91,8 @@ public class YAFMConfiguredFeatures {
         HolderGetter<ConfiguredFeature<?, ?>> holdergetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
         register(context, HORNWORT_KEY, YAFMConfiguredFeatures.HORNWORT_FEATURE.get(), FeatureConfiguration.NONE);
+
+        register(context, ANUBIAS_KEY, YAFMConfiguredFeatures.ANUBIAS_FEATURE.get(), FeatureConfiguration.NONE);
 
         register(context, DUCKWEED_KEY, Feature.RANDOM_PATCH,
                 new RandomPatchConfiguration(20, 7, 3, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK,

@@ -29,6 +29,8 @@ public class YAFMPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> FOSSIL_STROMATOLITE_PLACED_KEY = registerKey("fossil_stromatolite_placed");
 
+    public static final ResourceKey<PlacedFeature> ANUBIAS_PLACED_KEY = registerKey("anubias_placed");
+
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
@@ -48,6 +50,9 @@ public class YAFMPlacedFeatures {
         register(context, FOSSIL_STROMATOLITE_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.FOSSIL_STROMATOLITE_PATCH),
                 CountPlacement.of(1), InSquarePlacement.spread(),
                 HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(20)), BiomeFilter.biome());
+
+        register(context, ANUBIAS_PLACED_KEY, configuredFeatures.getOrThrow(YAFMConfiguredFeatures.ANUBIAS_KEY),
+                aquaticPlantPlacement(1));
 
     }
 

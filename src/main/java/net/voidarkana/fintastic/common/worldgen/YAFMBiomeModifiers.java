@@ -20,6 +20,7 @@ public class YAFMBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_LIVE_ROCK = registerKey("add_live_rock_boulder");
     public static final ResourceKey<BiomeModifier> ADD_STROMATOLITE = registerKey("add_stromatolite");
     public static final ResourceKey<BiomeModifier> ADD_FOSSIL_STROMATOLITE = registerKey("add_fossil_stromatolite");
+    public static final ResourceKey<BiomeModifier> ADD_ANUBIAS = registerKey("add_anubias");
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -48,6 +49,11 @@ public class YAFMBiomeModifiers {
         context.register(ADD_FOSSIL_STROMATOLITE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.FOSSIL_STROMATOLITE_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_ANUBIAS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_JUNGLE),
+                HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.ANUBIAS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
     }
 
