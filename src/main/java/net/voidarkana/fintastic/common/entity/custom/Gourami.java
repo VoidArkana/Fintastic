@@ -49,7 +49,6 @@ public class Gourami extends BucketableFishEntity {
     public final AnimationState idleAnimationState = new AnimationState();
     public final AnimationState flopAnimationState = new AnimationState();
     public final AnimationState investigatingAnimationState = new AnimationState();
-    boolean canFloat;
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
 
@@ -66,7 +65,6 @@ public class Gourami extends BucketableFishEntity {
     public Gourami(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.refreshDimensions();
-        this.setCanFloat(true);
     }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
@@ -85,10 +83,10 @@ public class Gourami extends BucketableFishEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(1, new GouramiBreatheGoal(this));
         this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
         this.goalSelector.addGoal(4, new GouramiInvestigateGoal(this, 40));
+        this.goalSelector.addGoal(5, new GouramiBreatheGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -161,15 +159,6 @@ public class Gourami extends BucketableFishEntity {
         return this.entityData.get(WANTS_TO_BREATHE);
     }
 
-    @Override
-    public boolean canFloat() {
-        return canFloat;
-    }
-
-    public void setCanFloat(boolean canFloat) {
-        this.canFloat = canFloat;
-    }
-
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
@@ -190,17 +179,24 @@ public class Gourami extends BucketableFishEntity {
 
         super.tick();
 
-        if (!this.wantsToInvestigate() && this.random.nextInt(10) == 0) {
+        if (!this.wantsToInvestigate() && this.random.nextInt(50) == 0) {
             this.setWantsToInvestigate(true);
         }
 
-        if (!this.wantsToBreathe() && this.random.nextInt(100) == 0) {
+        if (!this.wantsToBreathe() && this.random.nextInt(500) == 0) {
             this.setWantsToBreathe(true);
         }
 
         if (this.isInvestigating()) {
             int invTime = this.getInvestigatingTime();
+            if (invTime-1 == 0){
+                this.setWantsToInvestigate(false);
+            }
             this.setInvestigatingTime(invTime - 1);
+        }
+
+        if (!this.isEyeInFluidType(Fluids.WATER.getFluidType()) && this.wantsToBreathe()){
+            this.setWantsToBreathe(false);
         }
     }
 
@@ -244,9 +240,7 @@ public class Gourami extends BucketableFishEntity {
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
             this.setVariantModel(pDataTag.getInt("VariantModel"));
             this.setVariantSkin(pDataTag.getInt("VariantSkin"));
-            this.setAirSupply(this.getMaxAirSupply());
-
-        } else if (pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)) {
+        } else {
 
             GouramiVariant variant = Util.getRandom(GouramiVariant.values(), this.random);
 
@@ -255,9 +249,8 @@ public class Gourami extends BucketableFishEntity {
 
             if (this.getVariantModel() == 0 && pReason == MobSpawnType.BUCKET)
                 this.setAge(-24000);
-
-            this.setAirSupply(this.getMaxAirSupply());
         }
+        this.setAirSupply(this.getMaxAirSupply());
 
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
@@ -338,6 +331,8 @@ public class Gourami extends BucketableFishEntity {
                 this.currentDuration--;
 
                 if (this.currentDuration <= 0) {
+                    this.fish.setInvestigatingTime(0);
+                    this.fish.setWantsToInvestigate(false);
                     this.stop();
                 }
                 --this.tryTicks;
@@ -354,8 +349,6 @@ public class Gourami extends BucketableFishEntity {
             } else {
                 this.currentDuration = 0;
             }
-            this.fish.setInvestigatingTime(0);
-            this.fish.setWantsToInvestigate(false);
         }
 
         @Override
@@ -380,17 +373,8 @@ public class Gourami extends BucketableFishEntity {
             return this.fish.wantsToBreathe();
         }
 
-        @Override
-        public void tick() {
-            super.tick();
-
-            //this.fish.setDeltaMovement(this.fish.getDeltaMovement().scale(0.75));
-
-            if (this.fish.isEyeInFluidType(Fluids.EMPTY.getFluidType())){
-                this.fish.setWantsToBreathe(false);
-
-                this.fish.addParticlesAroundSelf(ParticleTypes.BUBBLE);
-            }
+        public boolean isInterruptable() {
+            return true;
         }
     }
 

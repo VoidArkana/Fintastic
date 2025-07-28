@@ -422,5 +422,9 @@
   "fintastic.gourami_sci.20": "Betta albimarginata",
   "fintastic.gourami_sci.21": "Betta mahachaiensis",
   "fintastic.gourami_sci.22": "Betta splendens",
-  "fintastic.gourami_sci.23": "Trichopsis vittata"
+  "fintastic.gourami_sci.23": "Trichopsis vittata",
+
+  "block.fintastic.sea_grapes": "Alga Umibudo",
+  "block.fintastic.sea_grapes_plant": "Alga Umibudo",
+  "item.fintastic.sea_grape_salad": "Ensalada de Alga Umibudo"
 }

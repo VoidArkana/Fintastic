@@ -447,5 +447,9 @@
   "fintastic.gourami_sci.20": "Betta albimarginata",
   "fintastic.gourami_sci.21": "Betta mahachaiensis",
   "fintastic.gourami_sci.22": "Betta splendens",
-  "fintastic.gourami_sci.23": "Trichopsis vittata"
+  "fintastic.gourami_sci.23": "Trichopsis vittata",
+
+  "block.fintastic.sea_grapes": "Sea Grapes",
+  "block.fintastic.sea_grapes_plant": "Sea Grapes",
+  "item.fintastic.sea_grape_salad": "Sea Grape Salad"
 }

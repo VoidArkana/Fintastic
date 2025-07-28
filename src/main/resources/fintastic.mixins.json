@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "fintastic.refmap.json",
   "mixins": [
-    "common.BoneMealItemMixin"
+    "common.BoneMealItemMixin",
+    "common.DrownedMixin"
   ],
   "client": [
     "client.LiquidBlockRendererMixin"

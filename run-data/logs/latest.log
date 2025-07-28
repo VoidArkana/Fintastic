@@ -1,37 +1,37 @@
-[25Jul2025 14:32:14.597] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgedatauserdev, --assetIndex, 5, --assetsDir, C:\Users\facel\.gradle\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.2.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --mod, fintastic, --all, --output, C:\Users\facel\IdeaProjects\Fintastic\src\generated\resources, --existing, C:\Users\facel\IdeaProjects\Fintastic\src\main\resources, --mixin.config, fintastic.mixins.json]
-[25Jul2025 14:32:14.605] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.15 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
-[25Jul2025 14:32:14.813] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgedatauserdev
-[25Jul2025 14:32:14.869] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/facel/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
-[25Jul2025 14:32:15.225] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\facel\.gradle\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.2.0\7f9181f85acc66547685a72020713fc8cbde98\javafmllanguage-1.20.1-47.2.0.jar is missing mods.toml file
-[25Jul2025 14:32:15.227] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\facel\.gradle\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.2.0\7872f5205685fdd26fae39b1be79b0e60ca5b7bd\lowcodelanguage-1.20.1-47.2.0.jar is missing mods.toml file
-[25Jul2025 14:32:15.229] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\facel\.gradle\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.2.0\d501d161cabed08b3c139a2c6217b02a39f3c3e9\mclanguage-1.20.1-47.2.0.jar is missing mods.toml file
-[25Jul2025 14:32:15.233] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\facel\.gradle\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.2.0\ffd3c6debac0a388c9e33ac43c9f5eafb91cb466\fmlcore-1.20.1-47.2.0.jar is missing mods.toml file
-[25Jul2025 14:32:15.456] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: Found 1 dependencies adding them to mods collection
-[25Jul2025 14:32:17.257] [main/INFO] [mixin/]: Compatibility level set to JAVA_17
-[25Jul2025 14:32:17.265] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgedatauserdev' with arguments [--gameDir, ., --assetsDir, C:\Users\facel\.gradle\caches\forge_gradle\assets, --assetIndex, 5, --mod, fintastic, --all, --output, C:\Users\facel\IdeaProjects\Fintastic\src\generated\resources, --existing, C:\Users\facel\IdeaProjects\Fintastic\src\main\resources]
-[25Jul2025 14:32:17.430] [main/WARN] [mixin/]: Reference map 'fintastic.refmap.json' for fintastic.mixins.json could not be read. If this is a development environment you can ignore this message
-[25Jul2025 14:32:17.729] [main/INFO] [mixin/]: Remapping refMap geckolib.refmap.json using C:\Users\facel\IdeaProjects\Fintastic\build\createSrgToMcp\output.srg
-[25Jul2025 14:32:18.292] [main/INFO] [net.minecraftforge.data.loading.DatagenModLoader/]: Initializing Data Gatherer for mods [fintastic]
-[25Jul2025 14:32:23.741] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.2.0, for MC 1.20.1 with MCP 20230612.114412
-[25Jul2025 14:32:23.749] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.2.0 Initialized
-[25Jul2025 14:32:23.831] [modloading-worker-0/WARN] [software.bernie.geckolib.GeckoLib/]: Minecraft.getInstance() was null, could not register reload listeners
-[25Jul2025 14:32:24.772] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/facel/IdeaProjects/Fintastic/build/fg_cache/net/minecraftforge/forge/1.20.1-47.2.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.2.0_mapped_parchment_2023.09.03-1.20.1.jar%23191!/assets/.mcassetsroot' uses unexpected schema
-[25Jul2025 14:32:24.772] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/facel/IdeaProjects/Fintastic/build/fg_cache/net/minecraftforge/forge/1.20.1-47.2.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.2.0_mapped_parchment_2023.09.03-1.20.1.jar%23191!/data/.mcassetsroot' uses unexpected schema
-[25Jul2025 14:32:25.273] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Block States: fintastic
-[25Jul2025 14:32:25.442] [main/INFO] [net.minecraft.data.DataGenerator/]: Block States: fintastic finished after 169 ms
-[25Jul2025 14:32:25.443] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Item Models: fintastic
-[25Jul2025 14:32:25.455] [main/INFO] [net.minecraft.data.DataGenerator/]: Item Models: fintastic finished after 11 ms
-[25Jul2025 14:32:25.455] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:block mod id fintastic
-[25Jul2025 14:32:25.476] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:block mod id fintastic finished after 21 ms
-[25Jul2025 14:32:25.476] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:item mod id fintastic
-[25Jul2025 14:32:25.480] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:item mod id fintastic finished after 3 ms
-[25Jul2025 14:32:25.480] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:fluid mod id fintastic
-[25Jul2025 14:32:25.481] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:fluid mod id fintastic finished after 1 ms
-[25Jul2025 14:32:25.481] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:worldgen/biome mod id fintastic
-[25Jul2025 14:32:25.484] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:worldgen/biome mod id fintastic finished after 2 ms
-[25Jul2025 14:32:25.484] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:entity_type mod id fintastic
-[25Jul2025 14:32:25.486] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:entity_type mod id fintastic finished after 1 ms
-[25Jul2025 14:32:25.486] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Registries
-[25Jul2025 14:32:25.509] [main/INFO] [net.minecraft.data.DataGenerator/]: Registries finished after 23 ms
-[25Jul2025 14:32:25.509] [main/INFO] [net.minecraft.data.DataGenerator/]: All providers took: 238 ms
-[25Jul2025 14:32:25.521] [main/INFO] [net.minecraft.data.HashCache/]: Caching: total files: 172, old count: 178, new count: 173, removed stale: 0, written: 1
+[28Jul2025 18:43:28.125] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgedatauserdev, --assetIndex, 5, --assetsDir, C:\Users\facel\.gradle\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.2.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --mod, fintastic, --all, --output, C:\Users\facel\IdeaProjects\Fintastic\src\generated\resources, --existing, C:\Users\facel\IdeaProjects\Fintastic\src\main\resources, --mixin.config, fintastic.mixins.json]
+[28Jul2025 18:43:28.134] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.15 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
+[28Jul2025 18:43:28.290] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgedatauserdev
+[28Jul2025 18:43:28.336] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/facel/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
+[28Jul2025 18:43:28.737] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\facel\.gradle\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.2.0\7f9181f85acc66547685a72020713fc8cbde98\javafmllanguage-1.20.1-47.2.0.jar is missing mods.toml file
+[28Jul2025 18:43:28.739] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\facel\.gradle\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.2.0\7872f5205685fdd26fae39b1be79b0e60ca5b7bd\lowcodelanguage-1.20.1-47.2.0.jar is missing mods.toml file
+[28Jul2025 18:43:28.741] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\facel\.gradle\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.2.0\d501d161cabed08b3c139a2c6217b02a39f3c3e9\mclanguage-1.20.1-47.2.0.jar is missing mods.toml file
+[28Jul2025 18:43:28.742] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\facel\.gradle\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.2.0\ffd3c6debac0a388c9e33ac43c9f5eafb91cb466\fmlcore-1.20.1-47.2.0.jar is missing mods.toml file
+[28Jul2025 18:43:29.028] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: Found 1 dependencies adding them to mods collection
+[28Jul2025 18:43:30.808] [main/INFO] [mixin/]: Compatibility level set to JAVA_17
+[28Jul2025 18:43:30.814] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgedatauserdev' with arguments [--gameDir, ., --assetsDir, C:\Users\facel\.gradle\caches\forge_gradle\assets, --assetIndex, 5, --mod, fintastic, --all, --output, C:\Users\facel\IdeaProjects\Fintastic\src\generated\resources, --existing, C:\Users\facel\IdeaProjects\Fintastic\src\main\resources]
+[28Jul2025 18:43:30.955] [main/WARN] [mixin/]: Reference map 'fintastic.refmap.json' for fintastic.mixins.json could not be read. If this is a development environment you can ignore this message
+[28Jul2025 18:43:31.247] [main/INFO] [mixin/]: Remapping refMap geckolib.refmap.json using C:\Users\facel\IdeaProjects\Fintastic\build\createSrgToMcp\output.srg
+[28Jul2025 18:43:31.754] [main/INFO] [net.minecraftforge.data.loading.DatagenModLoader/]: Initializing Data Gatherer for mods [fintastic]
+[28Jul2025 18:43:36.631] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.2.0, for MC 1.20.1 with MCP 20230612.114412
+[28Jul2025 18:43:36.637] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.2.0 Initialized
+[28Jul2025 18:43:36.704] [modloading-worker-0/WARN] [software.bernie.geckolib.GeckoLib/]: Minecraft.getInstance() was null, could not register reload listeners
+[28Jul2025 18:43:37.411] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/facel/IdeaProjects/Fintastic/build/fg_cache/net/minecraftforge/forge/1.20.1-47.2.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.2.0_mapped_parchment_2023.09.03-1.20.1.jar%23191!/assets/.mcassetsroot' uses unexpected schema
+[28Jul2025 18:43:37.411] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/facel/IdeaProjects/Fintastic/build/fg_cache/net/minecraftforge/forge/1.20.1-47.2.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.2.0_mapped_parchment_2023.09.03-1.20.1.jar%23191!/data/.mcassetsroot' uses unexpected schema
+[28Jul2025 18:43:37.721] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Block States: fintastic
+[28Jul2025 18:43:37.855] [main/INFO] [net.minecraft.data.DataGenerator/]: Block States: fintastic finished after 133 ms
+[28Jul2025 18:43:37.855] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Item Models: fintastic
+[28Jul2025 18:43:37.864] [main/INFO] [net.minecraft.data.DataGenerator/]: Item Models: fintastic finished after 9 ms
+[28Jul2025 18:43:37.864] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:block mod id fintastic
+[28Jul2025 18:43:37.888] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:block mod id fintastic finished after 23 ms
+[28Jul2025 18:43:37.888] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:item mod id fintastic
+[28Jul2025 18:43:37.892] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:item mod id fintastic finished after 4 ms
+[28Jul2025 18:43:37.893] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:fluid mod id fintastic
+[28Jul2025 18:43:37.894] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:fluid mod id fintastic finished after 1 ms
+[28Jul2025 18:43:37.894] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:worldgen/biome mod id fintastic
+[28Jul2025 18:43:37.897] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:worldgen/biome mod id fintastic finished after 3 ms
+[28Jul2025 18:43:37.897] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:entity_type mod id fintastic
+[28Jul2025 18:43:37.901] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:entity_type mod id fintastic finished after 2 ms
+[28Jul2025 18:43:37.901] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Registries
+[28Jul2025 18:43:37.931] [main/INFO] [net.minecraft.data.DataGenerator/]: Registries finished after 30 ms
+[28Jul2025 18:43:37.931] [main/INFO] [net.minecraft.data.DataGenerator/]: All providers took: 210 ms
+[28Jul2025 18:43:37.944] [main/INFO] [net.minecraft.data.HashCache/]: Caching: total files: 172, old count: 178, new count: 173, removed stale: 0, written: 0

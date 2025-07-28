@@ -177,11 +177,11 @@ public class YAFMBlocks {
 
     public static final RegistryObject<Block> STROMATOLITE_BLOCK = registerBlock("stromatolite_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).forceSolidOn()
-                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().instabreak()));
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()));
 
     public static final RegistryObject<Block> CUT_STROMATOLITE_BLOCK = registerBlock("cut_stromatolite_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_YELLOW).forceSolidOn()
-                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().instabreak()));
+                    .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()));
 
     public static final RegistryObject<Block> FOSSIL_STROMATOLITE_BLOCK = registerBlock("fossil_stromatolite_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).forceSolidOn()
