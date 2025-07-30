@@ -57,7 +57,7 @@ public class BabyArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<
 
 		PartDefinition leftfin = torso.addOrReplaceChild("leftfin", CubeListBuilder.create().texOffs(12, 23).addBox(0.0F, 0.0F, -0.5F, 0.0F, 2.0F, 2.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(1.5F, 1.5F, -11.5F, 0.0F, 0.0F, -0.7854F));
 
-		PartDefinition rightfin = torso.addOrReplaceChild("rightfin", CubeListBuilder.create().texOffs(12, 23).addBox(0.0F, 0.0F, -0.5F, 0.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, 1.5F, -11.5F, 0.0F, 0.0F, 0.7854F));
+		PartDefinition rightfin = torso.addOrReplaceChild("rightfin", CubeListBuilder.create().texOffs(12, 23).addBox(0.0F, 0.0F, -0.5F, 0.0F, 2.0F, 2.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(-1.5F, 1.5F, -11.5F, 0.0F, 0.0F, 0.7854F));
 
 		PartDefinition tailfin = torso.addOrReplaceChild("tailfin", CubeListBuilder.create().texOffs(17, 23).addBox(0.0F, -2.5F, 0.0F, 0.0F, 5.0F, 4.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
