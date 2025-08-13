@@ -12,18 +12,12 @@ import net.voidarkana.fintastic.common.item.YAFMItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Drowned.class)
 public class DrownedMixin extends Zombie {
     public DrownedMixin(EntityType<? extends Zombie> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-    }
-
-    @Inject(method = "performRangedAttack", at = @At("HEAD"), cancellable = true)
-    private void suppressPerformRangedAttack(LivingEntity pTarget, float pVelocity, CallbackInfo ci) {
-        ci.cancel();
     }
 
     @Inject(
