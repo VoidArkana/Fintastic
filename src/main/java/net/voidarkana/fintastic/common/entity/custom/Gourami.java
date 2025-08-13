@@ -163,10 +163,11 @@ public class Gourami extends BucketableFishEntity {
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
         Gourami baby = YAFMEntities.GOURAMI.get().create(pLevel);
+        Gourami otherParent = (Gourami) pOtherParent;
         if (baby != null) {
             baby.setFromBucket(true);
-            baby.setVariantModel(this.getVariantModel());
-            baby.setVariantSkin(this.getVariantSkin());
+            baby.setVariantModel(this.random.nextBoolean() ? this.getVariantModel() : otherParent.getVariantModel());
+            baby.setVariantSkin(this.random.nextBoolean() ? this.getVariantSkin() : otherParent.getVariantSkin());
         }
         return baby;
     }
@@ -205,9 +206,6 @@ public class Gourami extends BucketableFishEntity {
         this.flopAnimationState.animateWhen(!this.isInWaterOrBubble(), this.tickCount);
 
         this.investigatingAnimationState.animateWhen(this.isInvestigating(), this.tickCount);
-//        if (this.getInvestigatingTime()==39){
-//            this.idleAnimationState.start(this.tickCount);
-//        }
     }
 
     @Override
@@ -268,7 +266,21 @@ public class Gourami extends BucketableFishEntity {
     @Override
     public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
         Gourami mate = (Gourami) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && mate.getVariantModel() == this.getVariantModel() && mate.getVariantSkin() == this.getVariantSkin();
+
+        return super.canMate(pOtherAnimal) && (areBothSpottedGouramies(mate) || (mate.getVariantModel() == this.getVariantModel() && mate.getVariantSkin() == this.getVariantSkin()));
+    }
+
+    private boolean areBothSpottedGouramies(Gourami otherGourami) {
+        int thisJoinedVariantID = Integer.decode(String.valueOf(this.getVariantModel()) + this.getVariantSkin());
+        GouramiVariant thisGouramiVariant = GouramiVariant.byId(thisJoinedVariantID);
+
+        int otherJoinedVariantID = Integer.decode(String.valueOf(otherGourami.getVariantModel()) + otherGourami.getVariantSkin());
+        GouramiVariant otherGouramiVariant = GouramiVariant.byId(otherJoinedVariantID);
+
+        return (thisGouramiVariant == GouramiVariant.LAVENDER_THREE_SPOT_GOURAMI
+                || thisGouramiVariant == GouramiVariant.BLUE_THREE_SPOT_GOURAMI || thisGouramiVariant == GouramiVariant.YELLOW_THREE_SPOT_GOURAMI) &&
+                (otherGouramiVariant == GouramiVariant.LAVENDER_THREE_SPOT_GOURAMI
+                        || otherGouramiVariant == GouramiVariant.BLUE_THREE_SPOT_GOURAMI || otherGouramiVariant == GouramiVariant.YELLOW_THREE_SPOT_GOURAMI);
     }
 
     @Override

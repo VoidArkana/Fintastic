@@ -21,6 +21,7 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
@@ -66,9 +67,9 @@ public class FishnetItem extends Item {
 
                 if (more) {
                     stack1 = new ItemStack(YAFMItems.FISHNET.get());
-                    stack.shrink(1);
 
-                    more = true;
+                    if (!player.getAbilities().instabuild)
+                        stack.shrink(1);
                 }
 
                 CompoundTag targetTag = target.serializeNBT();
@@ -77,10 +78,14 @@ public class FishnetItem extends Item {
                 tag.put(DATA_CREATURE, targetTag);
                 stack1.setTag(tag);
 
-                if (more) {
-                    if (!player.getInventory().add(stack1)) player.drop(stack1, true);
-                    else player.addItem(stack1);
-                }
+                ItemStack stack2 = ItemUtils.createFilledResult(stack, player, stack1, false);
+
+//                if (more) {
+//                    if (!player.getInventory().add(stack2)) player.drop(stack2, true);
+//                    else player.setItemInHand(hand, stack2);
+//                }
+
+                player.setItemInHand(hand, stack2);
 
                 target.discard();
 
@@ -201,7 +206,9 @@ public class FishnetItem extends Item {
                 fish.setFromBucket(true);
             }
 
-            stack.removeTagKey(DATA_CREATURE);
+            if (!player.getAbilities().instabuild)
+                stack.removeTagKey(DATA_CREATURE);
+
             level.addFreshEntity(entity);
             level.playSound(null, entity.blockPosition(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.AMBIENT, 1, 1);
 
@@ -241,17 +248,22 @@ public class FishnetItem extends Item {
             entity.moveTo(blockpos1.getX() + 0.5, blockpos1.getY(), blockpos1.getZ() + 0.5, context.getPlayer().getYRot(), 0f);
 
             if (stack.hasCustomHoverName()) entity.setCustomName(stack.getHoverName());
-            stack.removeTagKey(DATA_CREATURE);
+
+            if (!context.getPlayer().getAbilities().instabuild)
+                stack.removeTagKey(DATA_CREATURE);
 
             if (entity instanceof Bucketable fish){
                 fish.setFromBucket(true);
             }
 
-            if (context.getLevel().addFreshEntity(entity)) {
+            if (context.getLevel().addFreshEntity(entity) && !context.getPlayer().getAbilities().instabuild) {
                 itemstack.shrink(1);
             }
-            context.getLevel().playSound(null, entity.blockPosition(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.AMBIENT, 1, 1);
-            context.getPlayer().setItemInHand(context.getHand(), new ItemStack(YAFMItems.FISHNET.get()));
+
+            context.getLevel().playSound(null, entity.blockPosition(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.AMBIENT, 1, 1);
+
+            if (!context.getPlayer().getAbilities().instabuild)
+                context.getPlayer().setItemInHand(context.getHand(), new ItemStack(YAFMItems.FISHNET.get()));
 
             return InteractionResult.CONSUME;
         }
