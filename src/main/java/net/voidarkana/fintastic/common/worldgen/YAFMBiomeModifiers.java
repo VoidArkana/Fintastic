@@ -12,6 +12,7 @@ import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.voidarkana.fintastic.Fintastic;
+import net.voidarkana.fintastic.util.YAFMTags;
 
 public class YAFMBiomeModifiers {
 
@@ -27,22 +28,22 @@ public class YAFMBiomeModifiers {
         var biomes = context.lookup(Registries.BIOME);
 
         context.register(ADD_HORNWORT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-           biomes.getOrThrow(BiomeTags.IS_RIVER),
+           biomes.getOrThrow(YAFMTags.Biomes.HORNWORT_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.HORNWORT_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_DUCKWEED, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(Tags.Biomes.IS_SWAMP),
+                biomes.getOrThrow(YAFMTags.Biomes.DUCKWEED_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.DUCKWEED_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_LIVE_ROCK, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL),
+                biomes.getOrThrow(YAFMTags.Biomes.LIVEROCK_BOULDER_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.LIVE_ROCK_PLACED_KEY)),
                 GenerationStep.Decoration.LOCAL_MODIFICATIONS));
 
         context.register(ADD_STROMATOLITE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_BEACH),
+                biomes.getOrThrow(YAFMTags.Biomes.STROMATOLITE_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.STROMATOLITE_PLACED_KEY)),
                 GenerationStep.Decoration.LOCAL_MODIFICATIONS));
 
@@ -52,7 +53,7 @@ public class YAFMBiomeModifiers {
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_ANUBIAS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_JUNGLE),
+                biomes.getOrThrow(YAFMTags.Biomes.ANUBIAS_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(YAFMPlacedFeatures.ANUBIAS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
     }

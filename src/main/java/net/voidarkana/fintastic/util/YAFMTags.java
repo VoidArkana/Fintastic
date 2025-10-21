@@ -27,6 +27,12 @@ public class YAFMTags {
 
         public static final TagKey<Biome> FRESHWATER_PLANT_BIOME_BLACKLIST = tag("non_freshwater_plant_biomes");
 
+        public static final TagKey<Biome> LIVEROCK_BOULDER_BIOMES = tag("liverock_boulder_biomes");
+        public static final TagKey<Biome> DUCKWEED_BIOMES = tag("duckweed_biomes");
+        public static final TagKey<Biome> HORNWORT_BIOMES = tag("hornwort_biomes");
+        public static final TagKey<Biome> STROMATOLITE_BIOMES = tag("stromatolite_biomes");
+        public static final TagKey<Biome> ANUBIAS_BIOMES = tag("anubias_biomes");
+
         private static TagKey<Biome> tag(String pName) {
             return TagKey.create(Registries.BIOME, new ResourceLocation(Fintastic.MOD_ID, pName));
         }
@@ -59,6 +65,7 @@ public class YAFMTags {
         public static final TagKey<Block> ALGAE_REPLACEABLE = tag("algae_replaceable");
 
         public static final TagKey<Block> STROMATOLITE_REPLACEABLE = tag("stromatolite_replaceable");
+        public static final TagKey<Block> FOSSIL_STROMATOLITE_REPLACEABLE = tag("fossil_stromatolite_replaceable");
 
         public static final TagKey<Block> AQUATIC_PLANTS = tag("aquatic_plants");
 

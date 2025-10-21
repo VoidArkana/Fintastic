@@ -70,6 +70,21 @@ public class YAFMBiomeTagGenerator extends BiomeTagsProvider {
 
         this.tag(YAFMTags.Biomes.GOURAMI_BIOMES)
                 .addTag(Tags.Biomes.IS_SWAMP);
+
+        this.tag(YAFMTags.Biomes.LIVEROCK_BOULDER_BIOMES)
+                .addTag(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL);
+
+        this.tag(YAFMTags.Biomes.STROMATOLITE_BIOMES)
+                .addTag(BiomeTags.IS_BEACH);
+
+        this.tag(YAFMTags.Biomes.ANUBIAS_BIOMES)
+                .addTag(BiomeTags.IS_JUNGLE);
+
+        this.tag(YAFMTags.Biomes.HORNWORT_BIOMES)
+                .addTag(BiomeTags.IS_RIVER);
+
+        this.tag(YAFMTags.Biomes.DUCKWEED_BIOMES)
+                .addTag(Tags.Biomes.IS_SWAMP);
     }
 
 }

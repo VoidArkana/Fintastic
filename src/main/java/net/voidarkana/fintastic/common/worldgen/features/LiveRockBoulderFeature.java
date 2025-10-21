@@ -26,6 +26,9 @@ public class LiveRockBoulderFeature extends Feature<LiveRockBoulderConfig> {
         WorldGenLevel worldgenlevel = pContext.level();
         RandomSource pRandom = pContext.random();
 
+        if (blockpos.getY() >= 50)
+            return false;
+
         LiveRockBoulderConfig pConfig;
         for(pConfig = pContext.config(); blockpos.getY() > worldgenlevel.getMinBuildHeight() + 3; blockpos = blockpos.below()) {
             if (!worldgenlevel.isEmptyBlock(blockpos.below())) {
