@@ -81,7 +81,7 @@ public class YAFMBiomeTagGenerator extends BiomeTagsProvider {
                 .addTag(BiomeTags.IS_JUNGLE);
 
         this.tag(YAFMTags.Biomes.HORNWORT_BIOMES)
-                .addTag(BiomeTags.IS_RIVER);
+                .add(Biomes.RIVER);
 
         this.tag(YAFMTags.Biomes.DUCKWEED_BIOMES)
                 .addTag(Tags.Biomes.IS_SWAMP);
