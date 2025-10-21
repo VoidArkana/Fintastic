@@ -55,7 +55,7 @@ public class MinnowEntity extends VariantSchoolingFish {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.8F);
+                .add(Attributes.MOVEMENT_SPEED, 0.6F);
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -242,7 +242,7 @@ public class MinnowEntity extends VariantSchoolingFish {
                         };
                     } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
 
-                        int var = this.getRandom().nextInt(10);
+                        int var = this.getRandom().nextInt(11);
 
                         model = switch (var){
                             case 1 -> MinnowVariant.GALAXIAS.getModel();
@@ -254,6 +254,7 @@ public class MinnowEntity extends VariantSchoolingFish {
                             case 7 -> MinnowVariant.STREAKED_PROCHILODUS.getModel();
                             case 8 -> MinnowVariant.TINFOIL_BARB.getModel();
                             case 9 -> MinnowVariant.SICKLEFIN_BARB.getModel();
+                            case 10 -> MinnowVariant.BLACKLINETAIL_TETRA.getModel();
                             default -> MinnowVariant.DELTA_SMELT.getModel();
                         };
 
@@ -267,6 +268,7 @@ public class MinnowEntity extends VariantSchoolingFish {
                             case 7 -> MinnowVariant.STREAKED_PROCHILODUS.getSkin();
                             case 8 -> MinnowVariant.TINFOIL_BARB.getSkin();
                             case 9 -> MinnowVariant.SICKLEFIN_BARB.getSkin();
+                            case 10 -> MinnowVariant.BLACKLINETAIL_TETRA.getSkin();
                             default -> MinnowVariant.DELTA_SMELT.getSkin();
                         };
 
@@ -397,6 +399,7 @@ public class MinnowEntity extends VariantSchoolingFish {
         RED_TAIL_ASTYANAX(37,"red_tail_astyanax"),
         SAILFIN_SHINER(38,"sailfin_shiner"),
         TORPEDO_BARB(39,"torpedo_barb"),
+        BLACKLINETAIL_TETRA(310,"blacklinetail_tetra"),
 
         BLUE_NEON_RASBORA(40,"blue_neon_rasbora"),
         CARDINAL_TETRA(41,"cardinal_tetra"),
@@ -426,11 +429,11 @@ public class MinnowEntity extends VariantSchoolingFish {
         }
 
         public int getModel(){
-            return this.joinedVariant/10;
+            return this.joinedVariant > 100 ? this.joinedVariant/100 : this.joinedVariant/10;
         }
 
         public int getSkin(){
-            return this.joinedVariant%10;
+            return this.joinedVariant > 100 ? this.joinedVariant%100 : this.joinedVariant%10;
         }
 
         public String getName(){
@@ -438,7 +441,7 @@ public class MinnowEntity extends VariantSchoolingFish {
         }
 
         public String getModelName(){
-            return switch ((int)this.joinedVariant/10) {
+            return switch (this.getModel()) {
                 case 1 -> "hatchet";
                 case 2 -> "round";
                 case 3 -> "slim";
@@ -461,7 +464,7 @@ public class MinnowEntity extends VariantSchoolingFish {
         int i = pLevel.getSeaLevel();
         int j = i - 13;
         return !pLevel.getBiome(pPos).is(BiomeTags.IS_OCEAN) && ((pLevel.getBiome(pPos).is(YAFMTags.Biomes.MINNOW_SURFACE_BIOMES) && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
-                || (pPos.getY() <= pLevel.getSeaLevel() - 33 && pLevel.getBlockState(pPos).is(Blocks.WATER)));
+                || (pPos.getY() <= pLevel.getSeaLevel() - 33 && pLevel.getBlockState(pPos).is(Blocks.WATER) && (pLevel.getRawBrightness(pPos, 0) == 0 || pLevel.getBiome(pPos).is(Biomes.LUSH_CAVES))));
     }
 
 }

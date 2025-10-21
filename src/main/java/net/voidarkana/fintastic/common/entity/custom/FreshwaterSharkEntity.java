@@ -3,6 +3,7 @@ package net.voidarkana.fintastic.common.entity.custom;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -121,7 +122,12 @@ public class FreshwaterSharkEntity extends VariantSchoolingFish implements GeoEn
 
                 this.startFollowing(((FreshwaterSharkEntity.FishGroupData)pSpawnData).leader);
             }else {
-                model = this.random.nextInt(4);
+
+                if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
+                    model = this.random.nextBoolean() ? 0 : 2;
+                }else {
+                    model = this.random.nextBoolean() ? 1 : 3;
+                }
 
                 if (model==1){
                     skin = this.random.nextInt(3);

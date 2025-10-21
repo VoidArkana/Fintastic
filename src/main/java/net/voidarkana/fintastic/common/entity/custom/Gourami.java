@@ -91,7 +91,7 @@ public class Gourami extends BucketableFishEntity {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 7.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.8F);
+                .add(Attributes.MOVEMENT_SPEED, 0.6F);
     }
 
     protected void defineSynchedData() {
@@ -203,7 +203,7 @@ public class Gourami extends BucketableFishEntity {
 
     private void setupAnimationStates() {
         this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
-        this.flopAnimationState.animateWhen(!this.isInWaterOrBubble(), this.tickCount);
+        this.flopAnimationState.animateWhen(this.isAlive(), this.tickCount);
 
         this.investigatingAnimationState.animateWhen(this.isInvestigating(), this.tickCount);
     }

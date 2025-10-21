@@ -70,18 +70,19 @@ public class BabyArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<
 	public void setupAnim(ArapaimaEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
+		this.animateIdle(pEntity.idleAnimationState, BabyArapaimaAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
+		this.animateIdle(pEntity.idleAnimationState, BabyArapaimaAnims.CRAWL_IDLE, pAgeInTicks, 1.0F,  (pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount));
+
 		if (pEntity.isInWaterOrBubble()){
 			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F);
 			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2);
 
-			this.animateIdle(pEntity.idleAnimationState, BabyArapaimaAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
 
 			this.animateWalk(BabyArapaimaAnims.SWIM, pLimbSwing/2, pLimbSwingAmount/2, 2f, 3f);
 		}
 		else {
 			this.swim_rot.resetPose();
 
-			this.animateIdle(pEntity.idleAnimationState, BabyArapaimaAnims.CRAWL_IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
 			this.animateWalk(BabyArapaimaAnims.CRAWL_WALK, pLimbSwing/2, pLimbSwingAmount/2, 2f, 3f);
 		}
 	}

@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.voidarkana.fintastic.client.animation.CoelacanthAnims;
 import net.voidarkana.fintastic.client.animation.GouramiAnims;
 import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
@@ -77,17 +78,18 @@ public class GouramiHugeModel<T extends Gourami> extends FintasticModel<T> {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
+		this.animateIdle(pEntity.idleAnimationState, GouramiAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
+		this.animateIdle(pEntity.flopAnimationState, GouramiAnims.HUGE_FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+
 		if (pEntity.isInWaterOrBubble()){
 			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F)/2;
 			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/4);
-			this.animateIdle(pEntity.idleAnimationState, GouramiAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
 
 			this.animateWalk(GouramiAnims.SWIM_HUGE, pLimbSwing*2, pLimbSwingAmount, 2f, 3f);
 		}
 		else {
 			this.swim_rot.resetPose();
 			this.applyStatic(GouramiAnims.HUGE_FLOP_OFFSET);
-			this.animate(pEntity.flopAnimationState, GouramiAnims.HUGE_FLOP, pAgeInTicks, 1.0F);
 		}
 
 		this.animate(pEntity.investigatingAnimationState, GouramiAnims.INVESTIGATE_LONG, pAgeInTicks);

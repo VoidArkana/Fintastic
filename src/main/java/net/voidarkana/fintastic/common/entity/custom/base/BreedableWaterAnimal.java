@@ -45,6 +45,7 @@ import java.util.UUID;
 public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     public float currentRoll = 0.0F;
+    int prevTicksOutsideWater;
     @Nullable
     public RandomSwimmingGoal randomSwimmingGoal;
 
@@ -87,6 +88,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     protected int age;
     protected int forcedAge;
     protected int forcedAgeTimer;
+
 
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         if (pSpawnData == null) {
@@ -555,6 +557,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     private static final EntityDataAccessor<Integer> FEED_TYPE = SynchedEntityData.defineId(BreedableWaterAnimal.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> CAN_GROW_UP = SynchedEntityData.defineId(BreedableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> TICKS_OUTSIDE_WATER = SynchedEntityData.defineId(BreedableWaterAnimal.class, EntityDataSerializers.INT);
 
 
     protected void defineSynchedData() {
@@ -562,6 +565,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         this.entityData.define(FEED_TYPE, 0);
         this.entityData.define(CAN_GROW_UP, true);
         this.entityData.define(DATA_BABY_ID, false);
+        this.entityData.define(TICKS_OUTSIDE_WATER, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag pCompound) {
@@ -611,6 +615,14 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         this.entityData.set(CAN_GROW_UP, variant);
     }
 
+    public int getTicksOutsideWater() {
+        return this.entityData.get(TICKS_OUTSIDE_WATER);
+    }
+
+    public void setTicksOutsideWater(int variant) {
+        this.entityData.set(TICKS_OUTSIDE_WATER, variant);
+    }
+
     @Override
     public void aiStep() {
 
@@ -622,6 +634,23 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         }
 
         super.aiStep();
+
+        System.out.println(this.getTicksOutsideWater());
+        if (this.isInWaterOrBubble()){
+            if (!this.level().isClientSide()){
+                if (this.getTicksOutsideWater() > 0){
+                    this.prevTicksOutsideWater = this.getTicksOutsideWater();
+                    this.setTicksOutsideWater(this.prevTicksOutsideWater-1);
+                }
+            }
+        }else {
+            if (!this.level().isClientSide()){
+                if (this.getTicksOutsideWater() < 3){
+                    this.prevTicksOutsideWater = this.getTicksOutsideWater();
+                    this.setTicksOutsideWater(this.prevTicksOutsideWater+1);
+                }
+            }
+        }
 
         //ageable mob
         if (this.level().isClientSide) {

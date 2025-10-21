@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.animation.MoonyAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Moony;
@@ -78,6 +79,10 @@ public class MoonyMidModel<T extends Moony> extends FintasticModel<T> {
 	public void setupAnim(Moony pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
+
+		this.animateIdle(pEntity.idleAnimationState, MoonyAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
+		this.animateIdle(pEntity.flopAnimationState, MoonyAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+
 		if (pEntity.isInWaterOrBubble()){
 			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
 			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
@@ -88,10 +93,6 @@ public class MoonyMidModel<T extends Moony> extends FintasticModel<T> {
 
 			this.swim_rot.resetPose();
 		}
-
-		this.animateIdle(pEntity.idleAnimationState, MoonyAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
-
-		this.animate(pEntity.flopAnimationState, MoonyAnims.FLOP, pAgeInTicks, 1.0F);
 
 	}
 

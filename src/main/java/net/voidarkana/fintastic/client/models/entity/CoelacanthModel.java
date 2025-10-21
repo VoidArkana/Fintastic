@@ -9,6 +9,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.voidarkana.fintastic.client.animation.ArapaimaAnims;
 import net.voidarkana.fintastic.client.animation.CoelacanthAnims;
+import net.voidarkana.fintastic.client.animation.MoonyAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Coelacanth;
 
@@ -90,6 +91,9 @@ public class CoelacanthModel<T extends Coelacanth> extends FintasticModel<T> {
 			this.applyStatic(CoelacanthAnims.BABY);
 		}
 
+		this.animateIdle(pEntity.idleAnimationState, CoelacanthAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
+		this.animateIdle(pEntity.flopAnimationState, CoelacanthAnims.FLOP, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
+
 		if (pEntity.isInWaterOrBubble()){
 			this.head.xRot = (((headPitch * ((float) Math.PI / 180F))/32));
 			this.body.xRot = -(((headPitch * ((float) Math.PI / 180F))/32));
@@ -102,8 +106,6 @@ public class CoelacanthModel<T extends Coelacanth> extends FintasticModel<T> {
 			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/2;
 			this.swim_rot.zRot = -netHeadYaw * (((float)Math.PI / 180F)/2);
 
-			this.animateIdle(pEntity.idleAnimationState, CoelacanthAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
-
 			this.animateWalk(CoelacanthAnims.SWIM, pLimbSwing*3, pLimbSwingAmount*5f, 2f, 3f);
 		}
 		else {
@@ -111,8 +113,6 @@ public class CoelacanthModel<T extends Coelacanth> extends FintasticModel<T> {
 			this.head.resetPose();
 			this.backbody.resetPose();
 			this.body.resetPose();
-
-			this.animate(pEntity.flopAnimationState, CoelacanthAnims.FLOP, pAgeInTicks, 1.0F);
 		}
 	}
 

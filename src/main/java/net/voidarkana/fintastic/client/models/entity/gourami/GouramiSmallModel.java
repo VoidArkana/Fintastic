@@ -75,17 +75,18 @@ public class GouramiSmallModel<T extends Gourami> extends FintasticModel<T> {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
+		this.animateIdle(pEntity.idleAnimationState, GouramiAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
+		this.animateIdle(pEntity.flopAnimationState, GouramiAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+
 		if (pEntity.isInWaterOrBubble()){
 			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
 			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
-			this.animateIdle(pEntity.idleAnimationState, GouramiAnims.IDLE, pAgeInTicks, 1.0F, 1-Math.abs(pLimbSwingAmount));
 
 			this.animateWalk(GouramiAnims.SWIM, pLimbSwing, pLimbSwingAmount, 2f, 3f);
 		}
 		else {
 			this.swim_rot.resetPose();
 			this.applyStatic(GouramiAnims.SMALL_FLOP_OFFSET);
-			this.animate(pEntity.flopAnimationState, GouramiAnims.FLOP, pAgeInTicks, 1.0F);
 		}
 	}
 

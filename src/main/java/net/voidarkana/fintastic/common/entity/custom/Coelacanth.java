@@ -86,7 +86,7 @@ public class Coelacanth extends BucketableFishEntity {
 
     private void setupAnimationStates() {
         this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
-        this.flopAnimationState.animateWhen(!this.isInWaterOrBubble(), this.tickCount);
+        this.flopAnimationState.animateWhen(this.isAlive(), this.tickCount);
     }
 
     @Override

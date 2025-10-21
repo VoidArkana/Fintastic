@@ -191,12 +191,12 @@
   "fintastic.freshwater_shark_sci.3" : "Epalzeorhynchos frenatum",
 
   "fintastic.freshwater_shark_common.0" : "Bala Shark",
-  "fintastic.freshwater_shark_common.1" : "High Fin Shark",
+  "fintastic.freshwater_shark_common.1" : "Sharkminnow",
   "fintastic.freshwater_shark_common.2" : "Black Sharkminnow",
   "fintastic.freshwater_shark_common.3" : "Rainbow Shark",
 
   "fintastic.highfin_skin.0" : ", Brown",
-  "fintastic.highfin_skin.1" : ", Red ",
+  "fintastic.highfin_skin.1" : ", Red",
   "fintastic.highfin_skin.2" : ", Golden",
 
 
@@ -291,6 +291,9 @@
   "fintastic.minnow_common.galaxias" : "Galaxias",
   "fintastic.minnow_common.piabuco" : "Piabuco",
   "fintastic.minnow_common.southern_cave_fish" : "Southern cave fish",
+
+  "fintastic.minnow_sci.blacklinetail_tetra": "Moenkhausia costae",
+  "fintastic.minnow_common.blacklinetail_tetra": "Blackline Tail Tetra",
 
   "fintastic.pleco_sci" : "Pterygoplichthys ambrosettii",
   "fintastic.pleco_common" : "Snow King Pleco",

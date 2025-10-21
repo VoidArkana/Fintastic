@@ -46,6 +46,7 @@ import org.jetbrains.annotations.Nullable;
 public class ArapaimaEntity extends BucketableFishEntity {
 
     public final AnimationState idleAnimationState = new AnimationState();
+    public final AnimationState idleGroundAnimationState = new AnimationState();
 
     public final ArapaimaPart head;
     public final ArapaimaPart tail;
@@ -136,6 +137,7 @@ public class ArapaimaEntity extends BucketableFishEntity {
 
     private void setupAnimationStates() {
         this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
+        this.idleGroundAnimationState.animateWhen(this.isAlive(), this.tickCount);
     }
 
     public void aiStep() {

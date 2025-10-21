@@ -35,7 +35,6 @@ public class Moony extends VariantBoidingFish {
 
     public final AnimationState idleAnimationState = new AnimationState();
     public final AnimationState flopAnimationState = new AnimationState();
-    public final AnimationState swimAnimationState = new AnimationState();
 
     public Moony(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -107,11 +106,8 @@ public class Moony extends VariantBoidingFish {
     }
 
     private void setupAnimationStates() {
-        this.idleAnimationState.animateWhen(this.isInWaterOrBubble(), this.tickCount);
-
-        this.swimAnimationState.animateWhen(this.walkAnimation.isMoving() && this.isInWaterOrBubble(), this.tickCount);
-
-        this.flopAnimationState.animateWhen(!this.isInWaterOrBubble(), this.tickCount);
+        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
+        this.flopAnimationState.animateWhen(this.isAlive(), this.tickCount);
     }
 
     @Nullable
