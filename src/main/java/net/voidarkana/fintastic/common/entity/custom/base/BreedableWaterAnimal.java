@@ -635,7 +635,6 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
         super.aiStep();
 
-        System.out.println(this.getTicksOutsideWater());
         if (this.isInWaterOrBubble()){
             if (!this.level().isClientSide()){
                 if (this.getTicksOutsideWater() > 0){

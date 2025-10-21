@@ -61,16 +61,7 @@ public class FishnetItem extends Item {
 
             if (!level.isClientSide) {
 
-                ItemStack stack1 = player.getItemInHand(hand);
-
-                boolean more = stack.getCount() > 1;
-
-                if (more) {
-                    stack1 = new ItemStack(YAFMItems.FISHNET.get());
-
-                    if (!player.getAbilities().instabuild)
-                        stack.shrink(1);
-                }
+                ItemStack stack1 = new ItemStack(YAFMItems.FISHNET.get());
 
                 CompoundTag targetTag = target.serializeNBT();
                 targetTag.putString("OwnerName", player.getName().getString());
@@ -78,14 +69,14 @@ public class FishnetItem extends Item {
                 tag.put(DATA_CREATURE, targetTag);
                 stack1.setTag(tag);
 
-                ItemStack stack2 = ItemUtils.createFilledResult(stack, player, stack1, false);
-
-//                if (more) {
-//                    if (!player.getInventory().add(stack2)) player.drop(stack2, true);
-//                    else player.setItemInHand(hand, stack2);
-//                }
-
-                player.setItemInHand(hand, stack2);
+                if (!player.getAbilities().instabuild){
+                    stack.setTag(tag);
+                }else {
+                    if (!player.getInventory().add(stack1))
+                        player.drop(stack1, true);
+                    else
+                        player.addItem(stack1);
+                }
 
                 target.discard();
 
@@ -256,14 +247,11 @@ public class FishnetItem extends Item {
                 fish.setFromBucket(true);
             }
 
-            if (context.getLevel().addFreshEntity(entity) && !context.getPlayer().getAbilities().instabuild) {
+            if (context.getLevel().addFreshEntity(entity)) {
                 itemstack.shrink(1);
             }
-
             context.getLevel().playSound(null, entity.blockPosition(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.AMBIENT, 1, 1);
-
-            if (!context.getPlayer().getAbilities().instabuild)
-                context.getPlayer().setItemInHand(context.getHand(), new ItemStack(YAFMItems.FISHNET.get()));
+            context.getPlayer().setItemInHand(context.getHand(), new ItemStack(YAFMItems.FISHNET.get()));
 
             return InteractionResult.CONSUME;
         }
