@@ -104,7 +104,7 @@ public class YAFMBlockTagGenerator extends BlockTagsProvider {
                 .addTag(BlockTags.STONE_ORE_REPLACEABLES)
                 .addTag(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
 
-        this.tag(YAFMTags.Blocks.STROMATOLITE_REPLACEABLE)
+        this.tag(YAFMTags.Blocks.FOSSIL_STROMATOLITE_REPLACEABLE)
                 .addTag(Tags.Blocks.STONE).addTag(Tags.Blocks.SAND)
                 .addTag(BlockTags.MOSS_REPLACEABLE);
 

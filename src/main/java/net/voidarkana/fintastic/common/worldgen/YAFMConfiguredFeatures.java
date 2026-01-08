@@ -189,7 +189,7 @@ public class YAFMConfiguredFeatures {
                 new SimpleBlockConfiguration(fossilStromatoliteWSP));
 
         register(context, FOSSIL_STROMATOLITE_PATCH, STROMATOLITE_PATCH_FEATURE.get(),
-                new VegetationPatchConfiguration(YAFMTags.Blocks.STROMATOLITE_REPLACEABLE,
+                new VegetationPatchConfiguration(YAFMTags.Blocks.FOSSIL_STROMATOLITE_REPLACEABLE,
                         BlockStateProvider.simple(YAFMBlocks.FOSSIL_STROMATOLITE_BLOCK.get()),
                         PlacementUtils.inlinePlaced(holdergetter.getOrThrow(FOSSIL_STROMATOLITE_DECORATION)),
                         CaveSurface.FLOOR,

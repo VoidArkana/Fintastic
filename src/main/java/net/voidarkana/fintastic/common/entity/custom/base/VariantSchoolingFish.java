@@ -45,6 +45,12 @@ public abstract class VariantSchoolingFish extends BucketableFishEntity{
         compound.putInt("VariantSkin", this.getVariantSkin());
     }
 
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setVariantModel(compound.getInt("VariantModel"));
+        this.setVariantSkin(compound.getInt("VariantSkin"));
+    }
+
     public int getVariantModel() {
         return this.entityData.get(MODEL_VARIANT);
     }
@@ -59,12 +65,6 @@ public abstract class VariantSchoolingFish extends BucketableFishEntity{
 
     public void setVariantSkin(int variant) {
         this.entityData.set(SKIN_VARIANT, variant);
-    }
-
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        this.setVariantModel(compound.getInt("VariantModel"));
-        this.setVariantSkin(compound.getInt("VariantSkin"));
     }
 
     @Override

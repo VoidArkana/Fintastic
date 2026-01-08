@@ -6,7 +6,7 @@
       "item": "minecraft:lapis_lazuli"
     },
     "L": {
-      "item": "minecraft:glass"
+      "tag": "forge:glass/colorless"
     }
   },
   "pattern": [

@@ -134,7 +134,6 @@ public class MinnowEntity extends VariantSchoolingFish {
                     this.startFollowing(groupData.leader);
 
                 }else {
-
                     if (this.blockPosition().getY() <= pLevel.getSeaLevel() - 33
                             && pLevel.getBlockState(this.blockPosition()).is(Blocks.WATER)){
 
@@ -146,9 +145,22 @@ public class MinnowEntity extends VariantSchoolingFish {
                             skin = MinnowVariant.SOUTHERN_CAVE_FISH.getSkin();
                         }
 
+                    } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_OCEAN)){
+
+                        model = MinnowVariant.ATLANTIC_HERRING.getModel();
+                        skin = MinnowVariant.ATLANTIC_HERRING.getSkin();
+
+                        if (pLevel.getBiome(this.blockPosition()).is(Biomes.WARM_OCEAN)){
+                            if (this.getRandom().nextBoolean()){
+                                model = MinnowVariant.STRIPED_MOJARRA.getModel();
+                                skin = MinnowVariant.STRIPED_MOJARRA.getSkin();
+                            }
+                        }
+
                     } else if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
 
                         int var = this.getRandom().nextInt(16);
+
 
                         model = switch (var){
                             case 1 -> MinnowVariant.NEON_GREEN_RASBORA.getModel();
@@ -187,6 +199,11 @@ public class MinnowEntity extends VariantSchoolingFish {
                             case 15 -> MinnowVariant.STREAKED_PROCHILODUS.getSkin();
                             default -> MinnowVariant.FLAGTAIL_PROCHILODUS.getSkin();
                         };
+
+                        if (pLevel.getBiome(this.blockPosition()).is(Biomes.MANGROVE_SWAMP) && this.random.nextFloat() < 0.06) {
+                            model = MinnowVariant.STRIPED_MOJARRA.getModel();
+                            skin = MinnowVariant.STRIPED_MOJARRA.getSkin();
+                        }
 
 
                     } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){

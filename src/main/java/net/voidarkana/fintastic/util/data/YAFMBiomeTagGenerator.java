@@ -45,7 +45,9 @@ public class YAFMBiomeTagGenerator extends BiomeTagsProvider {
         this.tag(YAFMTags.Biomes.MINNOW_SURFACE_BIOMES)
                 .addTag(BiomeTags.IS_RIVER)
                 .addTag(BiomeTags.IS_JUNGLE)
-                .addTag(Tags.Biomes.IS_SWAMP);
+                .addTag(Tags.Biomes.IS_SWAMP)
+                .addTag(BiomeTags.IS_BEACH)
+                .addTag(BiomeTags.IS_OCEAN);
 
 
         this.tag(YAFMTags.Biomes.PLECO_BIOMES)
