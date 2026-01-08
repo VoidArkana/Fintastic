@@ -20,6 +20,7 @@ import net.voidarkana.fintastic.client.models.entity.minnows.*;
 import net.voidarkana.fintastic.client.models.entity.moonies.MoonyMidModel;
 import net.voidarkana.fintastic.client.models.entity.moonies.MoonySmallModel;
 import net.voidarkana.fintastic.client.models.entity.moonies.MoonyTallModel;
+import net.voidarkana.fintastic.client.models.entity.sharkminnows.*;
 import net.voidarkana.fintastic.common.block.YAFMBlocks;
 
 @Mod.EventBusSubscriber(modid = Fintastic.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -47,6 +48,12 @@ public class YAFMClientEvents {
         event.registerLayerDefinition(FintasticLayers.GOURAMI_HUGE_LAYER, GouramiHugeModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.GOURAMI_MED_LAYER, GouramiMedModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.GOURAMI_SMALL_LAYER, GouramiSmallModel::createBodyLayer);
+
+        event.registerLayerDefinition(FintasticLayers.HIGHFIN_SHARK_LAYER, HighfinSharkModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.BABY_HIGHFIN_SHARK_LAYER, BabyHighfinSharkModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.BALA_SHARK_LAYER, BalaSharkModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.BABY_BALA_SHARK_LAYER, BabyBalaSharkModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.RAINBOW_SHARK_LAYER, RainbowSharkModel::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.HAT_LAYER, HatModel::createArmorLayer);
 

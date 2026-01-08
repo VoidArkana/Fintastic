@@ -36,9 +36,6 @@ import java.util.function.IntFunction;
 
 public class MinnowEntity extends VariantSchoolingFish {
 
-    public final net.minecraft.world.entity.AnimationState idleAnimationState = new net.minecraft.world.entity.AnimationState();
-    public final net.minecraft.world.entity.AnimationState flopAnimationState = new net.minecraft.world.entity.AnimationState();
-    public final net.minecraft.world.entity.AnimationState swimAnimationState = new net.minecraft.world.entity.AnimationState();
 
     public MinnowEntity(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -81,22 +78,6 @@ public class MinnowEntity extends VariantSchoolingFish {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
-    }
-
-    @Override
-    public void tick() {
-        if (this.level().isClientSide()){
-            this.setupAnimationStates();
-        }
-        super.tick();
-    }
-
-    private void setupAnimationStates() {
-        this.idleAnimationState.animateWhen(this.isInWaterOrBubble(), this.tickCount);
-
-        this.swimAnimationState.animateWhen(this.walkAnimation.isMoving() && this.isInWaterOrBubble(), this.tickCount);
-
-        this.flopAnimationState.animateWhen(!this.isInWaterOrBubble(), this.tickCount);
     }
 
     @Nullable
@@ -208,7 +189,7 @@ public class MinnowEntity extends VariantSchoolingFish {
 
                     } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
 
-                        int var = this.getRandom().nextInt(21);
+                        int var = this.getRandom().nextInt(22);
 
                         model = switch (var){
                             case 1 -> MinnowVariant.FLAGTAIL_PROCHILODUS.getModel();
@@ -231,6 +212,7 @@ public class MinnowEntity extends VariantSchoolingFish {
                             case 18 -> MinnowVariant.GOLDEN_BARB.getModel();
                             case 19 -> MinnowVariant.TORPEDO_BARB.getModel();
                             case 20 -> MinnowVariant.ALESTES_TETRA.getModel();
+                            case 21 -> MinnowVariant.BLACKLINETAIL_TETRA.getModel();
                             default -> MinnowVariant.SIXBAR_DISTICHODUS.getModel();
                         };
 
@@ -255,11 +237,12 @@ public class MinnowEntity extends VariantSchoolingFish {
                             case 18 -> MinnowVariant.GOLDEN_BARB.getSkin();
                             case 19 -> MinnowVariant.TORPEDO_BARB.getSkin();
                             case 20 -> MinnowVariant.ALESTES_TETRA.getSkin();
+                            case 21 -> MinnowVariant.BLACKLINETAIL_TETRA.getSkin();
                             default -> MinnowVariant.SIXBAR_DISTICHODUS.getSkin();
                         };
                     } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
 
-                        int var = this.getRandom().nextInt(11);
+                        int var = this.getRandom().nextInt(10);
 
                         model = switch (var){
                             case 1 -> MinnowVariant.GALAXIAS.getModel();
@@ -271,7 +254,6 @@ public class MinnowEntity extends VariantSchoolingFish {
                             case 7 -> MinnowVariant.STREAKED_PROCHILODUS.getModel();
                             case 8 -> MinnowVariant.TINFOIL_BARB.getModel();
                             case 9 -> MinnowVariant.SICKLEFIN_BARB.getModel();
-                            case 10 -> MinnowVariant.BLACKLINETAIL_TETRA.getModel();
                             default -> MinnowVariant.DELTA_SMELT.getModel();
                         };
 
@@ -285,7 +267,6 @@ public class MinnowEntity extends VariantSchoolingFish {
                             case 7 -> MinnowVariant.STREAKED_PROCHILODUS.getSkin();
                             case 8 -> MinnowVariant.TINFOIL_BARB.getSkin();
                             case 9 -> MinnowVariant.SICKLEFIN_BARB.getSkin();
-                            case 10 -> MinnowVariant.BLACKLINETAIL_TETRA.getSkin();
                             default -> MinnowVariant.DELTA_SMELT.getSkin();
                         };
 
@@ -480,8 +461,8 @@ public class MinnowEntity extends VariantSchoolingFish {
     public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends WaterAnimal> pWaterAnimal, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
         int i = pLevel.getSeaLevel();
         int j = i - 13;
-        return !pLevel.getBiome(pPos).is(BiomeTags.IS_OCEAN) && ((pLevel.getBiome(pPos).is(YAFMTags.Biomes.MINNOW_SURFACE_BIOMES) && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
-                || (pPos.getY() <= pLevel.getSeaLevel() - 33 && pLevel.getBlockState(pPos).is(Blocks.WATER) && (pLevel.getRawBrightness(pPos, 0) == 0 || pLevel.getBiome(pPos).is(Biomes.LUSH_CAVES))));
+        return ((pLevel.getBiome(pPos).is(YAFMTags.Biomes.MINNOW_SURFACE_BIOMES) && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
+                || (!pLevel.getBiome(pPos).is(BiomeTags.IS_OCEAN) && pPos.getY() <= pLevel.getSeaLevel() - 33 && pLevel.getBlockState(pPos).is(Blocks.WATER) && (pLevel.getRawBrightness(pPos, 0) == 0 || pLevel.getBiome(pPos).is(Biomes.LUSH_CAVES))));
     }
 
 }

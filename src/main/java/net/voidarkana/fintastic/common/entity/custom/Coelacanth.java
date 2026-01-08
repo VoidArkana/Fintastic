@@ -41,9 +41,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class Coelacanth extends BucketableFishEntity {
 
-    public final AnimationState idleAnimationState = new AnimationState();
-    public final AnimationState flopAnimationState = new AnimationState();
-
     private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
 
     public boolean isFood(ItemStack pStack) {
@@ -73,20 +70,6 @@ public class Coelacanth extends BucketableFishEntity {
             baby.setFromBucket(true);
         }
         return baby;
-    }
-
-    @Override
-    public void tick() {
-        if (this.level().isClientSide()){
-            this.setupAnimationStates();
-        }
-
-        super.tick();
-    }
-
-    private void setupAnimationStates() {
-        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
-        this.flopAnimationState.animateWhen(this.isAlive(), this.tickCount);
     }
 
     @Override

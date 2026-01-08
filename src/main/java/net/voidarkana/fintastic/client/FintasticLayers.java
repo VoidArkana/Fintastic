@@ -41,6 +41,16 @@ public class FintasticLayers {
     public static final ModelLayerLocation GOURAMI_SMALL_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "gourami_small"), "main");
 
+    public static final ModelLayerLocation BALA_SHARK_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "bala_shark_layer"), "main");
+    public static final ModelLayerLocation BABY_BALA_SHARK_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "baby_bala_shark_layer"), "main");
+    public static final ModelLayerLocation HIGHFIN_SHARK_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "highfin_shark_layer"), "main");
+    public static final ModelLayerLocation BABY_HIGHFIN_SHARK_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "baby_highfin_shark_layer"), "main");
+    public static final ModelLayerLocation RAINBOW_SHARK_LAYER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "rainbow_shark_layer"), "main");
 
     public static final ModelLayerLocation HAT_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fishing_hat"), "main");

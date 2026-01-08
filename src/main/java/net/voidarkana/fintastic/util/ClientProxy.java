@@ -31,7 +31,7 @@ public class ClientProxy extends CommonProxy{
         EntityRenderers.register(YAFMEntities.MINNOW.get(), MinnowRenderer::new);
         EntityRenderers.register(YAFMEntities.CATFISH.get(), CatfishRenderer::new);
         EntityRenderers.register(YAFMEntities.GUPPY.get(), GuppyRenderer::new);
-        EntityRenderers.register(YAFMEntities.FRESHWATER_SHARK.get(), FreshwaterSharkRenderer::new);
+        EntityRenderers.register(YAFMEntities.SHARKMINNOW.get(), SharkminnowRenderer::new);
         EntityRenderers.register(YAFMEntities.PLECO.get(), PlecoRenderer::new);
         EntityRenderers.register(YAFMEntities.ARAPAIMA.get(), ArapaimaRenderer::new);
 

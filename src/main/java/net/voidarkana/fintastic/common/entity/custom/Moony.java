@@ -33,9 +33,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class Moony extends VariantBoidingFish {
 
-    public final AnimationState idleAnimationState = new AnimationState();
-    public final AnimationState flopAnimationState = new AnimationState();
-
     public Moony(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -94,20 +91,6 @@ public class Moony extends VariantBoidingFish {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
-    }
-
-
-    @Override
-    public void tick() {
-        if (this.level().isClientSide()){
-            this.setupAnimationStates();
-        }
-        super.tick();
-    }
-
-    private void setupAnimationStates() {
-        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
-        this.flopAnimationState.animateWhen(this.isAlive(), this.tickCount);
     }
 
     @Nullable

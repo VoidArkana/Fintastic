@@ -92,7 +92,7 @@ public class CoelacanthModel<T extends Coelacanth> extends FintasticModel<T> {
 		}
 
 		this.animateIdle(pEntity.idleAnimationState, CoelacanthAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.flopAnimationState, CoelacanthAnims.FLOP, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(pEntity.idleAnimationState, CoelacanthAnims.FLOP, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
 
 		if (pEntity.isInWaterOrBubble()){
 			this.head.xRot = (((headPitch * ((float) Math.PI / 180F))/32));

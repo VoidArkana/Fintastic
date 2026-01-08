@@ -88,7 +88,7 @@ public class MoonySmallModel<T extends Moony> extends FintasticModel<T> {
 		}
 
 		this.animateIdle(pEntity.idleAnimationState, MoonyAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.flopAnimationState, MoonyAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(pEntity.idleAnimationState, MoonyAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
 
 	}
 

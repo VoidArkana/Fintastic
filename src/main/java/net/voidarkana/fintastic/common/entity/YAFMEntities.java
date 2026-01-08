@@ -38,9 +38,9 @@ public class YAFMEntities {
                             .sized(0.3f, 0.3f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "guppy").toString()));
 
-    public static final RegistryObject<EntityType<FreshwaterSharkEntity>> FRESHWATER_SHARK =
+    public static final RegistryObject<EntityType<Sharkminnow>> SHARKMINNOW =
             ENTITY_TYPES.register("freshwater_shark",
-                    () -> EntityType.Builder.of(FreshwaterSharkEntity::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Sharkminnow::new, MobCategory.WATER_AMBIENT)
                             .sized(0.6f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "freshwater_shark").toString()));
 

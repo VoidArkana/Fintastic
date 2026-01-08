@@ -46,8 +46,6 @@ import java.util.function.IntFunction;
 
 public class Gourami extends BucketableFishEntity {
 
-    public final AnimationState idleAnimationState = new AnimationState();
-    public final AnimationState flopAnimationState = new AnimationState();
     public final AnimationState investigatingAnimationState = new AnimationState();
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
@@ -174,9 +172,6 @@ public class Gourami extends BucketableFishEntity {
 
     @Override
     public void tick() {
-        if (this.level().isClientSide()) {
-            this.setupAnimationStates();
-        }
 
         super.tick();
 
@@ -201,10 +196,8 @@ public class Gourami extends BucketableFishEntity {
         }
     }
 
-    private void setupAnimationStates() {
-        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
-        this.flopAnimationState.animateWhen(this.isAlive(), this.tickCount);
-
+    public void setupAnimationStates() {
+        super.setupAnimationStates();
         this.investigatingAnimationState.animateWhen(this.isInvestigating(), this.tickCount);
     }
 

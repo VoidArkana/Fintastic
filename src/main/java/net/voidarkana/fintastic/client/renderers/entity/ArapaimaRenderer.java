@@ -27,13 +27,6 @@ public class ArapaimaRenderer extends MobRenderer<ArapaimaEntity, FintasticModel
     @Override
     public void render(ArapaimaEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLightIn) {
-//        if(entity.isBaby()) {
-//            poseStack.scale(0.4F, 0.4F, 0.4F);
-//        }
-//        else {
-//            poseStack.scale(1.0F, 1.0F, 1.0F);
-//        }
-
         if (entity.isBaby()){
             this.model = babyArapaimaModel;
         }else {

@@ -62,7 +62,7 @@ public class MinnowThinModel<T extends MinnowEntity> extends FintasticModel<T> {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		this.animateIdle(pEntity.idleAnimationState, MinnowAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.flopAnimationState, MinnowAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(pEntity.idleAnimationState, MinnowAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
 
 		if (pEntity.isInWater()){
 			this.animateWalk(MinnowAnims.SWIM, pLimbSwing, pLimbSwingAmount, 2f, 3f);

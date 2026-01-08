@@ -50,7 +50,7 @@ public class YAFMEntityTypeTagGenerator extends EntityTypeTagsProvider {
                 .addOptional(new ResourceLocation("alexscaves:hullbreaker"));
 
         this.tag(YAFMTags.EntityType.PREDATOR_FISH).add(YAFMEntities.ARAPAIMA.get()).add(YAFMEntities.GUPPY.get())
-                .add(YAFMEntities.CATFISH.get()).add(YAFMEntities.FRESHWATER_SHARK.get()).add(YAFMEntities.FEATHERBACK.get())
+                .add(YAFMEntities.CATFISH.get()).add(YAFMEntities.SHARKMINNOW.get()).add(YAFMEntities.FEATHERBACK.get())
                 .add(YAFMEntities.MINNOW.get());
 
         this.tag(YAFMTags.EntityType.FISH_PREY).add(YAFMEntities.ARTEMIA.get()).add(YAFMEntities.DAPHNIA.get());

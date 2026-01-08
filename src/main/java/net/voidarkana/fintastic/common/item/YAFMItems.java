@@ -66,10 +66,10 @@ public class YAFMItems {
 
 
     public static final RegistryObject<Item> FRESHWATER_SHARK_SPAWN_EGG = ITEMS.register("freshwater_shark_spawn_egg",
-            () -> new FishSpawnEggItem(YAFMEntities.FRESHWATER_SHARK, 0x292929, 0x7b0b0b, new Item.Properties()));
+            () -> new FishSpawnEggItem(YAFMEntities.SHARKMINNOW, 0x292929, 0x7b0b0b, new Item.Properties()));
 
     public static final RegistryObject<Item> FRESHWATER_SHARK_BUCKET = ITEMS.register("freshwater_shark_bucket", () -> {
-        return new FishBucketItem(YAFMEntities.FRESHWATER_SHARK, () -> {
+        return new FishBucketItem(YAFMEntities.SHARKMINNOW, () -> {
             return Fluids.WATER;
         }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
     });

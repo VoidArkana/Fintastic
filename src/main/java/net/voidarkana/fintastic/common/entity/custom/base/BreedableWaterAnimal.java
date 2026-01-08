@@ -44,6 +44,7 @@ import java.util.UUID;
 
 public abstract class BreedableWaterAnimal extends WaterAnimal {
 
+    public final AnimationState idleAnimationState = new AnimationState();
     public float currentRoll = 0.0F;
     int prevTicksOutsideWater;
     @Nullable
@@ -806,5 +807,19 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     protected SoundEvent getFlopSound() {
         return SoundEvents.COD_FLOP;
+    }
+
+
+    @Override
+    public void tick() {
+        if (this.level().isClientSide()) {
+            this.setupAnimationStates();
+        }
+
+        super.tick();
+    }
+
+    public void setupAnimationStates() {
+        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
     }
 }

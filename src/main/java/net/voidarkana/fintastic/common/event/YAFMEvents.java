@@ -1,8 +1,6 @@
 package net.voidarkana.fintastic.common.event;
 
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,7 +17,7 @@ public class YAFMEvents {
         event.put(YAFMEntities.MINNOW.get(), MinnowEntity.createAttributes().build());
         event.put(YAFMEntities.CATFISH.get(), CatfishEntity.createAttributes().build());
         event.put(YAFMEntities.GUPPY.get(), GuppyEntity.createAttributes().build());
-        event.put(YAFMEntities.FRESHWATER_SHARK.get(), FreshwaterSharkEntity.createAttributes().build());
+        event.put(YAFMEntities.SHARKMINNOW.get(), Sharkminnow.createAttributes().build());
         event.put(YAFMEntities.PLECO.get(), PlecoEntity.createAttributes().build());
         event.put(YAFMEntities.ARAPAIMA.get(), ArapaimaEntity.createAttributes().build());
 
