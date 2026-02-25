@@ -16,7 +16,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.common.Tags;
-import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.boids.BoidGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.boids.LimitSpeedAndLookInVelocityDirectionGoal;
@@ -25,9 +25,8 @@ import net.voidarkana.fintastic.common.entity.custom.ai.boids.StayInWaterGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
 import net.voidarkana.fintastic.common.entity.custom.base.VariantBoidingFish;
-import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -37,7 +36,7 @@ public class Moony extends VariantBoidingFish {
         super(pEntityType, pLevel);
     }
 
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
     @Override
     protected void registerGoals() {
@@ -50,7 +49,7 @@ public class Moony extends VariantBoidingFish {
 
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
             if (entity instanceof Player player){
-                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(YAFMItems.FISHING_HAT.get());
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(FintyItems.FISHING_HAT.get());
             }
             return false;}));
 
@@ -147,7 +146,7 @@ public class Moony extends VariantBoidingFish {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Moony baby = YAFMEntities.MOONY.get().create(pLevel);
+        Moony baby = FintyEntities.MOONY.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
             baby.setVariantModel(this.getVariantModel());
@@ -164,7 +163,7 @@ public class Moony extends VariantBoidingFish {
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(YAFMItems.MOONY_BUCKET.get());
+        return new ItemStack(FintyItems.MOONY_BUCKET.get());
     }
 
 

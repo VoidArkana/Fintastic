@@ -24,22 +24,22 @@ public class DataGenerators {
 
         //generator.addProvider(event.includeServer(), YAFMLootTableProvider.create(packOutput));
 
-        generator.addProvider(event.includeClient(), new YAFMBlockStateProvider(packOutput, existingFileHelper));
-        generator.addProvider(event.includeClient(), new YAFMItemModelProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new FintyBlockStateProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new FintyItemModelProvider(packOutput, existingFileHelper));
 
-        YAFMBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
-                new YAFMBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
+        FintyBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
+                new FintyBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
 
-        generator.addProvider(event.includeServer(),new YAFMItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(),new FintyItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 
-        generator.addProvider(event.includeServer(),new YAFMFluidTagGenerator(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(),new FintyFluidTagGenerator(packOutput, lookupProvider, existingFileHelper));
 
-        generator.addProvider(event.includeServer(),new YAFMBiomeTagGenerator(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(),new FintyBiomeTagGenerator(packOutput, lookupProvider, existingFileHelper));
 
-        generator.addProvider(event.includeServer(),new YAFMEntityTypeTagGenerator(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(),new FintyPOITagsProvider(packOutput, lookupProvider, existingFileHelper));
 
-        generator.addProvider(event.includeServer(), new YAFMWorldGenProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(),new FintyEntityTypeTagGenerator(packOutput, lookupProvider, existingFileHelper));
 
-        //generator.addProvider(event.includeServer(), new YAFMGlobalLootModifiersProvider(packOutput));
+        generator.addProvider(event.includeServer(), new FintyWorldGenProvider(packOutput, lookupProvider));
     }
 }

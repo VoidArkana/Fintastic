@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.voidarkana.fintastic.client.FintasticLayers;
 import net.voidarkana.fintastic.client.models.armor.HatModel;
-import net.voidarkana.fintastic.common.item.YAFMItems;
+import net.voidarkana.fintastic.common.item.FintyItems;
 
 public class CustomArmorRenderProperties implements IClientItemExtensions {
 
@@ -29,7 +29,7 @@ public class CustomArmorRenderProperties implements IClientItemExtensions {
         final var item = itemStack.getItem();
 
 
-        if(item == YAFMItems.FISHING_HAT.get()){
+        if(item == FintyItems.FISHING_HAT.get()){
             return HAT_MODEL;
         }
 

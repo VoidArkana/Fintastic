@@ -1,0 +1,17 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "fintastic:block/fishbowl"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/fishbowl_water"
+      },
+      "when": {
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

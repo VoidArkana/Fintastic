@@ -8,7 +8,7 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.voidarkana.fintastic.common.item.YAFMItems;
+import net.voidarkana.fintastic.common.item.FintyItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,7 +26,7 @@ public class DrownedMixin extends Zombie {
     )
     protected void finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, SpawnGroupData pSpawnData, CompoundTag pDataTag, CallbackInfoReturnable<SpawnGroupData> cir) {
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty() && pLevel.getRandom().nextFloat() < 0.06F) {
-            this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(YAFMItems.FISHING_HAT.get()));
+            this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(FintyItems.FISHING_HAT.get()));
             if (pLevel.getRandom().nextInt(0, 3) == 0){
                 this.setGuaranteedDrop(EquipmentSlot.HEAD);
             }

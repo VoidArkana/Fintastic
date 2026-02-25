@@ -13,9 +13,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.entity.PartEntity;
-import net.voidarkana.fintastic.Fintastic;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.network.MultipartEntityMessage;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.network.FintyMessages;
+import net.voidarkana.fintastic.util.network.messages.MultipartEntityMessage;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -61,7 +61,7 @@ public class ArapaimaPart<T extends ArapaimaEntity> extends PartEntity<ArapaimaE
             return InteractionResult.PASS;
         } else {
             if (player.level().isClientSide) {
-                Fintastic.sendMSGToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 0, 0));
+                FintyMessages.sendToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 0, 0));
             }
             return parent.interact(player, hand);
         }
@@ -98,7 +98,7 @@ public class ArapaimaPart<T extends ArapaimaEntity> extends PartEntity<ArapaimaE
         if (!this.isInvulnerableTo(source) && parent != null) {
             Entity player = source.getEntity();
             if (player != null && player.level().isClientSide) {
-                Fintastic.sendMSGToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 1, amount));
+                FintyMessages.sendToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 1, amount));
             }
         }
         return false;
@@ -122,7 +122,7 @@ public class ArapaimaPart<T extends ArapaimaEntity> extends PartEntity<ArapaimaE
 
     @Override
     public ItemStack getPickedResult(HitResult target) {
-        return new ItemStack(YAFMItems.ARAPAIMA_SPAWN_EGG.get());
+        return new ItemStack(FintyItems.ARAPAIMA_SPAWN_EGG.get());
     }
 
     @Override

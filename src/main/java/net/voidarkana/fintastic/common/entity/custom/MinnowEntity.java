@@ -23,13 +23,13 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
-import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.IntFunction;
@@ -41,7 +41,7 @@ public class MinnowEntity extends VariantSchoolingFish {
         super(pEntityType, pLevel);
     }
 
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
     @Override
     protected void registerGoals() {
@@ -327,7 +327,7 @@ public class MinnowEntity extends VariantSchoolingFish {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        MinnowEntity baby = YAFMEntities.MINNOW.get().create(pLevel);
+        MinnowEntity baby = FintyEntities.MINNOW.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
             baby.setVariantModel(this.getVariantModel());
@@ -344,7 +344,7 @@ public class MinnowEntity extends VariantSchoolingFish {
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(YAFMItems.MINNOW_BUCKET.get());
+        return new ItemStack(FintyItems.MINNOW_BUCKET.get());
     }
 
 
@@ -461,7 +461,7 @@ public class MinnowEntity extends VariantSchoolingFish {
     public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends WaterAnimal> pWaterAnimal, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
         int i = pLevel.getSeaLevel();
         int j = i - 13;
-        return ((pLevel.getBiome(pPos).is(YAFMTags.Biomes.MINNOW_SURFACE_BIOMES) && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
+        return ((pLevel.getBiome(pPos).is(FintyTags.Biomes.MINNOW_SURFACE_BIOMES) && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
                 || (!pLevel.getBiome(pPos).is(BiomeTags.IS_OCEAN) && pPos.getY() <= pLevel.getSeaLevel() - 33 && pLevel.getBlockState(pPos).is(Blocks.WATER) && (pLevel.getRawBrightness(pPos, 0) == 0 || pLevel.getBiome(pPos).is(Biomes.LUSH_CAVES))));
     }
 

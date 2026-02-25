@@ -4,7 +4,7 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
-import net.voidarkana.fintastic.common.block.YAFMBlocks;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
 
 import java.util.Set;
 
@@ -17,12 +17,13 @@ public class YAFMBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
 
-        this.dropSelf(YAFMBlocks.ANUBIAS.get());
+        this.dropSelf(FintyBlocks.ANUBIAS.get());
+        this.dropSelf(FintyBlocks.FISHBOWL.get());
         
     }
 
     @Override
     protected Iterable<Block> getKnownBlocks() {
-        return YAFMBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+        return FintyBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
     }
 }

@@ -18,7 +18,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.voidarkana.fintastic.common.block.YAFMBlocks;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
 
 import javax.annotation.Nullable;
 
@@ -43,7 +43,7 @@ public class SeaGrapesBlock extends GrowingPlantHeadBlock implements LiquidBlock
     }
 
     protected Block getBodyBlock() {
-        return YAFMBlocks.SEA_GRAPES_PLANT.get();
+        return FintyBlocks.SEA_GRAPES_PLANT.get();
     }
 
     public boolean canAttachTo(BlockState pState) {

@@ -18,13 +18,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.FollowIndiscriminateSchoolLeaderGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.SchoolingFish;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -64,19 +64,19 @@ public class DaphniaEntity extends SchoolingFish implements GeoEntity {
 
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
             if (entity instanceof Player player){
-                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(YAFMItems.FISHING_HAT.get());
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(FintyItems.FISHING_HAT.get());
             }
             return false;}));
 
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, WaterAnimal.class, 8.0F, 1.6D, 1.4D, (entity) -> {
-            return entity.getType().is(YAFMTags.EntityType.PREDATOR_FISH);}));
+            return entity.getType().is(FintyTags.EntityType.PREDATOR_FISH);}));
 
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 100));
     }
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(YAFMItems.DAPHNIA_BUCKET.get());
+        return new ItemStack(FintyItems.DAPHNIA_BUCKET.get());
     }
 
     @Override
@@ -160,7 +160,7 @@ public class DaphniaEntity extends SchoolingFish implements GeoEntity {
 
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        DaphniaEntity baby = YAFMEntities.DAPHNIA.get().create(pLevel);
+        DaphniaEntity baby = FintyEntities.DAPHNIA.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
         }

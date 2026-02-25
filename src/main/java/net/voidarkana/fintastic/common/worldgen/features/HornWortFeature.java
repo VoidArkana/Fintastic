@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.voidarkana.fintastic.common.block.YAFMBlocks;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.block.custom.HornwortBlock;
 
 public class HornWortFeature extends Feature<NoneFeatureConfiguration> {
@@ -38,7 +38,7 @@ public class HornWortFeature extends Feature<NoneFeatureConfiguration> {
                 case 3 -> Direction.NORTH;
                 default -> Direction.SOUTH;};
 
-            BlockState blockstate = YAFMBlocks.HORNWORT.get().defaultBlockState()
+            BlockState blockstate = FintyBlocks.HORNWORT.get().defaultBlockState()
                     .setValue(HornwortBlock.AMOUNT, Integer.valueOf(randomsource.nextInt(4) + 1))
                     .setValue(HornwortBlock.FACING, direction);
 

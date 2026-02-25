@@ -14,18 +14,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishJumpGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
 public class Sharkminnow extends VariantSchoolingFish {
 
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
     public Sharkminnow(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -137,7 +137,7 @@ public class Sharkminnow extends VariantSchoolingFish {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Sharkminnow baby = YAFMEntities.SHARKMINNOW.get().create(pLevel);
+        Sharkminnow baby = FintyEntities.SHARKMINNOW.get().create(pLevel);
         if (baby != null){
             baby.setVariantModel(this.getVariantModel());
             baby.setFromBucket(true);
@@ -158,7 +158,7 @@ public class Sharkminnow extends VariantSchoolingFish {
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(YAFMItems.FRESHWATER_SHARK_BUCKET.get());
+        return new ItemStack(FintyItems.FRESHWATER_SHARK_BUCKET.get());
     }
 
 

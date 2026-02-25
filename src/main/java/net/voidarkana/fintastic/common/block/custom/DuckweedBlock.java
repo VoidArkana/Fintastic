@@ -30,7 +30,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
-import net.voidarkana.fintastic.common.block.YAFMBlocks;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
 
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
 
         BlockState blockstate = pLevel.getBlockState(pPos);
 
-        if (itemstack.is(YAFMBlocks.DUCKWEED.get().asItem()) && blockstate.getValue(GROWTH_STAGE) < 2) {
+        if (itemstack.is(FintyBlocks.DUCKWEED.get().asItem()) && blockstate.getValue(GROWTH_STAGE) < 2) {
             this.usePlayerItem(pPlayer, pHand, itemstack);
             pLevel.playSound((Player)null, pPos, SoundEvents.LILY_PAD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
             int prev = blockstate.getValue(GROWTH_STAGE);
@@ -179,7 +179,7 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
 
     private boolean isDuckweedConnectable(BlockState pState, BlockState thisState) {
 
-        if (pState.is(YAFMBlocks.DUCKWEED.get()) && thisState.is(YAFMBlocks.DUCKWEED.get())){
+        if (pState.is(FintyBlocks.DUCKWEED.get()) && thisState.is(FintyBlocks.DUCKWEED.get())){
             return pState.getValue(GROWTH_STAGE).equals(thisState.getValue(GROWTH_STAGE));
         }else {
             return false;

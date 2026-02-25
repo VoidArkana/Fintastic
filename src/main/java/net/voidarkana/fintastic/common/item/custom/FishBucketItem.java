@@ -19,7 +19,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.voidarkana.fintastic.Fintastic;
-import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.GuppyEntity;
 import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
 import net.voidarkana.fintastic.common.entity.custom.Moony;
@@ -58,7 +58,7 @@ public class FishBucketItem extends MobBucketItem {
             pTooltipComponents.add(translatable);
         }
 
-        if (getFishType() == YAFMEntities.FEATHERBACK.get()) {
+        if (getFishType() == FintyEntities.FEATHERBACK.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
@@ -78,7 +78,7 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
-        if (getFishType() == YAFMEntities.GUPPY.get()) {
+        if (getFishType() == FintyEntities.GUPPY.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("VariantSkin", 3)) {
 
@@ -161,7 +161,7 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
-        if (getFishType() == YAFMEntities.CATFISH.get()) {
+        if (getFishType() == FintyEntities.CATFISH.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
@@ -181,7 +181,7 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
-        if (getFishType() == YAFMEntities.SHARKMINNOW.get()) {
+        if (getFishType() == FintyEntities.SHARKMINNOW.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
                 int i = compoundtag.getInt("VariantModel");
@@ -202,7 +202,7 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
-        if (getFishType() == YAFMEntities.MINNOW.get()) {
+        if (getFishType() == FintyEntities.MINNOW.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
 
@@ -223,7 +223,7 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
-        if (getFishType() == YAFMEntities.PLECO.get()) {
+        if (getFishType() == FintyEntities.PLECO.get()) {
 
                 String featherback_sci = "fintastic.pleco_sci";
                 String common = "fintastic.pleco_common";
@@ -238,7 +238,7 @@ public class FishBucketItem extends MobBucketItem {
                 }
         }
 
-        if (getFishType() == YAFMEntities.ARTEMIA.get()) {
+        if (getFishType() == FintyEntities.ARTEMIA.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("VariantSkin", 3)) {
                 int j = compoundtag.getInt("VariantSkin");
@@ -258,7 +258,7 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
-        if (getFishType() == YAFMEntities.DAPHNIA.get()) {
+        if (getFishType() == FintyEntities.DAPHNIA.get()) {
             String featherback_sci = "fintastic.daphnia_sci";
             String common = "fintastic.daphnia_common";
 
@@ -273,7 +273,7 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
-        if (getFishType() == YAFMEntities.MOONY.get()) {
+        if (getFishType() == FintyEntities.MOONY.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
 
@@ -293,7 +293,7 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
-        if (getFishType() == YAFMEntities.ARAPAIMA.get()) {
+        if (getFishType() == FintyEntities.ARAPAIMA.get()) {
 
             String featherback_sci = "fintastic.arapaima_sci";
             String common = "fintastic.arapaima_common";
@@ -308,7 +308,7 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
-        if (getFishType() == YAFMEntities.COELACANTH.get()) {
+        if (getFishType() == FintyEntities.COELACANTH.get()) {
 
             String featherback_sci = "fintastic.coelacanth_sci";
             String common = "fintastic.coelacanth_common";
@@ -324,7 +324,7 @@ public class FishBucketItem extends MobBucketItem {
         }
 
 
-        if (getFishType() == YAFMEntities.GOURAMI.get()) {
+        if (getFishType() == FintyEntities.GOURAMI.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
 

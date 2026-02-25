@@ -22,7 +22,6 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
@@ -35,8 +34,8 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.Cancelable;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -65,7 +64,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
             if (entity instanceof Player player){
-                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(YAFMItems.FISHING_HAT.get());
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(FintyItems.FISHING_HAT.get());
             }
             return false;}));
 
@@ -514,16 +513,16 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
 
-        if (itemstack.is(YAFMItems.REGULAR_FEED.get())){
+        if (itemstack.is(FintyItems.REGULAR_FEED.get())){
             this.setFeedQuality(0);
         }
-        if (itemstack.is(YAFMItems.QUALITY_FEED.get())){
+        if (itemstack.is(FintyItems.QUALITY_FEED.get())){
             this.setFeedQuality(1);
         }
-        if (itemstack.is(YAFMItems.GREAT_FEED.get())){
+        if (itemstack.is(FintyItems.GREAT_FEED.get())){
             this.setFeedQuality(2);
         }
-        if (itemstack.is(YAFMItems.PREMIUM_FEED.get())){
+        if (itemstack.is(FintyItems.PREMIUM_FEED.get())){
             this.setFeedQuality(3);
         }
 
@@ -551,7 +550,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
 
 
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
     public float prevTilt;
     public float tilt;
@@ -728,7 +727,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
         int i = this.getAge();
 
-        if (this.isBaby() && itemstack.is(YAFMItems.BAD_FEED.get()) && this.getCanGrowUp()){
+        if (this.isBaby() && itemstack.is(FintyItems.BAD_FEED.get()) && this.getCanGrowUp()){
             this.setCanGrowUp(false);
 
             this.setAge(-12000);
@@ -745,16 +744,16 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
         if (isFood(itemstack)){
 
-            if (itemstack.is(YAFMItems.REGULAR_FEED.get())){
+            if (itemstack.is(FintyItems.REGULAR_FEED.get())){
                 this.setFeedQuality(0);
             }
-            if (itemstack.is(YAFMItems.QUALITY_FEED.get())){
+            if (itemstack.is(FintyItems.QUALITY_FEED.get())){
                 this.setFeedQuality(1);
             }
-            if (itemstack.is(YAFMItems.GREAT_FEED.get())){
+            if (itemstack.is(FintyItems.GREAT_FEED.get())){
                 this.setFeedQuality(2);
             }
-            if (itemstack.is(YAFMItems.PREMIUM_FEED.get())){
+            if (itemstack.is(FintyItems.PREMIUM_FEED.get())){
                 this.setFeedQuality(3);
             }
 
@@ -762,7 +761,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
                 this.ageUp(getSpeedUpSecondsWhenFeedingFish(-i, this.getFeedQuality()), true);
                 return InteractionResult.SUCCESS;
             }else if (this.isBaby()){
-                if (itemstack.is(YAFMItems.PREMIUM_FEED.get())){
+                if (itemstack.is(FintyItems.PREMIUM_FEED.get())){
                     this.setCanGrowUp(true);
 
                     for(int j = 0; j < 7; ++j) {
