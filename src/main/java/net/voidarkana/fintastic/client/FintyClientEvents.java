@@ -13,6 +13,7 @@ import net.voidarkana.fintastic.client.models.armor.HatModel;
 import net.voidarkana.fintastic.client.models.entity.CoelacanthModel;
 import net.voidarkana.fintastic.client.models.entity.arapaima.ArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.arapaima.BabyArapaimaModel;
+import net.voidarkana.fintastic.client.models.entity.catfish.*;
 import net.voidarkana.fintastic.client.models.entity.gourami.GouramiHugeModel;
 import net.voidarkana.fintastic.client.models.entity.gourami.GouramiMedModel;
 import net.voidarkana.fintastic.client.models.entity.gourami.GouramiSmallModel;
@@ -54,6 +55,13 @@ public class FintyClientEvents {
         event.registerLayerDefinition(FintasticLayers.BALA_SHARK_LAYER, BalaSharkModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.BABY_BALA_SHARK_LAYER, BabyBalaSharkModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.RAINBOW_SHARK_LAYER, RainbowSharkModel::createBodyLayer);
+
+        event.registerLayerDefinition(FintasticLayers.CATFISH_BIG, CatfishModelBig::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.CATFISH_CHANNEL, CatfishModelChannel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.CATFISH_FLAT, CatfishModelFlat::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.CATFISH_PANGASIUS, CatfishModelPangasius::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.CATFISH_PIRAIBA, CatfishModelPiraiba::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.CATFISH_SLENDER, CatfishModelSlender::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.HAT_LAYER, HatModel::createArmorLayer);
 

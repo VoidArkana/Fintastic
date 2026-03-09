@@ -142,7 +142,7 @@ public class PlecoEntity extends AbstractSwimmingBottomDweller implements GeoEnt
         controllers.add(new AnimationController[]{new AnimationController(this, "Normal", 5, this::Controller)});
     }
 
-    protected <E extends CatfishEntity> PlayState Controller(AnimationState<E> event) {
+    protected <E extends PlecoEntity> PlayState Controller(AnimationState<E> event) {
         if (this.isInWater()){
             if (this.onGround()){
                 if (this.getDeltaMovement().horizontalDistanceSqr() > 1.0E-6){

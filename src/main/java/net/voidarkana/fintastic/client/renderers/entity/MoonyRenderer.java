@@ -53,11 +53,6 @@ public class MoonyRenderer extends MobRenderer<Moony, FintasticModel<Moony>> {
     }
 
     @Override
-    protected @Nullable RenderType getRenderType(Moony pEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
-        return RenderType.entityCutout(new ResourceLocation(Fintastic.MOD_ID,"textures/entity/moony/"+pEntity.getVariantName()+".png"));
-    }
-
-    @Override
     protected void setupRotations(Moony pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
         pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));

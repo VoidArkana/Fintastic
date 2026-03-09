@@ -57,11 +57,4 @@ public class SharkminnowRenderer extends MobRenderer<Sharkminnow, FintasticModel
 
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(animatable.getTicksOutsideWater()/3f, animatable.currentRoll*360/2, 0)));
     }
-
-    @Override
-    protected @Nullable RenderType getRenderType(Sharkminnow pLivingEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
-        ResourceLocation resourcelocation = this.getTextureLocation(pLivingEntity);
-
-        return RenderType.entityCutout(resourcelocation);
-    }
 }

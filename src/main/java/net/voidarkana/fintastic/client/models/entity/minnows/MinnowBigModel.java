@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.RenderType;
 import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
@@ -25,7 +26,7 @@ public class MinnowBigModel<T extends MinnowEntity> extends FintasticModel<T> {
 	private final ModelPart tailfin;
 
 	public MinnowBigModel(ModelPart root) {
-        super(1, 1);
+		super(0.6f, 1, RenderType::entityCutout);
         this.root = root.getChild("root");
 		this.swim_rot = this.root.getChild("swim_rot");
 		this.body = this.swim_rot.getChild("body");

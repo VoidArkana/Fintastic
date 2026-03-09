@@ -31,7 +31,10 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
         this.tag(FintyTags.Biomes.CATFISH_BIOMES)
                 .addTag(BiomeTags.IS_RIVER)
                 .addTag(BiomeTags.IS_JUNGLE)
-                .addTag(Tags.Biomes.IS_SWAMP);
+                .addTag(Tags.Biomes.IS_SWAMP)
+                .add(Biomes.WARM_OCEAN)
+                .add(Biomes.LUKEWARM_OCEAN)
+                .add(Biomes.DEEP_LUKEWARM_OCEAN);
 
         this.tag(FintyTags.Biomes.GUPPY_BIOMES)
                 .addTag(BiomeTags.IS_JUNGLE)

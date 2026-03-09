@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.animation.SharkminnowAnims;
@@ -26,7 +27,7 @@ public class BabyBalaSharkModel<T extends Sharkminnow> extends FintasticModel<T>
 	private final ModelPart fin_fr;
 
 	public BabyBalaSharkModel(ModelPart root) {
-        super(1, 1);
+		super(0.6f, 1, RenderType::entityCutout);
         this.root = root.getChild("root");
 		this.swim_control = this.root.getChild("swim_control");
 		this.body = this.swim_control.getChild("body");
@@ -67,7 +68,8 @@ public class BabyBalaSharkModel<T extends Sharkminnow> extends FintasticModel<T>
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-
+		if (this.young)
+			limbSwing /= 2;
 		if (!entity.isAlive())
 				this.applyStatic(SharkminnowAnims.POSE);
 

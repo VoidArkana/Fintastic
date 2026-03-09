@@ -1,5 +1,6 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -7,6 +8,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.ByIdMap;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -19,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.common.Tags;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
@@ -36,14 +39,11 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class CatfishEntity extends BucketableFishEntity implements GeoEntity {
+import java.util.function.IntFunction;
 
-    protected static final RawAnimation SWIM = RawAnimation.begin().thenLoop("animation.catfish.swim");
-    protected static final RawAnimation FLOP = RawAnimation.begin().thenLoop("animation.catfish.flop");
-    protected static final RawAnimation PIRAIBA_SWIM = RawAnimation.begin().thenLoop("animation.catfish.piraiba_swim");
-    protected static final RawAnimation PIRAIBA_FLOP = RawAnimation.begin().thenPlay("animation.catfish.piraiba_flop");
+public class Catfish extends BucketableFishEntity {
 
-    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CatfishEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Catfish.class, EntityDataSerializers.INT);
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
@@ -58,15 +58,16 @@ public class CatfishEntity extends BucketableFishEntity implements GeoEntity {
 
     @Override
     public EntityDimensions getDimensions(Pose pPose) {
-        return switch (this.getVariant()){
-            case 1, 4, 5, 6 ->super.getDimensions(pPose).scale(0.8F, 0.8F);
-            case 2 ->super.getDimensions(pPose);
-            case 3 ->super.getDimensions(pPose).scale(1.1F, 1.1F);
-            default ->super.getDimensions(pPose).scale(1.5F, 1.5F);
+        CatfishVariant variant = CatfishVariant.byId(this.getVariant());
+        return switch (variant.getModel()){
+            case 0 ->super.getDimensions(pPose).scale(1F, 1.1F);
+            case 1, 2 ->super.getDimensions(pPose).scale(0.8F, 0.8F);
+            case 4, 5 ->super.getDimensions(pPose).scale(1.5F, 1.5F);
+            default ->super.getDimensions(pPose);
         };
     }
 
-    public CatfishEntity(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
+    public Catfish(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.refreshDimensions();
     }
@@ -106,7 +107,7 @@ public class CatfishEntity extends BucketableFishEntity implements GeoEntity {
 
     @Override
     public boolean canBeBucketed() {
-        return this.getVariant()!=0 || (this.getVariant() == 0 && this.isBaby());
+        return (this.getVariant()!=50 && this.getVariant()!=40) || ((this.getVariant() == 50 || this.getVariant() == 40) && this.isBaby());
     }
 
     public void setVariant(int variant) {
@@ -144,48 +145,85 @@ public class CatfishEntity extends BucketableFishEntity implements GeoEntity {
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
         }else{
             if (pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
-                this.setVariant(this.random.nextInt(7));
+                CatfishVariant variant = Util.getRandom(CatfishVariant.values(), this.random);
+                this.setVariant(variant.getJoinedVariant());
 
-                if (this.getVariant() == 0){
+                if (variant == CatfishVariant.PIRAIBA || variant == CatfishVariant.DEVIL_GOONCH){
                     this.setAge(-24000);
                 }
             }
             else {
                 if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
-                    switch (this.random.nextInt(4)){
+                    switch (this.random.nextInt(9)){
                         case 1:
-                            this.setVariant(1);
+                            this.setVariant(CatfishVariant.SUTCHI_PANGASIUS.getJoinedVariant());
                             break;
                         case 2:
-                            this.setVariant(4);
+                            this.setVariant(CatfishVariant.BLACK_EARED_PANGASIUS.getJoinedVariant());
                             break;
                         case 3:
-                            this.setVariant(5);
-                            break;
-                        default:
-                            this.setVariant(6);
-                    }
-                } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
-
-                    switch (this.random.nextInt(5)){
-                        case 1:
-                            this.setVariant(1);
-                            break;
-                        case 2:
-                            this.setVariant(4);
-                            break;
-                        case 3:
-                            this.setVariant(5);
+                            this.setVariant(CatfishVariant.BLUE.getJoinedVariant());
                             break;
                         case 4:
-                            this.setVariant(3);
+                            this.setVariant(CatfishVariant.BULLHEAD.getJoinedVariant());
+                            break;
+                        case 5:
+                            this.setVariant(CatfishVariant.CHANNEL.getJoinedVariant());
+                            break;
+                        case 6:
+                            this.setVariant(CatfishVariant.ASIAN_REDTAIL.getJoinedVariant());
+                            break;
+                        case 7:
+                            this.setVariant(CatfishVariant.SPOTTED_YELLOW_PIMELODUS.getJoinedVariant());
+                            break;
+                        case 8:
+                            this.setVariant(CatfishVariant.FLATHEAD.getJoinedVariant());
                             break;
                         default:
-                            this.setVariant(6);
+                            this.setVariant(CatfishVariant.DEVIL_GOONCH.getJoinedVariant());
                     }
-
+                } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
+                    switch (this.random.nextInt(5)){
+                        case 1:
+                            this.setVariant(CatfishVariant.BLUE.getJoinedVariant());
+                            break;
+                        case 2:
+                            this.setVariant(CatfishVariant.BULLHEAD.getJoinedVariant());
+                            break;
+                        case 3:
+                            this.setVariant(CatfishVariant.CHANNEL.getJoinedVariant());
+                            break;
+                        case 4:
+                            this.setVariant(CatfishVariant.SPOTTED_YELLOW_PIMELODUS.getJoinedVariant());
+                            break;
+                        default:
+                            this.setVariant(CatfishVariant.FLATHEAD.getJoinedVariant());
+                    }
                 } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
-                    this.setVariant(this.random.nextBoolean() ? 0 : 2);
+                    switch (this.random.nextInt(6)){
+                        case 1:
+                            this.setVariant(CatfishVariant.REDTAIL.getJoinedVariant());
+                            break;
+                        case 2:
+                            this.setVariant(CatfishVariant.ZUNGARO.getJoinedVariant());
+                            break;
+                        case 3:
+                            this.setVariant(CatfishVariant.TIGERSTRIPED.getJoinedVariant());
+                            break;
+                        case 4:
+                            this.setVariant(CatfishVariant.ASIAN_REDTAIL.getJoinedVariant());
+                            break;
+                        case 5:
+                            this.setVariant(CatfishVariant.SPOTTED_YELLOW_PIMELODUS.getJoinedVariant());
+                            break;
+                        default:
+                            this.setVariant(CatfishVariant.PIRAIBA.getJoinedVariant());
+                    }
+                }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.HAS_OCEAN_RUIN_WARM)){
+                    if (this.getRandom().nextBoolean())
+                        this.setVariant(CatfishVariant.GAFFTOPSAIL.getJoinedVariant());
+                    else
+                        this.setVariant(CatfishVariant.COLUMBIAN_SHARK.getJoinedVariant());
                 }
             }
         }
@@ -197,7 +235,7 @@ public class CatfishEntity extends BucketableFishEntity implements GeoEntity {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        CatfishEntity baby = FintyEntities.CATFISH.get().create(pLevel);
+        Catfish baby = FintyEntities.CATFISH.get().create(pLevel);
         if (baby != null){
             baby.setVariant(this.getVariant());
             baby.setFromBucket(true);
@@ -226,30 +264,62 @@ public class CatfishEntity extends BucketableFishEntity implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController[]{new AnimationController(this, "Normal", 5, this::Controller)});
-    }
-
-    protected <E extends CatfishEntity> PlayState Controller(AnimationState<E> event) {
-        if (this.isInWater()){
-            event.setAndContinue(this.getVariant() > 0 ? SWIM : PIRAIBA_SWIM);
-        }else{
-            event.setAndContinue(this.getVariant() > 0 ? FLOP : PIRAIBA_FLOP);
-        }
-        return PlayState.CONTINUE;
-    }
-
-    @Override
     public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        CatfishEntity mate = (CatfishEntity) pOtherAnimal;
+        Catfish mate = (Catfish) pOtherAnimal;
         return super.canMate(pOtherAnimal) && this.getVariant() == mate.getVariant();
     }
 
+    public enum CatfishVariant{
+        REDTAIL(0, "redtail"),
+        ZUNGARO(1, "zungaro"),
 
+        GAFFTOPSAIL(10, "gafftopsail"),
+        BULLHEAD(11, "bullhead"),
+        COLUMBIAN_SHARK(12, "columbian_shark"),
+        BLUE(13, "blue"),
+        CHANNEL(14, "channel"),
 
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+        FLATHEAD(20, "flathead"),
+        TIGERSTRIPED(21, "tigerstriped"),
+        SPOTTED_YELLOW_PIMELODUS(22, "spotted_yellow_pimelodus"),
+        ASIAN_REDTAIL(23, "asian_redtail"),
 
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
+        SUTCHI_PANGASIUS(30,"sutchi_pangasius"),
+        BLACK_EARED_PANGASIUS(31,"black_eared_pangasius"),
+
+        PIRAIBA(40,"piraiba"),
+
+        DEVIL_GOONCH(50, "devil_goonch");
+
+        private final int joinedVariant;
+        private final String name;
+
+        CatfishVariant(int variant, String name){
+            this.joinedVariant = variant;
+            this.name = name;
+        }
+
+        public int getJoinedVariant(){
+            return this.joinedVariant;
+        }
+
+        public int getModel(){
+            return this.joinedVariant/10;
+        }
+
+        public int getSkin(){
+            return this.joinedVariant%10;
+        }
+
+        public String getName(){
+            return this.name;
+        }
+
+        private static final IntFunction<Catfish.CatfishVariant> BY_ID
+                = ByIdMap.sparse(Catfish.CatfishVariant::getJoinedVariant, values(), REDTAIL);
+
+        public static Catfish.CatfishVariant byId(int pId) {
+            return BY_ID.apply(pId);
+        }
     }
 }

@@ -20,6 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
+import net.voidarkana.fintastic.common.entity.custom.Catfish;
 import net.voidarkana.fintastic.common.entity.custom.GuppyEntity;
 import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
 import net.voidarkana.fintastic.common.entity.custom.Moony;
@@ -165,10 +166,10 @@ public class FishBucketItem extends MobBucketItem {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
+                Catfish.CatfishVariant variant = Catfish.CatfishVariant.byId(i);
 
-
-                String featherback_sci = "fintastic.catfish_sci." + i;
-                String common = "fintastic.catfish_common." + i;
+                String featherback_sci = "fintastic.catfish_sci." + variant.getName();
+                String common = "fintastic.catfish_common." + variant.getName();
 
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);

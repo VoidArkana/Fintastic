@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.RenderType;
 import net.voidarkana.fintastic.client.animation.MoonyAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Moony;
@@ -25,7 +26,7 @@ public class MoonySmallModel<T extends Moony> extends FintasticModel<T> {
 	private final ModelPart PectoralFinR;
 
 	public MoonySmallModel(ModelPart root) {
-        super(1, 1);
+		super(0.6f, 1, RenderType::entityCutout);
         this.root = root.getChild("root");
 		this.swim_rot = this.root.getChild("swim_rot");
 		this.body = this.swim_rot.getChild("body");
@@ -77,7 +78,8 @@ public class MoonySmallModel<T extends Moony> extends FintasticModel<T> {
 	@Override
 	public void setupAnim(Moony pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-
+		if (this.young)
+			pLimbSwing /= 2;
 		if (pEntity.isInWaterOrBubble()){
 			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
 			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);

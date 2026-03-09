@@ -64,19 +64,10 @@ public class MinnowRenderer extends MobRenderer<MinnowEntity, FintasticModel<Min
     @Override
     public ResourceLocation getTextureLocation(MinnowEntity pEntity) {
 
-        int joinedVariantID = Integer.decode(String.valueOf(pEntity.getVariantModel()));
-        MinnowEntity.MinnowVariant minnowVariant = MinnowEntity.MinnowVariant.byId(joinedVariantID);
-
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/minnow/"+minnowVariant.getModelName()+"/"+minnowVariant.getName()+".png");
-    }
-
-    @Override
-    protected @Nullable RenderType getRenderType(MinnowEntity pEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
-
         int joinedVariantID = Integer.decode(String.valueOf(pEntity.getVariantModel()) + pEntity.getVariantSkin());
         MinnowEntity.MinnowVariant minnowVariant = MinnowEntity.MinnowVariant.byId(joinedVariantID);
 
-        return RenderType.entityCutout(new ResourceLocation(Fintastic.MOD_ID,"textures/entity/minnow/"+minnowVariant.getModelName()+"/"+minnowVariant.getName()+".png"));
+        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/minnow/"+minnowVariant.getModelName()+"/"+minnowVariant.getName()+".png");
     }
 
     @Override

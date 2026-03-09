@@ -26,9 +26,9 @@ public class FintyEntities {
                             .sized(0.4f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "minnow").toString()));
 
-    public static final RegistryObject<EntityType<CatfishEntity>> CATFISH =
+    public static final RegistryObject<EntityType<Catfish>> CATFISH =
             ENTITY_TYPES.register("catfish",
-                    () -> EntityType.Builder.of(CatfishEntity::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Catfish::new, MobCategory.WATER_AMBIENT)
                             .sized(1f, 1f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "catfish").toString()));
 

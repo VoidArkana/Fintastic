@@ -57,15 +57,6 @@ public class GouramiRenderer extends MobRenderer<Gourami, FintasticModel<Gourami
     }
 
     @Override
-    protected @Nullable RenderType getRenderType(Gourami pEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
-
-        int joinedVariantID = Integer.decode(String.valueOf(pEntity.getVariantModel()) + pEntity.getVariantSkin());
-        Gourami.GouramiVariant gouramiVariant = Gourami.GouramiVariant.byId(joinedVariantID);
-
-        return RenderType.entityCutout(new ResourceLocation(Fintastic.MOD_ID,"textures/entity/gourami/"+gouramiVariant.getModelName()+"/gourami_"+gouramiVariant.getName()+".png"));
-    }
-
-    @Override
     protected void setupRotations(Gourami pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
         pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));

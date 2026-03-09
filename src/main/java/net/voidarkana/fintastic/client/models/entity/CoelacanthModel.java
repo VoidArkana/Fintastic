@@ -7,9 +7,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.voidarkana.fintastic.client.animation.ArapaimaAnims;
 import net.voidarkana.fintastic.client.animation.CoelacanthAnims;
-import net.voidarkana.fintastic.client.animation.MoonyAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Coelacanth;
 
@@ -89,6 +87,7 @@ public class CoelacanthModel<T extends Coelacanth> extends FintasticModel<T> {
 
 		if (this.young){
 			this.applyStatic(CoelacanthAnims.BABY);
+			pLimbSwing /= 2;
 		}
 
 		this.animateIdle(pEntity.idleAnimationState, CoelacanthAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));

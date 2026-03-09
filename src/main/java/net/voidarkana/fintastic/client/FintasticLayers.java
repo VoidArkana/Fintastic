@@ -52,6 +52,19 @@ public class FintasticLayers {
     public static final ModelLayerLocation RAINBOW_SHARK_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "rainbow_shark_layer"), "main");
 
+    public static final ModelLayerLocation CATFISH_BIG =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_big"), "main");
+    public static final ModelLayerLocation CATFISH_CHANNEL =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_channel"), "main");
+    public static final ModelLayerLocation CATFISH_FLAT =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_flat"), "main");
+    public static final ModelLayerLocation CATFISH_PANGASIUS =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_pangasius"), "main");
+    public static final ModelLayerLocation CATFISH_PIRAIBA =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_piraiba"), "main");
+    public static final ModelLayerLocation CATFISH_SLENDER =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_slender"), "main");
+
     public static final ModelLayerLocation HAT_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fishing_hat"), "main");
 }
