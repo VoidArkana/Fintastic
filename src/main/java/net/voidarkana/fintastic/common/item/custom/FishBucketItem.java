@@ -168,8 +168,8 @@ public class FishBucketItem extends MobBucketItem {
                 int i = compoundtag.getInt("Variant");
                 Catfish.CatfishVariant variant = Catfish.CatfishVariant.byId(i);
 
-                String featherback_sci = "fintastic.catfish_sci." + variant.getName();
-                String common = "fintastic.catfish_common." + variant.getName();
+                String featherback_sci = "fintastic.catfish_sci." + variant.getSerializedName();
+                String common = "fintastic.catfish_common." + variant.getSerializedName();
 
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
@@ -210,8 +210,8 @@ public class FishBucketItem extends MobBucketItem {
                 int joinedVariantID = Integer.decode(String.valueOf(compoundtag.getInt("VariantModel")) + compoundtag.getInt("VariantSkin"));
                 MinnowEntity.MinnowVariant minnowVariant = MinnowEntity.MinnowVariant.byId(joinedVariantID);
 
-                String featherback_sci = "fintastic.minnow_sci." + minnowVariant.getName();
-                String common = "fintastic.minnow_common." + minnowVariant.getName();
+                String featherback_sci = "fintastic.minnow_sci." + minnowVariant.getSerializedName();
+                String common = "fintastic.minnow_common." + minnowVariant.getSerializedName();
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);

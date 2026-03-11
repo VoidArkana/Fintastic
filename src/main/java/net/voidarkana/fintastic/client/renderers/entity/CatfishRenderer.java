@@ -66,7 +66,7 @@ public class CatfishRenderer<T extends Catfish> extends MobRenderer<T, Fintastic
 
         Catfish.CatfishVariant variant = Catfish.CatfishVariant.byId(pEntity.getVariant());
 
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/catfish/catfish_"+variant.getName()+".png");
+        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/catfish/catfish_"+variant.getSerializedName()+".png");
     }
 
     @Override

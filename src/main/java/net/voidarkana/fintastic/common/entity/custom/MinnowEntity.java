@@ -8,6 +8,7 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -367,7 +368,7 @@ public class MinnowEntity extends VariantSchoolingFish {
         }
     }
 
-    public enum MinnowVariant{
+    public enum MinnowVariant implements StringRepresentable{
         FLAGTAIL_PROCHILODUS(0, "flagtail_prochilodus"),
         SICKLEFIN_BARB(1, "sicklefin_barb"),
         SIXBAR_DISTICHODUS(2, "sixbar_distichodus"),
@@ -434,7 +435,7 @@ public class MinnowEntity extends VariantSchoolingFish {
             return this.joinedVariant > 100 ? this.joinedVariant%100 : this.joinedVariant%10;
         }
 
-        public String getName(){
+        public String getSerializedName(){
             return this.name;
         }
 

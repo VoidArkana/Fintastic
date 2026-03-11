@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.ByIdMap;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Bucketable;
+import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -269,7 +271,7 @@ public class Catfish extends BucketableFishEntity {
         return super.canMate(pOtherAnimal) && this.getVariant() == mate.getVariant();
     }
 
-    public enum CatfishVariant{
+    public enum CatfishVariant implements StringRepresentable{
         REDTAIL(0, "redtail"),
         ZUNGARO(1, "zungaro"),
 
@@ -311,15 +313,23 @@ public class Catfish extends BucketableFishEntity {
             return this.joinedVariant%10;
         }
 
-        public String getName(){
+        @Override
+        public String getSerializedName() {
             return this.name;
         }
 
-        private static final IntFunction<Catfish.CatfishVariant> BY_ID
+        public static final IntFunction<Catfish.CatfishVariant> BY_ID
                 = ByIdMap.sparse(Catfish.CatfishVariant::getJoinedVariant, values(), REDTAIL);
+
+        public static final StringRepresentable.EnumCodec<Catfish.CatfishVariant> CODEC
+                = StringRepresentable.fromEnum(Catfish.CatfishVariant::values);
 
         public static Catfish.CatfishVariant byId(int pId) {
             return BY_ID.apply(pId);
+        }
+
+        public static Catfish.CatfishVariant byName(String pName) {
+            return CODEC.byName(pName, REDTAIL);
         }
     }
 }

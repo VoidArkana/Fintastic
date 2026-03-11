@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
@@ -24,6 +25,24 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
+
+        this.tag(Tags.Items.GLASS)
+                .add(FintyBlocks.AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.CLEAR_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.RADON_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.TINTED_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.TINTED_INFERNAL_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.TINTED_RADON_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.TINTED_SUGAR_AQUARIUM_GLASS.get().asItem());
+
+        this.tag(Tags.Items.GLASS_PANES)
+                .add(FintyBlocks.AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.CLEAR_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.RADON_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS_PANE.get().asItem());
 
         this.tag(FintyTags.Items.FISH_FEED)
                 .add(FintyItems.REGULAR_FEED.get())

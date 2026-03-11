@@ -2,39 +2,48 @@
   "item.fintastic.featherback_spawn_egg" : "Featherback Spawn Egg",
   "item.fintastic.featherback_bucket" : "Bucket of Featherback",
   "entity.fintastic.featherback" : "Featherback",
+  "item.fintastic.featherback" : "Featherback",
 
   "item.fintastic.minnow_spawn_egg" : "Minnow Spawn Egg",
   "item.fintastic.minnow_bucket" : "Bucket of Minnow",
   "entity.fintastic.minnow" : "Minnow",
+  "item.fintastic.minnow" : "Minnow",
 
   "item.fintastic.catfish_spawn_egg" : "Catfish Spawn Egg",
   "item.fintastic.catfish_bucket" : "Bucket of Catfish",
   "entity.fintastic.catfish" : "Catfish",
+  "item.fintastic.catfish" : "Catfish",
 
   "item.fintastic.guppy_spawn_egg" : "Guppy Spawn Egg",
   "item.fintastic.guppy_bucket" : "Bucket of Guppy",
   "entity.fintastic.guppy" : "Guppy",
+  "item.fintastic.guppy" : "Guppy",
 
   "item.fintastic.freshwater_shark_spawn_egg" : "Sharkminnow Spawn Egg",
   "item.fintastic.freshwater_shark_bucket" : "Bucket of Sharkminnow",
   "entity.fintastic.freshwater_shark" : "Sharkminnow",
+  "item.fintastic.sharkminnow" : "Sharkminnow",
 
   "item.fintastic.pleco_spawn_egg" : "Pleco Spawn Egg",
   "item.fintastic.pleco_bucket" : "Bucket of Pleco",
   "entity.fintastic.pleco" : "Pleco",
+  "item.fintastic.pleco" : "Pleco",
 
   "item.fintastic.arapaima_spawn_egg" : "Arapaima Spawn Egg",
   "item.fintastic.arapaima_fishnet" : "Fishnet of Arapaima",
   "item.fintastic.arapaima_bucket" : "Bucket of Baby Arapaima",
   "entity.fintastic.arapaima" : "Arapaima",
+  "item.fintastic.arapaima" : "Arapaima",
 
   "item.fintastic.artemia_spawn_egg" : "Fairy Shrimp Spawn Egg",
   "item.fintastic.artemia_bucket" : "Bucket of Fairy Shrimp",
   "entity.fintastic.artemia" : "Fairy Shrimp",
+  "item.fintastic.fairy_shrimp" : "Fairy Shrimp",
 
   "item.fintastic.daphnia_spawn_egg" : "Daphnia Spawn Egg",
   "item.fintastic.daphnia_bucket" : "Bucket of Daphnia",
   "entity.fintastic.daphnia" : "Daphnia",
+  "item.fintastic.daphnia" : "Daphnia",
 
   "fintastic.featherback_sci.0" : "Xenomystus nigri",
   "fintastic.featherback_sci.1" : "Papyrocranus afer",
@@ -327,6 +336,9 @@
   "fintastic.arapaima_common" : "Arapaima",
   "fintastic.arapaima_sci" : "Arapaima gigas",
 
+  "fintastic.translatable.random_variant" : "Random Variant",
+  "fintastic.translatable.spawn_egg_instructions" : "Sneak + Interact in the air to cycle through variants",
+
   "item.fintastic.fresh_music_disc" : "Music Disc",
   "item.fintastic.fresh_music_disc.desc" : "MessySlimey - Fresh",
 
@@ -357,6 +369,7 @@
   "item.fintastic.moony_spawn_egg" : "Moony Spawn Egg",
   "item.fintastic.moony_bucket" : "Bucket of Moony",
   "entity.fintastic.moony" : "Moony",
+  "item.fintastic.moony" : "Moony",
 
   "item.fintastic.fishing_hat" : "Fishing Hat",
   "item.fintastic.fishing_hat.desc" : "A hat that induces fear in the hearts of fish and women alike.",
@@ -419,6 +432,8 @@
   "item.fintastic.baby_coelacanth_bucket" : "Bucket of Baby Coelacanth",
   "item.fintastic.coelacanth_fishnet" : "Fishnet of Coelacanth",
   "entity.fintastic.coelacanth" : "Coelacanth",
+  "item.fintastic.coelacanth" : "Coelacanth",
+
   "fintastic.coelacanth_common": "Coelacanth",
   "fintastic.coelacanth_sci": "Latimeria sp.",
 
@@ -428,6 +443,7 @@
   "item.fintastic.gourami_spawn_egg" : "Gourami Spawn Egg",
   "item.fintastic.gourami_bucket" : "Bucket of Gourami",
   "entity.fintastic.gourami" : "Gourami",
+  "item.fintastic.gourami" : "Gourami",
 
   "fintastic.sound.subtitle.gourami_croak" : "Gourami croaks",
 

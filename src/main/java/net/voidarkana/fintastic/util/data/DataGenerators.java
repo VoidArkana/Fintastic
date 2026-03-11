@@ -22,6 +22,7 @@ public class DataGenerators {
 
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
+        generator.addProvider(event.includeServer(), new FintyRecipeProvider(packOutput));
         //generator.addProvider(event.includeServer(), YAFMLootTableProvider.create(packOutput));
 
         generator.addProvider(event.includeClient(), new FintyBlockStateProvider(packOutput, existingFileHelper));

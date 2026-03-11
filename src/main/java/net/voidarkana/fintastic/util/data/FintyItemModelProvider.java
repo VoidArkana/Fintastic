@@ -22,20 +22,24 @@ public class FintyItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         simpleItem(FintyItems.FISHING_HAT);
 
-        withExistingParent(FintyItems.FEATHERBACK_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.FEATHERBACK_SPAWN_EGG);
         simpleItem(FintyItems.FEATHERBACK_BUCKET);
 
-        withExistingParent(FintyItems.MINNOW_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.MINNOW_SPAWN_EGG);
         simpleItem(FintyItems.MINNOW_BUCKET);
+        simpleItem(FintyItems.MINNOW);
 
-        withExistingParent(FintyItems.CATFISH_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.CATFISH_SPAWN_EGG);
         simpleItem(FintyItems.CATFISH_BUCKET);
+        simpleItem(FintyItems.CATFISH);
 
-        withExistingParent(FintyItems.GUPPY_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.GUPPY_SPAWN_EGG);
         simpleItem(FintyItems.GUPPY_BUCKET);
+        simpleItem(FintyItems.GUPPY);
 
-        withExistingParent(FintyItems.FRESHWATER_SHARK_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.FRESHWATER_SHARK_SPAWN_EGG);
         simpleItem(FintyItems.FRESHWATER_SHARK_BUCKET);
+        simpleItem(FintyItems.SHARKMINNOW);
 
         simpleItem(FintyItems.REGULAR_FEED);
         simpleItem(FintyItems.QUALITY_FEED);
@@ -46,26 +50,31 @@ public class FintyItemModelProvider extends ItemModelProvider {
         simpleItem(FintyItems.COOKED_FISH);
         simpleItem(FintyItems.RAW_FISH);
 
-        withExistingParent(FintyItems.PLECO_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.PLECO_SPAWN_EGG);
         simpleItem(FintyItems.PLECO_BUCKET);
+        simpleItem(FintyItems.PLECO);
 
-        withExistingParent(FintyItems.ARAPAIMA_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.ARAPAIMA_SPAWN_EGG);
         simpleItem(FintyItems.ARAPAIMA_BUCKET);
 
         simpleItem(FintyItems.DAPHNIA_BUCKET);
-        withExistingParent(FintyItems.DAPHNIA_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.DAPHNIA_SPAWN_EGG);
+        simpleItem(FintyItems.DAPHNIA);
 
         simpleItem(FintyItems.ARTEMIA_BUCKET);
-        withExistingParent(FintyItems.ARTEMIA_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.ARTEMIA_SPAWN_EGG);
+        simpleItem(FintyItems.FAIRY_SHRIMP);
 
         simpleItem(FintyItems.MOONY_BUCKET);
-        withExistingParent(FintyItems.MOONY_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.MOONY_SPAWN_EGG);
+        simpleItem(FintyItems.MOONY);
 
         simpleItem(FintyItems.COELACANTH_BUCKET);
-        withExistingParent(FintyItems.COELACANTH_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.COELACANTH_SPAWN_EGG);
 
         simpleItem(FintyItems.GOURAMI_BUCKET);
-        withExistingParent(FintyItems.GOURAMI_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        simpleItem(FintyItems.GOURAMI_SPAWN_EGG);
+        simpleItem(FintyItems.GOURAMI);
 
         simpleItem(FintyItems.SALTY_MUSIC_DISC);
         simpleItem(FintyItems.FRESH_MUSIC_DISC);
