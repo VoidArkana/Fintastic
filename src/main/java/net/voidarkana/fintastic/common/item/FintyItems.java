@@ -13,7 +13,9 @@ import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.item.custom.*;
 import net.voidarkana.fintastic.common.item.custom.spawneggs.CatfishSpawnEgg;
+import net.voidarkana.fintastic.common.item.custom.spawneggs.GouramiSpawnEgg;
 import net.voidarkana.fintastic.common.item.custom.spawneggs.MinnowSpawnEgg;
+import net.voidarkana.fintastic.common.item.custom.spawneggs.SharkminnowSpawnEgg;
 import net.voidarkana.fintastic.common.sound.FintySounds;
 
 @Mod.EventBusSubscriber(modid = Fintastic.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -72,7 +74,7 @@ public class FintyItems {
 
 
     public static final RegistryObject<Item> FRESHWATER_SHARK_SPAWN_EGG = ITEMS.register("freshwater_shark_spawn_egg",
-            () -> new FishSpawnEggItem(FintyEntities.SHARKMINNOW, 0xffffff, 0xffffff, new Item.Properties()));
+            () -> new SharkminnowSpawnEgg(FintyEntities.SHARKMINNOW, 0xffffff, 0xffffff, new Item.Properties()));
     public static final RegistryObject<Item> FRESHWATER_SHARK_BUCKET = ITEMS.register("freshwater_shark_bucket", () -> {
         return new FishBucketItem(FintyEntities.SHARKMINNOW, () -> {
             return Fluids.WATER;
@@ -175,7 +177,7 @@ public class FintyItems {
 
 
     public static final RegistryObject<Item> GOURAMI_SPAWN_EGG = ITEMS.register("gourami_spawn_egg",
-            () -> new FishSpawnEggItem(FintyEntities.GOURAMI, 0xffffff, 0xffffff, new Item.Properties()));
+            () -> new GouramiSpawnEgg(FintyEntities.GOURAMI, 0xffffff, 0xffffff, new Item.Properties()));
     public static final RegistryObject<Item> GOURAMI_BUCKET = ITEMS.register("gourami_bucket", () -> {
         return new FishBucketItem(FintyEntities.GOURAMI, () -> {
             return Fluids.WATER;

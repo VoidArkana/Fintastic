@@ -4,6 +4,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.util.ByIdMap;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -22,6 +24,8 @@ import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.IntFunction;
 
 public class Sharkminnow extends VariantSchoolingFish {
 
@@ -108,16 +112,16 @@ public class Sharkminnow extends VariantSchoolingFish {
                 if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
                     int chance = this.random.nextInt(3);
                     model = switch (chance){
-                        case 1 -> 2;
-                        case 2 -> 5;
-                        default -> 0;
+                        case 1 -> SharkminnowVariant.BLACK_LABEO.getVariant();
+                        case 2 -> SharkminnowVariant.CIGAR_SHARK.getVariant();
+                        default -> SharkminnowVariant.BALA_SHARK.getVariant();
                     };
                 }else {
                     int chance = this.random.nextInt(3);
                     model = switch (chance){
-                        case 1 -> 3;
-                        case 2 -> 4;
-                        default -> 1;
+                        case 1 -> SharkminnowVariant.RUBY_SHARK.getVariant();
+                        case 2 -> SharkminnowVariant.RAINBOW_SHARK.getVariant();
+                        default -> SharkminnowVariant.HIGHFIN_SHARK.getVariant();
                     };
                 }
 
@@ -146,14 +150,7 @@ public class Sharkminnow extends VariantSchoolingFish {
     }
 
     public String getVariantName(){
-        return switch (this.getVariantModel()){
-            case 1 -> "highfin_shark";
-            case 2 -> "black_labeo";
-            case 3 -> "ruby_shark";
-            case 4 -> "rainbow_shark";
-            case 5 -> "cigar_shark";
-            default -> "bala_shark";
-        };
+        return SharkminnowVariant.byId(this.getVariantModel()).getSerializedName();
     }
 
     @Override
@@ -174,6 +171,46 @@ public class Sharkminnow extends VariantSchoolingFish {
         FishGroupData(Sharkminnow pLeader, int pVariantModel) {
             super(pLeader);
             this.variantModel = pVariantModel;
+        }
+    }
+
+    public enum SharkminnowVariant implements StringRepresentable {
+        BALA_SHARK(0, "bala_shark"),
+        HIGHFIN_SHARK(1, "highfin_shark"),
+        BLACK_LABEO(2, "black_labeo"),
+        RUBY_SHARK(3, "ruby_shark"),
+        RAINBOW_SHARK(4, "rainbow_shark"),
+        CIGAR_SHARK(5, "cigar_shark");
+
+        private final int variant;
+        private final String name;
+
+        SharkminnowVariant(int variant, String name){
+            this.variant = variant;
+            this.name = name;
+        }
+
+        public int getVariant(){
+            return this.variant;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
+
+        public static final IntFunction<SharkminnowVariant> BY_ID
+                = ByIdMap.sparse(SharkminnowVariant::getVariant, values(), BALA_SHARK);
+
+        public static final StringRepresentable.EnumCodec<SharkminnowVariant> CODEC
+                = StringRepresentable.fromEnum(SharkminnowVariant::values);
+
+        public static SharkminnowVariant byId(int pId) {
+            return BY_ID.apply(pId);
+        }
+
+        public static SharkminnowVariant byName(String pName) {
+            return CODEC.byName(pName, BALA_SHARK);
         }
     }
 

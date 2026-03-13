@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ByIdMap;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -404,7 +405,7 @@ public class Gourami extends BucketableFishEntity {
         }
     }
     
-    public enum GouramiVariant{
+    public enum GouramiVariant implements StringRepresentable {
         OSPHRONEMUS_GORAMI(0, "osphronemus_gorami"),
         REDTAIL_GIANT_GOURAMI(1, "redtail_giant_gourami"),
         RUBY_RED_GIANT_GOURAMI(2, "ruby_red_giant_gourami"),
@@ -442,7 +443,7 @@ public class Gourami extends BucketableFishEntity {
             return this.joinedVariant%10;
         }
 
-        public String getName(){
+        public String getSerializedName(){
             return this.name;
         }
 
@@ -458,9 +459,15 @@ public class Gourami extends BucketableFishEntity {
                 = ByIdMap.sparse(Gourami.GouramiVariant::getJoinedVariant,
                 values(), OSPHRONEMUS_GORAMI);
 
+        public static final StringRepresentable.EnumCodec<Gourami.GouramiVariant> CODEC
+                = StringRepresentable.fromEnum(Gourami.GouramiVariant::values);
 
         public static Gourami.GouramiVariant byId(int pId) {
             return BY_ID.apply(pId);
+        }
+
+        public static Gourami.GouramiVariant byName(String pName) {
+            return CODEC.byName(pName, OSPHRONEMUS_GORAMI);
         }
     }
 }

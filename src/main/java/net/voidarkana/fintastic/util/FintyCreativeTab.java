@@ -16,7 +16,7 @@ public class FintyCreativeTab {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Fintastic.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> YAFM_CREATIVE_TAB =
-            CREATIVE_MODE_TABS.register("fintastic_creative_tab", ()-> CreativeModeTab.builder().icon(() -> new ItemStack(FintyItems.FEATHERBACK_BUCKET.get()))
+            CREATIVE_MODE_TABS.register("fintastic_creative_tab", ()-> CreativeModeTab.builder().icon(() -> new ItemStack(FintyItems.FEATHERBACK.get()))
                     .title(Component.translatable("creativetab.fintastic_creative_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
 

@@ -1,0 +1,297 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce"
+      },
+      "when": {
+        "growth_stage": "0"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_med_base"
+      },
+      "when": {
+        "growth_stage": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_full_base"
+      },
+      "when": {
+        "growth_stage": "2"
+      }
+    },
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_northeast_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "north": "false",
+        "east" : "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_northeast_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "north": "true",
+        "east" : "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_northeast_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "north": "false",
+        "east" : "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_northeast_connected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "north": "true",
+        "east" : "true"
+      }
+    },
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_northwest_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "north": "false",
+        "west" : "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_northwest_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "north": "true",
+        "west" : "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_northwest_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "north": "false",
+        "west" : "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_northwest_connected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "north": "true",
+        "west" : "true"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_southeast_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "south": "false",
+        "east" : "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_southeast_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "south": "false",
+        "east" : "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_southeast_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "south": "true",
+        "east" : "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_sparce_southeast_connected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "0",
+        "south": "true",
+        "east" : "true"
+      }
+    },
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_north_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "1",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_east_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "1",
+        "east": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_south_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "1",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_west_unconnected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "1",
+        "west": "false"
+      }
+    },
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_north_connected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "1",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_east_connected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "1",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_south_connected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "1",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_west_connected",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "1",
+        "west": "true"
+      }
+    },
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_full_north",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "2",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_full_east",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "2",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_full_south",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "2",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/duckweed/duckweed_full_west",
+        "uvlock": true
+      },
+      "when": {
+        "growth_stage": "2",
+        "west": "true"
+      }
+    }
+  ]
+}

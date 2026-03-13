@@ -20,10 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
-import net.voidarkana.fintastic.common.entity.custom.Catfish;
-import net.voidarkana.fintastic.common.entity.custom.GuppyEntity;
-import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
-import net.voidarkana.fintastic.common.entity.custom.Moony;
+import net.voidarkana.fintastic.common.entity.custom.*;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -187,8 +184,8 @@ public class FishBucketItem extends MobBucketItem {
             if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
                 int i = compoundtag.getInt("VariantModel");
 
-                String featherback_sci = "fintastic.freshwater_shark_sci." + i;
-                String common = "fintastic.freshwater_shark_common." + i;
+                String featherback_sci = "fintastic.sharkminnow_sci." + Sharkminnow.SharkminnowVariant.byId(i).getSerializedName();
+                String common = "fintastic.sharkminnow_common." + Sharkminnow.SharkminnowVariant.byId(i).getSerializedName();
 
                 MutableComponent commonName = Component.translatable(common);
 

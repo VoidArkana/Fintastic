@@ -2,6 +2,8 @@ package net.voidarkana.fintastic.client;
 
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.FoliageColor;
+import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -73,9 +75,18 @@ public class FintyClientEvents {
                 pLevel != null && pPos != null ? BiomeColors.getAverageWaterColor(pLevel, pPos)
                         : 0x4f9ce3,
                 FintyBlocks.AQUARIUM_GLASS.get(),
-                FintyBlocks.FISHBOWL.get(),
                 FintyBlocks.AQUARIUM_GLASS_PANE.get(),
                 FintyBlocks.TINTED_AQUARIUM_GLASS.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        pLevel != null && pPos != null ? BiomeColors.getAverageWaterColor(pLevel, pPos)
+                                : 0xffffff,
+                FintyBlocks.FISHBOWL.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        pLevel != null && pPos != null ? BiomeColors.getAverageFoliageColor(pLevel, pPos)
+                                : FoliageColor.getDefaultColor(),
+                FintyBlocks.DUCKWEED.get());
 
         event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
                 0xff6f36, FintyBlocks.INFERNAL_AQUARIUM_GLASS.get(),

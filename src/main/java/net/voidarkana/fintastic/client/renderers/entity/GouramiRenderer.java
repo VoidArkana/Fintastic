@@ -53,7 +53,7 @@ public class GouramiRenderer extends MobRenderer<Gourami, FintasticModel<Gourami
         int joinedVariantID = Integer.decode(String.valueOf(pEntity.getVariantModel()) + pEntity.getVariantSkin());
         Gourami.GouramiVariant gouramiVariant = Gourami.GouramiVariant.byId(joinedVariantID);
 
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/gourami/"+gouramiVariant.getModelName()+"/gourami_"+gouramiVariant.getName()+".png");
+        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/gourami/"+gouramiVariant.getModelName()+"/gourami_"+gouramiVariant.getSerializedName()+".png");
     }
 
     @Override
