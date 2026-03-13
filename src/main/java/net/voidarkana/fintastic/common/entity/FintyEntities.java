@@ -14,15 +14,15 @@ public class FintyEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Fintastic.MOD_ID);
 
-    public static final RegistryObject<EntityType<FeatherbackEntity>> FEATHERBACK =
+    public static final RegistryObject<EntityType<Featherback>> FEATHERBACK =
             ENTITY_TYPES.register("featherback",
-                    () -> EntityType.Builder.of(FeatherbackEntity::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Featherback::new, MobCategory.WATER_AMBIENT)
                             .sized(0.7f, 0.9f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "featherback").toString()));
 
-    public static final RegistryObject<EntityType<MinnowEntity>> MINNOW =
+    public static final RegistryObject<EntityType<Minnow>> MINNOW =
             ENTITY_TYPES.register("minnow",
-                    () -> EntityType.Builder.of(MinnowEntity::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Minnow::new, MobCategory.WATER_AMBIENT)
                             .sized(0.4f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "minnow").toString()));
 

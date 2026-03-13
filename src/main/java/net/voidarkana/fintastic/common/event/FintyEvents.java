@@ -13,8 +13,8 @@ public class FintyEvents {
 
     @SubscribeEvent
     public static void entityAttributeEvent(EntityAttributeCreationEvent event){
-        event.put(FintyEntities.FEATHERBACK.get(), FeatherbackEntity.createAttributes().build());
-        event.put(FintyEntities.MINNOW.get(), MinnowEntity.createAttributes().build());
+        event.put(FintyEntities.FEATHERBACK.get(), Featherback.createAttributes().build());
+        event.put(FintyEntities.MINNOW.get(), Minnow.createAttributes().build());
         event.put(FintyEntities.CATFISH.get(), Catfish.createAttributes().build());
         event.put(FintyEntities.GUPPY.get(), GuppyEntity.createAttributes().build());
         event.put(FintyEntities.SHARKMINNOW.get(), Sharkminnow.createAttributes().build());

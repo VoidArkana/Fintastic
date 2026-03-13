@@ -65,6 +65,13 @@ public class FintasticLayers {
     public static final ModelLayerLocation CATFISH_SLENDER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_slender"), "main");
 
+    public static final ModelLayerLocation FEATHERBACK_BIG =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "featherback_big"), "main");
+    public static final ModelLayerLocation FEATHERBACK_MED =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "featherback_med"), "main");
+    public static final ModelLayerLocation FEATHERBACK_SMALL =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "featherback_small"), "main");
+
     public static final ModelLayerLocation HAT_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fishing_hat"), "main");
 }

@@ -45,15 +45,15 @@
   "entity.fintastic.daphnia" : "Daphnia",
   "item.fintastic.daphnia" : "Daphnia",
 
-  "fintastic.featherback_sci.0" : "Xenomystus nigri",
-  "fintastic.featherback_sci.1" : "Papyrocranus afer",
-  "fintastic.featherback_sci.2" : "Chitala ornata",
-  "fintastic.featherback_sci.3" : "Chitala lopis",
+  "fintastic.featherback_sci.african_brown_knifefish" : "Xenomystus nigri",
+  "fintastic.featherback_sci.reticulated_knifefish" : "Papyrocranus afer",
+  "fintastic.featherback_sci.clown_featherback" : "Chitala ornata",
+  "fintastic.featherback_sci.belida" : "Chitala lopis",
 
-  "fintastic.featherback_common.0" : "African Brown Knifefish",
-  "fintastic.featherback_common.1" : "Reticulated Knifefish ",
-  "fintastic.featherback_common.2" : "Clown Featherback",
-  "fintastic.featherback_common.3" : "Belida",
+  "fintastic.featherback_common.african_brown_knifefish" : "African Brown Knifefish",
+  "fintastic.featherback_common.reticulated_knifefish" : "Reticulated Knifefish ",
+  "fintastic.featherback_common.clown_featherback" : "Clown Featherback",
+  "fintastic.featherback_common.belida" : "Belida",
 
   "fintastic.guppy.sci" : "Poecilia sp.",
 
@@ -377,24 +377,24 @@
 
 
 
-  "fintastic.moony_common.moonysmall_0": "Dwarf Moony",
-  "fintastic.moony_common.moonysmall_1": "Dwarf Moony",
+  "fintastic.moony_common.dwarf_moony_1": "Dwarf Moony",
+  "fintastic.moony_common.dwarf_moony_2": "Dwarf Moony",
 
-  "fintastic.moony_common.moonytall_0": "African moony",
-  "fintastic.moony_common.moonytall_1": "African moony",
+  "fintastic.moony_common.african_moony_1": "African moony",
+  "fintastic.moony_common.african_moony_2": "African moony",
 
-  "fintastic.moony_common.moony_0": "Silver Moony",
-  "fintastic.moony_common.moony_1": "Full Moony",
+  "fintastic.moony_common.silver_moony": "Silver Moony",
+  "fintastic.moony_common.full_moony": "Full Moony",
 
 
-  "fintastic.moony_sci.moonysmall_0": "Monodactylus kottelati",
-  "fintastic.moony_sci.moonysmall_1": "Monodactylus kottelati",
+  "fintastic.moony_sci.dwarf_moony_1": "Monodactylus kottelati",
+  "fintastic.moony_sci.dwarf_moony_2": "Monodactylus kottelati",
 
-  "fintastic.moony_sci.moonytall_0": "Monodactylus sebae",
-  "fintastic.moony_sci.moonytall_1": "Monodactylus sebae",
+  "fintastic.moony_sci.african_moony_1": "Monodactylus sebae",
+  "fintastic.moony_sci.african_moony_2": "Monodactylus sebae",
 
-  "fintastic.moony_sci.moony_0": "Monodactylus argenteus",
-  "fintastic.moony_sci.moony_1": "Monodactylus falciformis",
+  "fintastic.moony_sci.silver_moony": "Monodactylus argenteus",
+  "fintastic.moony_sci.full_moony": "Monodactylus falciformis",
 
   "block.fintastic.live_rock": "Coraline Live Rock Block",
   "block.fintastic.dead_live_rock": "Coraline Dry Rock Block",

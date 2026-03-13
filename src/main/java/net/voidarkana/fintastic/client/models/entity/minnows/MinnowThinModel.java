@@ -7,12 +7,11 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.RenderType;
 import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
-import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
+import net.voidarkana.fintastic.common.entity.custom.Minnow;
 
-public class MinnowThinModel<T extends MinnowEntity> extends FintasticModel<T> {
+public class MinnowThinModel<T extends Minnow> extends FintasticModel<T> {
 
 	private final ModelPart root;
 	private final ModelPart swim_rot;
@@ -59,7 +58,7 @@ public class MinnowThinModel<T extends MinnowEntity> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(MinnowEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+	public void setupAnim(Minnow pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		if (this.young)
 			pLimbSwing /= 2;

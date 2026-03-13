@@ -133,6 +133,14 @@ public class Catfish extends BucketableFishEntity {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+
+        if (pTag.contains("Variant"))
+            this.setVariant(pTag.getInt("Variant"));
+
+        if (pTag.contains("Age")) {
+            this.setAge(pTag.getInt("Age"));
+            this.setCanGrowUp(pTag.getBoolean("CanGrowUp"));
+        }
     }
 
     @Nullable

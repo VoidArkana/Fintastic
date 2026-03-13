@@ -35,10 +35,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.IntFunction;
 
-public class MinnowEntity extends VariantSchoolingFish {
+public class Minnow extends VariantSchoolingFish {
 
 
-    public MinnowEntity(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
+    public Minnow(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -79,6 +79,17 @@ public class MinnowEntity extends VariantSchoolingFish {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+
+        if (pTag.contains("VariantModel"))
+            this.setVariantModel(pTag.getInt("VariantModel"));
+
+        if (pTag.contains("VariantSkin"))
+            this.setVariantSkin(pTag.getInt("VariantSkin"));
+
+        if (pTag.contains("Age")) {
+            this.setAge(pTag.getInt("Age"));
+            this.setCanGrowUp(pTag.getBoolean("CanGrowUp"));
+        }
     }
 
     @Nullable
@@ -328,7 +339,7 @@ public class MinnowEntity extends VariantSchoolingFish {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        MinnowEntity baby = FintyEntities.MINNOW.get().create(pLevel);
+        Minnow baby = FintyEntities.MINNOW.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
             baby.setVariantModel(this.getVariantModel());
@@ -339,7 +350,7 @@ public class MinnowEntity extends VariantSchoolingFish {
 
     @Override
     public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        MinnowEntity mate = (MinnowEntity) pOtherAnimal;
+        Minnow mate = (Minnow) pOtherAnimal;
         return super.canMate(pOtherAnimal) && mate.getVariantModel() == this.getVariantModel() && mate.getVariantSkin() == this.getVariantSkin();
     }
 
@@ -353,7 +364,7 @@ public class MinnowEntity extends VariantSchoolingFish {
         final int variantModel;
         final int variantSkin;
 
-        MinnowGroupData(MinnowEntity pLeader, int pVariantModel, int pVariantSkin) {
+        MinnowGroupData(Minnow pLeader, int pVariantModel, int pVariantSkin) {
             super(pLeader);
             this.variantModel = pVariantModel;
             this.variantSkin = pVariantSkin;
@@ -450,8 +461,8 @@ public class MinnowEntity extends VariantSchoolingFish {
             };
         }
 
-        private static final IntFunction<MinnowEntity.MinnowVariant> BY_ID
-                = ByIdMap.sparse(MinnowEntity.MinnowVariant::getJoinedVariant, values(), TINFOIL_BARB);
+        private static final IntFunction<Minnow.MinnowVariant> BY_ID
+                = ByIdMap.sparse(Minnow.MinnowVariant::getJoinedVariant, values(), TINFOIL_BARB);
 
 
         public static MinnowVariant byId(int pId) {

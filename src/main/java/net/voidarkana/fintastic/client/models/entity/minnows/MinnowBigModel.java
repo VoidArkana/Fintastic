@@ -11,9 +11,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
-import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
+import net.voidarkana.fintastic.common.entity.custom.Minnow;
 
-public class MinnowBigModel<T extends MinnowEntity> extends FintasticModel<T> {
+public class MinnowBigModel<T extends Minnow> extends FintasticModel<T> {
 
 	private final ModelPart root;
 	private final ModelPart swim_rot;
@@ -64,7 +64,7 @@ public class MinnowBigModel<T extends MinnowEntity> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(MinnowEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+	public void setupAnim(Minnow pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 

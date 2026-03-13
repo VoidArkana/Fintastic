@@ -12,10 +12,7 @@ import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.item.custom.*;
-import net.voidarkana.fintastic.common.item.custom.spawneggs.CatfishSpawnEgg;
-import net.voidarkana.fintastic.common.item.custom.spawneggs.GouramiSpawnEgg;
-import net.voidarkana.fintastic.common.item.custom.spawneggs.MinnowSpawnEgg;
-import net.voidarkana.fintastic.common.item.custom.spawneggs.SharkminnowSpawnEgg;
+import net.voidarkana.fintastic.common.item.custom.spawneggs.*;
 import net.voidarkana.fintastic.common.sound.FintySounds;
 
 @Mod.EventBusSubscriber(modid = Fintastic.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -30,7 +27,7 @@ public class FintyItems {
             ()-> new HatItem(YAFMArmorMaterials.HAT, ArmorItem.Type.HELMET, new Item.Properties()));
 
     public static final RegistryObject<Item> FEATHERBACK_SPAWN_EGG = ITEMS.register("featherback_spawn_egg",
-            () -> new FishSpawnEggItem(FintyEntities.FEATHERBACK, 0xffffff, 0xffffff, new Item.Properties()));
+            () -> new FeatherbackSpawnEgg(FintyEntities.FEATHERBACK, 0xffffff, 0xffffff, new Item.Properties()));
     public static final RegistryObject<Item> FEATHERBACK_BUCKET = ITEMS.register("featherback_bucket", () -> {
         return new FishBucketItem(FintyEntities.FEATHERBACK, () -> {
             return Fluids.WATER;
@@ -155,7 +152,7 @@ public class FintyItems {
 
 
     public static final RegistryObject<Item> MOONY_SPAWN_EGG = ITEMS.register("moony_spawn_egg",
-            () -> new FishSpawnEggItem(FintyEntities.MOONY, 0xffffff, 0xffffff, new Item.Properties()));
+            () -> new MoonySpawnEgg(FintyEntities.MOONY, 0xffffff, 0xffffff, new Item.Properties()));
     public static final RegistryObject<Item> MOONY_BUCKET = ITEMS.register("moony_bucket", () -> {
         return new FishBucketItem(FintyEntities.MOONY, () -> {
             return Fluids.WATER;

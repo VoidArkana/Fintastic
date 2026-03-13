@@ -1,10 +1,13 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ByIdMap;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -22,24 +25,12 @@ import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class FeatherbackEntity extends BucketableFishEntity implements GeoEntity {
+import java.util.function.IntFunction;
 
-    protected static final RawAnimation BIG_SWIM = RawAnimation.begin().thenLoop("animation.genericfish.twoblocktailandheadswim");
-    protected static final RawAnimation BIG_FLOP = RawAnimation.begin().thenLoop("animation.genericfish.fishwithheadflop");
-    protected static final RawAnimation SWIM = RawAnimation.begin().thenLoop("animation.genericfish.headswim");
-    protected static final RawAnimation FLOP = RawAnimation.begin().thenPlay("animation.genericfish.headflop");
+public class Featherback extends BucketableFishEntity {
 
-    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(FeatherbackEntity.class, EntityDataSerializers.INT);
-
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Featherback.class, EntityDataSerializers.INT);
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
@@ -47,7 +38,7 @@ public class FeatherbackEntity extends BucketableFishEntity implements GeoEntity
         return FOOD_ITEMS.test(pStack);
     }
 
-    public FeatherbackEntity(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
+    public Featherback(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.refreshDimensions();
     }
@@ -66,9 +57,9 @@ public class FeatherbackEntity extends BucketableFishEntity implements GeoEntity
 
     @Override
     public EntityDimensions getDimensions(Pose pPose) {
-        return switch (this.getVariant()){
-            case 2, 3 ->super.getDimensions(pPose);
-            default ->super.getDimensions(pPose).scale(1F, 0.6F);
+        return switch (FeatherbackVariant.byId(this.getVariant()).getModel()){
+            case 2 ->super.getDimensions(pPose);
+            default -> super.getDimensions(pPose).scale(1F, 0.6F);
         };
     }
 
@@ -119,6 +110,14 @@ public class FeatherbackEntity extends BucketableFishEntity implements GeoEntity
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+
+        if (pTag.contains("Variant"))
+            this.setVariant(pTag.getInt("Variant"));
+
+        if (pTag.contains("Age")) {
+            this.setAge(pTag.getInt("Age"));
+            this.setCanGrowUp(pTag.getBoolean("CanGrowUp"));
+        }
     }
 
     @Nullable
@@ -132,7 +131,7 @@ public class FeatherbackEntity extends BucketableFishEntity implements GeoEntity
             }
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
         }else{
-            this.setVariant(this.random.nextInt(4));
+            this.setVariant(Util.getRandom(FeatherbackVariant.values(), this.random).getJoinedVariant());
         }
 
         pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
@@ -142,26 +141,12 @@ public class FeatherbackEntity extends BucketableFishEntity implements GeoEntity
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        FeatherbackEntity baby = FintyEntities.FEATHERBACK.get().create(pLevel);
+        Featherback baby = FintyEntities.FEATHERBACK.get().create(pLevel);
         if (baby != null){
             baby.setVariant(this.getVariant());
             baby.setFromBucket(true);
         }
         return baby;
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController[]{new AnimationController(this, "Normal", 5, this::Controller)});
-    }
-
-    protected <E extends FeatherbackEntity> PlayState Controller(AnimationState<E> event) {
-        if (this.isInWater()){
-            event.setAndContinue(this.getVariant() > 1 ? BIG_SWIM : SWIM);
-        }else{
-            event.setAndContinue(this.getVariant() > 1 ? BIG_FLOP : FLOP);
-        }
-        return PlayState.CONTINUE;
     }
 
     @Override
@@ -171,14 +156,51 @@ public class FeatherbackEntity extends BucketableFishEntity implements GeoEntity
 
     @Override
     public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        FeatherbackEntity mate = (FeatherbackEntity) pOtherAnimal;
+        Featherback mate = (Featherback) pOtherAnimal;
         return super.canMate(pOtherAnimal) && this.getVariant() == mate.getVariant();
     }
 
+    public enum FeatherbackVariant implements StringRepresentable {
+        AFRICAN_BROWN_KNIFEFISH(0, "african_brown_knifefish"),
 
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+        RETICULATED_KNIFEFISH(10, "reticulated_knifefish"),
 
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
+        CLOWN_FEATHERBACK(20, "clown_featherback"),
+        BELIDA(21, "belida");
+
+        private final int joinedVariant;
+        private final String name;
+
+        FeatherbackVariant(int variant, String name){
+            this.joinedVariant = variant;
+            this.name = name;
+        }
+
+        public int getJoinedVariant(){
+            return this.joinedVariant;
+        }
+
+        public int getModel(){
+            return this.joinedVariant/10;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
+
+        public static final IntFunction<FeatherbackVariant> BY_ID
+                = ByIdMap.sparse(FeatherbackVariant::getJoinedVariant, values(), AFRICAN_BROWN_KNIFEFISH);
+
+        public static final StringRepresentable.EnumCodec<FeatherbackVariant> CODEC
+                = StringRepresentable.fromEnum(FeatherbackVariant::values);
+
+        public static FeatherbackVariant byId(int pId) {
+            return BY_ID.apply(pId);
+        }
+
+        public static FeatherbackVariant byName(String pName) {
+            return CODEC.byName(pName, AFRICAN_BROWN_KNIFEFISH);
+        }
     }
 }

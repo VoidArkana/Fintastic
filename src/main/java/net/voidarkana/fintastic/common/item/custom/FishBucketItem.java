@@ -62,8 +62,8 @@ public class FishBucketItem extends MobBucketItem {
                 int i = compoundtag.getInt("Variant");
 
 
-                String featherback_sci = "fintastic.featherback_sci." + i;
-                String common = "fintastic.featherback_common." + i;
+                String featherback_sci = "fintastic.featherback_sci." + Featherback.FeatherbackVariant.byId(i).getSerializedName();
+                String common = "fintastic.featherback_common." + Featherback.FeatherbackVariant.byId(i).getSerializedName();
 
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
@@ -205,7 +205,7 @@ public class FishBucketItem extends MobBucketItem {
             if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
 
                 int joinedVariantID = Integer.decode(String.valueOf(compoundtag.getInt("VariantModel")) + compoundtag.getInt("VariantSkin"));
-                MinnowEntity.MinnowVariant minnowVariant = MinnowEntity.MinnowVariant.byId(joinedVariantID);
+                Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(joinedVariantID);
 
                 String featherback_sci = "fintastic.minnow_sci." + minnowVariant.getSerializedName();
                 String common = "fintastic.minnow_common." + minnowVariant.getSerializedName();
@@ -273,13 +273,12 @@ public class FishBucketItem extends MobBucketItem {
 
         if (getFishType() == FintyEntities.MOONY.get()) {
             CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
 
-                int i = compoundtag.getInt("VariantModel");
-                int j = compoundtag.getInt("VariantSkin");
+                int i = compoundtag.getInt("Variant");
 
-                String featherback_sci = "fintastic.moony_sci." + Moony.getVariantName(i, j);
-                String common = "fintastic.moony_common." + Moony.getVariantName(i, j);
+                String featherback_sci = "fintastic.moony_sci." + Moony.MoonyVariant.byId(i).getSerializedName();
+                String common = "fintastic.moony_common." + Moony.MoonyVariant.byId(i).getSerializedName();
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);

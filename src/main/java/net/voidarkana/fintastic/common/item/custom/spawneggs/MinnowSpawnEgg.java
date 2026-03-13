@@ -9,7 +9,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
+import net.voidarkana.fintastic.common.entity.custom.Minnow;
 import net.voidarkana.fintastic.common.item.custom.FishSpawnEggItem;
 
 import javax.annotation.Nullable;
@@ -24,11 +24,11 @@ public class MinnowSpawnEgg extends FishSpawnEggItem {
 
     @Override
     public void applyEntityVariant(ItemStack itemstack, Entity entity) {
-        if (entity instanceof MinnowEntity minnow && itemstack.hasTag())
+        if (entity instanceof Minnow minnow && itemstack.hasTag())
             if (itemstack.getTag().contains(DATA_CREATURE))
                 if (itemstack.getTag().getInt(DATA_CREATURE)!=-1){
                     int i = itemstack.getTag().getInt(DATA_CREATURE);
-                    MinnowEntity.MinnowVariant variant = MinnowEntity.MinnowVariant.values()[i];
+                    Minnow.MinnowVariant variant = Minnow.MinnowVariant.values()[i];
                     if (variant != null){
                         minnow.setVariantModel(variant.getModel());
                         minnow.setVariantSkin(variant.getSkin());
@@ -37,7 +37,7 @@ public class MinnowSpawnEgg extends FishSpawnEggItem {
     }
 
     public void changeEntityVariant(ItemStack stack){
-        int length = MinnowEntity.MinnowVariant.values().length-1;
+        int length = Minnow.MinnowVariant.values().length-1;
         int currentIndex = -1;
         int newIndex;
 
@@ -66,7 +66,7 @@ public class MinnowSpawnEgg extends FishSpawnEggItem {
             if (itemstack.getTag().contains(DATA_CREATURE)){
                 if (itemstack.getTag().getInt(DATA_CREATURE)!=-1){
                     int i = itemstack.getTag().getInt(DATA_CREATURE);
-                    MinnowEntity.MinnowVariant variant = MinnowEntity.MinnowVariant.values()[i];
+                    Minnow.MinnowVariant variant = Minnow.MinnowVariant.values()[i];
                     if (variant != null) {
                         String common = "fintastic.minnow_common." + variant.getSerializedName();
 

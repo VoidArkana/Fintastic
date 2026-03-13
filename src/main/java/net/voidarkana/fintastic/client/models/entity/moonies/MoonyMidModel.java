@@ -15,8 +15,6 @@ import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Moony;
 
 public class MoonyMidModel<T extends Moony> extends FintasticModel<T> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	//public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "moony"), "main");
 
 	private final ModelPart root;
 	private final ModelPart swim_rot;

@@ -79,11 +79,13 @@ public class Sharkminnow extends VariantSchoolingFish {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
-        this.setVariantModel(pTag.getInt("VariantModel"));
+
+        if (pTag.contains("VariantModel")) {
+            this.setVariantModel(pTag.getInt("VariantModel"));
+        }
         if (pTag.contains("Age")) {
             this.setAge(pTag.getInt("Age"));
         }
-        this.setCanGrowUp(pTag.getBoolean("CanGrow"));
     }
 
     @Nullable
