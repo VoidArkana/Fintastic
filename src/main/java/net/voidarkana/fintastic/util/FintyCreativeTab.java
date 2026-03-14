@@ -45,7 +45,6 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.ARTEMIA_BUCKET.get());
                         output.accept(FintyItems.FEATHERBACK.get());
                         output.accept(FintyItems.FEATHERBACK_BUCKET.get());
-                        output.accept(FintyItems.SHARKMINNOW.get());
                         output.accept(FintyItems.FRESHWATER_SHARK_BUCKET.get());
                         output.accept(FintyItems.GUPPY.get());
                         output.accept(FintyItems.GUPPY_BUCKET.get());
@@ -57,6 +56,7 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.MOONY_BUCKET.get());
                         output.accept(FintyItems.PLECO.get());
                         output.accept(FintyItems.PLECO_BUCKET.get());
+                        output.accept(FintyItems.SHARKMINNOW.get());
 
                         output.accept(FintyItems.ARAPAIMA_SPAWN_EGG.get());
                         output.accept(FintyItems.CATFISH_SPAWN_EGG.get());

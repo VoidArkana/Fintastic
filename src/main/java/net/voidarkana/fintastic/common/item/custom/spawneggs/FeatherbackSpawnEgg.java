@@ -6,14 +6,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
-import net.voidarkana.fintastic.common.entity.custom.Catfish;
 import net.voidarkana.fintastic.common.entity.custom.Featherback;
-import net.voidarkana.fintastic.common.item.custom.FishSpawnEggItem;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public class FeatherbackSpawnEgg extends FishSpawnEggItem {
+public class FeatherbackSpawnEgg extends FishVariantSpawnEggItem {
 
     public FeatherbackSpawnEgg(Supplier<? extends EntityType<? extends Mob>> type, int backgroundColor, int highlightColor, Properties props) {
         super(type, backgroundColor, highlightColor, props);

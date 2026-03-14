@@ -7,12 +7,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.voidarkana.fintastic.common.entity.custom.Gourami;
-import net.voidarkana.fintastic.common.item.custom.FishSpawnEggItem;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public class GouramiSpawnEgg extends FishSpawnEggItem {
+public class GouramiSpawnEgg extends FishVariantSpawnEggItem {
 
     public GouramiSpawnEgg(Supplier<? extends EntityType<? extends Mob>> type, int backgroundColor, int highlightColor, Properties props) {
         super(type, backgroundColor, highlightColor, props);

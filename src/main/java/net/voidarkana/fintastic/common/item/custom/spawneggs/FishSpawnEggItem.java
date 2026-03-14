@@ -1,4 +1,4 @@
-package net.voidarkana.fintastic.common.item.custom;
+package net.voidarkana.fintastic.common.item.custom.spawneggs;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -28,17 +28,13 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 public class FishSpawnEggItem extends ForgeSpawnEggItem {
-
-    public static final String DATA_CREATURE = "CreatureData";
 
     public FishSpawnEggItem(Supplier<? extends EntityType<? extends Mob>> type, int backgroundColor, int highlightColor, Properties props) {
         super(type, backgroundColor, highlightColor, props);
@@ -124,14 +120,7 @@ public class FishSpawnEggItem extends ForgeSpawnEggItem {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         BlockHitResult blockhitresult = getPlayerPOVHitResult(pLevel, pPlayer, ClipContext.Fluid.SOURCE_ONLY);
-        if (blockhitresult.getType() != HitResult.Type.BLOCK) {
-            if (pPlayer.isCrouching()){
-                this.changeEntityVariant(itemstack);
-                return InteractionResultHolder.success(itemstack);
-            }
-
-            return InteractionResultHolder.pass(itemstack);
-        } else if (!(pLevel instanceof ServerLevel)) {
+        if (!(pLevel instanceof ServerLevel)) {
             return InteractionResultHolder.success(itemstack);
         } else {
             BlockPos blockpos = blockhitresult.getBlockPos();
@@ -158,54 +147,7 @@ public class FishSpawnEggItem extends ForgeSpawnEggItem {
         }
     }
 
-    @Override
-    public void appendHoverText(ItemStack itemstack, @Nullable Level world, List<Component> tooltip, TooltipFlag flagIn) {
-        ChatFormatting[] achatformatting = new ChatFormatting[]{ChatFormatting.ITALIC, ChatFormatting.BLUE};
-        ChatFormatting[] bchatformatting = new ChatFormatting[]{ChatFormatting.ITALIC, ChatFormatting.GRAY};
-
-        tooltip.add(Component.translatable("fintastic.translatable.spawn_egg_instructions").withStyle(bchatformatting));
-
-        if (itemstack.hasTag()){
-            if (itemstack.getTag().contains(DATA_CREATURE)){
-                if (itemstack.getTag().getInt(DATA_CREATURE)!=-1){
-                    int i = itemstack.getTag().getInt(DATA_CREATURE);
-                    setTooltip(tooltip, i, achatformatting);
-                }else{
-                    tooltip.add(Component.translatable("fintastic.translatable.random_variant").withStyle(achatformatting));
-                }
-            }
-        }else {
-            tooltip.add(Component.translatable("fintastic.translatable.random_variant").withStyle(achatformatting));
-        }
-    }
-
-    public void changeEntityVariant(ItemStack stack){
-        int length = getLength();
-        int currentIndex = -1;
-        int newIndex;
-
-        if (stack.hasTag())
-            if (stack.getTag().contains(DATA_CREATURE))
-                currentIndex = stack.getTag().getInt(DATA_CREATURE);
-
-        if (currentIndex == -1){
-            newIndex = length;
-        }else {
-            newIndex = currentIndex-1;
-        }
-        CompoundTag tag = stack.getOrCreateTag();
-        tag.putInt(DATA_CREATURE, newIndex);
-        stack.setTag(tag);
-    }
-
-    public int getLength(){
-        return 0;
-    }
 
     public void applyEntityVariant(ItemStack stack, Entity entity){
-    }
-
-    public void setTooltip(List<Component> tooltip, int i, ChatFormatting[] achatformatting) {
-
     }
 }
