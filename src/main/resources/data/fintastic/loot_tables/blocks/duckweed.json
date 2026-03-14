@@ -14,7 +14,7 @@
                   "block": "fintastic:duckweed",
                   "condition": "minecraft:block_state_property",
                   "properties": {
-                    "growth_stage": "0"
+                    "duckweed_amount": "1"
                   }
                 }
               ],
@@ -28,7 +28,7 @@
                   "block": "fintastic:duckweed",
                   "condition": "minecraft:block_state_property",
                   "properties": {
-                    "growth_stage": "1"
+                    "duckweed_amount": "2"
                   }
                 }
               ],
@@ -42,11 +42,39 @@
                   "block": "fintastic:duckweed",
                   "condition": "minecraft:block_state_property",
                   "properties": {
-                    "growth_stage": "2"
+                    "duckweed_amount": "3"
                   }
                 }
               ],
               "count": 3.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "block": "fintastic:duckweed",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "duckweed_amount": "4"
+                  }
+                }
+              ],
+              "count": 4.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "block": "fintastic:duckweed",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "duckweed_amount": "5"
+                  }
+                }
+              ],
+              "count": 5.0,
               "function": "minecraft:set_count"
             },
             {
@@ -58,5 +86,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "fintastic:blocks/duckweed"
 }

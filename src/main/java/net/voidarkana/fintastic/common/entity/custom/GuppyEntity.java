@@ -35,12 +35,9 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class GuppyEntity extends SchoolingFish implements GeoEntity {
+public class GuppyEntity extends SchoolingFish {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
-
-    protected static final RawAnimation SWIM = RawAnimation.begin().thenLoop("animation.guppy.swim");
-    protected static final RawAnimation FLOP = RawAnimation.begin().thenLoop("animation.guppy.flop");
 
     private static final EntityDataAccessor<Integer> FIN_MODEL = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> FIN_COLOR = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
@@ -392,25 +389,6 @@ public class GuppyEntity extends SchoolingFish implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController[]{new AnimationController(this, "Normal", 5, this::Controller)});
-    }
-
-    protected <E extends GuppyEntity> PlayState Controller(AnimationState<E> event) {
-        if (this.isInWater()){
-            event.setAndContinue(SWIM);
-
-            if (this.isBaby()){
-                event.getController().setAnimationSpeed(2d);
-            }
-
-        }else{
-            event.setAndContinue(FLOP);
-        }
-        return PlayState.CONTINUE;
-    }
-
-    @Override
     public ItemStack getBucketItemStack() {
         return new ItemStack(FintyItems.GUPPY_BUCKET.get());
     }
@@ -650,13 +628,4 @@ public class GuppyEntity extends SchoolingFish implements GeoEntity {
             }
         }
     }
-
-
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
-    }
-
-
 }

@@ -18,6 +18,8 @@ import net.voidarkana.fintastic.client.models.entity.arapaima.BabyArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.catfish.*;
 import net.voidarkana.fintastic.client.models.entity.featherback.*;
 import net.voidarkana.fintastic.client.models.entity.gourami.*;
+import net.voidarkana.fintastic.client.models.entity.guppy.BabyGuppyModel;
+import net.voidarkana.fintastic.client.models.entity.guppy.GuppyModel;
 import net.voidarkana.fintastic.client.models.entity.minnows.*;
 import net.voidarkana.fintastic.client.models.entity.moonies.*;
 import net.voidarkana.fintastic.client.models.entity.sharkminnows.*;
@@ -28,7 +30,7 @@ public class FintyClientEvents {
 
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        
+
         event.registerLayerDefinition(FintasticLayers.MOONYMID_LAYER, MoonyMidModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.MOONYSMALL_LAYER, MoonySmallModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.MOONYTALL_LAYER, MoonyTallModel::createBodyLayer);
@@ -65,6 +67,9 @@ public class FintyClientEvents {
         event.registerLayerDefinition(FintasticLayers.FEATHERBACK_BIG, FeatherbackModelBig::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.FEATHERBACK_MED, FeatherbackModelMed::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.FEATHERBACK_SMALL, FeatherbackModelSmall::createBodyLayer);
+
+        event.registerLayerDefinition(FintasticLayers.GUPPY, GuppyModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.BABY_GUPPY, BabyGuppyModel::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.HAT_LAYER, HatModel::createArmorLayer);
 
