@@ -3,6 +3,8 @@ package net.voidarkana.fintastic.common.entity.custom;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ByIdMap;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -27,24 +29,17 @@ import net.voidarkana.fintastic.common.entity.custom.base.SchoolingFish;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class ArtemiaEntity extends SchoolingFish implements GeoEntity {
+import java.util.function.IntFunction;
+
+public class FairyShrimp extends SchoolingFish {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.DRIED_KELP);
 
-    protected static final RawAnimation SWIM = RawAnimation.begin().thenLoop("animation.artemia.swim");
-    protected static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.artemia.idle");
-    protected static final RawAnimation FLOP = RawAnimation.begin().thenLoop("animation.artemia.flop");
+    public final AnimationState circleAnimationState = new AnimationState();
+    private int circleTimeout = this.random.nextInt(320) + 160;
 
-    public ArtemiaEntity(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
+    public FairyShrimp(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -108,6 +103,10 @@ public class ArtemiaEntity extends SchoolingFish implements GeoEntity {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+        if (pTag.contains("Age"))
+            this.setAge(pTag.getInt("Age"));
+        if (pTag.contains("VariantSkin"))
+            this.setVariantSkin(pTag.getInt("VariantSkin"));
     }
 
     @Nullable
@@ -131,37 +130,25 @@ public class ArtemiaEntity extends SchoolingFish implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController[]{new AnimationController(this, "Normal", 5, this::Controller)});
-    }
-
-    protected <E extends ArtemiaEntity> PlayState Controller(AnimationState<ArtemiaEntity> event) {
-        ArtemiaEntity entity = event.getAnimatable();
-        if (entity.isInWater()){
-            if (event.isMoving()){
-                event.setAndContinue(SWIM);
-
-                if (entity.isBaby()){
-                    event.getController().setAnimationSpeed(2d);}
-
-            } else {
-                event.setAndContinue(IDLE);
-            }
-        }else{
-            event.setAndContinue(FLOP);
-        }
-        return PlayState.CONTINUE;
-    }
-
-    @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        ArtemiaEntity baby = FintyEntities.ARTEMIA.get().create(pLevel);
-        ArtemiaEntity otherGuy = (ArtemiaEntity) pOtherParent;
+        FairyShrimp baby = FintyEntities.FAIRY_SHRIMP.get().create(pLevel);
+        FairyShrimp otherGuy = (FairyShrimp) pOtherParent;
         if (baby != null){
             baby.setVariantSkin(this.random.nextBoolean() ? this.getVariantSkin() : otherGuy.getVariantSkin());
             baby.setFromBucket(true);
         }
         return baby;
+    }
+
+    public void setupAnimationStates() {
+        super.setupAnimationStates();
+
+        if (this.circleTimeout <= 0 && this.isInWaterOrBubble()) {
+            this.circleTimeout = this.random.nextInt(320) + 160;
+            this.circleAnimationState.start(this.tickCount);
+        } else if (this.circleTimeout > 0){
+            --this.circleTimeout;
+        }
     }
 
     @Override
@@ -255,10 +242,40 @@ public class ArtemiaEntity extends SchoolingFish implements GeoEntity {
         }
     }
 
+    public enum FairyShrimpVariant implements StringRepresentable {
+        ARTEMIA(0, "artemia"),
+        BEAVERTAIL(1, "beavertail"),
+        THAI(2, "thai");
 
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+        private final int variant;
+        private final String name;
 
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
+        FairyShrimpVariant(int variant, String name){
+            this.variant = variant;
+            this.name = name;
+        }
+
+        public int getVariant(){
+            return this.variant;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
+
+        public static final IntFunction<FairyShrimpVariant> BY_ID
+                = ByIdMap.sparse(FairyShrimpVariant::getVariant, values(), ARTEMIA);
+
+        public static final StringRepresentable.EnumCodec<FairyShrimpVariant> CODEC
+                = StringRepresentable.fromEnum(FairyShrimpVariant::values);
+
+        public static FairyShrimpVariant byId(int pId) {
+            return BY_ID.apply(pId);
+        }
+
+        public static FairyShrimpVariant byName(String pName) {
+            return CODEC.byName(pName, ARTEMIA);
+        }
     }
 }

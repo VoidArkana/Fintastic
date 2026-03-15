@@ -35,7 +35,7 @@ public class ClientProxy extends CommonProxy{
         EntityRenderers.register(FintyEntities.GUPPY.get(), GuppyRenderer::new);
         EntityRenderers.register(FintyEntities.PLECO.get(), PlecoRenderer::new);
         EntityRenderers.register(FintyEntities.DAPHNIA.get(), DaphniaRenderer::new);
-        EntityRenderers.register(FintyEntities.ARTEMIA.get(), ArtemiaRenderer::new);
+        EntityRenderers.register(FintyEntities.FAIRY_SHRIMP.get(), FairyShrimpRenderer::new);
 
         //non-geckolib
         EntityRenderers.register(FintyEntities.MOONY.get(), MoonyRenderer::new);

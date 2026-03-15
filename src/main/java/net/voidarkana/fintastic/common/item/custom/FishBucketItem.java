@@ -92,19 +92,20 @@ public class FishBucketItem extends MobBucketItem {
 
                 Boolean has_main_pattern = compoundtag.getBoolean("HasMainPattern");
                 Boolean has_second_pattern = compoundtag.getBoolean("HasSecondaryPattern");
+                Boolean hasDorsalFin = compoundtag.getBoolean("HasDorsalFin");
 
                 String base = "fintastic.guppy_base." + skin;
 
-                String fins = "fintastic.guppy_fin." + GuppyEntity.getFinsName(fin_model);
+                String fins = "fintastic.guppy_fin." + Guppy.getFinsName(fin_model);
                 String finsColor = "fintastic.guppy_color." + fin_color;
 
-                String tail = "fintastic.guppy_tail." + GuppyEntity.getTailName(tail_model);
+                String tail = "fintastic.guppy_tail." + Guppy.getTailName(tail_model);
                 String tailColor = "fintastic.guppy_color." + tail_color;
 
-                String mainPattern = "fintastic.guppy_pattern." + GuppyEntity.getMainPatternName(main_pattern);
+                String mainPattern = "fintastic.guppy_pattern." + Guppy.getMainPatternName(main_pattern);
                 String mainPatternColor = "fintastic.guppy_color." + main_pattern_color;
 
-                String secondPattern = "fintastic.guppy_pattern." + GuppyEntity.getSecondPatternName(second_pattern);
+                String secondPattern = "fintastic.guppy_pattern." + Guppy.getSecondPatternName(second_pattern);
                 String secondPatternColor = "fintastic.guppy_color." + second_pattern_color;
 
                 String sci = "fintastic.guppy.sci";
@@ -139,6 +140,8 @@ public class FishBucketItem extends MobBucketItem {
                 secondPatternInfo.withStyle(achatformatting);
 
 
+                MutableComponent dorsalFinInfo = Component.translatable("fintastic.guppy_dorsal_fin").withStyle(achatformatting);
+
 
                 MutableComponent scientific_name = Component.translatable(sci);
 
@@ -153,6 +156,9 @@ public class FishBucketItem extends MobBucketItem {
                     }
                     if (has_second_pattern){
                         pTooltipComponents.add(secondPatternInfo);
+                    }
+                    if (hasDorsalFin){
+                        pTooltipComponents.add(dorsalFinInfo);
                     }
                     pTooltipComponents.add(scientific_name);
                 }
@@ -236,13 +242,13 @@ public class FishBucketItem extends MobBucketItem {
                 }
         }
 
-        if (getFishType() == FintyEntities.ARTEMIA.get()) {
+        if (getFishType() == FintyEntities.FAIRY_SHRIMP.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("VariantSkin", 3)) {
                 int j = compoundtag.getInt("VariantSkin");
 
-                String featherback_sci = "fintastic.artemia_sci." + j;
-                String common = "fintastic.artemia_common." + j;
+                String featherback_sci = "fintastic.fairy_shrimp_sci." + FairyShrimp.FairyShrimpVariant.byId(j).getSerializedName();
+                String common = "fintastic.fairy_shrimp_common." + FairyShrimp.FairyShrimpVariant.byId(j).getSerializedName();
 
 
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);

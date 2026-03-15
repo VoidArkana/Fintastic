@@ -108,7 +108,7 @@ public class Moony extends VariantBoidingFish {
         }else{
 
             if(pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
-                this.setVariant(this.random.nextInt(3));
+                this.setVariant(Util.getRandom(MoonyVariant.values(), this.random).getJoinedVariant());
             }else {
                 int variant;
 

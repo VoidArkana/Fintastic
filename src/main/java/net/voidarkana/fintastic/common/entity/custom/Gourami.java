@@ -215,6 +215,17 @@ public class Gourami extends BucketableFishEntity {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+
+        if (pTag.contains("Age")) {
+            this.setAge(pTag.getInt("Age"));
+        }
+
+        if (pTag.contains("VariantModel")) {
+            this.setVariantModel(pTag.getInt("VariantModel"));
+        }
+        if (pTag.contains("VariantSkin")) {
+            this.setVariantSkin(pTag.getInt("VariantSkin"));
+        }
     }
 
     @Override

@@ -62,7 +62,7 @@ public class FintyItemModelProvider extends ItemModelProvider {
         simpleItem(FintyItems.DAPHNIA);
 
         simpleItem(FintyItems.ARTEMIA_BUCKET);
-        simpleItem(FintyItems.ARTEMIA_SPAWN_EGG);
+        simpleItem(FintyItems.FAIRY_SHRIMP_SPAWN_EGG);
         simpleItem(FintyItems.FAIRY_SHRIMP);
 
         simpleItem(FintyItems.MOONY_BUCKET);

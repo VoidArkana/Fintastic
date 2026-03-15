@@ -11,12 +11,12 @@ import net.voidarkana.fintastic.client.FintasticLayers;
 import net.voidarkana.fintastic.client.models.entity.arapaima.ArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.arapaima.BabyArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
-import net.voidarkana.fintastic.common.entity.custom.ArapaimaEntity;
+import net.voidarkana.fintastic.common.entity.custom.Arapaima;
 
-public class ArapaimaRenderer extends MobRenderer<ArapaimaEntity, FintasticModel<ArapaimaEntity>> {
+public class ArapaimaRenderer extends MobRenderer<Arapaima, FintasticModel<Arapaima>> {
 
-    private final ArapaimaModel<ArapaimaEntity> arapaimaModel;
-    private final BabyArapaimaModel<ArapaimaEntity> babyArapaimaModel;
+    private final ArapaimaModel<Arapaima> arapaimaModel;
+    private final BabyArapaimaModel<Arapaima> babyArapaimaModel;
 
     public ArapaimaRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new ArapaimaModel<>(pContext.bakeLayer(FintasticLayers.ARAPAIMA_LAYER)), 1f);
@@ -25,7 +25,7 @@ public class ArapaimaRenderer extends MobRenderer<ArapaimaEntity, FintasticModel
     }
 
     @Override
-    public void render(ArapaimaEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
+    public void render(Arapaima entity, float entityYaw, float partialTicks, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLightIn) {
         if (entity.isBaby()){
             this.model = babyArapaimaModel;
@@ -37,12 +37,12 @@ public class ArapaimaRenderer extends MobRenderer<ArapaimaEntity, FintasticModel
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ArapaimaEntity pEntity) {
+    public ResourceLocation getTextureLocation(Arapaima pEntity) {
         return new ResourceLocation(Fintastic.MOD_ID, "textures/entity/arapaima/arapaima"+(pEntity.isBaby() ? "_baby":"")+".png");
     }
 
     @Override
-    protected void setupRotations(ArapaimaEntity animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
+    protected void setupRotations(Arapaima animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
         super.setupRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
         if (animatable.isInWaterOrBubble()){
             poseStack.mulPose(Axis.ZP.rotationDegrees(animatable.currentRoll*360/4));

@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.event;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -186,7 +187,7 @@ public class FintyModEvents {
                     2, 18, 0.035f));
         }
 
-        if (event.getType() == FintyVillagerProfessions.AQUARIST.get()){
+        if (event.getType() == VillagerProfession.FISHERMAN){
             Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
 
             //level 1

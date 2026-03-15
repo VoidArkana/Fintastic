@@ -43,7 +43,7 @@ import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
-public class ArapaimaEntity extends BucketableFishEntity {
+public class Arapaima extends BucketableFishEntity {
 
     public final ArapaimaPart head;
     public final ArapaimaPart tail;
@@ -53,7 +53,7 @@ public class ArapaimaEntity extends BucketableFishEntity {
     public int ringBufferIndex = -1;
     public final float[][] ringBuffer = new float[64][3];
 
-    public ArapaimaEntity(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
+    public Arapaima(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
         this.head = new ArapaimaPart(this, 1.2F,0.9F );
@@ -88,7 +88,7 @@ public class ArapaimaEntity extends BucketableFishEntity {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25D){
             @Override
             protected boolean shouldPanic() {
-                return super.shouldPanic() && ArapaimaEntity.this.isInWaterOrBubble();
+                return super.shouldPanic() && Arapaima.this.isInWaterOrBubble();
             }
         });
         this.goalSelector.addGoal(1, new MoveToWaterGoal(this, 0.5D));
@@ -103,7 +103,7 @@ public class ArapaimaEntity extends BucketableFishEntity {
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10){
             @Override
             public boolean canUse() {
-                return ArapaimaEntity.this.isInWaterOrBubble() && super.canUse();
+                return Arapaima.this.isInWaterOrBubble() && super.canUse();
             }
         });
         this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
@@ -200,7 +200,7 @@ public class ArapaimaEntity extends BucketableFishEntity {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        ArapaimaEntity baby = FintyEntities.ARAPAIMA.get().create(pLevel);
+        Arapaima baby = FintyEntities.ARAPAIMA.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
         }
@@ -236,6 +236,10 @@ public class ArapaimaEntity extends BucketableFishEntity {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+
+        if (pTag.contains("Age")) {
+            this.setAge(pTag.getInt("Age"));
+        }
     }
 
     @Override
@@ -284,9 +288,9 @@ public class ArapaimaEntity extends BucketableFishEntity {
 
     static class MoveToWaterGoal extends MoveToBlockGoal {
 
-        private final ArapaimaEntity turtle;
+        private final Arapaima turtle;
 
-        MoveToWaterGoal(ArapaimaEntity pTurtle, double pSpeedModifier) {
+        MoveToWaterGoal(Arapaima pTurtle, double pSpeedModifier) {
             super(pTurtle, pSpeedModifier, 24);
             this.turtle = pTurtle;
             this.verticalSearchStart = -1;

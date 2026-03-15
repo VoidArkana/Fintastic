@@ -16,12 +16,12 @@ public class FintyEvents {
         event.put(FintyEntities.FEATHERBACK.get(), Featherback.createAttributes().build());
         event.put(FintyEntities.MINNOW.get(), Minnow.createAttributes().build());
         event.put(FintyEntities.CATFISH.get(), Catfish.createAttributes().build());
-        event.put(FintyEntities.GUPPY.get(), GuppyEntity.createAttributes().build());
+        event.put(FintyEntities.GUPPY.get(), Guppy.createAttributes().build());
         event.put(FintyEntities.SHARKMINNOW.get(), Sharkminnow.createAttributes().build());
         event.put(FintyEntities.PLECO.get(), PlecoEntity.createAttributes().build());
-        event.put(FintyEntities.ARAPAIMA.get(), ArapaimaEntity.createAttributes().build());
+        event.put(FintyEntities.ARAPAIMA.get(), Arapaima.createAttributes().build());
 
-        event.put(FintyEntities.ARTEMIA.get(), ArtemiaEntity.createAttributes().build());
+        event.put(FintyEntities.FAIRY_SHRIMP.get(), FairyShrimp.createAttributes().build());
         event.put(FintyEntities.DAPHNIA.get(), DaphniaEntity.createAttributes().build());
 
         event.put(FintyEntities.MOONY.get(), Moony.createAttributes().build());

@@ -53,6 +53,6 @@ public class FintyEntityTypeTagGenerator extends EntityTypeTagsProvider {
                 .add(FintyEntities.CATFISH.get()).add(FintyEntities.SHARKMINNOW.get()).add(FintyEntities.FEATHERBACK.get())
                 .add(FintyEntities.MINNOW.get());
 
-        this.tag(FintyTags.EntityType.FISH_PREY).add(FintyEntities.ARTEMIA.get()).add(FintyEntities.DAPHNIA.get());
+        this.tag(FintyTags.EntityType.FISH_PREY).add(FintyEntities.FAIRY_SHRIMP.get()).add(FintyEntities.DAPHNIA.get());
     }
 }

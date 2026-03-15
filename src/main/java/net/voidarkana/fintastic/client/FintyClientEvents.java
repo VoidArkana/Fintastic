@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.client.models.armor.HatModel;
 import net.voidarkana.fintastic.client.models.entity.CoelacanthModel;
+import net.voidarkana.fintastic.client.models.entity.FairyShrimpModel;
 import net.voidarkana.fintastic.client.models.entity.arapaima.ArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.arapaima.BabyArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.catfish.*;
@@ -70,6 +71,8 @@ public class FintyClientEvents {
 
         event.registerLayerDefinition(FintasticLayers.GUPPY, GuppyModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.BABY_GUPPY, BabyGuppyModel::createBodyLayer);
+
+        event.registerLayerDefinition(FintasticLayers.FAIRY_SHRIMP, FairyShrimpModel::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.HAT_LAYER, HatModel::createArmorLayer);
 

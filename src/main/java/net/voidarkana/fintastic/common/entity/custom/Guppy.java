@@ -26,31 +26,24 @@ import net.voidarkana.fintastic.common.entity.custom.base.SchoolingFish;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class GuppyEntity extends SchoolingFish {
+public class Guppy extends SchoolingFish {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
-    private static final EntityDataAccessor<Integer> FIN_MODEL = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> FIN_COLOR = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> TAIL_MODEL = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> TAIL_COLOR = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> PATTERN_1 = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> PATTERN_2 = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> PATTERN_1_COLOR = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> PATTERN_2_COLOR = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> HAS_PATTERN_1 = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAS_PATTERN_2 = SynchedEntityData.defineId(GuppyEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> FIN_MODEL = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> FIN_COLOR = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> TAIL_MODEL = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> TAIL_COLOR = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> PATTERN_1 = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> PATTERN_2 = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> PATTERN_1_COLOR = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> PATTERN_2_COLOR = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> HAS_PATTERN_1 = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAS_PATTERN_2 = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAS_DORSAL_FIN = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.BOOLEAN);
 
-    public GuppyEntity(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
+    public Guppy(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -92,6 +85,7 @@ public class GuppyEntity extends SchoolingFish {
         this.entityData.define(PATTERN_2_COLOR, 0);
         this.entityData.define(HAS_PATTERN_1, false);
         this.entityData.define(HAS_PATTERN_2, false);
+        this.entityData.define(HAS_DORSAL_FIN, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -108,6 +102,8 @@ public class GuppyEntity extends SchoolingFish {
         compound.putBoolean("HasSecondaryPattern", this.getHasSecondPattern());
         compound.putInt("SecondaryPattern", this.getSecondPattern());
         compound.putInt("SecondaryPatternColor", this.getSecondPatternColor());
+
+        compound.putBoolean("HasDorsalFin", this.getHasDorsalFin());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -125,6 +121,8 @@ public class GuppyEntity extends SchoolingFish {
         this.setHasSecondPattern(compound.getBoolean("HasSecondaryPattern"));
         this.setSecondPattern(compound.getInt("SecondaryPattern"));
         this.setSecondPatternColor(compound.getInt("SecondaryPatternColor"));
+
+        this.setHasDorsalFin(compound.getBoolean("HasDorsalFin"));
     }
 
     public int getFinModel() {
@@ -213,6 +211,14 @@ public class GuppyEntity extends SchoolingFish {
     }
 
 
+    public Boolean getHasDorsalFin() {
+        return this.entityData.get(HAS_DORSAL_FIN);
+    }
+
+    public void setHasDorsalFin(Boolean variant) {
+        this.entityData.set(HAS_DORSAL_FIN, variant);
+    }
+
     @Override
     public void saveToBucketTag(ItemStack bucket) {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
@@ -242,8 +248,34 @@ public class GuppyEntity extends SchoolingFish {
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag compound) {
+        Bucketable.loadDefaultDataFromBucketTag(this, compound);
+
+        if (compound.contains("Age"))
+            this.setAge(compound.getInt("Age"));
+
+        if (compound.contains("FinModel"))
+            this.setFinModel(compound.getInt("FinModel"));
+        if (compound.contains("FinColor"))
+            this.setFinColor(compound.getInt("FinColor"));
+        if (compound.contains("TailModel"))
+            this.setTailModel(compound.getInt("TailModel"));
+        if (compound.contains("TailColor"))
+            this.setTailColor(compound.getInt("TailColor"));
+        if (compound.contains("HasMainPattern"))
+            this.setHasMainPattern(compound.getBoolean("HasMainPattern"));
+        if (compound.contains("MainPattern"))
+            this.setMainPattern(compound.getInt("MainPattern"));
+        if (compound.contains("MainPatternColor"))
+            this.setMainPatternColor(compound.getInt("MainPatternColor"));
+        if (compound.contains("HasSecondaryPattern"))
+            this.setHasSecondPattern(compound.getBoolean("HasSecondaryPattern"));
+        if (compound.contains("SecondaryPattern"))
+            this.setSecondPattern(compound.getInt("SecondaryPattern"));
+        if (compound.contains("SecondaryPatternColor"))
+            this.setSecondPatternColor(compound.getInt("SecondaryPatternColor"));
+        if (compound.contains("HasDorsalFin"))
+            this.setHasDorsalFin(compound.getBoolean("HasDorsalFin"));
     }
 
     @Nullable
@@ -266,6 +298,8 @@ public class GuppyEntity extends SchoolingFish {
             this.setSecondPattern(pDataTag.getInt("SecondaryPattern"));
             this.setSecondPatternColor(pDataTag.getInt("SecondaryPatternColor"));
 
+            this.setHasDorsalFin(pDataTag.getBoolean("HasDorsalFin"));
+
             if (pDataTag.contains("Age")) {
                 this.setAge(pDataTag.getInt("Age"));
             }
@@ -276,7 +310,7 @@ public class GuppyEntity extends SchoolingFish {
 
             this.setVariantSkin(this.random.nextInt(12));
 
-            this.setFinModel(this.random.nextInt(2));
+            this.setFinModel(this.random.nextInt(5)==0 ? 0 : 1);
             this.setFinColor(this.random.nextInt(22));
 
             //0 checkered_front (checkered1)
@@ -303,6 +337,8 @@ public class GuppyEntity extends SchoolingFish {
             this.setHasSecondPattern(this.random.nextInt(3)==0);
             this.setSecondPattern(this.random.nextInt(18));
             this.setSecondPatternColor(this.random.nextInt(22));
+
+            this.setHasDorsalFin(this.random.nextInt(5)==0);
 
             //10 dot_tail (dot1)
             //11 dot_mid_up (dot2)
@@ -415,8 +451,8 @@ public class GuppyEntity extends SchoolingFish {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        GuppyEntity otherParent = (GuppyEntity) pOtherParent;
-        GuppyEntity baby = FintyEntities.GUPPY.get().create(pLevel);
+        Guppy otherParent = (Guppy) pOtherParent;
+        Guppy baby = FintyEntities.GUPPY.get().create(pLevel);
 
         if (baby != null){
 
@@ -432,13 +468,14 @@ public class GuppyEntity extends SchoolingFish {
             boolean hasSecondPattern;
             int secondPatternType;
             int secondPatternColor;
+            boolean hasDorsalFin;
 
             switch (lowerQuality){
 
                 case 1:
                     if (this.random.nextBoolean()){
                         skin = this.random.nextInt(12);
-                        finModel = this.random.nextInt(2);
+                        finModel = this.random.nextInt(this.getRandom().nextInt(5)==0 ? 0 : 1);
                         finColor = this.random.nextInt(22);
 
                         tailModel = this.random.nextInt(19);
@@ -451,6 +488,8 @@ public class GuppyEntity extends SchoolingFish {
                         hasSecondPattern = this.random.nextInt(3)==0;
                         secondPatternType = this.random.nextInt(18);
                         secondPatternColor = this.random.nextInt(22);
+
+                        hasDorsalFin = this.random.nextInt(5)==0;
                     }else {
                         skin = this.random.nextBoolean() ? this.getVariantSkin() : otherParent.getVariantSkin();
                         finModel = this.random.nextBoolean() ? this.getFinModel() : otherParent.getFinModel();
@@ -466,6 +505,8 @@ public class GuppyEntity extends SchoolingFish {
                         hasSecondPattern = this.random.nextBoolean() ? this.getHasSecondPattern() : otherParent.getHasSecondPattern();
                         secondPatternType = this.random.nextBoolean() ? this.getSecondPattern() : otherParent.getSecondPattern();
                         secondPatternColor = this.random.nextBoolean() ? this.getSecondPatternColor(): otherParent.getSecondPatternColor();
+
+                        hasDorsalFin = this.random.nextBoolean() ? this.getHasDorsalFin() : otherParent.getHasDorsalFin();
                     }
                     break;
 
@@ -484,6 +525,9 @@ public class GuppyEntity extends SchoolingFish {
                     hasSecondPattern = this.random.nextBoolean() ? this.getHasSecondPattern() : otherParent.getHasSecondPattern();
                     secondPatternType = this.random.nextBoolean() ? this.getSecondPattern() : otherParent.getSecondPattern();
                     secondPatternColor = this.random.nextBoolean() ? this.getSecondPatternColor(): otherParent.getSecondPatternColor();
+
+                    hasDorsalFin = this.random.nextBoolean() ? this.getHasDorsalFin() : otherParent.getHasDorsalFin();
+
                     break;
 
                 case 3:
@@ -503,6 +547,9 @@ public class GuppyEntity extends SchoolingFish {
                     hasSecondPattern = parent ? this.getHasSecondPattern() : otherParent.getHasSecondPattern();
                     secondPatternType = parent ? this.getSecondPattern() : otherParent.getSecondPattern();
                     secondPatternColor = parent ? this.getSecondPatternColor(): otherParent.getSecondPatternColor();
+
+                    hasDorsalFin = parent ? this.getHasDorsalFin() : otherParent.getHasDorsalFin();
+
                     break;
 
                 default:
@@ -520,6 +567,8 @@ public class GuppyEntity extends SchoolingFish {
                     hasSecondPattern = this.random.nextInt(3)==0;
                     secondPatternType = this.random.nextInt(18);
                     secondPatternColor = this.random.nextInt(22);
+
+                    hasDorsalFin = this.random.nextInt(5)==0;
                     break;
             }
 
@@ -536,6 +585,9 @@ public class GuppyEntity extends SchoolingFish {
             baby.setHasSecondPattern(hasSecondPattern);
             baby.setSecondPattern(secondPatternType);
             baby.setSecondPatternColor(secondPatternColor);
+
+            baby.setHasDorsalFin(hasDorsalFin);
+
             baby.setFromBucket(true);
         }
 

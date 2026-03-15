@@ -130,10 +130,10 @@ public class FintyItems {
 
 
 
-    public static final RegistryObject<Item> ARTEMIA_SPAWN_EGG = ITEMS.register("artemia_spawn_egg",
-            () -> new FishSpawnEggItem(FintyEntities.ARTEMIA, 0xffffff, 0xffffff, new Item.Properties()));
+    public static final RegistryObject<Item> FAIRY_SHRIMP_SPAWN_EGG = ITEMS.register("artemia_spawn_egg",
+            () -> new FairyShrimpSpawnEgg(FintyEntities.FAIRY_SHRIMP, 0xffffff, 0xffffff, new Item.Properties()));
     public static final RegistryObject<Item> ARTEMIA_BUCKET = ITEMS.register("artemia_bucket", () -> {
-        return new FishBucketItem(FintyEntities.ARTEMIA, () -> {
+        return new FishBucketItem(FintyEntities.FAIRY_SHRIMP, () -> {
             return Fluids.WATER;
         }, Items.BUCKET, false, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1));});
     public static final RegistryObject<Item> FAIRY_SHRIMP = ITEMS.register("fairy_shrimp",

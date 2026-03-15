@@ -55,6 +55,6 @@ public class MoonyRenderer extends MobRenderer<Moony, FintasticModel<Moony>> {
     @Override
     protected void setupRotations(Moony pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360));
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees((pEntityLiving.currentRoll*360)/4));
     }
 }

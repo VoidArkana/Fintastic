@@ -4,12 +4,11 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
-import net.voidarkana.fintastic.client.animation.CatfishAnims;
 import net.voidarkana.fintastic.client.animation.GuppyAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
-import net.voidarkana.fintastic.common.entity.custom.GuppyEntity;
+import net.voidarkana.fintastic.common.entity.custom.Guppy;
 
-public class GuppyModel<T extends GuppyEntity> extends FintasticModel<T> {
+public class GuppyModel<T extends Guppy> extends FintasticModel<T> {
 
 	private final ModelPart root;
 	private final ModelPart swim_control;
@@ -60,6 +59,8 @@ public class GuppyModel<T extends GuppyEntity> extends FintasticModel<T> {
 	@Override
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
+
+        this.dorsalfin.visible = pEntity.getHasDorsalFin();
 
 		this.animateIdle(pEntity.idleAnimationState, GuppyAnims.POSE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f));
 		this.animateIdle(pEntity.idleAnimationState, GuppyAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));

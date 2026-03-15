@@ -64,7 +64,8 @@ public class Catfish extends BucketableFishEntity {
         return switch (variant.getModel()){
             case 0 ->super.getDimensions(pPose).scale(1F, 1.1F);
             case 1, 2 ->super.getDimensions(pPose).scale(0.8F, 0.8F);
-            case 4, 5 ->super.getDimensions(pPose).scale(1.5F, 1.5F);
+            case 4 ->super.getDimensions(pPose).scale(2F, 1.5F);
+            case 5 ->super.getDimensions(pPose).scale(1.75F, 0.8F);
             default ->super.getDimensions(pPose);
         };
     }

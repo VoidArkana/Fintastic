@@ -20,11 +20,11 @@ import net.voidarkana.fintastic.util.network.messages.MultipartEntityMessage;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ArapaimaPart<T extends ArapaimaEntity> extends PartEntity<ArapaimaEntity> {
+public class ArapaimaPart<T extends Arapaima> extends PartEntity<Arapaima> {
 
     private final EntityDimensions size;
     public float scale = 1;
-    public final ArapaimaEntity parentMob;
+    public final Arapaima parentMob;
 
     public ArapaimaPart(T parent, float pWidth, float pHeight) {
         super(parent);
@@ -36,7 +36,7 @@ public class ArapaimaPart<T extends ArapaimaEntity> extends PartEntity<ArapaimaE
     }
 
     @Override
-    public ArapaimaEntity getParent() {
+    public Arapaima getParent() {
         return this.parentMob;
     }
 

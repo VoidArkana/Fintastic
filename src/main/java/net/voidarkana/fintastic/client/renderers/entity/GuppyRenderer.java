@@ -15,9 +15,9 @@ import net.voidarkana.fintastic.client.renderers.entity.layers.GuppyFins;
 import net.voidarkana.fintastic.client.renderers.entity.layers.GuppyPatternMain;
 import net.voidarkana.fintastic.client.renderers.entity.layers.GuppyPatternSecond;
 import net.voidarkana.fintastic.client.renderers.entity.layers.GuppyTail;
-import net.voidarkana.fintastic.common.entity.custom.GuppyEntity;
+import net.voidarkana.fintastic.common.entity.custom.Guppy;
 
-public class GuppyRenderer <T extends GuppyEntity> extends MobRenderer<T, FintasticModel<T>> {
+public class GuppyRenderer <T extends Guppy> extends MobRenderer<T, FintasticModel<T>> {
 
     private final GuppyModel<T> modelAdult;
     private final BabyGuppyModel<T> modelBaby;

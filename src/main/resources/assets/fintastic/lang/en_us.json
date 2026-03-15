@@ -72,6 +72,8 @@
 
   "fintastic.guppy_fin" : "Fins",
 
+  "fintastic.guppy_dorsal_fin" : "Dorsal Finned",
+
   "fintastic.guppy_fin.jumbo" : "Jumbo",
   "fintastic.guppy_fin.regular" : "Regular",
 
@@ -322,13 +324,13 @@
   "fintastic.pleco_sci" : "Pterygoplichthys ambrosettii",
   "fintastic.pleco_common" : "Snow King Pleco",
 
-  "fintastic.artemia_sci.0" : "Artemia Salina",
-  "fintastic.artemia_sci.1" : "Thamnocephalus Platyurus",
-  "fintastic.artemia_sci.2" : "Branchinella Thailandensis",
+  "fintastic.fairy_shrimp_sci.artemia" : "Artemia Salina",
+  "fintastic.fairy_shrimp_sci.beavertail" : "Thamnocephalus Platyurus",
+  "fintastic.fairy_shrimp_sci.thai" : "Branchinella Thailandensis",
 
-  "fintastic.artemia_common.0" : "Fairy Shrimp",
-  "fintastic.artemia_common.1" : "Beavertail Fairy Shrimp",
-  "fintastic.artemia_common.2" : "Thai Fairy Shrimp",
+  "fintastic.fairy_shrimp_common.artemia" : "Fairy Shrimp",
+  "fintastic.fairy_shrimp_common.beavertail" : "Beavertail Fairy Shrimp",
+  "fintastic.fairy_shrimp_common.thai" : "Thai Fairy Shrimp",
 
   "fintastic.daphnia_sci" : "Daphnia Pulex",
   "fintastic.daphnia_common" : "Common Water Flea",

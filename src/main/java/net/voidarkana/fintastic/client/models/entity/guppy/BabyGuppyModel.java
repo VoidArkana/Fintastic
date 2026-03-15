@@ -6,9 +6,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.voidarkana.fintastic.client.animation.GuppyAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
-import net.voidarkana.fintastic.common.entity.custom.GuppyEntity;
+import net.voidarkana.fintastic.common.entity.custom.Guppy;
 
-public class BabyGuppyModel<T extends GuppyEntity> extends FintasticModel<T> {
+public class BabyGuppyModel<T extends Guppy> extends FintasticModel<T> {
 
 	private final ModelPart root;
 	private final ModelPart swim_control;

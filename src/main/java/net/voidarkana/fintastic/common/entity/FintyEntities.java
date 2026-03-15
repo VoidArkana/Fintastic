@@ -29,12 +29,12 @@ public class FintyEntities {
     public static final RegistryObject<EntityType<Catfish>> CATFISH =
             ENTITY_TYPES.register("catfish",
                     () -> EntityType.Builder.of(Catfish::new, MobCategory.WATER_AMBIENT)
-                            .sized(1f, 1f)
+                            .sized(1f, 0.9f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "catfish").toString()));
 
-    public static final RegistryObject<EntityType<GuppyEntity>> GUPPY =
+    public static final RegistryObject<EntityType<Guppy>> GUPPY =
             ENTITY_TYPES.register("guppy",
-                    () -> EntityType.Builder.of(GuppyEntity::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Guppy::new, MobCategory.WATER_AMBIENT)
                             .sized(0.3f, 0.3f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "guppy").toString()));
 
@@ -50,15 +50,15 @@ public class FintyEntities {
                             .sized(1f, 0.5f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "pleco").toString()));
 
-    public static final RegistryObject<EntityType<ArapaimaEntity>> ARAPAIMA =
+    public static final RegistryObject<EntityType<Arapaima>> ARAPAIMA =
             ENTITY_TYPES.register("arapaima",
-                    () -> EntityType.Builder.of(ArapaimaEntity::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Arapaima::new, MobCategory.WATER_AMBIENT)
                             .sized(1.5f, 0.8f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "arapaima").toString()));
 
-    public static final RegistryObject<EntityType<ArtemiaEntity>> ARTEMIA =
+    public static final RegistryObject<EntityType<FairyShrimp>> FAIRY_SHRIMP =
             ENTITY_TYPES.register("artemia",
-                    () -> EntityType.Builder.of(ArtemiaEntity::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(FairyShrimp::new, MobCategory.WATER_AMBIENT)
                             .sized(0.8f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "artemia").toString()));
 

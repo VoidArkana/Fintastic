@@ -47,14 +47,19 @@ public class SharkminnowRenderer extends MobRenderer<Sharkminnow, FintasticModel
 
     @Override
     public ResourceLocation getTextureLocation(Sharkminnow pEntity) {
-        return new ResourceLocation(Fintastic.MOD_ID, "textures/entity/sharkminnow/"+pEntity.getVariantName()+(pEntity.isBaby() &&
-                (pEntity.getVariantModel()<2 && pEntity.getVariantModel()>4) ? "_baby":"")+".png");
+        Sharkminnow.SharkminnowVariant variant = Sharkminnow.SharkminnowVariant.byId(pEntity.getVariantModel());
+        if (variant == Sharkminnow.SharkminnowVariant.BALA_SHARK || variant == Sharkminnow.SharkminnowVariant.CIGAR_SHARK
+                || variant == Sharkminnow.SharkminnowVariant.HIGHFIN_SHARK){
+
+            return new ResourceLocation(Fintastic.MOD_ID, "textures/entity/sharkminnow/"+pEntity.getVariantName()+(pEntity.isBaby() ? "_baby":"")+".png");
+        }
+        return new ResourceLocation(Fintastic.MOD_ID, "textures/entity/sharkminnow/"+pEntity.getVariantName()+".png");
     }
 
     @Override
     protected void setupRotations(Sharkminnow animatable, PoseStack poseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(animatable, poseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
 
-        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(animatable.getTicksOutsideWater()/3f, animatable.currentRoll*360/2, 0)));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(animatable.getTicksOutsideWater()/3f, animatable.currentRoll*360/4, 0)));
     }
 }
