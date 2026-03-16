@@ -165,6 +165,26 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
+        if (getFishType() == FintyEntities.PLECO.get()) {
+            CompoundTag compoundtag = pStack.getTag();
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+                int i = compoundtag.getInt("Variant");
+                Pleco.PlecoVariant variant = Pleco.PlecoVariant.byId(i);
+
+                String featherback_sci = "fintastic.pleco_sci." + variant.getSerializedName();
+                String common = "fintastic.pleco_common." + variant.getSerializedName();
+
+
+                MutableComponent mutablecomponent = Component.translatable(featherback_sci);
+                mutablecomponent.withStyle(bchatformatting);
+
+                if (Screen.hasShiftDown()){
+                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+                    pTooltipComponents.add(mutablecomponent);
+                }
+            }
+        }
+
         if (getFishType() == FintyEntities.CATFISH.get()) {
             CompoundTag compoundtag = pStack.getTag();
             if (compoundtag != null && compoundtag.contains("Variant", 3)) {

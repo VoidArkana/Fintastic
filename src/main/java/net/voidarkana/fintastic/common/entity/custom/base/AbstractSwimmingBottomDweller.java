@@ -25,8 +25,6 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         this.setMaxUpStep(1);
         this.jumpControl = new FishJumpControl(this);
         this.moveControl = new SmoothSwimmingMoveControl(this, 1, 1, 0.02F, 0.1F, true);
-
-//        moveControl = new SwimmingBottomDwellerMovement(this, 85, 10, 0.02F, 0.1F, true);
     }
 
     protected void defineSynchedData() {

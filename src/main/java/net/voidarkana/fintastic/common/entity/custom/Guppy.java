@@ -338,7 +338,7 @@ public class Guppy extends SchoolingFish {
             this.setSecondPattern(this.random.nextInt(18));
             this.setSecondPatternColor(this.random.nextInt(22));
 
-            this.setHasDorsalFin(this.random.nextInt(5)==0);
+            this.setHasDorsalFin(this.random.nextInt(5)>0);
 
             //10 dot_tail (dot1)
             //11 dot_mid_up (dot2)
@@ -489,7 +489,7 @@ public class Guppy extends SchoolingFish {
                         secondPatternType = this.random.nextInt(18);
                         secondPatternColor = this.random.nextInt(22);
 
-                        hasDorsalFin = this.random.nextInt(5)==0;
+                        hasDorsalFin = this.random.nextInt(5)>0;
                     }else {
                         skin = this.random.nextBoolean() ? this.getVariantSkin() : otherParent.getVariantSkin();
                         finModel = this.random.nextBoolean() ? this.getFinModel() : otherParent.getFinModel();
@@ -568,7 +568,7 @@ public class Guppy extends SchoolingFish {
                     secondPatternType = this.random.nextInt(18);
                     secondPatternColor = this.random.nextInt(22);
 
-                    hasDorsalFin = this.random.nextInt(5)==0;
+                    hasDorsalFin = this.random.nextInt(5)>0;
                     break;
             }
 

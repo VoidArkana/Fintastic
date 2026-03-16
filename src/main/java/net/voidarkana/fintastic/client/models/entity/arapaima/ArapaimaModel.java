@@ -52,7 +52,7 @@ public class ArapaimaModel<T extends Arapaima> extends FintasticModel<T> {
 
 		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition swim_rot = root.addOrReplaceChild("swim_rot", CubeListBuilder.create(), PartPose.offset(-0.5F, -9.0F, -25.0F));
+		PartDefinition swim_rot = root.addOrReplaceChild("swim_rot", CubeListBuilder.create(), PartPose.offset(-2.0F, -5.0F, -21.0F));
 
 		PartDefinition body = swim_rot.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -89,18 +89,18 @@ public class ArapaimaModel<T extends Arapaima> extends FintasticModel<T> {
 		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.GROUND_IDLE, pAgeInTicks, 1.0F,  (pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount));
 
 		if (pEntity.isInWaterOrBubble()){
-			this.head.xRot = (((headPitch * ((float) Math.PI / 180F))/8));
-			this.body.xRot = (((headPitch * ((float) Math.PI / 180F))/8));
-			this.torsoend.xRot = (-((headPitch * ((float) Math.PI / 180F))/4));
+			this.head.xRot += (((headPitch * ((float) Math.PI / 180F))/8));
+			this.body.xRot += (((headPitch * ((float) Math.PI / 180F))/8));
+			this.torsoend.xRot += (-((headPitch * ((float) Math.PI / 180F))/4));
 
-			this.head.yRot = (pEntity.currentRoll);
-			this.body.yRot = (pEntity.currentRoll/2);
-			this.torsoend.yRot = (-pEntity.currentRoll);
+			this.head.yRot += (pEntity.currentRoll);
+			this.body.yRot += (pEntity.currentRoll/2);
+			this.torsoend.yRot -= (-pEntity.currentRoll);
 
-			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/2;
-			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2);
+			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/2f;
+			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2f);
 
-			this.animateWalk(ArapaimaAnims.SWIM, pLimbSwing, pLimbSwingAmount*5f, 2f, 3f);
+			this.animateWalk(ArapaimaAnims.SWIM, pLimbSwing, pLimbSwingAmount*5f, 2f, 25f);
 		}
 		else {
 			this.swim_rot.resetPose();

@@ -57,6 +57,11 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         }
     }
 
+    public void calculateEntityAnimation(boolean pIncludeHeight) {
+        float f = (float)Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+        this.updateWalkAnimation(f);
+    }
+
     @Override
     protected void registerGoals() {
         super.registerGoals();

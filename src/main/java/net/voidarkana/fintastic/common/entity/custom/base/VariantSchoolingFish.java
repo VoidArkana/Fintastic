@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.voidarkana.fintastic.common.entity.custom.ai.FollowVariantSchoolLeaderGoal;
-import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import javax.annotation.Nullable;
 import java.util.List;

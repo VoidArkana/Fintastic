@@ -44,9 +44,9 @@ public class FintyEntities {
                             .sized(0.6f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "freshwater_shark").toString()));
 
-    public static final RegistryObject<EntityType<PlecoEntity>> PLECO =
+    public static final RegistryObject<EntityType<Pleco>> PLECO =
             ENTITY_TYPES.register("pleco",
-                    () -> EntityType.Builder.of(PlecoEntity::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Pleco::new, MobCategory.WATER_AMBIENT)
                             .sized(1f, 0.5f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "pleco").toString()));
 
@@ -62,9 +62,9 @@ public class FintyEntities {
                             .sized(0.8f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "artemia").toString()));
 
-    public static final RegistryObject<EntityType<DaphniaEntity>> DAPHNIA =
+    public static final RegistryObject<EntityType<Daphnia>> DAPHNIA =
             ENTITY_TYPES.register("daphnia",
-                    () -> EntityType.Builder.of(DaphniaEntity::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Daphnia::new, MobCategory.WATER_AMBIENT)
                             .sized(0.8f, 0.8f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "daphnia").toString()));
 

@@ -6,7 +6,6 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.voidarkana.fintastic.client.animation.FairyShrimpAnims;
-import net.voidarkana.fintastic.client.animation.FeatherbackAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.FairyShrimp;
 
@@ -130,8 +129,10 @@ public class FairyShrimpModel<T extends FairyShrimp> extends FintasticModel<T> {
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		if (this.young)
+		if (this.young){
+			this.applyStatic(FairyShrimpAnims.BABY);
 			pLimbSwing /= 2;
+		}
 		this.animateIdle(pEntity.idleAnimationState, FairyShrimpAnims.LEGS, pAgeInTicks, 1.5F, 1);
 		this.animateIdle(pEntity.idleAnimationState, FairyShrimpAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
 		this.animateIdle(pEntity.idleAnimationState, FairyShrimpAnims.FLOP, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);

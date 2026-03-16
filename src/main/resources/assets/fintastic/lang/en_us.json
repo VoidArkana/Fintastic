@@ -321,16 +321,27 @@
   "fintastic.minnow_sci.blacklinetail_tetra": "Moenkhausia costae",
   "fintastic.minnow_common.blacklinetail_tetra": "Blackline Tail Tetra",
 
-  "fintastic.pleco_sci" : "Pterygoplichthys ambrosettii",
-  "fintastic.pleco_common" : "Snow King Pleco",
+  "fintastic.pleco_common.sailfin" : "Snow King Pleco",
+  "fintastic.pleco_common.blue_eyed_panaque" : "Blue Eyed Plec",
+  "fintastic.pleco_common.blue_phantom" : "Phantom Blue Pleco",
+  "fintastic.pleco_common.cactus" : "Cactus Pleco",
+  "fintastic.pleco_common.luteus" : "Luteus Pleco",
+
+  "fintastic.pleco_sci.sailfin" : "Pterygoplichthys ambrosetti",
+  "fintastic.pleco_sci.blue_eyed_panaque" : "Panaque cochliodon",
+  "fintastic.pleco_sci.blue_phantom" : "Hemiancistrus sp.",
+  "fintastic.pleco_sci.cactus" : "Pseudacanthicus leopardus",
+  "fintastic.pleco_sci.luteus" : "Hypostomus luteus",
 
   "fintastic.fairy_shrimp_sci.artemia" : "Artemia Salina",
   "fintastic.fairy_shrimp_sci.beavertail" : "Thamnocephalus Platyurus",
   "fintastic.fairy_shrimp_sci.thai" : "Branchinella Thailandensis",
+  "fintastic.fairy_shrimp_sci.hounen" : "Branchinella Kugenumaensis",
 
   "fintastic.fairy_shrimp_common.artemia" : "Fairy Shrimp",
   "fintastic.fairy_shrimp_common.beavertail" : "Beavertail Fairy Shrimp",
   "fintastic.fairy_shrimp_common.thai" : "Thai Fairy Shrimp",
+  "fintastic.fairy_shrimp_common.hounen" : "Hounen Shrimp",
 
   "fintastic.daphnia_sci" : "Daphnia Pulex",
   "fintastic.daphnia_common" : "Common Water Flea",

@@ -18,12 +18,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Bucketable;
-import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.common.Tags;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
@@ -32,14 +30,6 @@ import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.IntFunction;
 
@@ -108,13 +98,13 @@ public class Catfish extends BucketableFishEntity {
         return this.entityData.get(VARIANT);
     }
 
+    public void setVariant(int variant) {
+        this.entityData.set(VARIANT, variant);
+    }
+
     @Override
     public boolean canBeBucketed() {
         return (this.getVariant()!=50 && this.getVariant()!=40) || ((this.getVariant() == 50 || this.getVariant() == 40) && this.isBaby());
-    }
-
-    public void setVariant(int variant) {
-        this.entityData.set(VARIANT, variant);
     }
 
     @Override

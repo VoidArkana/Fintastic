@@ -31,13 +31,6 @@ public class ClientProxy extends CommonProxy{
         Fintastic.CALLBACKS.forEach(Runnable::run);
         Fintastic.CALLBACKS.clear();
 
-        //still geckolib
-        EntityRenderers.register(FintyEntities.GUPPY.get(), GuppyRenderer::new);
-        EntityRenderers.register(FintyEntities.PLECO.get(), PlecoRenderer::new);
-        EntityRenderers.register(FintyEntities.DAPHNIA.get(), DaphniaRenderer::new);
-        EntityRenderers.register(FintyEntities.FAIRY_SHRIMP.get(), FairyShrimpRenderer::new);
-
-        //non-geckolib
         EntityRenderers.register(FintyEntities.MOONY.get(), MoonyRenderer::new);
         EntityRenderers.register(FintyEntities.COELACANTH.get(), CoelacanthRenderer::new);
         EntityRenderers.register(FintyEntities.GOURAMI.get(), GouramiRenderer::new);
@@ -46,6 +39,10 @@ public class ClientProxy extends CommonProxy{
         EntityRenderers.register(FintyEntities.SHARKMINNOW.get(), SharkminnowRenderer::new);
         EntityRenderers.register(FintyEntities.CATFISH.get(), CatfishRenderer::new);
         EntityRenderers.register(FintyEntities.FEATHERBACK.get(), FeatherbackRenderer::new);
+        EntityRenderers.register(FintyEntities.DAPHNIA.get(), DaphniaRenderer::new);
+        EntityRenderers.register(FintyEntities.FAIRY_SHRIMP.get(), FairyShrimpRenderer::new);
+        EntityRenderers.register(FintyEntities.GUPPY.get(), GuppyRenderer::new);
+        EntityRenderers.register(FintyEntities.PLECO.get(), PlecoRenderer::new);
 
         ItemProperties.register(FintyItems.FISHNET.get(), new ResourceLocation("has_entity"),
                 (stack, level, living, i) -> FishnetItem.containsEntity(stack) ? 1 : 0);

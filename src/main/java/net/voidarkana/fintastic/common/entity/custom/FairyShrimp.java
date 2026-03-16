@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ByIdMap;
@@ -123,7 +124,7 @@ public class FairyShrimp extends SchoolingFish {
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
 
         }else {
-            this.setVariantSkin(this.random.nextInt(3));
+            this.setVariantSkin(Util.getRandom(FairyShrimp.FairyShrimpVariant.values(), random).getID());
         }
 
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
@@ -245,7 +246,8 @@ public class FairyShrimp extends SchoolingFish {
     public enum FairyShrimpVariant implements StringRepresentable {
         ARTEMIA(0, "artemia"),
         BEAVERTAIL(1, "beavertail"),
-        THAI(2, "thai");
+        THAI(2, "thai"),
+        HOUNEN(3, "hounen");
 
         private final int variant;
         private final String name;
@@ -255,7 +257,7 @@ public class FairyShrimp extends SchoolingFish {
             this.name = name;
         }
 
-        public int getVariant(){
+        public int getID(){
             return this.variant;
         }
 
@@ -265,7 +267,7 @@ public class FairyShrimp extends SchoolingFish {
         }
 
         public static final IntFunction<FairyShrimpVariant> BY_ID
-                = ByIdMap.sparse(FairyShrimpVariant::getVariant, values(), ARTEMIA);
+                = ByIdMap.sparse(FairyShrimpVariant::getID, values(), ARTEMIA);
 
         public static final StringRepresentable.EnumCodec<FairyShrimpVariant> CODEC
                 = StringRepresentable.fromEnum(FairyShrimpVariant::values);

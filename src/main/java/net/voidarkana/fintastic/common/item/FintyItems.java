@@ -82,7 +82,7 @@ public class FintyItems {
 
 
     public static final RegistryObject<Item> PLECO_SPAWN_EGG = ITEMS.register("pleco_spawn_egg",
-            () -> new FishSpawnEggItem(FintyEntities.PLECO, 0xffffff, 0xffffff, new Item.Properties()));
+            () -> new PlecoSpawnEgg(FintyEntities.PLECO, 0xffffff, 0xffffff, new Item.Properties()));
     public static final RegistryObject<Item> PLECO_BUCKET = ITEMS.register("pleco_bucket", () -> {
         return new FishBucketItem(FintyEntities.PLECO, () -> {
             return Fluids.WATER;

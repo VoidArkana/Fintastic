@@ -26,27 +26,15 @@ import net.voidarkana.fintastic.common.entity.custom.base.SchoolingFish;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class DaphniaEntity extends SchoolingFish implements GeoEntity {
+public class Daphnia extends SchoolingFish {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.DRIED_KELP);
 
-    public int inactiveTicks = 0;
+    public final AnimationState jumpAnimationState = new AnimationState();
+    private int jumpTimeout = this.random.nextInt(320) + 160;
 
-    protected static final RawAnimation SWIM = RawAnimation.begin().thenLoop("animation.daphnia.swim");
-    protected static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.daphnia.idle");
-    protected static final RawAnimation FLOP = RawAnimation.begin().thenLoop("animation.daphnia.flop");
-    protected static final RawAnimation JUMP = RawAnimation.begin().thenPlay("animation.daphnia.jump");
-
-    public DaphniaEntity(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
+    public Daphnia(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -96,6 +84,8 @@ public class DaphniaEntity extends SchoolingFish implements GeoEntity {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+        if (pTag.contains("Age"))
+            this.setAge(pTag.getInt("Age"));
     }
 
     @Nullable
@@ -114,53 +104,25 @@ public class DaphniaEntity extends SchoolingFish implements GeoEntity {
         super.tick();
 
         if (this.getDeltaMovement().horizontalDistanceSqr()<0.0001 && this.isInWater()){
-            inactiveTicks++;
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.0025, 0));
-        }else {
-            inactiveTicks = 0;
-        }
-
-        if (inactiveTicks >= 20 && this.isInWater()){
-            this.setDeltaMovement(this.getDeltaMovement().add(0, 0.05, 0));
-            this.lookControl.setLookAt(this.position().x, this.position().y + 2, this.position().z);
-        }
-
-        if (inactiveTicks < 30){
-            inactiveTicks = 0;
         }
 
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController[]{new AnimationController(this, "Normal", 5, this::Controller)});
-    }
+    public void setupAnimationStates() {
+        super.setupAnimationStates();
 
-    protected <E extends DaphniaEntity> PlayState Controller(AnimationState<DaphniaEntity> event) {
-        DaphniaEntity entity = event.getAnimatable();
-        if (entity.isInWater()){
-            if (event.isMoving()){
-                event.setAndContinue(SWIM);
-
-                if (entity.isBaby()){
-                    event.getController().setAnimationSpeed(2d);}
-
-            } else if (this.inactiveTicks>=20 && this.inactiveTicks<30){
-
-                event.setAndContinue(JUMP);
-
-            } else {
-                event.setAndContinue(IDLE);
-            }
-        }else{
-            event.setAndContinue(FLOP);
+        if (this.getNavigation().isDone() && this.jumpTimeout <= 0 && this.isInWaterOrBubble()) {
+            this.jumpTimeout = this.random.nextInt(320) + 160;
+            this.jumpAnimationState.start(this.tickCount);
+        } else if (this.jumpTimeout > 0){
+            --this.jumpTimeout;
         }
-        return PlayState.CONTINUE;
     }
 
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        DaphniaEntity baby = FintyEntities.DAPHNIA.get().create(pLevel);
+        Daphnia baby = FintyEntities.DAPHNIA.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
         }
@@ -263,10 +225,4 @@ public class DaphniaEntity extends SchoolingFish implements GeoEntity {
         return FOOD_ITEMS.test(pStack);
     }
 
-
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
-    }
 }

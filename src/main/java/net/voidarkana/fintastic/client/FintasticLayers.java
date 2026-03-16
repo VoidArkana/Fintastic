@@ -74,6 +74,10 @@ public class FintasticLayers {
 
     public static final ModelLayerLocation FAIRY_SHRIMP =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fairy_shrimp"), "main");
+    public static final ModelLayerLocation DAPHNIA =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "daphnia"), "main");
+    public static final ModelLayerLocation PLECO =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "pleco"), "main");
 
     public static final ModelLayerLocation GUPPY =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "guppy"), "main");

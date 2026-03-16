@@ -6,6 +6,17 @@ import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
 
 public class FairyShrimpAnims {
+	public static final AnimationDefinition BABY = AnimationDefinition.Builder.withLength(0.0F)
+			.addAnimation("head", new AnimationChannel(AnimationChannel.Targets.SCALE,
+					new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.5F, 1.5F, 1.5F), AnimationChannel.Interpolations.LINEAR)
+			))
+			.addAnimation("legleft1", new AnimationChannel(AnimationChannel.Targets.SCALE,
+					new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.75F, 0.75F, 0.75F), AnimationChannel.Interpolations.LINEAR)
+			))
+			.addAnimation("rightleg1", new AnimationChannel(AnimationChannel.Targets.SCALE,
+					new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.75F, 0.75F, 0.75F), AnimationChannel.Interpolations.LINEAR)
+			))
+			.build();
 	public static final AnimationDefinition SWIM = AnimationDefinition.Builder.withLength(2.0F).looping()
 		.addAnimation("tail", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(15.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
