@@ -8,11 +8,14 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.control.JumpControl;
+import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
+import net.voidarkana.fintastic.common.entity.custom.Pleco;
 
 public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity{
 
@@ -48,6 +51,11 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
     }
 
     public void setWantsToSwim(boolean pFromBucket) {
+        if (pFromBucket){
+            this.lookControl = new SmoothSwimmingLookControl(this, 10);
+        }else {
+            this.lookControl = new LookControl(this);
+        }
         this.entityData.set(WANTS_TO_SWIM, pFromBucket);
     }
 
@@ -60,9 +68,17 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         }
 
         if (this.isInWater() && !this.onGround() && (this.random.nextInt(1000)==0 || swimmingTicks == 2400) && this.getWantsToSwim()){
-            this.setWantsToSwim(false);
-            swimmingTicks = 0;
-            prevSwimTick = 0;
+            if (this instanceof Pleco pleco){
+                if (!pleco.wantsToAttach()){
+                    this.setWantsToSwim(false);
+                    swimmingTicks = 0;
+                    prevSwimTick = 0;
+                }
+            }else {
+                this.setWantsToSwim(false);
+                swimmingTicks = 0;
+                prevSwimTick = 0;
+            }
         }
 
         if (this.getWantsToSwim()){
@@ -85,10 +101,20 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         if (this.isInWater()){
             BlockPos pos = this.blockPosition();
             BlockState block = this.level().getBlockState(pos.above());
-            if (this.getStepHeight() >= 1 && block.getFluidState().is(Fluids.EMPTY)){
-                this.setMaxUpStep(0);
-            }else if (this.isInWater() && block.getFluidState().is(Fluids.WATER)){
-                this.setMaxUpStep(1);
+            if (this instanceof Pleco pleco){
+
+                if (this.getStepHeight() >= 1 && (block.getFluidState().is(Fluids.EMPTY) || pleco.wantsToAttach())){
+                    this.setMaxUpStep(0);
+                }else if (this.isInWater() && block.getFluidState().is(Fluids.WATER)){
+                    this.setMaxUpStep(1);
+                }
+            }else {
+
+                if (this.getStepHeight() >= 1 && block.getFluidState().is(Fluids.EMPTY)){
+                    this.setMaxUpStep(0);
+                }else if (this.isInWater() && block.getFluidState().is(Fluids.WATER)){
+                    this.setMaxUpStep(1);
+                }
             }
         }
         super.aiStep();
@@ -98,13 +124,16 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
 
         if (this.isEffectiveAi() && this.isInWater() && !this.getWantsToSwim()) {
             if (this.getTarget() == null) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.025D, 0.0D));
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             }
         }
 
         if (this.isEffectiveAi() && this.isInWater() && this.getWantsToSwim()) {
             if (this.getTarget() == null && this.random.nextInt(500)==0) {
-                this.setWantsToSwim(false);
+                if (this instanceof Pleco pleco)
+                    this.setWantsToSwim(pleco.wantsToAttach());
+                else
+                    this.setWantsToSwim(false);
             }
         }
 

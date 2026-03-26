@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.client.FintasticLayers;
 import net.voidarkana.fintastic.client.models.entity.FairyShrimpModel;
@@ -31,6 +32,12 @@ public class PlecoRenderer<T extends Pleco> extends MobRenderer<T, PlecoModel<T>
     @Override
     protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));
+
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(Math.max(0, pEntityLiving.getTicksOutsideWater()/3-pEntityLiving.getTicksAttached()/3-pEntityLiving.getTicksOnGround()/3), pEntityLiving.currentRoll*360/4, 0)));
+
+//        if (pEntityLiving.isAttached()){
+//            pPoseStack.mulPose(pEntityLiving.getAttachedDirection().getOpposite().getRotation());
+//        }else {
+//        }
     }
 }

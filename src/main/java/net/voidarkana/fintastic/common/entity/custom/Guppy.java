@@ -242,6 +242,8 @@ public class Guppy extends SchoolingFish {
 
         compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
 
+        compoundnbt.putBoolean("HasDorsalFin", this.getHasDorsalFin());
+
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
         }

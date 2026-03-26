@@ -1,5 +1,8 @@
 package net.voidarkana.fintastic.client.models.entity;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.voidarkana.fintastic.client.animation.PlecoAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Pleco;
@@ -90,19 +93,35 @@ public class PlecoModel<T extends Pleco> extends FintasticModel<T> {
 		if (this.young)
 			pLimbSwing /= 2;
 
-		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-(pEntity.getTicksOnGround()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.IDLE_GROUND, pAgeInTicks, 1.0f, Math.max(0, (pEntity.getTicksOnGround()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
+		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-(pEntity.getTicksOnGround()/3f)-(pEntity.getTicksAttached()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
+		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.IDLE_GROUND, pAgeInTicks, 1.0f, Math.max(0, (pEntity.getTicksAttached()/3f)-(pEntity.getTicksOnGround()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
 
 		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.BEACHED, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
 
 		this.animateWalk(PlecoAnims.SWIM, pLimbSwing*3, pLimbSwingAmount*5f, 2f, Math.max(0,3f*(1-(pEntity.getTicksOutsideWater()/3f)-pEntity.getTicksOnGround()/3f)));
 		this.animateWalk(PlecoAnims.SWIM_BOTTOM, pLimbSwing*3, pLimbSwingAmount*5f, 2f, Math.max(0,(3f*(pEntity.getTicksOnGround()/3f-(pEntity.getTicksOutsideWater()/3f)))));
 
-		this.swim_rot.xRot = Mth.lerp( pEntity.getTicksOutsideWater()/5f, headPitch * ((float)Math.PI / 180F), 0);
+		this.swim_rot.xRot =
+				Mth.lerp(pEntity.getTicksAttached()/3f,
+				Mth.lerp( pEntity.getTicksOutsideWater()/5f,
+				headPitch * ((float)Math.PI / 180F), 0),
+						(float) Math.toRadians(-90));
+
+		this.swim_rot.z = Mth.lerp(pEntity.getTicksAttached()/3f, 0, -3.75f);
+
 	}
 
 	@Override
 	public ModelPart root() {
 		return root;
+	}
+
+	@Override
+	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
+//		pPoseStack.pushPose();
+
+
+		super.renderToBuffer(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+//		pPoseStack.popPose();
 	}
 }
