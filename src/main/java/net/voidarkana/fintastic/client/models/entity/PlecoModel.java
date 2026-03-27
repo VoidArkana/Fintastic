@@ -3,6 +3,7 @@ package net.voidarkana.fintastic.client.models.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.core.Direction;
 import net.voidarkana.fintastic.client.animation.PlecoAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Pleco;
@@ -93,6 +94,8 @@ public class PlecoModel<T extends Pleco> extends FintasticModel<T> {
 		if (this.young)
 			pLimbSwing /= 2;
 
+		this.animateIdle(pEntity.suckAnimationState, PlecoAnims.SUCK, pAgeInTicks, 1.0F, Math.max(0, (pEntity.getTicksAttached()/3f)-(pEntity.getTicksOnGround()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
+
 		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-(pEntity.getTicksOnGround()/3f)-(pEntity.getTicksAttached()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
 		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.IDLE_GROUND, pAgeInTicks, 1.0f, Math.max(0, (pEntity.getTicksAttached()/3f)-(pEntity.getTicksOnGround()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
 
@@ -107,7 +110,18 @@ public class PlecoModel<T extends Pleco> extends FintasticModel<T> {
 				headPitch * ((float)Math.PI / 180F), 0),
 						(float) Math.toRadians(-90));
 
-		this.swim_rot.z = Mth.lerp(pEntity.getTicksAttached()/3f, 0, -3.75f);
+		this.swim_rot.xRot = (float) (this.swim_rot.xRot + Mth.lerp(pEntity.getStrafingTicks()/3f, 0, Math.toRadians(10)));
+
+        this.swim_rot.z = Mth.lerp(pEntity.getTicksAttached()/3f, 0, 1f);
+		this.swim_rot.y = Mth.lerp(pEntity.getTicksAttached()/3f, this.swim_rot.y, -3f);
+
+//		if (pEntity.getPointingDirection().getAxis().isHorizontal()){
+//			System.out.println(pEntity.getStrafingTicks());
+//			this.swim_rot.zRot = this.swim_rot.zRot + Mth.lerp(pEntity.getStrafingTicks()/5f,
+//					0,
+//						(float) Math.toRadians(pEntity.getAttachedDirection().getClockWise() == pEntity.getPointingDirection() ?
+//						-45 : 45));
+//		}
 
 	}
 

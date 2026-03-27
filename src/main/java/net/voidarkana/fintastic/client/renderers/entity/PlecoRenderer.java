@@ -8,9 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.client.FintasticLayers;
-import net.voidarkana.fintastic.client.models.entity.FairyShrimpModel;
 import net.voidarkana.fintastic.client.models.entity.PlecoModel;
-import net.voidarkana.fintastic.common.entity.custom.FairyShrimp;
 import net.voidarkana.fintastic.common.entity.custom.Pleco;
 
 public class PlecoRenderer<T extends Pleco> extends MobRenderer<T, PlecoModel<T>> {
@@ -33,11 +31,8 @@ public class PlecoRenderer<T extends Pleco> extends MobRenderer<T, PlecoModel<T>
     protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
 
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(Math.max(0, pEntityLiving.getTicksOutsideWater()/3-pEntityLiving.getTicksAttached()/3-pEntityLiving.getTicksOnGround()/3), pEntityLiving.currentRoll*360/4, 0)));
-
-//        if (pEntityLiving.isAttached()){
-//            pPoseStack.mulPose(pEntityLiving.getAttachedDirection().getOpposite().getRotation());
-//        }else {
-//        }
+        if (pEntityLiving.isAttached()){
+            pPoseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(Math.max(0, pEntityLiving.getTicksOutsideWater()/3-pEntityLiving.getTicksOnGround()/3), pEntityLiving.currentRoll*360/4, 0)));
+        }
     }
 }

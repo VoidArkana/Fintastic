@@ -8,6 +8,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
@@ -22,13 +23,17 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
+import net.voidarkana.fintastic.common.block.custom.AquariumGlassPane;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.AbstractSwimmingBottomDweller;
@@ -48,9 +53,14 @@ public class Pleco extends AbstractSwimmingBottomDweller {
     private static final EntityDataAccessor<Integer> ATTACHED_TICKS = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Direction> ATTACHED_DIRECTION = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.DIRECTION);
     private static final EntityDataAccessor<Direction> POINTING_DIRECTION = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.DIRECTION);
+    private static final EntityDataAccessor<Integer> STRAFING_TICKS = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.INT);
 
     int prevTicksOnGround;
     int prevTicksAttached;
+    int prevTicksStrifing;
+
+    public final AnimationState suckAnimationState = new AnimationState();
+    int suckAnimationTimeout;
 
     @Nullable
     BlockPos attachmentPos;
@@ -92,24 +102,19 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         this.entityData.define(WANTS_TO_ATTACH, false);
         this.entityData.define(TICKS_ON_GROUND, 0);
         this.entityData.define(ATTACHED_TICKS, 0);
+        this.entityData.define(STRAFING_TICKS, 0);
         this.entityData.define(ATTACHED_DIRECTION, Direction.DOWN);
-        this.entityData.define(POINTING_DIRECTION, Direction.UP);
+        this.entityData.define(POINTING_DIRECTION, Direction.DOWN);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Variant", this.getVariant());
-        compound.putBoolean("WantsToAttach", this.wantsToAttach());
-        compound.putInt("TicksAttached", this.getTicksAttached());
-        compound.putByte("AttachedDirection", (byte)this.getAttachedDirection().get3DDataValue());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setVariant(compound.getInt("Variant"));
-        this.setWantsToAttach(compound.getBoolean("WantsToAttach"));
-        this.setTicksAttached(compound.getInt("TicksAttached"));
-        this.setAttachedDirection(Direction.from3DDataValue(compound.getByte("AttachedDirection")));
     }
 
     //variants
@@ -135,6 +140,14 @@ public class Pleco extends AbstractSwimmingBottomDweller {
 
     public void setTicksAttached(int ticks) {
         this.entityData.set(ATTACHED_TICKS, ticks);
+    }
+
+    public int getStrafingTicks() {
+        return this.entityData.get(STRAFING_TICKS);
+    }
+
+    public void setStrafingTicks(int ticks) {
+        this.entityData.set(STRAFING_TICKS, ticks);
     }
 
     public boolean wantsToAttach() {
@@ -201,6 +214,13 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 
+    @Override
+    public EntityDimensions getDimensions(Pose pPose) {
+        float width = (float) Mth.lerp(this.getTicksAttached()/3D, 1, 0.4);
+        float height = (float) Mth.lerp(this.getTicksAttached()/3D, 1, 1.25);
+        return super.getDimensions(pPose).scale(width, height);
+    }
+
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
@@ -215,6 +235,14 @@ public class Pleco extends AbstractSwimmingBottomDweller {
     @Override
     public void tick() {
 
+        if (this.isStrafing() && this.getStrafingTicks() < 5){
+            this.prevTicksStrifing = this.getStrafingTicks();
+            this.setStrafingTicks(this.prevTicksStrifing+1);
+        }else if (!this.isStrafing() && this.getStrafingTicks() > 0){
+            this.prevTicksStrifing = this.getStrafingTicks();
+            this.setStrafingTicks(this.prevTicksStrifing-1);
+        }
+
         super.tick();
 
         if (this.getRandom().nextInt(500)==0 && !this.wantsToAttach() && !this.getWantsToSwim()){
@@ -224,31 +252,26 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         if (this.isAttached() && wantsToAttach() && !this.isInWater()){
             this.setWantsToAttach(false);
             this.setAttachedDirection(Direction.DOWN);
+            this.setPointingDirection(Direction.DOWN);
         }
 
-        if (this.isAttached()){
-
+        if (this.isAttached() && this.getRandom().nextInt(1000)==0){
+            this.setWantsToAttach(false);
+            this.setAttachedDirection(Direction.DOWN);
+            this.setPointingDirection(Direction.DOWN);
         }
-
-//        if (this.getRandom().nextInt(1500)==0 && this.wantsToAttach() && this.isAttached()){
-//            this.setWantsToAttach(false);
-//            this.setAttachedDirection(Direction.DOWN);
-//        }
     }
 
-    public boolean xCollision;
-    public boolean zCollision;
-
     @Override
-    public void move(MoverType pType, Vec3 pPos) {
-//        Vec3 copy = pPos;
-//        if (!this.noPhysics){
-//            Vec3 vec3 = this.collide(pPos);
-//            xCollision = !Mth.equal(pPos.x, vec3.x);
-//            zCollision = !Mth.equal(pPos.z, vec3.z);
-//        }
-//        System.out.println(xCollision || zCollision);
-        super.move(pType, pPos);
+    public void setupAnimationStates() {
+        super.setupAnimationStates();
+
+        if (this.isStrafing() && this.suckAnimationTimeout <=0){
+            this.suckAnimationTimeout = 39;
+            this.suckAnimationState.start(this.tickCount);
+        }else if (this.suckAnimationTimeout>0){
+            this.suckAnimationTimeout--;
+        }
     }
 
     @Override
@@ -256,32 +279,53 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         return this.isAttached() || super.isImmobile();
     }
 
+    public boolean isStrafing(){
+        return this.getPointingDirection() != Direction.DOWN && (this.isAttached() || this.onGround());
+    }
+
+    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+        this.refreshDimensions();
+        super.onSyncedDataUpdated(pKey);
+    }
+
+    @Override
+    public void baseTick() {
+        super.baseTick();
+        if (this.isStrafing()){
+            this.yBodyRot = this.getAttachedDirection().toYRot();
+//            this.yBodyRotO = this.getAttachedDirection().toYRot();
+        }
+    }
+
     @Override
     public void aiStep() {
 
-
         super.aiStep();
 
+        if (this.isStrafing() && this.tickCount % 40 == 0){
+            this.setPointingDirection(Direction.DOWN);
+        }
+
         if (this.isAttached()){
-            this.setDeltaMovement(0, -0.0005, 0);
-            this.yBodyRot = this.getAttachedDirection().toYRot();
-            this.yHeadRot = this.getAttachedDirection().toYRot();
-
             BlockPos blockStuckTo = this.blockPosition().relative(this.getAttachedDirection());
-
-            System.out.println(this.level().getBlockState(blockStuckTo).isFaceSturdy(this.level(), blockStuckTo, this.getAttachedDirection()));
-
-            System.out.println(blockStuckTo);
-            if (!this.level().getBlockState(blockStuckTo).isFaceSturdy(this.level(), blockStuckTo, this.getAttachedDirection())){
+            BlockState stateStuckTo = this.level().getBlockState(blockStuckTo);
+            if (!(stateStuckTo.isFaceSturdy(this.level(), blockStuckTo, this.getAttachedDirection()) || stateStuckTo.is(Blocks.GLASS) || stateStuckTo.is(FintyBlocks.AQUARIUM_GLASS_PANE.get()))){
                 Direction newDirection = this.getAttachedDirection();
                 int counter = 0;
                 for (int x = 0; x < 4; x++){
                     BlockPos newPos = this.blockPosition().relative(newDirection.getOpposite());
 
                     BlockState blockstate = this.level().getBlockState(newPos);
-                    if (blockstate.isFaceSturdy(this.level(), newPos, newDirection)){
-                        this.setAttachedDirection(newDirection.getOpposite());
-                        break;
+                    if (blockstate.isFaceSturdy(this.level(), newPos, newDirection) || blockstate.is(Blocks.GLASS) || blockstate.is(FintyBlocks.AQUARIUM_GLASS_PANE.get())){
+                        if (blockstate.getBlock() instanceof AquariumGlassPane aquariumGlassPane){
+                            if (aquariumGlassPane.getDirection(blockstate).getAxis() == newDirection.getAxis()){
+                                this.setAttachedDirection(newDirection.getOpposite());
+                                break;
+                            }
+                        }else {
+                            this.setAttachedDirection(newDirection.getOpposite());
+                            break;
+                        }
                     }else{
                         counter++;
                     }
@@ -292,9 +336,45 @@ public class Pleco extends AbstractSwimmingBottomDweller {
                     this.setAttachedDirection(Direction.DOWN);
                 }
             }
+            this.yBodyRot = this.getAttachedDirection().toYRot();
+            this.yHeadRot = this.getAttachedDirection().toYRot();
+
+            this.addDeltaMovement(new Vec3(this.getAttachedDirection().getStepX()/16D, 0.005, this.getAttachedDirection().getStepZ()/16D));
+
+            if (this.getRandom().nextInt(50)==0 && this.tickCount % 40 == 0
+                    && !this.isStrafing() && this.getTicksAttached()>0){
+                switch (this.getRandom().nextInt(3)){
+                    case 1:
+                        this.setPointingDirection(this.getAttachedDirection().getCounterClockWise());
+                        break;
+                    case 2:
+                        this.setPointingDirection(this.getAttachedDirection().getClockWise());
+                        break;
+                    default:
+                        this.setPointingDirection(Direction.UP);
+                }
+            }
+
+            if (!this.isEyeInFluidType(Fluids.WATER.getFluidType())){
+
+                this.setAttachedDirection(Direction.DOWN);
+            }
         }
 
+        if (this.isStrafing()){
+            this.setDeltaMovement(this.getPointingDirection().getStepX()/16D,
+                                  this.getPointingDirection().getStepY()/16D,
+                                  this.getPointingDirection().getStepZ()/16D);
 
+            if (this.isAttached()){
+                this.yBodyRot = this.getAttachedDirection().toYRot();
+                this.yHeadRot = this.getAttachedDirection().toYRot();
+            }
+        }
+
+        if (this.getRandom().nextInt(100)==0 && this.getNavigation().isDone() && !this.isStrafing() && !this.isAttached() && this.onGround() && !this.getWantsToSwim() && this.tickCount % 40 == 0){
+            this.setPointingDirection(Direction.fromYRot(Math.round(this.yHeadRot / 90.0) * 90));
+        }
 
         if (!this.level().isClientSide()){
             if (this.isInWaterOrBubble() && !this.onGround()){
@@ -312,17 +392,23 @@ public class Pleco extends AbstractSwimmingBottomDweller {
             if (this.isAttached() && this.getTicksAttached() < 3){
                 this.prevTicksAttached = this.getTicksAttached();
                 this.setTicksAttached(this.prevTicksAttached+1);
+                this.refreshDimensions();
             }else if (!this.isAttached() && this.getTicksAttached() > 0){
                 this.prevTicksAttached = this.getTicksAttached();
                 this.setTicksAttached(this.prevTicksAttached-1);
+                this.refreshDimensions();
             }
         }
 
+
         if ((!this.wantsToAttach() || !this.isInWater()) && this.isAttached()){
             this.setWantsToAttach(false);
-//            this.setAttachedDirection(Direction.DOWN);
-            this.setPointingDirection(Direction.UP);
+            this.setAttachedDirection(Direction.DOWN);
+            this.setPointingDirection(Direction.DOWN);
         }
+
+        if (!this.isInWater() && this.wantsToAttach())
+            this.setWantsToAttach(false);
 
     }
 
@@ -333,7 +419,29 @@ public class Pleco extends AbstractSwimmingBottomDweller {
 
     @Override
     public InteractionResult interactAt(Player pPlayer, Vec3 pVec, InteractionHand pHand) {
-        this.setWantsToAttach(true);
+        ItemStack itemStack = pPlayer.getItemInHand(pHand);
+
+        if (itemStack.is(Items.DEBUG_STICK) && !this.level().isClientSide){
+//            if (!this.wantsToAttach())
+//                this.setWantsToAttach(true);
+
+            if (!this.isStrafing() && this.isAttached()){
+                switch (this.getRandom().nextInt(3)){
+                    case 1:
+                        this.setPointingDirection(this.getAttachedDirection().getCounterClockWise());
+                        break;
+                    case 2:
+                        this.setPointingDirection(this.getAttachedDirection().getClockWise());
+                        break;
+                    default:
+                        this.setPointingDirection(Direction.UP);
+                }
+            }
+
+            if (!this.isStrafing() && !this.isAttached() && this.onGround() && !this.getWantsToSwim()){
+                this.setPointingDirection(Direction.fromYRot(Math.round(this.yHeadRot / 90.0) * 90));
+            }
+        }
 
         return super.interactAt(pPlayer, pVec, pHand);
     }
@@ -487,9 +595,15 @@ public class Pleco extends AbstractSwimmingBottomDweller {
                             otherPos = pPos.relative(pDirection);
 
                             BlockState blockstate = pLevel.getBlockState(otherPos);
-                            if (blockstate.isFaceSturdy(pLevel, otherPos, pDirection) && pLevel.getBlockState(pPos).is(Blocks.WATER)){
+                            if ((blockstate.isFaceSturdy(pLevel, otherPos, pDirection) || blockstate.is(Blocks.GLASS))
+                                    && pLevel.getBlockState(pPos).is(Blocks.WATER)){
                                 this.direction = pDirection;
                                 return true;
+                            }else if (blockstate.getBlock() instanceof AquariumGlassPane glassPane){
+                                if (glassPane.getDirection(blockstate).getAxis() == this.direction.getAxis()){
+                                    this.direction = pDirection;
+                                    return true;
+                                }
                             }
                         }
                     }

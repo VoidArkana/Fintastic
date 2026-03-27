@@ -64,21 +64,18 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         super.tick();
 
         if (this.onGround() && this.isInWater() && this.random.nextInt(1000)==0 && !this.getWantsToSwim()){
-            this.setWantsToSwim(true);
+            if (this instanceof Pleco pleco){
+                if (!pleco.isStrafing())
+                    this.setWantsToSwim(true);
+            }else {
+                this.setWantsToSwim(true);
+            }
         }
 
         if (this.isInWater() && !this.onGround() && (this.random.nextInt(1000)==0 || swimmingTicks == 2400) && this.getWantsToSwim()){
-            if (this instanceof Pleco pleco){
-                if (!pleco.wantsToAttach()){
-                    this.setWantsToSwim(false);
-                    swimmingTicks = 0;
-                    prevSwimTick = 0;
-                }
-            }else {
-                this.setWantsToSwim(false);
-                swimmingTicks = 0;
-                prevSwimTick = 0;
-            }
+            this.setWantsToSwim(false);
+            swimmingTicks = 0;
+            prevSwimTick = 0;
         }
 
         if (this.getWantsToSwim()){
@@ -101,20 +98,10 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         if (this.isInWater()){
             BlockPos pos = this.blockPosition();
             BlockState block = this.level().getBlockState(pos.above());
-            if (this instanceof Pleco pleco){
-
-                if (this.getStepHeight() >= 1 && (block.getFluidState().is(Fluids.EMPTY) || pleco.wantsToAttach())){
-                    this.setMaxUpStep(0);
-                }else if (this.isInWater() && block.getFluidState().is(Fluids.WATER)){
-                    this.setMaxUpStep(1);
-                }
-            }else {
-
-                if (this.getStepHeight() >= 1 && block.getFluidState().is(Fluids.EMPTY)){
-                    this.setMaxUpStep(0);
-                }else if (this.isInWater() && block.getFluidState().is(Fluids.WATER)){
-                    this.setMaxUpStep(1);
-                }
+            if (this.getStepHeight() >= 1 && block.getFluidState().is(Fluids.EMPTY)){
+                this.setMaxUpStep(0);
+            }else if (this.isInWater() && block.getFluidState().is(Fluids.WATER)){
+                this.setMaxUpStep(1);
             }
         }
         super.aiStep();
@@ -129,7 +116,7 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         }
 
         if (this.isEffectiveAi() && this.isInWater() && this.getWantsToSwim()) {
-            if (this.getTarget() == null && this.random.nextInt(500)==0) {
+            if (this.getTarget() == null && this.random.nextInt(100)==0) {
                 if (this instanceof Pleco pleco)
                     this.setWantsToSwim(pleco.wantsToAttach());
                 else
