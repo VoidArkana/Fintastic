@@ -35,7 +35,7 @@ public class FintyPlacedFeatures {
                 aquaticPlantPlacement(48));
 
         register(context, DUCKWEED_PLACED_KEY, configuredFeatures.getOrThrow(FintyConfiguredFeatures.DUCKWEED_KEY),
-                worldSurfaceSquaredWithCount(12));
+                worldSurfaceSquaredWithCount(3));
 
         register(context, LIVE_ROCK_PLACED_KEY, configuredFeatures.getOrThrow(FintyConfiguredFeatures.LIVE_ROCK_BOULDER)
                 ,underwaterBoulderPlacement(4));

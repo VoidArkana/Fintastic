@@ -1,10 +1,9 @@
-package net.voidarkana.fintastic.common.worldgen;
+package net.voidarkana.fintastic.common.worldgen.configurations;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.NetherForestVegetationConfig;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 public class AlgaeBonemealConfig extends BlockPileConfiguration {

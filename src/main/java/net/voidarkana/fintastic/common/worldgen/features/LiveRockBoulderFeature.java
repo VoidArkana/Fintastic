@@ -3,16 +3,13 @@ package net.voidarkana.fintastic.common.worldgen.features;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.voidarkana.fintastic.common.block.custom.AlgaeLiveRockBlock;
-import net.voidarkana.fintastic.common.worldgen.AlgaeBonemealConfig;
-import net.voidarkana.fintastic.common.worldgen.LiveRockBoulderConfig;
+import net.voidarkana.fintastic.common.worldgen.configurations.LiveRockBoulderConfig;
 
 
 public class LiveRockBoulderFeature extends Feature<LiveRockBoulderConfig> {

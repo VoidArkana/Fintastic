@@ -1,4 +1,4 @@
-package net.voidarkana.fintastic.common.worldgen;
+package net.voidarkana.fintastic.common.worldgen.configurations;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

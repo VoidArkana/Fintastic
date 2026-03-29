@@ -30,6 +30,9 @@ import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.block.custom.AlgaeCarpetBlock;
 import net.voidarkana.fintastic.common.block.custom.StromatoliteBlock;
+import net.voidarkana.fintastic.common.worldgen.configurations.AlgaeBonemealConfig;
+import net.voidarkana.fintastic.common.worldgen.configurations.DuckweedPatchConfiguration;
+import net.voidarkana.fintastic.common.worldgen.configurations.LiveRockBoulderConfig;
 import net.voidarkana.fintastic.common.worldgen.features.*;
 import net.voidarkana.fintastic.util.FintyTags;
 
@@ -82,6 +85,9 @@ public class FintyConfiguredFeatures {
     public static final RegistryObject<Feature<SimpleBlockConfiguration>> SIMPLE_WATERLOGGABLE_BLOCK
             = register_feature("simple_waterloggable_block", () -> new SimpleWaterloggableBlockFeature(SimpleBlockConfiguration.CODEC));
 
+    public static final RegistryObject<Feature<DuckweedPatchConfiguration>> DUCKWEED_FEATURE =
+            register_feature("duckweed_feature", () -> new DuckweedPatchFeature(DuckweedPatchConfiguration.CODEC));
+
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
 
         HolderGetter<ConfiguredFeature<?, ?>> holdergetter = context.lookup(Registries.CONFIGURED_FEATURE);
@@ -91,8 +97,8 @@ public class FintyConfiguredFeatures {
         register(context, ANUBIAS_KEY, FintyConfiguredFeatures.ANUBIAS_FEATURE.get(), FeatureConfiguration.NONE);
 
         register(context, DUCKWEED_KEY, Feature.RANDOM_PATCH,
-                new RandomPatchConfiguration(20, 7, 3, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(FintyBlocks.DUCKWEED.get())))));
+                new RandomPatchConfiguration(3, 10, 0, PlacementUtils.onlyWhenEmpty(DUCKWEED_FEATURE.get(),
+                        new DuckweedPatchConfiguration(UniformInt.of(5, 8),0.15f))));
 
         WeightedStateProvider greenAlgaeWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                 .add(Blocks.SEA_PICKLE.defaultBlockState().setValue(SeaPickleBlock.PICKLES, 2), 4)

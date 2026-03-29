@@ -1,5 +1,7 @@
 package net.voidarkana.fintastic.common.block.custom;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,14 +41,17 @@ import java.util.Map;
 public class DuckweedBlock extends Block implements IPlantable, BonemealableBlock {
     protected static final VoxelShape AABB = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 1.5D, 15.0D);
 
-    public static final BooleanProperty NORTH = PipeBlock.NORTH;
-    public static final BooleanProperty EAST = PipeBlock.EAST;
-    public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
-    public static final BooleanProperty WEST = PipeBlock.WEST;
+    public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
+    public static final BooleanProperty EAST = BlockStateProperties.EAST;
+    public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
+    public static final BooleanProperty WEST = BlockStateProperties.WEST;
 
-    protected static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = PipeBlock.PROPERTY_BY_DIRECTION.entrySet().stream().filter((p_52346_) -> {
-        return p_52346_.getKey().getAxis().isHorizontal();
-    }).collect(Util.toMap());
+    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (p_55164_) -> {
+        p_55164_.put(Direction.NORTH, NORTH);
+        p_55164_.put(Direction.EAST, EAST);
+        p_55164_.put(Direction.SOUTH, SOUTH);
+        p_55164_.put(Direction.WEST, WEST);
+    }));
 
     public static final IntegerProperty AMOUNT = IntegerProperty.create("duckweed_amount", 1, 5);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;

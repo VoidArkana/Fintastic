@@ -4,7 +4,7 @@
 	"render_type": "minecraft:cutout",
 	"textures": {
 		"texture": "#texture",
-		"particle": "fintastic:block/duckweed/duckweed_full_center"
+		"particle": "fintastic:block/duckweed/duckweed_full_center_1"
 	},
 	"elements": [
 		{

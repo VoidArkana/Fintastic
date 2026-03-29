@@ -315,9 +315,17 @@
 
 
     {
-      "apply": {
-        "model": "fintastic:block/duckweed/duckweed_full_center"
-      },
+      "apply": [
+        {
+          "model": "fintastic:block/duckweed/duckweed_full_center_1"
+        },
+        {
+          "model": "fintastic:block/duckweed/duckweed_full_center_2"
+        },
+        {
+          "model": "fintastic:block/duckweed/duckweed_full_center_3"
+        }
+      ],
       "when": {
         "duckweed_amount": "5"
       }
