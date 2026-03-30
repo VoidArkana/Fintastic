@@ -69,10 +69,15 @@ public class DuckweedPatchFeature extends Feature<DuckweedPatchConfiguration> {
                                 .setValue(DuckweedBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(pRandom));
 
                         if (duckweed.canSurvive(pLevel, blockpos$mutableblockpos)) {
-                            pLevel.setBlock(blockpos$mutableblockpos, duckweed, 3);
-                            pLevel.scheduleTick(blockpos$mutableblockpos, duckweed.getBlock(), 0);
-
                             BlockPos blockpos = blockpos$mutableblockpos.immutable();
+
+                            pLevel.setBlock(blockpos, duckweed, 3);
+                            pLevel.scheduleTick(blockpos, duckweed.getBlock(), 0);
+                            pLevel.scheduleTick(blockpos.north(), duckweed.getBlock(), 0);
+                            pLevel.scheduleTick(blockpos.south(), duckweed.getBlock(), 0);
+                            pLevel.scheduleTick(blockpos.east(), duckweed.getBlock(), 0);
+                            pLevel.scheduleTick(blockpos.west(), duckweed.getBlock(), 0);
+
                             set.add(blockpos);
                         }
                     }

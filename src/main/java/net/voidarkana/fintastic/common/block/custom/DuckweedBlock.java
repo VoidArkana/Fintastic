@@ -106,12 +106,19 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
         BlockState blockstate3 = blockgetter.getBlockState(blockpos3);
         BlockState blockstate4 = blockgetter.getBlockState(blockpos4);
 
-        return blockstate.is(this) ? super.getStateForPlacement(pContext)
-                .setValue(NORTH, Boolean.valueOf(this.connectsTo(blockstate1, blockstate)))
-                .setValue(EAST, Boolean.valueOf(this.connectsTo(blockstate2, blockstate)))
-                .setValue(SOUTH, Boolean.valueOf(this.connectsTo(blockstate3, blockstate)))
-                .setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate4, blockstate))) :
-                this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+        return blockstate.is(this) ?
+                super.getStateForPlacement(pContext)
+                    .setValue(NORTH, Boolean.valueOf(this.connectsTo(blockstate1, blockstate)))
+                    .setValue(EAST, Boolean.valueOf(this.connectsTo(blockstate2, blockstate)))
+                    .setValue(SOUTH, Boolean.valueOf(this.connectsTo(blockstate3, blockstate)))
+                    .setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate4, blockstate)))
+                :
+                super.getStateForPlacement(pContext)
+                    .setValue(NORTH, Boolean.valueOf(this.connectsTo(blockstate1, blockstate)))
+                    .setValue(EAST, Boolean.valueOf(this.connectsTo(blockstate2, blockstate)))
+                    .setValue(SOUTH, Boolean.valueOf(this.connectsTo(blockstate3, blockstate)))
+                    .setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate4, blockstate)))
+                    .setValue(FACING, pContext.getHorizontalDirection().getOpposite());
     }
 
     public BlockState mirror(BlockState p_272961_, Mirror p_273278_) {
@@ -123,10 +130,15 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
     }
 
     public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        return !pState.canSurvive(pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState()
-                : pFacing.getAxis().getPlane() == Direction.Plane.HORIZONTAL
-                ? pState.setValue(PROPERTY_BY_DIRECTION.get(pFacing), Boolean.valueOf(this.connectsTo(pFacingState, pState)))
-                : super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+
+        if (!pState.canSurvive(pLevel, pCurrentPos)) {
+            pLevel.scheduleTick(pCurrentPos, this, 1);
+            return Blocks.AIR.defaultBlockState();
+        } else if (pFacing.getAxis().getPlane() == Direction.Plane.HORIZONTAL){
+            boolean flag = connectsTo(pFacingState, pState);
+            return pState.setValue(PROPERTY_BY_DIRECTION.get(pFacing), flag);
+        }
+        return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
     }
 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
@@ -175,19 +187,34 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
         return state;
     }
 
-    public boolean connectsTo(BlockState pState, BlockState thisState) {
-        return !isExceptionForConnection(pState)
-                && (isDuckweedConnectable(pState, thisState));
-    }
-
-    private boolean isDuckweedConnectable(BlockState pState, BlockState thisState) {
-
-        if (pState.is(FintyBlocks.DUCKWEED.get()) && thisState.is(FintyBlocks.DUCKWEED.get())){
-            return pState.getValue(AMOUNT).equals(thisState.getValue(AMOUNT)) && thisState.getValue(AMOUNT)==5;
+    public static boolean connectsTo(BlockState pOtherState, BlockState thisState) {
+        if (pOtherState.is(FintyBlocks.DUCKWEED.get()) && thisState.is(FintyBlocks.DUCKWEED.get())){
+            return pOtherState.getValue(AMOUNT)==5 && thisState.getValue(AMOUNT)==5;
         }else {
             return false;
         }
+    }
 
+    public void tick(BlockState pState, ServerLevel pLevel, BlockPos blockpos, RandomSource pRandom) {
+        if (pState.is(this))
+            if (pState.getValue(AMOUNT) == 5){
+
+                BlockPos blockpos1 = blockpos.north();
+                BlockPos blockpos2 = blockpos.east();
+                BlockPos blockpos3 = blockpos.south();
+                BlockPos blockpos4 = blockpos.west();
+                BlockState blockstate1 = pLevel.getBlockState(blockpos1);
+                BlockState blockstate2 = pLevel.getBlockState(blockpos2);
+                BlockState blockstate3 = pLevel.getBlockState(blockpos3);
+                BlockState blockstate4 = pLevel.getBlockState(blockpos4);
+
+                pLevel.setBlock(blockpos,
+                        pState.setValue(NORTH, connectsTo(blockstate1, pState))
+                              .setValue(EAST,  connectsTo(blockstate2, pState))
+                              .setValue(SOUTH, connectsTo(blockstate3, pState))
+                              .setValue(WEST,  connectsTo(blockstate4, pState)),
+                        2);
+            }
     }
 
     @Override

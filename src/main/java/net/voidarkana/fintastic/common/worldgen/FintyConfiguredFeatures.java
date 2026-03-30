@@ -97,7 +97,7 @@ public class FintyConfiguredFeatures {
         register(context, ANUBIAS_KEY, FintyConfiguredFeatures.ANUBIAS_FEATURE.get(), FeatureConfiguration.NONE);
 
         register(context, DUCKWEED_KEY, Feature.RANDOM_PATCH,
-                new RandomPatchConfiguration(3, 10, 0, PlacementUtils.onlyWhenEmpty(DUCKWEED_FEATURE.get(),
+                new RandomPatchConfiguration(2, 10, 0, PlacementUtils.onlyWhenEmpty(DUCKWEED_FEATURE.get(),
                         new DuckweedPatchConfiguration(UniformInt.of(5, 8),0.15f))));
 
         WeightedStateProvider greenAlgaeWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
