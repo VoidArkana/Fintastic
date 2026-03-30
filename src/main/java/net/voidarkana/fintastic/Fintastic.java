@@ -52,6 +52,7 @@ public class Fintastic
         FintySounds.register(modEventBus);
         FintyItems.register(modEventBus);
         FintyBlocks.register(modEventBus);
+        FintyBlocks.registerPaintings(modEventBus);
         FintyBlockEntities.register(modEventBus);
         FintyLootModifiers.register(modEventBus);
 

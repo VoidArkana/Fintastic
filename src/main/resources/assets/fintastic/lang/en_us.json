@@ -502,5 +502,29 @@
 
   "entity.minecraft.villager.fintastic.aquarist" : "Aquarist",
   "block.fintastic.fishbowl": "Fishbowl",
-  "message.fintastic.unethical_fishbowl": "That would be unethical..."
+  "message.fintastic.unethical_fishbowl": "That would be unethical...",
+
+  "painting.fintastic.can_the_eel_come_out_to_play.title": "Can The Eel Come Out To Play?",
+  "painting.fintastic.can_the_eel_come_out_to_play.author": "Psalidodont",
+
+  "painting.fintastic.dry_town.title": "Dry Town",
+  "painting.fintastic.dry_town.author": "Psalidodont",
+
+  "painting.fintastic.its_dope.title": "It's Dope",
+  "painting.fintastic.its_dope.author": "Psalidodont",
+
+  "painting.fintastic.now_undead.title": "Now Undead",
+  "painting.fintastic.now_undead.author": "Psalidodont",
+
+  "painting.fintastic.paracheirodon.title": "Paracheirodon",
+  "painting.fintastic.paracheirodon.author": "Psalidodont",
+
+  "painting.fintastic.shooting_starfish.title": "Shooting Starfish",
+  "painting.fintastic.shooting_starfish.author": "Psalidodont",
+
+  "painting.fintastic.still_life.title": "Still Life",
+  "painting.fintastic.still_life.author": "Psalidodont",
+
+  "painting.fintastic.vibrance.title": "Vibrance",
+  "painting.fintastic.vibrance.author": "Psalidodont"
 }

@@ -1,5 +1,6 @@
 package net.voidarkana.fintastic.common.block;
 
+import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PlaceOnWaterBlockItem;
@@ -23,6 +24,29 @@ public class FintyBlocks {
 
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Fintastic.MOD_ID);
+
+    public static final DeferredRegister<PaintingVariant> PAINTINGS =
+            DeferredRegister.create(ForgeRegistries.PAINTING_VARIANTS, Fintastic.MOD_ID);
+
+
+    public static final RegistryObject<PaintingVariant> EEL = PAINTINGS.register("can_the_eel_come_out_to_play",
+            () -> new PaintingVariant(64, 16));
+    public static final RegistryObject<PaintingVariant> DRY_TOWN = PAINTINGS.register("dry_town",
+            () -> new PaintingVariant(120, 64));
+    public static final RegistryObject<PaintingVariant> ITS_DOPE = PAINTINGS.register("its_dope",
+            () -> new PaintingVariant(32, 32));
+    public static final RegistryObject<PaintingVariant> NOW_UNDEAD = PAINTINGS.register("now_undead",
+            () -> new PaintingVariant(16, 16));
+    public static final RegistryObject<PaintingVariant> PARACHEIRODON = PAINTINGS.register("paracheirodon",
+            () -> new PaintingVariant(32, 16));
+    public static final RegistryObject<PaintingVariant> SHOOTING_STARFISH = PAINTINGS.register("shooting_starfish",
+            () -> new PaintingVariant(16, 32));
+    public static final RegistryObject<PaintingVariant> STILL_LIFE = PAINTINGS.register("still_life",
+            () -> new PaintingVariant(16, 16));
+    public static final RegistryObject<PaintingVariant> VIBRANCE = PAINTINGS.register("vibrance",
+            () -> new PaintingVariant(16, 32));
+
+
 
     public static final Supplier<Block> DUCKWEED = registerBlockWithItem("duckweed",
             ()-> new DuckweedBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD).mapColor(MapColor.COLOR_LIGHT_GREEN)
@@ -238,5 +262,9 @@ public class FintyBlocks {
 
     public static void register(IEventBus eventBus){
         BLOCKS.register(eventBus);
+    }
+
+    public static void registerPaintings(IEventBus eventBus){
+        PAINTINGS.register(eventBus);
     }
 }
