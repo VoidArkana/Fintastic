@@ -88,7 +88,6 @@ public class Minnow extends VariantSchoolingFish {
 
         if (pTag.contains("Age")) {
             this.setAge(pTag.getInt("Age"));
-            this.setCanGrowUp(pTag.getBoolean("CanGrowUp"));
         }
     }
 

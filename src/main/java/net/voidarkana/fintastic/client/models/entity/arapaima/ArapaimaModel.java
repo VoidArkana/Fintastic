@@ -85,8 +85,9 @@ public class ArapaimaModel<T extends Arapaima> extends FintasticModel<T> {
 	public void setupAnim(Arapaima pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.IDLE_SWIM, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.GROUND_IDLE, pAgeInTicks, 1.0F,  (pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount));
+		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.IDLE_SWIM, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount*5f)));
+		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.GROUND_IDLE, pAgeInTicks, 1.0F,  (pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount*5f));
+
 
 		if (pEntity.isInWaterOrBubble()){
 			this.head.xRot += (((headPitch * ((float) Math.PI / 180F))/8));
@@ -100,21 +101,19 @@ public class ArapaimaModel<T extends Arapaima> extends FintasticModel<T> {
 			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/2f;
 			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2f);
 
-			this.animateWalk(ArapaimaAnims.SWIM, pLimbSwing, pLimbSwingAmount*5f, 2f, 25f);
+			this.animateWalk(ArapaimaAnims.SWIM, pLimbSwing*2f, pLimbSwingAmount, 2f, 25f);
 		}
 		else {
-			this.swim_rot.resetPose();
-			this.head.resetPose();
-			this.torsoend.resetPose();
-			this.body.resetPose();
-
-			this.animateWalk(ArapaimaAnims.CRAWL, pLimbSwing, pLimbSwingAmount*5f, 2f, 3f);
+			this.animateWalk(ArapaimaAnims.CRAWL, pLimbSwing*5, pLimbSwingAmount*5f, 2f, 25f);
 		}
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		pPoseStack.pushPose();
+			pPoseStack.translate(0.0F, 0, 0.0F);
+			this.root().render(pPoseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		pPoseStack.popPose();
 	}
 
 	@Override

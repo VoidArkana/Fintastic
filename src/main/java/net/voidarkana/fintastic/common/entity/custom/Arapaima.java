@@ -91,14 +91,8 @@ public class Arapaima extends BucketableFishEntity {
                 return super.shouldPanic() && Arapaima.this.isInWaterOrBubble();
             }
         });
-        this.goalSelector.addGoal(1, new MoveToWaterGoal(this, 0.5D));
+        this.goalSelector.addGoal(1, new MoveToWaterGoal(this, 1D));
         this.goalSelector.addGoal(2, new FishFollowParentGoal(this, 1.1D));
-
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
-            if (entity instanceof Player player){
-                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(FintyItems.FISHING_HAT.get());
-            }
-            return false;}));
 
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10){
             @Override

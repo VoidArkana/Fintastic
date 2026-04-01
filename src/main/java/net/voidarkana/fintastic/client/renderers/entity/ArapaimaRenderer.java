@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.client.FintasticLayers;
 import net.voidarkana.fintastic.client.models.entity.arapaima.ArapaimaModel;
@@ -27,13 +28,18 @@ public class ArapaimaRenderer extends MobRenderer<Arapaima, FintasticModel<Arapa
     @Override
     public void render(Arapaima entity, float entityYaw, float partialTicks, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLightIn) {
-        if (entity.isBaby()){
-            this.model = babyArapaimaModel;
-        }else {
-            this.model = arapaimaModel;
-        }
+        poseStack.pushPose();
+            if (entity.isBaby()){
+                this.model = babyArapaimaModel;
+                poseStack.translate(0.0F, Mth.lerp(entity.getTicksOutsideWater()/3f, 0, 0.05), 0.0F);
+
+            }else {
+                this.model = arapaimaModel;
+                poseStack.translate(0.0F, Mth.lerp(entity.getTicksOutsideWater()/3f, 0, 0.25), 0.0F);
+            }
 
         super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, packedLightIn);
+        poseStack.popPose();
     }
 
     @Override

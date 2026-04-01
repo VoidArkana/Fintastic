@@ -130,7 +130,6 @@ public class Catfish extends BucketableFishEntity {
 
         if (pTag.contains("Age")) {
             this.setAge(pTag.getInt("Age"));
-            this.setCanGrowUp(pTag.getBoolean("CanGrowUp"));
         }
     }
 
