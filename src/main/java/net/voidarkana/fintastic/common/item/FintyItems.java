@@ -183,6 +183,17 @@ public class FintyItems {
             () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH).craftRemainder(Items.BONE_MEAL)));
 
 
+    public static final RegistryObject<Item> COPEPOD_SPAWN_EGG = ITEMS.register("copepod_spawn_egg",
+            () -> new CopepodSpawnEgg(FintyEntities.COPEPOD, 0xffffff, 0xffffff, new Item.Properties()));
+    public static final RegistryObject<Item> COPEPOD_BUCKET = ITEMS.register("copepod_bucket", () -> {
+        return new FishBucketItem(FintyEntities.COPEPOD, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
+    });
+    public static final RegistryObject<Item> COPEPOD = ITEMS.register("copepod",
+            () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH_MED)));
+
+
     public static final RegistryObject<Item> SEA_GRAPE_SALAD = ITEMS.register("sea_grape_salad",
             () -> new StackableBowlFoodItem(new Item.Properties().food(YAFMFoods.SEA_GRAPE_SALAD).stacksTo(16)));
 

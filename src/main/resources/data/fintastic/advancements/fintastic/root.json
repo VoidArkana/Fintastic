@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "consumed_item": {
+      "conditions": {},
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "requirements": [
+    [
+      "consumed_item"
+    ]
+  ],
+  "sends_telemetry_event": true,
+  "display": {
+    "announce_to_chat": false,
+    "background": "fintastic:textures/block/live_rock.png",
+    "description": {
+      "translate": "advancements.fintastic.root.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "fintastic:logo"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.fintastic.root.title"
+    }
+  }
+}

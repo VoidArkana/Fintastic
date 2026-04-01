@@ -69,7 +69,7 @@ public class FintyEntities {
                             .build(new ResourceLocation(Fintastic.MOD_ID, "daphnia").toString()));
 
 
-
+    //update 2.0
     public static final RegistryObject<EntityType<Moony>> MOONY =
             ENTITY_TYPES.register("moony",
                     () -> EntityType.Builder.of(Moony::new, MobCategory.WATER_AMBIENT)
@@ -87,6 +87,13 @@ public class FintyEntities {
                     () -> EntityType.Builder.of(Gourami::new, MobCategory.WATER_AMBIENT)
                             .sized(0.6f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "gourami").toString()));
+
+    //update 3.0
+    public static final RegistryObject<EntityType<Copepod>> COPEPOD =
+            ENTITY_TYPES.register("copepod",
+                    () -> EntityType.Builder.of(Copepod::new, MobCategory.WATER_AMBIENT)
+                            .sized(0.8f, 0.4f)
+                            .build(new ResourceLocation(Fintastic.MOD_ID, "copepod").toString()));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

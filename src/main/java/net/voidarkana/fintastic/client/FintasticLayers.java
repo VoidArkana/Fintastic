@@ -84,6 +84,9 @@ public class FintasticLayers {
     public static final ModelLayerLocation BABY_GUPPY =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "baby_guppy"), "main");
 
+    public static final ModelLayerLocation COPEPOD =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "copepod"), "main");
+
     public static final ModelLayerLocation HAT_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fishing_hat"), "main");
 }

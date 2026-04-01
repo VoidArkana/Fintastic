@@ -26,8 +26,9 @@ public class FintyEvents {
 
         event.put(FintyEntities.MOONY.get(), Moony.createAttributes().build());
         event.put(FintyEntities.COELACANTH.get(), Coelacanth.createAttributes().build());
-
         event.put(FintyEntities.GOURAMI.get(), Gourami.createAttributes().build());
+
+        event.put(FintyEntities.COPEPOD.get(), Copepod.createAttributes().build());
     }
 
 }

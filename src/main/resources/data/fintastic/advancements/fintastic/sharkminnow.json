@@ -1,0 +1,44 @@
+{
+  "parent": "fintastic:fintastic/creatures",
+  "display": {
+    "icon": {
+      "item": "fintastic:sharkminnow"
+    },
+    "title": {
+      "translate": "advancements.fintastic.sharkminnow.title"
+    },
+    "description": {
+      "translate": "advancements.fintastic.sharkminnow.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "witness_entity": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type_specific": {
+                "type": "player",
+                "looking_at": {
+                  "type": "fintastic:freshwater_shark"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "witness_entity"
+    ]
+  ]
+}

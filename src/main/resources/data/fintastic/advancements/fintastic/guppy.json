@@ -1,0 +1,44 @@
+{
+  "parent": "fintastic:fintastic/creatures",
+  "display": {
+    "icon": {
+      "item": "fintastic:guppy"
+    },
+    "title": {
+      "translate": "advancements.fintastic.guppy.title"
+    },
+    "description": {
+      "translate": "advancements.fintastic.guppy.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "witness_entity": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type_specific": {
+                "type": "player",
+                "looking_at": {
+                  "type": "fintastic:guppy"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "witness_entity"
+    ]
+  ]
+}

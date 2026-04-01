@@ -1,9 +1,9 @@
 {
   "type": "forge:add_spawns",
-  "biomes": "#fintastic:daphnia_biomes",
+  "biomes": "#fintastic:copepod_freshwater_biomes",
   "spawners": {
-    "type": "fintastic:daphnia",
-    "weight": 10,
+    "type": "fintastic:copepod",
+    "weight": 5,
     "minCount": 4,
     "maxCount": 10,
     "category": "water_creature"

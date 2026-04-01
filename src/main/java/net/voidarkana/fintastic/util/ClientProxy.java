@@ -44,6 +44,9 @@ public class ClientProxy extends CommonProxy{
         EntityRenderers.register(FintyEntities.GUPPY.get(), GuppyRenderer::new);
         EntityRenderers.register(FintyEntities.PLECO.get(), PlecoRenderer::new);
 
+        //Update 3.0
+        EntityRenderers.register(FintyEntities.COPEPOD.get(), CopepodRenderer::new);
+
         ItemProperties.register(FintyItems.FISHNET.get(), new ResourceLocation("has_entity"),
                 (stack, level, living, i) -> FishnetItem.containsEntity(stack) ? 1 : 0);
 

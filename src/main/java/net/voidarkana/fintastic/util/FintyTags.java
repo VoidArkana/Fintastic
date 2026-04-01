@@ -25,6 +25,9 @@ public class FintyTags {
         public static final TagKey<Biome> MOONY_BIOMES = tag("moony_biomes");
         public static final TagKey<Biome> GOURAMI_BIOMES = tag("gourami_biomes");
 
+        public static final TagKey<Biome> COPEPOD_SALTWATER_BIOMES = tag("copepod_saltwater_biomes");
+        public static final TagKey<Biome> COPEPOD_FRESHWATER_BIOMES = tag("copepod_freshwater_biomes");
+
         public static final TagKey<Biome> FRESHWATER_PLANT_BIOME_BLACKLIST = tag("non_freshwater_plant_biomes");
 
         public static final TagKey<Biome> LIVEROCK_BOULDER_BIOMES = tag("liverock_boulder_biomes");
@@ -32,6 +35,7 @@ public class FintyTags {
         public static final TagKey<Biome> HORNWORT_BIOMES = tag("hornwort_biomes");
         public static final TagKey<Biome> STROMATOLITE_BIOMES = tag("stromatolite_biomes");
         public static final TagKey<Biome> ANUBIAS_BIOMES = tag("anubias_biomes");
+
 
         private static TagKey<Biome> tag(String pName) {
             return TagKey.create(Registries.BIOME, new ResourceLocation(Fintastic.MOD_ID, pName));

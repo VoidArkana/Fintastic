@@ -60,7 +60,24 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
                 .addTag(Tags.Biomes.IS_DESERT);
 
         this.tag(FintyTags.Biomes.DAPHNIA_BIOMES)
-                .addTag(BiomeTags.IS_RIVER);
+                .addTag(BiomeTags.IS_JUNGLE)
+                .addTag(BiomeTags.IS_FOREST)
+                .addTag(BiomeTags.IS_MOUNTAIN)
+                .addTag(BiomeTags.IS_SAVANNA)
+                .addTag(Tags.Biomes.IS_PLAINS)
+                .addTag(Tags.Biomes.IS_LUSH);
+
+        this.tag(FintyTags.Biomes.COPEPOD_FRESHWATER_BIOMES)
+                .addTag(BiomeTags.IS_RIVER)
+                .addTag(BiomeTags.IS_JUNGLE)
+                .addTag(BiomeTags.IS_FOREST)
+                .addTag(BiomeTags.IS_MOUNTAIN)
+                .addTag(BiomeTags.IS_SAVANNA)
+                .addTag(Tags.Biomes.IS_PLAINS)
+                .addTag(Tags.Biomes.IS_LUSH);
+
+        this.tag(FintyTags.Biomes.COPEPOD_SALTWATER_BIOMES)
+                .addTag(BiomeTags.IS_OCEAN);
 
         this.tag(FintyTags.Biomes.FRESHWATER_PLANT_BIOME_BLACKLIST)
                 .addTag(BiomeTags.IS_OCEAN);

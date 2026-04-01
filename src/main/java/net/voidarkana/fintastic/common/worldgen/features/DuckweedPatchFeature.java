@@ -36,30 +36,26 @@ public class DuckweedPatchFeature extends Feature<DuckweedPatchConfiguration> {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = pPos.mutable();
         Set<BlockPos> set = new HashSet<>();
 
-        int quintX = pXRadius/5;
-        int quintZ = pZRadius/5;
         for(int x = -pXRadius; x <= pXRadius; ++x) {
-            boolean isXEdge = x == -pXRadius || x == pXRadius;
-
             for(int z = -pZRadius; z <= pZRadius; ++z) {
-                boolean isZEdge = z == -pZRadius || z == pZRadius;
-                boolean isAnyEdge = isXEdge || isZEdge;
-                boolean isBothEdge = isXEdge && isZEdge;
-                boolean isOneEdge = isAnyEdge && !isBothEdge;
-                if (!isBothEdge && (!isOneEdge || pConfig.extraEdgeColumnChance != 0.0F && !(pRandom.nextFloat() > pConfig.extraEdgeColumnChance))) {
+
+                int currentRadius = Math.toIntExact(Math.round(Math.sqrt(Math.pow(z, 2) + Math.pow(x, 2))));
+
+                if (currentRadius <= pXRadius || currentRadius <= pZRadius) {
                     blockpos$mutableblockpos.setWithOffset(pPos, x, 0, z);
 
                     int zRadius = Math.max(1, Math.abs(z));
                     int xRadius = Math.max(1, Math.abs(x));
+                    double mpowz = Math.pow(zRadius, 2);
+                    double mpowx = Math.pow(xRadius, 2);
+
                     double gauss_sharpness = 4.1; // less than your top limit
                     double gauss_width = 0.03;
                     int gauss_bottom_limit = 1;
-                    double  mpowz = Math.pow(zRadius, 2);
-                    double mpowx = Math.pow(xRadius, 2);
                     double mexp = Math.exp(gauss_width*(-mpowx -mpowz));
+
                     int random = pRandom.nextInt(-1, 2);
                     int duckweedAmount = (int)Math.min(5, Math.round(mexp*gauss_sharpness + gauss_bottom_limit) + (x <= 1 || z <= 1 ? 0 : random));
-
                     if (duckweedAmount == 0 && pRandom.nextBoolean()){
                         duckweedAmount = 1;
                     }
@@ -71,7 +67,15 @@ public class DuckweedPatchFeature extends Feature<DuckweedPatchConfiguration> {
                         if (duckweed.canSurvive(pLevel, blockpos$mutableblockpos)) {
                             BlockPos blockpos = blockpos$mutableblockpos.immutable();
 
-                            pLevel.setBlock(blockpos, duckweed, 3);
+                            if (pLevel.getBlockState(blockpos$mutableblockpos).is(FintyBlocks.DUCKWEED.get())){
+                                BlockState newBlockstate = pLevel.getBlockState(blockpos);
+                                int existingAmount = newBlockstate.getValue(DuckweedBlock.AMOUNT);
+
+                                pLevel.setBlock(blockpos, newBlockstate.setValue(DuckweedBlock.AMOUNT, existingAmount == 5 ? 5 : Math.max(1, Math.min(4, (existingAmount+duckweedAmount)/2))), 3);
+                            }else {
+                                pLevel.setBlock(blockpos, duckweed, 3);
+                            }
+
                             pLevel.scheduleTick(blockpos, duckweed.getBlock(), 0);
                             pLevel.scheduleTick(blockpos.north(), duckweed.getBlock(), 0);
                             pLevel.scheduleTick(blockpos.south(), duckweed.getBlock(), 0);
