@@ -1,0 +1,81 @@
+{
+  "parent": "fintastic:fintastic/creatures",
+  "display": {
+    "icon": {
+      "item": "fintastic:arapaima_fishnet"
+    },
+    "title": {
+      "translate": "advancements.fintastic.insaniquarium.title"
+    },
+    "description": {
+      "translate": "advancements.fintastic.insaniquarium.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "requirements": [
+    ["regular_feed",
+      "quality_feed",
+      "great_feed",
+      "premium_feed"
+    ]
+  ],
+  "criteria": {
+    "regular_feed": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {"items": ["fintastic:arapaima_bucket"]},
+          {"items": ["fintastic:catfish_bucket"]},
+          {"items": ["fintastic:coelacanth_bucket"]},
+          {"items": ["fintastic:copepod_bucket"]},
+          {"items": ["fintastic:daphnia_bucket"]},
+          {"items": ["fintastic:artemia_bucket"]},
+          {"items": ["fintastic:featherback_bucket"]},
+          {"items": ["fintastic:gourami_bucket"]},
+          {"items": ["fintastic:guppy_bucket"]},
+          {"items": ["fintastic:minnow_bucket"]},
+          {"items": ["fintastic:moony_bucket"]},
+          {"items": ["fintastic:pleco_bucket"]},
+          {"items": ["fintastic:freshwater_shark_bucket"]}
+        ]
+      }
+    },
+    "quality_feed": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{
+          "items": [
+            "fintastic:quality_feed"
+          ]
+        }]
+      }
+    },
+    "great_feed": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fintastic:great_feed"
+            ]
+          }
+        ]
+      }
+    },
+    "premium_feed": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "fintastic:premium_feed"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
