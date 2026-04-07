@@ -1,0 +1,80 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "block": "fintastic:hornwort",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "amount": "1",
+                    "half": "lower"
+                  }
+                }
+              ],
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "block": "fintastic:hornwort",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "amount": "2",
+                    "half": "lower"
+                  }
+                }
+              ],
+              "count": 2.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "block": "fintastic:hornwort",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "amount": "3",
+                    "half": "lower"
+                  }
+                }
+              ],
+              "count": 3.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "block": "fintastic:hornwort",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "amount": "4",
+                    "half": "lower"
+                  }
+                }
+              ],
+              "count": 4.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "fintastic:hornwort"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

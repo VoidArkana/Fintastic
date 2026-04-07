@@ -48,7 +48,9 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
                 .add(FintyBlocks.GREEN_ALGAE_BLOCK.get())
                 .add(FintyBlocks.RED_ALGAE_BLOCK.get())
                 .add(FintyBlocks.GREEN_ALGAE_CARPET.get())
-                .add(FintyBlocks.RED_ALGAE_CARPET.get());
+                .add(FintyBlocks.RED_ALGAE_CARPET.get())
+                .add(FintyBlocks.AQUATIC_MOSS_BLOCK.get())
+                .add(FintyBlocks.AQUATIC_MOSS_CARPET.get());
 
         this.tag(FintyTags.Blocks.AQUARIUM_GLASS)
                 .add(FintyBlocks.AQUARIUM_GLASS.get())

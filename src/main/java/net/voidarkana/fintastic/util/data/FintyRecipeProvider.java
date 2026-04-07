@@ -17,6 +17,7 @@ import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.voidarkana.fintastic.Fintastic;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.item.FintyItems;
 
 import java.util.function.Consumer;
@@ -83,6 +84,24 @@ public class FintyRecipeProvider extends RecipeProvider implements IConditionBui
                 .unlockedBy(getHasName(FintyItems.MOONY.get()), has(FintyItems.MOONY
                         .get()))
                 .save(consumer, this.name("bone_meal_from_moony"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.AQUATIC_MOSS_BLOCK.get().asItem(), 2)
+                .pattern("MM")
+                .pattern("MM")
+                .define('M', FintyBlocks.AQUATIC_MOSS_CARPET.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUATIC_MOSS_BLOCK.get()), has(FintyBlocks.AQUATIC_MOSS_BLOCK.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.AQUATIC_MOSS_CARPET.get().asItem(), 2)
+                .pattern("MM")
+                .define('M', FintyBlocks.AQUATIC_MOSS_BLOCK.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUATIC_MOSS_BLOCK.get()), has(FintyBlocks.AQUATIC_MOSS_BLOCK.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.PINK_DYE, 1)
+                .requires(FintyBlocks.LOTUS_FLOWER.get())
+                .unlockedBy(getHasName(FintyBlocks.LOTUS_FLOWER.get()), has(FintyBlocks.LOTUS_FLOWER.get()))
+                .save(consumer, this.name("pink_dye_from_lotus"));
     }
 
     public ShapelessRecipeBuilder makePlanks(Supplier<? extends Block> plankOut, TagKey<Item> logIn) {

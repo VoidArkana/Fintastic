@@ -1,0 +1,935 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_1"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "1",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "1",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "1",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "1",
+        "half": "lower"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_1"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "1",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "1",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "1",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "1",
+        "half": "upper"
+      }
+    },
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_2"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "2",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_2",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "2",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_2",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "2",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_2",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "2",
+        "half": "lower"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_2"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "2",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_2",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "2",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_2",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "2",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_2",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "2",
+        "half": "upper"
+      }
+    },
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_3"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "3",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_3",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "3",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_3",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "3",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_3",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "3",
+        "half": "lower"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_3"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "3",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_3",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "3",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_3",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "3",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_3",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "3",
+        "half": "upper"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_3_flower_1"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "3",
+        "half": "upper",
+        "flowers": "1|2"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_3_flower_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "3",
+        "half": "upper",
+        "flowers": "1|2"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_3_flower_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "3",
+        "half": "upper",
+        "flowers": "1|2"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_3_flower_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "3",
+        "half": "upper",
+        "flowers": "1|2"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_3_flower_2"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "3",
+        "half": "upper",
+        "flowers": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_3_flower_2",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "3",
+        "half": "upper",
+        "flowers": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_3_flower_2",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "3",
+        "half": "upper",
+        "flowers": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_3_flower_2",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "3",
+        "half": "upper",
+        "flowers": "2"
+      }
+    },
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_4"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "4",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_4",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "4",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_4",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "4",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_4",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "4",
+        "half": "lower"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_4"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "4",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_4",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "4",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_4",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "4",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_4",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "4",
+        "half": "upper"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_4"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "4",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_4",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "4",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_4",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "4",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_4",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "4",
+        "half": "upper"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_1"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "1|2|3"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "1|2|3"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "1|2|3"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "1|2|3"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_2"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "2|3"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_2",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "2|3"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_2",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "2|3"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_2",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "2|3"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_3"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_3",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_3",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_4_flower_3",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "4",
+        "half": "upper",
+        "flowers": "3"
+      }
+    },
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_5"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "5",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_5",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "5",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_5",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "5",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_bottom_5",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "5",
+        "half": "lower"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_5"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "5",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_5",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "5",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_5",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "5",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_top_5",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "5",
+        "half": "upper"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_1"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "1|2|3|4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "1|2|3|4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "1|2|3|4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "1|2|3|4"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_2"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "2|3|4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_2",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "2|3|4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_2",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "2|3|4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_2",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "2|3|4"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_3"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "3|4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_3",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "3|4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_3",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "3|4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_3",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "3|4"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_4"
+      },
+      "when": {
+        "facing": "south",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_4",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_4",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_5_flower_4",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "amount": "5",
+        "half": "upper",
+        "flowers": "4"
+      }
+    }
+  ]
+}

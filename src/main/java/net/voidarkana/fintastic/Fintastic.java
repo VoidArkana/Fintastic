@@ -74,6 +74,22 @@ public class Fintastic
             ComposterBlock.COMPOSTABLES.put(FintyBlocks.DUCKWEED.get().asItem(), 0.4F);
             ComposterBlock.COMPOSTABLES.put(FintyBlocks.HORNWORT.get().asItem(), 0.4F);
             ComposterBlock.COMPOSTABLES.put(FintyBlocks.ANUBIAS.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.GREEN_ALGAE_BLOCK.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.GREEN_ALGAE_CARPET.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.RED_ALGAE.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.RED_ALGAE_BLOCK.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.RED_ALGAE_CARPET.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.RED_ALGAE_FAN.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.CAULERPA.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.SEA_GRAPES.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.BLUE_HYPNEA.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.DRAGONS_BREATH_ALGAE.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.AQUATIC_MOSS_BLOCK.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.AQUATIC_MOSS_PHYLLID.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.AQUATIC_MOSS_CARPET.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.LOTUS.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.LOTUS_FLOWER.get().asItem(), 0.4F);
+            ComposterBlock.COMPOSTABLES.put(FintyBlocks.LOTUS_PAD.get().asItem(), 0.4F);
         });
     }
 

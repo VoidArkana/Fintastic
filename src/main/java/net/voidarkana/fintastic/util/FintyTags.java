@@ -35,6 +35,7 @@ public class FintyTags {
         public static final TagKey<Biome> HORNWORT_BIOMES = tag("hornwort_biomes");
         public static final TagKey<Biome> STROMATOLITE_BIOMES = tag("stromatolite_biomes");
         public static final TagKey<Biome> ANUBIAS_BIOMES = tag("anubias_biomes");
+        public static final TagKey<Biome> AQUATIC_MOSS_BIOMES = tag("aquatic_moss_biomes");
 
 
         private static TagKey<Biome> tag(String pName) {

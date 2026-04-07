@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "fintastic:block/caulerpa_1"
+      },
+      {
+        "model": "fintastic:block/caulerpa_2"
+      }
+    ]
+  }
+}

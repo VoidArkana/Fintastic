@@ -16,6 +16,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.custom.*;
 import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.common.worldgen.FintyConfiguredFeatures;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -149,28 +150,30 @@ public class FintyBlocks {
 
     public static final RegistryObject<Block> GREEN_ALGAE_BLOCK = registerBlock("green_algae_block",
             () -> new AlgaeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
-                    .strength(0.5F, 2.5F).sound(SoundType.WET_GRASS)));
+                    .strength(0.5F, 2.5F).sound(SoundType.WET_GRASS),
+                    FintyConfiguredFeatures.GREEN_ALGAE_PATCH_BONEMEAL));
 
     public static final RegistryObject<Block> GREEN_ALGAE_CARPET = registerBlock("green_algae_carpet",
             () -> new AlgaeCarpetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(0.1F)
                     .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
     public static final RegistryObject<Block> CAULERPA = registerBlock("caulerpa",
-            () -> new AlgaeGrowthBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).replaceable()
-                    .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+            () -> new AquaticPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).replaceable()
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
 
     public static final RegistryObject<Block> RED_ALGAE_BLOCK = registerBlock("red_algae_block",
             () -> new AlgaeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                    .strength(0.5F, 2.5F).sound(SoundType.WET_GRASS)));
+                    .strength(0.5F, 2.5F).sound(SoundType.WET_GRASS),
+                    FintyConfiguredFeatures.RED_ALGAE_PATCH_BONEMEAL));
 
     public static final RegistryObject<Block> RED_ALGAE_CARPET = registerBlock("red_algae_carpet",
             () -> new AlgaeCarpetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(0.1F)
                     .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
     public static final RegistryObject<Block> RED_ALGAE = registerBlock("red_algae",
-            () -> new AlgaeGrowthBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
-                    .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+            () -> new AquaticPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
     public static final RegistryObject<Block> RED_ALGAE_FAN = BLOCKS.register("red_algae_fan",
             () -> new AlgaeFanBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
@@ -181,8 +184,8 @@ public class FintyBlocks {
                     .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
     public static final RegistryObject<Block> DRAGONS_BREATH_ALGAE = registerBlock("dragons_breath_algae",
-            () -> new AlgaeGrowthBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
-                    .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+            () -> new AquaticPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable()
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
 
     public static final RegistryObject<Block> STROMATOLITE = registerBlock("stromatolite",
@@ -198,12 +201,12 @@ public class FintyBlocks {
     public static final RegistryObject<Block> STROMATOLITE_GROWTHS = registerBlock("stromatolite_growths",
             () -> new BaseCoralPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY)
                     .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().noCollission()
-                    .strength(0.25F, 3.5F)));
+                    .offsetType(BlockBehaviour.OffsetType.XZ).strength(0.25F, 3.5F)));
 
     public static final RegistryObject<Block> FOSSIL_STROMATOLITE_GROWTHS = registerBlock("fossil_stromatolite_growths",
             () -> new BaseCoralPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY)
                     .instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().noCollission()
-                    .strength(0.25F, 3.5F)));
+                    .offsetType(BlockBehaviour.OffsetType.XZ).strength(0.25F, 3.5F)));
 
     public static final RegistryObject<Block> STROMATOLITE_BLOCK = registerBlock("stromatolite_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).forceSolidOn()
@@ -239,6 +242,52 @@ public class FintyBlocks {
             ()-> new SeaGrapesPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER)
                     .noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
+
+    public static final RegistryObject<Block> TALL_AMAZON_SWORD = registerBlock("tall_amazon_sword",
+            () -> new TallAquaticPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.WET_GRASS)
+                    .pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> AMAZON_SWORD = registerBlock("amazon_sword",
+            () -> new AquaticPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.WET_GRASS)
+                    .pushReaction(PushReaction.DESTROY), true, TALL_AMAZON_SWORD.get()));
+
+    public static final RegistryObject<Block> BLUE_HYPNEA = registerBlock("blue_hypnea",
+            () -> new AquaticPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).replaceable()
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> MERMAID_FAN = registerBlock("mermaid_fan",
+            () -> new AquaticPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).replaceable()
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> AQUATIC_MOSS_BLOCK = registerBlock("aquatic_moss_block",
+            () -> new AlgaeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN)
+                    .strength(0.5F, 2.5F).sound(SoundType.WET_GRASS),
+                    FintyConfiguredFeatures.AQUATIC_MOSS_PATCH_BONEMEAL));
+
+    public static final RegistryObject<Block> AQUATIC_MOSS_CARPET = registerBlock("aquatic_moss_carpet",
+            () -> new AlgaeCarpetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(0.1F)
+                    .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> AQUATIC_MOSS_PHYLLID = registerBlock("aquatic_moss_phyllid",
+            () -> new AquaticPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).replaceable()
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final RegistryObject<Block> LOTUS = registerBlock("lotus",
+            () -> new LotusPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                    .noCollission().instabreak().sound(SoundType.WET_GRASS)
+                    .pushReaction(PushReaction.DESTROY)));
+
+    public static final Supplier<Block> LOTUS_FLOWER = registerBlockWithItem("lotus_flower",
+            () -> new LotusFlowerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                    .noCollission().instabreak().sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)),
+            (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
+
+    public static final Supplier<Block> LOTUS_PAD = registerBlockWithItem("lotus_pad",
+            ()-> new LotusPadBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD).mapColor(MapColor.COLOR_GREEN)
+                    .offsetType(BlockBehaviour.OffsetType.XZ).instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
+            (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
 
     private static <T extends Block> Supplier<T> registerBlockWithItem(String key, Supplier<T> block, Function<Supplier<T>, Item> item) {
         Supplier<T> entry = create(key, block);

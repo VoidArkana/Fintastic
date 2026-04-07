@@ -55,6 +55,9 @@ public class FintyConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> RED_ALGAE_PATCH_BONEMEAL = registerKey("red_algae_patch_bonemeal");
     public static final ResourceKey<ConfiguredFeature<?, ?>> RED_ALGAE_VEGETATION_BONEMEAL = registerKey("red_algae_vegetation_bonemeal");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AQUATIC_MOSS_VEGETATION = registerKey("aquatic_moss_vegetation");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AQUATIC_MOSS_PATCH_BONEMEAL = registerKey("aquatic_moss_patch_bonemeal");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> LIVE_ROCK_BOULDER = registerKey("live_rock_boulder");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> STROMATOLITE_PATCH = registerKey("stromatolite_patch");
@@ -103,8 +106,9 @@ public class FintyConfiguredFeatures {
         WeightedStateProvider greenAlgaeWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                 .add(Blocks.SEA_PICKLE.defaultBlockState().setValue(SeaPickleBlock.PICKLES, 2), 4)
                 .add(FintyBlocks.GREEN_ALGAE_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
-                .add(FintyBlocks.CAULERPA.get().defaultBlockState(), 50)
-                .add(FintyBlocks.SEA_GRAPES.get().defaultBlockState(), 10));
+                .add(FintyBlocks.CAULERPA.get().defaultBlockState(), 45)
+                .add(FintyBlocks.MERMAID_FAN.get().defaultBlockState(), 25)
+                .add(FintyBlocks.SEA_GRAPES.get().defaultBlockState(), 15));
 
         register(context, GREEN_ALGAE_VEGETATION, Feature.SIMPLE_BLOCK,
                 new SimpleBlockConfiguration(greenAlgaeWSP));
@@ -122,7 +126,8 @@ public class FintyConfiguredFeatures {
 
 
         WeightedStateProvider redAlgaeWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                .add(FintyBlocks.DRAGONS_BREATH_ALGAE.get().defaultBlockState(), 15)
+                .add(FintyBlocks.DRAGONS_BREATH_ALGAE.get().defaultBlockState(), 17)
+                .add(FintyBlocks.BLUE_HYPNEA.get().defaultBlockState(), 13)
                 .add(FintyBlocks.RED_ALGAE_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
                 .add(FintyBlocks.RED_ALGAE.get().defaultBlockState(), 30)
                 .add(FintyBlocks.RED_ALGAE_FAN.get().defaultBlockState().setValue(BaseCoralPlantBlock.WATERLOGGED, true), 25));
@@ -201,6 +206,24 @@ public class FintyConfiguredFeatures {
                         0.75F,
                         UniformInt.of(4, 7),
                         0.2F));
+
+
+        WeightedStateProvider aquaticMossWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+//                .add(FintyBlocks.DRAGONS_BREATH_ALGAE.get().defaultBlockState(), 17)
+//                .add(FintyBlocks.BLUE_HYPNEA.get().defaultBlockState(), 13)
+                .add(FintyBlocks.AQUATIC_MOSS_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
+                .add(FintyBlocks.AQUATIC_MOSS_PHYLLID.get().defaultBlockState(), 30)
+                .add(Blocks.SEAGRASS.defaultBlockState(), 25)
+        );
+
+        register(context, AQUATIC_MOSS_VEGETATION, Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(aquaticMossWSP));
+
+        register(context, AQUATIC_MOSS_PATCH_BONEMEAL, ALGAE_PATCH_FEATURE.get(),
+                new VegetationPatchConfiguration(FintyTags.Blocks.ALGAE_REPLACEABLE, BlockStateProvider.simple(FintyBlocks.AQUATIC_MOSS_BLOCK.get()),
+                        PlacementUtils.inlinePlaced(holdergetter.getOrThrow(AQUATIC_MOSS_VEGETATION)),
+                        CaveSurface.FLOOR, ConstantInt.of(1), 0.0F, 5, 0.6F,
+                        UniformInt.of(1, 2), 0.75F));
     }
 
 

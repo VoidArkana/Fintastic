@@ -1,0 +1,26 @@
+{
+  "multipart": [
+    {
+      "apply": [
+        {
+          "model": "fintastic:block/lotus_pad_1"
+        },
+        {
+          "model": "fintastic:block/lotus_pad_2"
+        },
+        {
+          "model": "fintastic:block/lotus_pad_3"
+        }
+      ]
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/lotus_pad_flower"
+      },
+      "when": {
+        "flower": "true"
+      }
+    }
+  ]
+}

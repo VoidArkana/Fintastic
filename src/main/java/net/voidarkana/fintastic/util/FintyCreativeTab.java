@@ -74,13 +74,24 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.MOONY_SPAWN_EGG.get());
                         output.accept(FintyItems.PLECO_SPAWN_EGG.get());
 
+                        output.accept(FintyBlocks.AMAZON_SWORD.get());
+                        output.accept(FintyBlocks.TALL_AMAZON_SWORD.get());
                         output.accept(FintyBlocks.ANUBIAS.get());
+                        output.accept(FintyBlocks.BLUE_HYPNEA.get());
                         output.accept(FintyBlocks.CAULERPA.get());
                         output.accept(FintyBlocks.DRAGONS_BREATH_ALGAE.get());
                         output.accept(FintyBlocks.DUCKWEED.get());
                         output.accept(FintyBlocks.HORNWORT.get());
+                        output.accept(FintyBlocks.LOTUS.get());
+                        output.accept(FintyBlocks.LOTUS_PAD.get());
+                        output.accept(FintyBlocks.LOTUS_FLOWER.get());
+                        output.accept(FintyBlocks.MERMAID_FAN.get());
                         output.accept(FintyBlocks.SEA_GRAPES.get());
                         output.accept(FintyItems.SEA_GRAPE_SALAD.get());
+
+                        output.accept(FintyBlocks.AQUATIC_MOSS_PHYLLID.get());
+                        output.accept(FintyBlocks.AQUATIC_MOSS_CARPET.get());
+                        output.accept(FintyBlocks.AQUATIC_MOSS_BLOCK.get());
 
                         output.accept(FintyBlocks.GREEN_ALGAE_CARPET.get());
                         output.accept(FintyBlocks.GREEN_ALGAE_BLOCK.get());

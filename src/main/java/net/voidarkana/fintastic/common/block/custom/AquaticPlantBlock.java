@@ -23,12 +23,20 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class AlgaeGrowthBlock extends BushBlock implements BonemealableBlock, LiquidBlockContainer, net.minecraftforge.common.IForgeShearable {
+public class AquaticPlantBlock extends BushBlock implements BonemealableBlock, LiquidBlockContainer, net.minecraftforge.common.IForgeShearable {
     protected static final float AABB_OFFSET = 6.0F;
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
+    Block tallBlock;
+    boolean growsOnBonemeal;
 
-    public AlgaeGrowthBlock(BlockBehaviour.Properties p_154496_) {
-        super(p_154496_);
+    public AquaticPlantBlock(BlockBehaviour.Properties properties, boolean growsInto, Block blockThatItGrowsInto) {
+        super(properties);
+        this.growsOnBonemeal = growsInto;
+        this.tallBlock = blockThatItGrowsInto;
+    }
+
+    public AquaticPlantBlock(BlockBehaviour.Properties properties) {
+        this(properties, false, Blocks.WATER);
     }
 
     public VoxelShape getShape(BlockState p_154525_, BlockGetter p_154526_, BlockPos p_154527_, CollisionContext p_154528_) {
@@ -45,12 +53,6 @@ public class AlgaeGrowthBlock extends BushBlock implements BonemealableBlock, Li
         return fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 ? super.getStateForPlacement(p_154503_) : null;
     }
 
-    /**
-     * Update the provided state given the provided neighbor direction and neighbor state, returning a new state.
-     * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
-     * returns its solidified counterpart.
-     * Note that this method should ideally consider only the specific direction passed in.
-     */
     public BlockState updateShape(BlockState p_154530_, Direction p_154531_, BlockState p_154532_, LevelAccessor p_154533_, BlockPos p_154534_, BlockPos p_154535_) {
         BlockState blockstate = super.updateShape(p_154530_, p_154531_, p_154532_, p_154533_, p_154534_, p_154535_);
         if (!blockstate.isAir()) {
@@ -60,11 +62,13 @@ public class AlgaeGrowthBlock extends BushBlock implements BonemealableBlock, Li
         return blockstate;
     }
 
-    /**
-     * @return whether bonemeal can be used on this block
-     */
-    public boolean isValidBonemealTarget(LevelReader p_255857_, BlockPos p_154511_, BlockState p_154512_, boolean p_154513_) {
-        return true;
+    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean p_154513_) {
+        if (this.growsOnBonemeal){
+            BlockPos blockpos = pPos.above();
+            return pLevel.getBlockState(blockpos).is(Blocks.WATER);
+        }else {
+            return true;
+        }
     }
 
     public boolean isBonemealSuccess(Level p_222428_, RandomSource p_222429_, BlockPos p_222430_, BlockState p_222431_) {
@@ -75,8 +79,18 @@ public class AlgaeGrowthBlock extends BushBlock implements BonemealableBlock, Li
         return Fluids.WATER.getSource(false);
     }
 
-    public void performBonemeal(ServerLevel pLevel, RandomSource p_222424_, BlockPos pPos, BlockState p_222426_) {
-        popResource(pLevel, pPos, new ItemStack(this));
+    public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+        if (this.growsOnBonemeal){
+            BlockState blockstate = this.tallBlock.defaultBlockState();
+            BlockState blockstate1 = blockstate.setValue(TallAquaticPlantBlock.HALF, DoubleBlockHalf.UPPER);
+            BlockPos blockpos = pPos.above();
+            if (pLevel.getBlockState(blockpos).is(Blocks.WATER)) {
+                pLevel.setBlock(pPos, blockstate, 2);
+                pLevel.setBlock(blockpos, blockstate1, 2);
+            }
+        }else {
+            popResource(pLevel, pPos, new ItemStack(this));
+        }
     }
 
     public boolean canPlaceLiquid(BlockGetter p_154505_, BlockPos p_154506_, BlockState p_154507_, Fluid p_154508_) {
@@ -85,5 +99,9 @@ public class AlgaeGrowthBlock extends BushBlock implements BonemealableBlock, Li
 
     public boolean placeLiquid(LevelAccessor p_154520_, BlockPos p_154521_, BlockState p_154522_, FluidState p_154523_) {
         return false;
+    }
+
+    public float getMaxHorizontalOffset() {
+        return 0.15F;
     }
 }

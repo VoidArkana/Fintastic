@@ -94,7 +94,10 @@ public class FintyItemModelProvider extends ItemModelProvider {
         simpleBlockItemBlockTexture(FintyBlocks.FOSSIL_STROMATOLITE_GROWTHS);
         simpleBlockItemBlockTexture(FintyBlocks.RED_ALGAE);
         simpleBlockItemBlockTexture(FintyBlocks.DRAGONS_BREATH_ALGAE);
-        simpleBlockItemBlockTexture(FintyBlocks.CAULERPA);
+
+        simpleBlockItemBlockTexture(FintyBlocks.AMAZON_SWORD);
+        simpleBlockItemBlockTexture(FintyBlocks.BLUE_HYPNEA);
+        simpleBlockItemBlockTexture(FintyBlocks.MERMAID_FAN);
 
         simpleItem(FintyItems.SEA_GRAPE_SALAD);
 

@@ -21,6 +21,7 @@ public class FintyBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_STROMATOLITE = registerKey("add_stromatolite");
     public static final ResourceKey<BiomeModifier> ADD_FOSSIL_STROMATOLITE = registerKey("add_fossil_stromatolite");
     public static final ResourceKey<BiomeModifier> ADD_ANUBIAS = registerKey("add_anubias");
+    public static final ResourceKey<BiomeModifier> ADD_AQUATIC_MOSS = registerKey("add_aquatic_moss");
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -54,6 +55,11 @@ public class FintyBiomeModifiers {
         context.register(ADD_ANUBIAS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(FintyTags.Biomes.ANUBIAS_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.ANUBIAS_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_AQUATIC_MOSS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(FintyTags.Biomes.AQUATIC_MOSS_BIOMES),
+                HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.AQUATIC_MOSS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
     }
 

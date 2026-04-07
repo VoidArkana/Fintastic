@@ -47,6 +47,7 @@ public class FintyBlockStateProvider extends BlockStateProvider {
 
         this.blockWithItem(FintyBlocks.GREEN_ALGAE_BLOCK);
         this.blockWithItem(FintyBlocks.RED_ALGAE_BLOCK);
+        this.blockWithItem(FintyBlocks.AQUATIC_MOSS_BLOCK);
 
         simpleBlockWithItem(FintyBlocks.RED_ALGAE.get(), models().cross(blockTexture(FintyBlocks.RED_ALGAE.get()).getPath(),
                 blockTexture(FintyBlocks.RED_ALGAE.get())).renderType("cutout"));
@@ -54,8 +55,8 @@ public class FintyBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(FintyBlocks.DRAGONS_BREATH_ALGAE.get(), models().cross(blockTexture(FintyBlocks.DRAGONS_BREATH_ALGAE.get()).getPath(),
                 blockTexture(FintyBlocks.DRAGONS_BREATH_ALGAE.get())).renderType("cutout"));
 
-        simpleBlockWithItem(FintyBlocks.CAULERPA.get(), models().cross(blockTexture(FintyBlocks.CAULERPA.get()).getPath(),
-                blockTexture(FintyBlocks.CAULERPA.get())).renderType("cutout"));
+        simpleBlockWithItem(FintyBlocks.AMAZON_SWORD.get(), models().cross(blockTexture(FintyBlocks.AMAZON_SWORD.get()).getPath(),
+                blockTexture(FintyBlocks.AMAZON_SWORD.get())).renderType("cutout"));
 
         simpleBlockWithItem(FintyBlocks.SEA_GRAPES.get(), models().cross(blockTexture(FintyBlocks.SEA_GRAPES.get()).getPath(),
                 blockTexture(FintyBlocks.SEA_GRAPES.get())).renderType("cutout"));
@@ -69,6 +70,15 @@ public class FintyBlockStateProvider extends BlockStateProvider {
 
         nonRotateablePillarBlock(FintyBlocks.GREEN_ALGAE_LIVE_ROCK,
                 "green_algae_block", "live_rock", "green_algae_live_rock");
+
+        simpleBlockWithItem(FintyBlocks.BLUE_HYPNEA.get(), models().cross(blockTexture(FintyBlocks.BLUE_HYPNEA.get()).getPath(),
+                blockTexture(FintyBlocks.BLUE_HYPNEA.get())).renderType("cutout"));
+
+        simpleBlockWithItem(FintyBlocks.MERMAID_FAN.get(), models().cross(blockTexture(FintyBlocks.MERMAID_FAN.get()).getPath(),
+                blockTexture(FintyBlocks.MERMAID_FAN.get())).renderType("cutout"));
+
+        simpleBlockWithItem(FintyBlocks.AQUATIC_MOSS_PHYLLID.get(), models().cross(blockTexture(FintyBlocks.AQUATIC_MOSS_PHYLLID.get()).getPath(),
+                blockTexture(FintyBlocks.AQUATIC_MOSS_PHYLLID.get())).renderType("cutout"));
     }
 
     private void leavesBlock(RegistryObject<Block> blockRegistryObject) {

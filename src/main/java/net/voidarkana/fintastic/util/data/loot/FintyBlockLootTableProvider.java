@@ -8,18 +8,15 @@ import net.voidarkana.fintastic.common.block.FintyBlocks;
 
 import java.util.Set;
 
-public class YAFMBlockLootTableProvider extends BlockLootSubProvider {
+public class FintyBlockLootTableProvider extends BlockLootSubProvider {
 
-    public YAFMBlockLootTableProvider() {
+    public FintyBlockLootTableProvider() {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags());
     }
 
     @Override
     protected void generate() {
 
-        this.dropSelf(FintyBlocks.ANUBIAS.get());
-        this.dropSelf(FintyBlocks.FISHBOWL.get());
-        
     }
 
     @Override

@@ -28,6 +28,8 @@ public class FintyPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> ANUBIAS_PLACED_KEY = registerKey("anubias_placed");
 
+    public static final ResourceKey<PlacedFeature> AQUATIC_MOSS_PLACED_KEY = registerKey("aquatic_moss_placed");
+
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
@@ -50,6 +52,9 @@ public class FintyPlacedFeatures {
 
         register(context, ANUBIAS_PLACED_KEY, configuredFeatures.getOrThrow(FintyConfiguredFeatures.ANUBIAS_KEY),
                 aquaticPlantPlacement(1));
+
+        register(context, AQUATIC_MOSS_PLACED_KEY, configuredFeatures.getOrThrow(FintyConfiguredFeatures.AQUATIC_MOSS_PATCH_BONEMEAL),
+                aquaticPlantPlacement(2));
 
     }
 

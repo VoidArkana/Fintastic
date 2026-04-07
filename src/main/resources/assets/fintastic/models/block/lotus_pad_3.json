@@ -1,0 +1,6 @@
+{
+  "parent": "fintastic:block/lotus_pad_base",
+  "textures": {
+    "texture": "fintastic:block/lotus_small"
+  }
+}
