@@ -281,12 +281,12 @@ public class FintyBlocks {
 
     public static final Supplier<Block> LOTUS_FLOWER = registerBlockWithItem("lotus_flower",
             () -> new LotusFlowerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
-                    .noCollission().instabreak().sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)),
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)),
             (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
 
     public static final Supplier<Block> LOTUS_PAD = registerBlockWithItem("lotus_pad",
             ()-> new LotusPadBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD).mapColor(MapColor.COLOR_GREEN)
-                    .offsetType(BlockBehaviour.OffsetType.XZ).instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
+                    .instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
             (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
 
     private static <T extends Block> Supplier<T> registerBlockWithItem(String key, Supplier<T> block, Function<Supplier<T>, Item> item) {

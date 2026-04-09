@@ -4,10 +4,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
+import net.voidarkana.fintastic.util.FintyCommonConfig;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,8 +22,11 @@ public class FintyEntityTypeTagGenerator extends EntityTypeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        this.tag(FintyTags.EntityType.FISHNET_ADDITIONS).add(EntityType.GUARDIAN).add(EntityType.AXOLOTL)
-                .add(EntityType.FROG).add(EntityType.TURTLE)
+        this.tag(FintyTags.EntityType.FISHNET_ADDITIONS)
+                .add(EntityType.GUARDIAN)
+                .add(EntityType.AXOLOTL)
+                .add(EntityType.FROG)
+                .add(EntityType.TURTLE)
                 .addOptional(new ResourceLocation("alexsmobs:alligator_snapping_turtle"))
                 .addOptional(new ResourceLocation("alexsmobs:terrapin"))
                 .addOptional(new ResourceLocation("alexsmobs:alligator_snapping_turtle"))
@@ -41,6 +46,8 @@ public class FintyEntityTypeTagGenerator extends EntityTypeTagsProvider {
                 .addOptional(new ResourceLocation("alexsmobs:stradpole"))
                 .addOptional(new ResourceLocation("babyfat:ranchu"))
                 .addOptional(new ResourceLocation("spawn:tuna"))
+                .addOptional(new ResourceLocation("spawn:sea_cow"))
+                .addOptional(new ResourceLocation("spawn:octopus"))
                 .addOptional(new ResourceLocation("alexscaves:mineguardians"))
                 .addOptional(new ResourceLocation("upgrade_aquatic:thrasher"));
 
@@ -54,5 +61,15 @@ public class FintyEntityTypeTagGenerator extends EntityTypeTagsProvider {
                 .add(FintyEntities.MINNOW.get());
 
         this.tag(FintyTags.EntityType.FISH_PREY).add(FintyEntities.FAIRY_SHRIMP.get()).add(FintyEntities.DAPHNIA.get());
+
+        this.tag(EntityTypeTags.AXOLOTL_HUNT_TARGETS)
+                .add(FintyEntities.GOURAMI.get())
+                .add(FintyEntities.GUPPY.get())
+                .add(FintyEntities.COD.get())
+                .add(FintyEntities.SALMON.get())
+                .add(FintyEntities.COPEPOD.get())
+                .add(FintyEntities.MOONY.get())
+                .add(FintyEntities.DAPHNIA.get())
+                .add(FintyEntities.FAIRY_SHRIMP.get());
     }
 }

@@ -30,6 +30,10 @@ public class FintyPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> AQUATIC_MOSS_PLACED_KEY = registerKey("aquatic_moss_placed");
 
+    public static final ResourceKey<PlacedFeature> AMAZON_SWORD_PLACED_KEY = registerKey("amazon_sword_placed");
+
+    public static final ResourceKey<PlacedFeature> LOTUS_PLACED_KEY = registerKey("lotus_placed");
+
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
@@ -56,6 +60,11 @@ public class FintyPlacedFeatures {
         register(context, AQUATIC_MOSS_PLACED_KEY, configuredFeatures.getOrThrow(FintyConfiguredFeatures.AQUATIC_MOSS_PATCH_BONEMEAL),
                 aquaticPlantPlacement(2));
 
+        register(context, AMAZON_SWORD_PLACED_KEY, configuredFeatures.getOrThrow(FintyConfiguredFeatures.AMAZON_SWORD_KEY),
+                aquaticPlantPlacement(15));
+
+        register(context, LOTUS_PLACED_KEY, configuredFeatures.getOrThrow(FintyConfiguredFeatures.LOTUS_KEY),
+                aquaticPlantPlacement(3));
     }
 
     private static List<PlacementModifier> aquaticPlantPlacement(int pCount) {
@@ -68,6 +77,10 @@ public class FintyPlacedFeatures {
 
     public static List<PlacementModifier> worldSurfaceSquaredWithCount(int pCount) {
         return List.of(CountPlacement.of(pCount), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome());
+    }
+
+    public static List<PlacementModifier> worldSurfaceSquaredWithChance(int chance) {
+        return List.of(RarityFilter.onAverageOnceEvery(chance), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome());
     }
 
     public static List<PlacementModifier> underwaterBoulderPlacement(int pCount) {

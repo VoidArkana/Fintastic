@@ -28,7 +28,7 @@ public class FintyTags {
         public static final TagKey<Biome> COPEPOD_SALTWATER_BIOMES = tag("copepod_saltwater_biomes");
         public static final TagKey<Biome> COPEPOD_FRESHWATER_BIOMES = tag("copepod_freshwater_biomes");
 
-        public static final TagKey<Biome> FRESHWATER_PLANT_BIOME_BLACKLIST = tag("non_freshwater_plant_biomes");
+        public static final TagKey<Biome> FRESHWATER_PLANT_BIOME_BLACKLIST = tag("common_freshwater_plant_blacklisted_biomes");
 
         public static final TagKey<Biome> LIVEROCK_BOULDER_BIOMES = tag("liverock_boulder_biomes");
         public static final TagKey<Biome> DUCKWEED_BIOMES = tag("duckweed_biomes");
@@ -36,6 +36,8 @@ public class FintyTags {
         public static final TagKey<Biome> STROMATOLITE_BIOMES = tag("stromatolite_biomes");
         public static final TagKey<Biome> ANUBIAS_BIOMES = tag("anubias_biomes");
         public static final TagKey<Biome> AQUATIC_MOSS_BIOMES = tag("aquatic_moss_biomes");
+        public static final TagKey<Biome> AMAZON_SWORD_BIOMES = tag("amazon_sword_biomes");
+        public static final TagKey<Biome> LOTUS_BIOMES = tag("lotus_biomes");
 
 
         private static TagKey<Biome> tag(String pName) {

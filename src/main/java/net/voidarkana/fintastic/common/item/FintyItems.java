@@ -193,6 +193,22 @@ public class FintyItems {
     public static final RegistryObject<Item> COPEPOD = ITEMS.register("copepod",
             () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH_MED)));
 
+    public static final RegistryObject<Item> SALMON_SPAWN_EGG = ITEMS.register("fintastic_salmon_spawn_egg",
+            () -> new SalmonSpawnEgg(FintyEntities.SALMON, 0xffffff, 0xffffff, new Item.Properties()));
+    public static final RegistryObject<Item> SALMON_BUCKET = ITEMS.register("fintastic_salmon_bucket", () -> {
+        return new FishBucketItem(FintyEntities.SALMON, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
+    });
+
+    public static final RegistryObject<Item> COD_SPAWN_EGG = ITEMS.register("fintastic_cod_spawn_egg",
+            () -> new CodSpawnEgg(FintyEntities.COD, 0xffffff, 0xffffff, new Item.Properties()));
+    public static final RegistryObject<Item> COD_BUCKET = ITEMS.register("fintastic_cod_bucket", () -> {
+        return new FishBucketItem(FintyEntities.COD, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
+    });
+
 
     public static final RegistryObject<Item> SEA_GRAPE_SALAD = ITEMS.register("sea_grape_salad",
             () -> new StackableBowlFoodItem(new Item.Properties().food(YAFMFoods.SEA_GRAPE_SALAD).stacksTo(16)));

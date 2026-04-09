@@ -111,6 +111,13 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
                 .addTag(BiomeTags.IS_JUNGLE)
                 .addTag(Tags.Biomes.IS_SWAMP)
                 .addTag(Tags.Biomes.IS_LUSH);
+
+        this.tag(FintyTags.Biomes.AMAZON_SWORD_BIOMES)
+                .addTag(BiomeTags.IS_JUNGLE);
+
+        this.tag(FintyTags.Biomes.LOTUS_BIOMES)
+                .addTag(Tags.Biomes.IS_SWAMP)
+                .addTag(BiomeTags.IS_JUNGLE);
     }
 
 }

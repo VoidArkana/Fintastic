@@ -1,11 +1,22 @@
 package net.voidarkana.fintastic;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
+import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.animal.Fox;
+import net.minecraft.world.entity.animal.PolarBear;
+import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -13,12 +24,14 @@ import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.blockentity.FintyBlockEntities;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.FintyEntityPlacements;
+import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
 import net.voidarkana.fintastic.common.entity.villager.FintyVillagerProfessions;
 import net.voidarkana.fintastic.common.event.FintyEvents;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.common.loot.FintyLootModifiers;
 import net.voidarkana.fintastic.common.sound.FintySounds;
 import net.voidarkana.fintastic.common.worldgen.FintyConfiguredFeatures;
+import net.voidarkana.fintastic.util.FintyCommonConfig;
 import net.voidarkana.fintastic.util.network.FintyMessages;
 import net.voidarkana.fintastic.util.ClientProxy;
 import net.voidarkana.fintastic.util.CommonProxy;
@@ -27,6 +40,7 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 
 @Mod(Fintastic.MOD_ID)
@@ -41,6 +55,9 @@ public class Fintastic
     public Fintastic()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FintyCommonConfig.SPEC,
+                "fintastic.toml");
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
@@ -60,6 +77,7 @@ public class Fintastic
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new FintyEvents());
+        MinecraftForge.EVENT_BUS.addListener(this::addEntityGoals);
 
         PROXY.init();
 
@@ -97,5 +115,18 @@ public class Fintastic
         event.enqueueWork(() -> PROXY.clientInit());
     }
 
+    private static final Predicate<LivingEntity> FISH_PREY = (p_289448_) -> {
+        EntityType<?> entitytype = p_289448_.getType();
+        return entitytype == FintyEntities.COD.get() || entitytype == FintyEntities.SALMON.get();
+    };
+
+    private void addEntityGoals(EntityJoinLevelEvent e) {
+        if (e.getEntity() instanceof Fox fox) {
+            fox.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(fox, VariantSchoolingFish.class, false, FISH_PREY));
+        }
+        if (e.getEntity() instanceof PolarBear bear) {
+            bear.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(bear, VariantSchoolingFish.class, false, FISH_PREY));
+        }
+    }
 
 }

@@ -77,6 +77,8 @@ public class FintyClientEvents {
 
         //Update 3.0
         event.registerLayerDefinition(FintasticLayers.COPEPOD, CopepodModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.COD, FintyCodModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.SALMON, FintySalmonModel::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.HAT_LAYER, HatModel::createArmorLayer);
 

@@ -35,8 +35,9 @@ public class MinnowRenderer extends MobRenderer<Minnow, FintasticModel<Minnow>> 
 
     @Override
     public void render(Minnow entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(entity.getVariant());
 
-        switch (entity.getVariantModel()){
+        switch (minnowVariant.getModel()){
             case 1:
                 this.model = minnowHatchetModel;
                 break;
@@ -61,11 +62,8 @@ public class MinnowRenderer extends MobRenderer<Minnow, FintasticModel<Minnow>> 
 
     @Override
     public ResourceLocation getTextureLocation(Minnow pEntity) {
-
-        int joinedVariantID = Integer.decode(String.valueOf(pEntity.getVariantModel()) + pEntity.getVariantSkin());
-        Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(joinedVariantID);
-
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/minnow/"+minnowVariant.getModelName()+"/"+minnowVariant.getSerializedName()+".png");
+        Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(pEntity.getVariant());
+        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/minnow/"+Minnow.getModelName(minnowVariant.getModel())+"/"+minnowVariant.getSerializedName()+".png");
     }
 
     @Override

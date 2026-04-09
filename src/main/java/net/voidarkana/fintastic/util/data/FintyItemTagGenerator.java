@@ -61,7 +61,13 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
                 .add(FintyItems.PLECO_BUCKET.get())
                 .add(FintyItems.ARAPAIMA_BUCKET.get())
                 .add(FintyItems.CATFISH_BUCKET.get())
-                .add(FintyItems.ARTEMIA_BUCKET.get());
+                .add(FintyItems.ARTEMIA_BUCKET.get())
+                .add(FintyItems.COELACANTH_BUCKET.get())
+                .add(FintyItems.MOONY_BUCKET.get())
+                .add(FintyItems.COPEPOD_BUCKET.get())
+                .add(FintyItems.DAPHNIA_BUCKET.get())
+                .add(FintyItems.COD_BUCKET.get())
+                .add(FintyItems.SALMON_BUCKET.get());
 
         this.tag(ItemTags.PIGLIN_LOVED)
                 .add(FintyItems.PREMIUM_FEED.get());

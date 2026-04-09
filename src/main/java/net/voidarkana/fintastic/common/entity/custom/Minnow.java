@@ -58,8 +58,7 @@ public class Minnow extends VariantSchoolingFish {
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.setVariantModel(compound.getInt("VariantModel"));
-        this.setVariantSkin(compound.getInt("VariantSkin"));
+        this.setVariant(compound.getInt("Variant"));
     }
 
     @Override
@@ -69,8 +68,7 @@ public class Minnow extends VariantSchoolingFish {
         compoundnbt.putFloat("Health", this.getHealth());
         compoundnbt.putInt("Age", this.getAge());
         compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
-        compoundnbt.putInt("VariantModel", this.getVariantModel());
-        compoundnbt.putInt("VariantSkin", this.getVariantSkin());
+        compoundnbt.putInt("Variant", this.getVariant());
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
         }
@@ -80,11 +78,8 @@ public class Minnow extends VariantSchoolingFish {
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
 
-        if (pTag.contains("VariantModel"))
-            this.setVariantModel(pTag.getInt("VariantModel"));
-
-        if (pTag.contains("VariantSkin"))
-            this.setVariantSkin(pTag.getInt("VariantSkin"));
+        if (pTag.contains("Variant"))
+            this.setVariant(pTag.getInt("Variant"));
 
         if (pTag.contains("Age")) {
             this.setAge(pTag.getInt("Age"));
@@ -98,31 +93,27 @@ public class Minnow extends VariantSchoolingFish {
         if (pSpawnData == null)
             pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantModel", 3)) {
-            this.setVariantModel(pDataTag.getInt("VariantModel"));
-            this.setVariantSkin(pDataTag.getInt("VariantSkin"));
+        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
+            this.setVariant(pDataTag.getInt("Variant"));
             if (pDataTag.contains("Age")) {
                 this.setAge(pDataTag.getInt("Age"));}
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
         }else{
             MinnowVariant variant;
 
-            int model;
-            int skin;
+            int pVariant;
 
             if(pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
 
                 variant = Util.getRandom(MinnowVariant.values(), this.random);
 
-                this.setVariantModel(variant.getModel());
-                this.setVariantSkin(variant.getSkin());
+                this.setVariant(variant.getVariant());
 
             }else {
 
                 if (pSpawnData instanceof MinnowGroupData groupData){
 
-                    model = groupData.getVariantModel();
-                    skin = groupData.getVariantSkin();
+                    pVariant = groupData.getVariant();
                     this.startFollowing(groupData.leader);
 
                 }else {
@@ -130,22 +121,18 @@ public class Minnow extends VariantSchoolingFish {
                             && pLevel.getBlockState(this.blockPosition()).is(Blocks.WATER)){
 
                         if (this.getRandom().nextBoolean()){
-                            model = MinnowVariant.MEXICAN_CAVE_TETRA.getModel();
-                            skin = MinnowVariant.MEXICAN_CAVE_TETRA.getSkin();
+                            pVariant = MinnowVariant.MEXICAN_CAVE_TETRA.getVariant();
                         }else {
-                            model = MinnowVariant.SOUTHERN_CAVE_FISH.getModel();
-                            skin = MinnowVariant.SOUTHERN_CAVE_FISH.getSkin();
+                            pVariant = MinnowVariant.SOUTHERN_CAVE_FISH.getVariant();
                         }
 
                     } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_OCEAN)){
 
-                        model = MinnowVariant.ATLANTIC_HERRING.getModel();
-                        skin = MinnowVariant.ATLANTIC_HERRING.getSkin();
+                        pVariant = MinnowVariant.ATLANTIC_HERRING.getVariant();
 
                         if (pLevel.getBiome(this.blockPosition()).is(Biomes.WARM_OCEAN)){
                             if (this.getRandom().nextBoolean()){
-                                model = MinnowVariant.STRIPED_MOJARRA.getModel();
-                                skin = MinnowVariant.STRIPED_MOJARRA.getSkin();
+                                pVariant = MinnowVariant.STRIPED_MOJARRA.getVariant();
                             }
                         }
 
@@ -154,47 +141,27 @@ public class Minnow extends VariantSchoolingFish {
                         int var = this.getRandom().nextInt(16);
 
 
-                        model = switch (var){
-                            case 1 -> MinnowVariant.NEON_GREEN_RASBORA.getModel();
-                            case 2 -> MinnowVariant.CHILI_RASBORA.getModel();
-                            case 3 ->MinnowVariant.NEON_TETRA.getModel();
-                            case 4 -> MinnowVariant.CARDINAL_TETRA.getModel();
-                            case 5 -> MinnowVariant.DRAGONFIN_TETRA.getModel();
-                            case 6 -> MinnowVariant.MARBLED_HATCHETFISH.getModel();
-                            case 7 -> MinnowVariant.SILVER_HATCHETFISH.getModel();
-                            case 8 -> MinnowVariant.COPELLA_TETRA.getModel();
-                            case 9 -> MinnowVariant.PIABUCO.getModel();
-                            case 10 -> MinnowVariant.GIANT_DANIO.getModel();
-                            case 11 -> MinnowVariant.BUENOS_AIRES_TETRA.getModel();
-                            case 12 -> MinnowVariant.RED_TAIL_ASTYANAX.getModel();
-                            case 13 -> MinnowVariant.MASKED_BARB.getModel();
-                            case 14 -> MinnowVariant.BANDED_ASTYANAX.getModel();
-                            case 15 -> MinnowVariant.STREAKED_PROCHILODUS.getModel();
-                            default -> MinnowVariant.FLAGTAIL_PROCHILODUS.getModel();
-                        };
-
-                        skin = switch (var){
-                            case 1 -> MinnowVariant.NEON_GREEN_RASBORA.getSkin();
-                            case 2 -> MinnowVariant.CHILI_RASBORA.getSkin();
-                            case 3 ->MinnowVariant.NEON_TETRA.getSkin();
-                            case 4 -> MinnowVariant.CARDINAL_TETRA.getSkin();
-                            case 5 -> MinnowVariant.DRAGONFIN_TETRA.getSkin();
-                            case 6 -> MinnowVariant.MARBLED_HATCHETFISH.getSkin();
-                            case 7 -> MinnowVariant.SILVER_HATCHETFISH.getSkin();
-                            case 8 -> MinnowVariant.COPELLA_TETRA.getSkin();
-                            case 9 -> MinnowVariant.PIABUCO.getSkin();
-                            case 10 -> MinnowVariant.GIANT_DANIO.getSkin();
-                            case 11 -> MinnowVariant.BUENOS_AIRES_TETRA.getSkin();
-                            case 12 -> MinnowVariant.RED_TAIL_ASTYANAX.getSkin();
-                            case 13 -> MinnowVariant.MASKED_BARB.getSkin();
-                            case 14 -> MinnowVariant.BANDED_ASTYANAX.getSkin();
-                            case 15 -> MinnowVariant.STREAKED_PROCHILODUS.getSkin();
-                            default -> MinnowVariant.FLAGTAIL_PROCHILODUS.getSkin();
+                        pVariant = switch (var){
+                            case 1 -> MinnowVariant.NEON_GREEN_RASBORA.getVariant();
+                            case 2 -> MinnowVariant.CHILI_RASBORA.getVariant();
+                            case 3 ->MinnowVariant.NEON_TETRA.getVariant();
+                            case 4 -> MinnowVariant.CARDINAL_TETRA.getVariant();
+                            case 5 -> MinnowVariant.DRAGONFIN_TETRA.getVariant();
+                            case 6 -> MinnowVariant.MARBLED_HATCHETFISH.getVariant();
+                            case 7 -> MinnowVariant.SILVER_HATCHETFISH.getVariant();
+                            case 8 -> MinnowVariant.COPELLA_TETRA.getVariant();
+                            case 9 -> MinnowVariant.PIABUCO.getVariant();
+                            case 10 -> MinnowVariant.GIANT_DANIO.getVariant();
+                            case 11 -> MinnowVariant.BUENOS_AIRES_TETRA.getVariant();
+                            case 12 -> MinnowVariant.RED_TAIL_ASTYANAX.getVariant();
+                            case 13 -> MinnowVariant.MASKED_BARB.getVariant();
+                            case 14 -> MinnowVariant.BANDED_ASTYANAX.getVariant();
+                            case 15 -> MinnowVariant.STREAKED_PROCHILODUS.getVariant();
+                            default -> MinnowVariant.FLAGTAIL_PROCHILODUS.getVariant();
                         };
 
                         if (pLevel.getBiome(this.blockPosition()).is(Biomes.MANGROVE_SWAMP) && this.random.nextFloat() < 0.06) {
-                            model = MinnowVariant.STRIPED_MOJARRA.getModel();
-                            skin = MinnowVariant.STRIPED_MOJARRA.getSkin();
+                            pVariant = MinnowVariant.STRIPED_MOJARRA.getVariant();
                         }
 
 
@@ -202,133 +169,79 @@ public class Minnow extends VariantSchoolingFish {
 
                         int var = this.getRandom().nextInt(22);
 
-                        model = switch (var){
-                            case 1 -> MinnowVariant.FLAGTAIL_PROCHILODUS.getModel();
-                            case 2 -> MinnowVariant.COPELLA_TETRA.getModel();
-                            case 3 -> MinnowVariant.PIABUCO.getModel();
-                            case 4 -> MinnowVariant.HARLEQUIN_RASBORA.getModel();
-                            case 5 -> MinnowVariant.ODESSA_BARB.getModel();
-                            case 6 -> MinnowVariant.RUBY_BARB.getModel();
-                            case 7 -> MinnowVariant.BANDED_ASTYANAX.getModel();
-                            case 8 -> MinnowVariant.TETRAZONA_BARB.getModel();
-                            case 9 -> MinnowVariant.MASKED_BARB.getModel();
-                            case 10 -> MinnowVariant.NEON_TETRA.getModel();
-                            case 11 -> MinnowVariant.BLUE_NEON_RASBORA.getModel();
-                            case 12 -> MinnowVariant.SCISSORTAIL_RASBORA.getModel();
-                            case 13 -> MinnowVariant.MOSQUITO_RASABORA.getModel();
-                            case 14 -> MinnowVariant.MARBLED_HATCHETFISH.getModel();
-                            case 15 -> MinnowVariant.SILVER_HATCHETFISH.getModel();
-                            case 16 -> MinnowVariant.DRAGONFIN_TETRA.getModel();
-                            case 17 -> MinnowVariant.CHERRY_BARB.getModel();
-                            case 18 -> MinnowVariant.GOLDEN_BARB.getModel();
-                            case 19 -> MinnowVariant.TORPEDO_BARB.getModel();
-                            case 20 -> MinnowVariant.ALESTES_TETRA.getModel();
-                            case 21 -> MinnowVariant.BLACKLINETAIL_TETRA.getModel();
-                            default -> MinnowVariant.SIXBAR_DISTICHODUS.getModel();
-                        };
-
-                        skin = switch (var){
-                            case 1 -> MinnowVariant.FLAGTAIL_PROCHILODUS.getSkin();
-                            case 2 -> MinnowVariant.COPELLA_TETRA.getSkin();
-                            case 3 -> MinnowVariant.PIABUCO.getSkin();
-                            case 4 -> MinnowVariant.HARLEQUIN_RASBORA.getSkin();
-                            case 5 -> MinnowVariant.ODESSA_BARB.getSkin();
-                            case 6 -> MinnowVariant.RUBY_BARB.getSkin();
-                            case 7 -> MinnowVariant.BANDED_ASTYANAX.getSkin();
-                            case 8 -> MinnowVariant.TETRAZONA_BARB.getSkin();
-                            case 9 -> MinnowVariant.MASKED_BARB.getSkin();
-                            case 10 -> MinnowVariant.NEON_TETRA.getSkin();
-                            case 11 -> MinnowVariant.BLUE_NEON_RASBORA.getSkin();
-                            case 12 -> MinnowVariant.SCISSORTAIL_RASBORA.getSkin();
-                            case 13 -> MinnowVariant.MOSQUITO_RASABORA.getSkin();
-                            case 14 -> MinnowVariant.MARBLED_HATCHETFISH.getSkin();
-                            case 15 -> MinnowVariant.SILVER_HATCHETFISH.getSkin();
-                            case 16 -> MinnowVariant.DRAGONFIN_TETRA.getSkin();
-                            case 17 -> MinnowVariant.CHERRY_BARB.getSkin();
-                            case 18 -> MinnowVariant.GOLDEN_BARB.getSkin();
-                            case 19 -> MinnowVariant.TORPEDO_BARB.getSkin();
-                            case 20 -> MinnowVariant.ALESTES_TETRA.getSkin();
-                            case 21 -> MinnowVariant.BLACKLINETAIL_TETRA.getSkin();
-                            default -> MinnowVariant.SIXBAR_DISTICHODUS.getSkin();
+                        pVariant = switch (var){
+                            case 1 -> MinnowVariant.FLAGTAIL_PROCHILODUS.getVariant();
+                            case 2 -> MinnowVariant.COPELLA_TETRA.getVariant();
+                            case 3 -> MinnowVariant.PIABUCO.getVariant();
+                            case 4 -> MinnowVariant.HARLEQUIN_RASBORA.getVariant();
+                            case 5 -> MinnowVariant.ODESSA_BARB.getVariant();
+                            case 6 -> MinnowVariant.RUBY_BARB.getVariant();
+                            case 7 -> MinnowVariant.BANDED_ASTYANAX.getVariant();
+                            case 8 -> MinnowVariant.TETRAZONA_BARB.getVariant();
+                            case 9 -> MinnowVariant.MASKED_BARB.getVariant();
+                            case 10 -> MinnowVariant.NEON_TETRA.getVariant();
+                            case 11 -> MinnowVariant.BLUE_NEON_RASBORA.getVariant();
+                            case 12 -> MinnowVariant.SCISSORTAIL_RASBORA.getVariant();
+                            case 13 -> MinnowVariant.MOSQUITO_RASABORA.getVariant();
+                            case 14 -> MinnowVariant.MARBLED_HATCHETFISH.getVariant();
+                            case 15 -> MinnowVariant.SILVER_HATCHETFISH.getVariant();
+                            case 16 -> MinnowVariant.DRAGONFIN_TETRA.getVariant();
+                            case 17 -> MinnowVariant.CHERRY_BARB.getVariant();
+                            case 18 -> MinnowVariant.GOLDEN_BARB.getVariant();
+                            case 19 -> MinnowVariant.TORPEDO_BARB.getVariant();
+                            case 20 -> MinnowVariant.ALESTES_TETRA.getVariant();
+                            case 21 -> MinnowVariant.BLACKLINETAIL_TETRA.getVariant();
+                            default -> MinnowVariant.SIXBAR_DISTICHODUS.getVariant();
                         };
                     } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
 
                         int var = this.getRandom().nextInt(10);
 
-                        model = switch (var){
-                            case 1 -> MinnowVariant.GALAXIAS.getModel();
-                            case 2 -> MinnowVariant.SAILFIN_SHINER.getModel();
-                            case 3 ->MinnowVariant.FAT_HEAD_MINNOW.getModel();
-                            case 4 -> MinnowVariant.RED_TAIL_ASTYANAX.getModel();
-                            case 5 -> MinnowVariant.BITTERLING.getModel();
-                            case 6 -> MinnowVariant.BANDED_ASTYANAX.getModel();
-                            case 7 -> MinnowVariant.STREAKED_PROCHILODUS.getModel();
-                            case 8 -> MinnowVariant.TINFOIL_BARB.getModel();
-                            case 9 -> MinnowVariant.SICKLEFIN_BARB.getModel();
-                            default -> MinnowVariant.DELTA_SMELT.getModel();
-                        };
-
-                        skin = switch (var){
-                            case 1 -> MinnowVariant.GALAXIAS.getSkin();
-                            case 2 -> MinnowVariant.SAILFIN_SHINER.getSkin();
-                            case 3 ->MinnowVariant.FAT_HEAD_MINNOW.getSkin();
-                            case 4 -> MinnowVariant.RED_TAIL_ASTYANAX.getSkin();
-                            case 5 -> MinnowVariant.BITTERLING.getSkin();
-                            case 6 -> MinnowVariant.BANDED_ASTYANAX.getSkin();
-                            case 7 -> MinnowVariant.STREAKED_PROCHILODUS.getSkin();
-                            case 8 -> MinnowVariant.TINFOIL_BARB.getSkin();
-                            case 9 -> MinnowVariant.SICKLEFIN_BARB.getSkin();
-                            default -> MinnowVariant.DELTA_SMELT.getSkin();
+                        pVariant = switch (var){
+                            case 1 -> MinnowVariant.GALAXIAS.getVariant();
+                            case 2 -> MinnowVariant.SAILFIN_SHINER.getVariant();
+                            case 3 ->MinnowVariant.FAT_HEAD_MINNOW.getVariant();
+                            case 4 -> MinnowVariant.RED_TAIL_ASTYANAX.getVariant();
+                            case 5 -> MinnowVariant.BITTERLING.getVariant();
+                            case 6 -> MinnowVariant.BANDED_ASTYANAX.getVariant();
+                            case 7 -> MinnowVariant.STREAKED_PROCHILODUS.getVariant();
+                            case 8 -> MinnowVariant.TINFOIL_BARB.getVariant();
+                            case 9 -> MinnowVariant.SICKLEFIN_BARB.getVariant();
+                            default -> MinnowVariant.DELTA_SMELT.getVariant();
                         };
 
                     } else if (pLevel.getBiome(this.blockPosition()).is(Biomes.MANGROVE_SWAMP)){
 
                         int var = this.getRandom().nextInt(3);
 
-                        model = switch (var){
-                            case 1 -> MinnowVariant.GALAXIAS.getModel();
-                            case 2 -> MinnowVariant.STRIPED_MOJARRA.getModel();
-                            default -> MinnowVariant.DELTA_SMELT.getModel();
-                        };
-
-                        skin = switch (var){
-                            case 1 -> MinnowVariant.GALAXIAS.getSkin();
-                            case 2 -> MinnowVariant.STRIPED_MOJARRA.getSkin();
-                            default -> MinnowVariant.DELTA_SMELT.getSkin();
+                        pVariant = switch (var){
+                            case 1 -> MinnowVariant.GALAXIAS.getVariant();
+                            case 2 -> MinnowVariant.STRIPED_MOJARRA.getVariant();
+                            default -> MinnowVariant.DELTA_SMELT.getVariant();
                         };
 
                     } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
 
                         int var = this.getRandom().nextInt(4);
 
-                        model = switch (var){
-                            case 1 -> MinnowVariant.ATLANTIC_HERRING.getModel();
-                            case 2 -> MinnowVariant.GALAXIAS.getModel();
-                            case 3 -> MinnowVariant.STRIPED_MOJARRA.getModel();
-                            default -> MinnowVariant.DELTA_SMELT.getModel();
-                        };
-
-                        skin = switch (var){
-                            case 1 -> MinnowVariant.ATLANTIC_HERRING.getSkin();
-                            case 2 -> MinnowVariant.GALAXIAS.getSkin();
-                            case 3 -> MinnowVariant.STRIPED_MOJARRA.getSkin();
-                            default -> MinnowVariant.DELTA_SMELT.getSkin();
+                        pVariant = switch (var){
+                            case 1 -> MinnowVariant.ATLANTIC_HERRING.getVariant();
+                            case 2 -> MinnowVariant.GALAXIAS.getVariant();
+                            case 3 -> MinnowVariant.STRIPED_MOJARRA.getVariant();
+                            default -> MinnowVariant.DELTA_SMELT.getVariant();
                         };
 
                     } else {
 
                         variant = Util.getRandom(MinnowVariant.values(), this.random);
 
-                        model = variant.getModel();
-                        skin = variant.getSkin();
+                        pVariant = variant.getVariant();
 
                     }
 
-                    pSpawnData = new MinnowGroupData(this, model, skin);
+                    pSpawnData = new MinnowGroupData(this, pVariant);
                 }
-
-                this.setVariantModel(model);
-                this.setVariantSkin(skin);
+                this.setVariant(pVariant);
             }
         }
 
@@ -341,8 +254,7 @@ public class Minnow extends VariantSchoolingFish {
         Minnow baby = FintyEntities.MINNOW.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
-            baby.setVariantModel(this.getVariantModel());
-            baby.setVariantSkin(this.getVariantSkin());
+            baby.setVariant(this.getVariant());
         }
         return baby;
     }
@@ -350,7 +262,7 @@ public class Minnow extends VariantSchoolingFish {
     @Override
     public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
         Minnow mate = (Minnow) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && mate.getVariantModel() == this.getVariantModel() && mate.getVariantSkin() == this.getVariantSkin();
+        return super.canMate(pOtherAnimal) && mate.getVariant() == this.getVariant() && mate.getVariant() == this.getVariant();
     }
 
     @Override
@@ -360,22 +272,27 @@ public class Minnow extends VariantSchoolingFish {
 
 
     static class MinnowGroupData extends SchoolSpawnGroupData {
-        final int variantModel;
-        final int variantSkin;
+        final int variant;
 
-        MinnowGroupData(Minnow pLeader, int pVariantModel, int pVariantSkin) {
+        MinnowGroupData(Minnow pLeader, int pVariantModel) {
             super(pLeader);
-            this.variantModel = pVariantModel;
-            this.variantSkin = pVariantSkin;
+            this.variant = pVariantModel;
         }
 
-        public int getVariantModel(){
-            return variantModel;
+        public int getVariant(){
+            return variant;
         }
+    }
 
-        public int getVariantSkin(){
-            return variantSkin;
-        }
+    public static String getModelName(int model){
+        return switch (model) {
+            case 1 -> "hatchet";
+            case 2 -> "round";
+            case 3 -> "slim";
+            case 4 -> "small";
+            case 5 -> "thin";
+            default -> "big";
+        };
     }
 
     public enum MinnowVariant implements StringRepresentable{
@@ -433,16 +350,12 @@ public class Minnow extends VariantSchoolingFish {
             this.name = name;
         }
 
-        public int getJoinedVariant(){
+        public int getVariant(){
             return this.joinedVariant;
         }
 
         public int getModel(){
             return this.joinedVariant > 100 ? this.joinedVariant/100 : this.joinedVariant/10;
-        }
-
-        public int getSkin(){
-            return this.joinedVariant > 100 ? this.joinedVariant%100 : this.joinedVariant%10;
         }
 
         public String getSerializedName(){
@@ -461,7 +374,7 @@ public class Minnow extends VariantSchoolingFish {
         }
 
         private static final IntFunction<Minnow.MinnowVariant> BY_ID
-                = ByIdMap.sparse(Minnow.MinnowVariant::getJoinedVariant, values(), TINFOIL_BARB);
+                = ByIdMap.sparse(Minnow.MinnowVariant::getVariant, values(), TINFOIL_BARB);
 
 
         public static MinnowVariant byId(int pId) {

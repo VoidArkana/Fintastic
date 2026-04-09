@@ -100,7 +100,10 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(FintyTags.Blocks.ALGAE_REPLACEABLE)
                 .addTag(BlockTags.MOSS_REPLACEABLE)
-                .addTag(Tags.Blocks.SAND);
+                .addTag(Tags.Blocks.SAND)
+                .addTag(FintyTags.Blocks.GREEN_ALGAE)
+                .addTag(FintyTags.Blocks.RED_ALGAE)
+                .add(FintyBlocks.AQUATIC_MOSS_BLOCK.get());
 
         this.tag(FintyTags.Blocks.STROMATOLITE_REPLACEABLE)
                 .addTag(BlockTags.STONE_ORE_REPLACEABLES)

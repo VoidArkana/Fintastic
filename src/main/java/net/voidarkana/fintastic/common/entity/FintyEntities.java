@@ -95,6 +95,18 @@ public class FintyEntities {
                             .sized(0.8f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "copepod").toString()));
 
+    public static final RegistryObject<EntityType<FintasticCod>> COD =
+            ENTITY_TYPES.register("fintastic_cod",
+                    () -> EntityType.Builder.of(FintasticCod::new, MobCategory.WATER_AMBIENT)
+                            .sized(0.6f, 0.4f)
+                            .build(new ResourceLocation(Fintastic.MOD_ID, "fintastic_cod").toString()));
+
+    public static final RegistryObject<EntityType<FintasticSalmon>> SALMON =
+            ENTITY_TYPES.register("fintastic_salmon",
+                    () -> EntityType.Builder.of(FintasticSalmon::new, MobCategory.WATER_AMBIENT)
+                            .sized(0.6f, 0.4f)
+                            .build(new ResourceLocation(Fintastic.MOD_ID, "fintastic_salmon").toString()));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

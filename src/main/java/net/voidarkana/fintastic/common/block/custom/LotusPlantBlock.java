@@ -36,7 +36,7 @@ import org.checkerframework.checker.units.qual.A;
 import javax.annotation.Nullable;
 
 public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlock, SimpleWaterloggedBlock {
-    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<DoubleBlockHalf> HALF = DoublePlantBlock.HALF;
     public static final IntegerProperty AMOUNT = IntegerProperty.create("amount", 1, 5);
@@ -74,6 +74,13 @@ public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlo
         } else {
             BlockPos blockpos = pPos.below();
             BlockState blockstate = pLevel.getBlockState(blockpos);
+            for(Direction direction : Direction.Plane.HORIZONTAL) {
+                BlockState blockstate1 = pLevel.getBlockState(blockpos.relative(direction));
+                FluidState fluidstate = pLevel.getFluidState(blockpos.relative(direction));
+                if (pState.canBeHydrated(pLevel, pPos, fluidstate, blockpos.relative(direction)) || blockstate1.is(Blocks.FROSTED_ICE)) {
+                    return pLevel.getFluidState(blockpos.above()).is(Fluids.EMPTY);
+                }
+            }
             return this.mayPlaceOn(blockstate, pLevel, blockpos);
         }
     }
@@ -213,6 +220,15 @@ public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlo
 
     int getMaxFlowers(BlockState pState){
         return switch (pState.getValue(AMOUNT)){
+            case 3 -> 2;
+            case 4 -> 3;
+            case 5 -> 4;
+            default -> 0;
+        };
+    }
+
+    public static int getMaxFlowers(int amount){
+        return switch (amount){
             case 3 -> 2;
             case 4 -> 3;
             case 5 -> 4;

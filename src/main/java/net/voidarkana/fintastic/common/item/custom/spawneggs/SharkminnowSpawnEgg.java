@@ -25,7 +25,7 @@ public class SharkminnowSpawnEgg extends FishVariantSpawnEggItem {
                     int i = itemstack.getTag().getInt(DATA_CREATURE);
                     Sharkminnow.SharkminnowVariant variant = Sharkminnow.SharkminnowVariant.values()[i];
                     if (variant != null){
-                        minnow.setVariantModel(variant.getVariant());
+                        minnow.setVariant(variant.getVariant());
                     }
                 }
     }

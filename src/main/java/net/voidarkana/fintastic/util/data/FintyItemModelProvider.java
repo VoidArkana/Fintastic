@@ -80,6 +80,12 @@ public class FintyItemModelProvider extends ItemModelProvider {
         simpleItem(FintyItems.COPEPOD_SPAWN_EGG);
         simpleItem(FintyItems.COPEPOD);
 
+        simpleItem(FintyItems.SALMON_BUCKET);
+        simpleItem(FintyItems.SALMON_SPAWN_EGG);
+
+        simpleItem(FintyItems.COD_BUCKET);
+        simpleItem(FintyItems.COD_SPAWN_EGG);
+
         simpleItem(FintyItems.SALTY_MUSIC_DISC);
         simpleItem(FintyItems.FRESH_MUSIC_DISC);
         simpleItem(FintyItems.AXOLOTL_MUSIC_DISC);

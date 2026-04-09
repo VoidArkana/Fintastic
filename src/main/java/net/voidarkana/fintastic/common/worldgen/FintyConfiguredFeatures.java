@@ -57,6 +57,7 @@ public class FintyConfiguredFeatures {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> AQUATIC_MOSS_VEGETATION = registerKey("aquatic_moss_vegetation");
     public static final ResourceKey<ConfiguredFeature<?, ?>> AQUATIC_MOSS_PATCH_BONEMEAL = registerKey("aquatic_moss_patch_bonemeal");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AQUATIC_MOSS_PLACED_PATCH = registerKey("aquatic_moss_patch_placed");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> LIVE_ROCK_BOULDER = registerKey("live_rock_boulder");
 
@@ -66,6 +67,9 @@ public class FintyConfiguredFeatures {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_STROMATOLITE_PATCH = registerKey("fossil_stromatolite_patch");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_STROMATOLITE_DECORATION = registerKey("fossil_stromatolite_decoration");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AMAZON_SWORD_KEY = registerKey("amazon_sword_key");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> LOTUS_KEY = registerKey("lotus_key");
 
     public static final RegistryObject<Feature<VegetationPatchConfiguration>> ALGAE_PATCH_FEATURE =
             register_feature("algae_patch_feature", () -> new UnderwaterVegetationPatchFeature(VegetationPatchConfiguration.CODEC));
@@ -90,6 +94,12 @@ public class FintyConfiguredFeatures {
 
     public static final RegistryObject<Feature<DuckweedPatchConfiguration>> DUCKWEED_FEATURE =
             register_feature("duckweed_feature", () -> new DuckweedPatchFeature(DuckweedPatchConfiguration.CODEC));
+
+    public static final RegistryObject<Feature<ProbabilityFeatureConfiguration>> AMAZON_SWORDS_FEATURE =
+            register_feature("amazon_swords_feature", () -> new AmazonSwordsFeature(ProbabilityFeatureConfiguration.CODEC));
+
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> LOTUS_FEATURE =
+            register_feature("lotus_feature", () -> new LotusFeature(NoneFeatureConfiguration.CODEC));
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
 
@@ -209,14 +219,12 @@ public class FintyConfiguredFeatures {
 
 
         WeightedStateProvider aquaticMossWSP = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-//                .add(FintyBlocks.DRAGONS_BREATH_ALGAE.get().defaultBlockState(), 17)
-//                .add(FintyBlocks.BLUE_HYPNEA.get().defaultBlockState(), 13)
-                .add(FintyBlocks.AQUATIC_MOSS_CARPET.get().defaultBlockState().setValue(AlgaeCarpetBlock.WATERLOGGED, true), 25)
+                .add(FintyBlocks.AQUATIC_MOSS_CARPET.get().defaultBlockState(), 25)
                 .add(FintyBlocks.AQUATIC_MOSS_PHYLLID.get().defaultBlockState(), 30)
                 .add(Blocks.SEAGRASS.defaultBlockState(), 25)
         );
 
-        register(context, AQUATIC_MOSS_VEGETATION, Feature.SIMPLE_BLOCK,
+        register(context, AQUATIC_MOSS_VEGETATION, SIMPLE_WATERLOGGABLE_BLOCK.get(),
                 new SimpleBlockConfiguration(aquaticMossWSP));
 
         register(context, AQUATIC_MOSS_PATCH_BONEMEAL, ALGAE_PATCH_FEATURE.get(),
@@ -224,6 +232,19 @@ public class FintyConfiguredFeatures {
                         PlacementUtils.inlinePlaced(holdergetter.getOrThrow(AQUATIC_MOSS_VEGETATION)),
                         CaveSurface.FLOOR, ConstantInt.of(1), 0.0F, 5, 0.6F,
                         UniformInt.of(1, 2), 0.75F));
+
+        register(context, AQUATIC_MOSS_PLACED_PATCH, Feature.RANDOM_PATCH,
+                new RandomPatchConfiguration(3, 10, 2, PlacementUtils.onlyWhenEmpty(ALGAE_PATCH_FEATURE.get(),
+                        new VegetationPatchConfiguration(FintyTags.Blocks.ALGAE_REPLACEABLE, BlockStateProvider.simple(FintyBlocks.AQUATIC_MOSS_BLOCK.get()),
+                                PlacementUtils.inlinePlaced(holdergetter.getOrThrow(AQUATIC_MOSS_VEGETATION)),
+                                CaveSurface.FLOOR, ConstantInt.of(1), 0.0F, 5, 0.6F,
+                                UniformInt.of(1, 2), 0.75F))));
+
+        register(context, AMAZON_SWORD_KEY, Feature.RANDOM_PATCH,
+                new RandomPatchConfiguration(5, 5, 0, PlacementUtils.onlyWhenEmpty(AMAZON_SWORDS_FEATURE.get(), new ProbabilityFeatureConfiguration(0.4f))));
+
+        register(context, LOTUS_KEY, LOTUS_FEATURE.get(),
+                FeatureConfiguration.NONE);
     }
 
 

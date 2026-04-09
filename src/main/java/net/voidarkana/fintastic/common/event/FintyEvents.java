@@ -1,6 +1,8 @@
 package net.voidarkana.fintastic.common.event;
 
 
+import net.minecraft.world.entity.animal.Cod;
+import net.minecraft.world.entity.animal.Salmon;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +31,8 @@ public class FintyEvents {
         event.put(FintyEntities.GOURAMI.get(), Gourami.createAttributes().build());
 
         event.put(FintyEntities.COPEPOD.get(), Copepod.createAttributes().build());
+        event.put(FintyEntities.COD.get(), FintasticCod.createAttributes().build());
+        event.put(FintyEntities.SALMON.get(), FintasticSalmon.createAttributes().build());
     }
 
 }

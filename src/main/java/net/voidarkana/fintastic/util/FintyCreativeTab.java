@@ -38,6 +38,7 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.ARAPAIMA_BUCKET.get());
                         output.accept(FintyItems.CATFISH.get());
                         output.accept(FintyItems.CATFISH_BUCKET.get());
+                        output.accept(FintyItems.COD_BUCKET.get());
                         output.accept(FintyItems.COELACANTH.get());
                         output.accept(FintyItems.COPEPOD.get());
                         output.accept(FintyItems.COPEPOD_BUCKET.get());
@@ -58,21 +59,24 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.MOONY_BUCKET.get());
                         output.accept(FintyItems.PLECO.get());
                         output.accept(FintyItems.PLECO_BUCKET.get());
+                        output.accept(FintyItems.SALMON_BUCKET.get());
                         output.accept(FintyItems.SHARKMINNOW.get());
 
                         output.accept(FintyItems.ARAPAIMA_SPAWN_EGG.get());
                         output.accept(FintyItems.CATFISH_SPAWN_EGG.get());
+                        output.accept(FintyItems.COD_SPAWN_EGG.get());
                         output.accept(FintyItems.COELACANTH_SPAWN_EGG.get());
                         output.accept(FintyItems.COPEPOD_SPAWN_EGG.get());
                         output.accept(FintyItems.DAPHNIA_SPAWN_EGG.get());
                         output.accept(FintyItems.FAIRY_SHRIMP_SPAWN_EGG.get());
                         output.accept(FintyItems.FEATHERBACK_SPAWN_EGG.get());
-                        output.accept(FintyItems.FRESHWATER_SHARK_SPAWN_EGG.get());
                         output.accept(FintyItems.GOURAMI_SPAWN_EGG.get());
                         output.accept(FintyItems.GUPPY_SPAWN_EGG.get());
                         output.accept(FintyItems.MINNOW_SPAWN_EGG.get());
                         output.accept(FintyItems.MOONY_SPAWN_EGG.get());
                         output.accept(FintyItems.PLECO_SPAWN_EGG.get());
+                        output.accept(FintyItems.FRESHWATER_SHARK_SPAWN_EGG.get());
+                        output.accept(FintyItems.SALMON_SPAWN_EGG.get());
 
                         output.accept(FintyBlocks.AMAZON_SWORD.get());
                         output.accept(FintyBlocks.TALL_AMAZON_SWORD.get());

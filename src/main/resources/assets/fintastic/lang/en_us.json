@@ -503,6 +503,8 @@
   "block.fintastic.amazon_sword": "Amazon Swords",
   "block.fintastic.tall_amazon_sword": "Tall Amazon Swords",
   "block.fintastic.lotus": "Lotus",
+  "block.fintastic.lotus_pad": "Lotus Pad",
+  "block.fintastic.lotus_flower": "Lotus Flower",
   "block.fintastic.blue_hypnea": "Blue Hypnea",
   "block.fintastic.mermaid_fan": "Mermaid's Fan",
 
@@ -548,6 +550,41 @@
   "fintastic.copepod_common.freshwater_orange": "Orange Copepod",
   "fintastic.copepod_common.freshwater_yellow": "Yellow Copepod",
   "fintastic.copepod_sci": "Cyclops sp.",
+
+  "item.fintastic.fintastic_salmon_spawn_egg" : "Salmon Spawn Egg",
+  "item.fintastic.fintastic_salmon_bucket" : "Bucket of Salmon",
+  "entity.fintastic.fintastic_salmon" : "Salmon",
+
+  "fintastic.salmon_common.vanilla": "Sockeye Salmon",
+  "fintastic.salmon_common.arctic_char": "Arctic Char",
+  "fintastic.salmon_common.atlantic": "Atlantic Salmon",
+  "fintastic.salmon_common.cherry": "Cherry Salmon",
+  "fintastic.salmon_common.chinook": "Chinook Salmon",
+  "fintastic.salmon_common.pink": "Pink Salmon",
+  "fintastic.salmon_common.rainbow_trout": "Rainbow Trout",
+
+  "fintastic.salmon_sci.vanilla": "Oncorhynchus nerka",
+  "fintastic.salmon_sci.arctic_char": "Salvelinus alpinus",
+  "fintastic.salmon_sci.atlantic": "Salmo salar",
+  "fintastic.salmon_sci.cherry": "Oncorhynchus masou",
+  "fintastic.salmon_sci.chinook": "Oncorhynchus tshawytscha",
+  "fintastic.salmon_sci.pink": "Oncorhynchus gorbuscha",
+  "fintastic.salmon_sci.rainbow_trout": "Oncorhynchus mykiss",
+
+  "item.fintastic.fintastic_cod_spawn_egg" : "Cod Spawn Egg",
+  "item.fintastic.fintastic_cod_bucket" : "Bucket of Cod",
+  "entity.fintastic.fintastic_cod" : "Cod",
+
+  "fintastic.cod_common.vanilla": "Cod",
+  "fintastic.cod_common.haddock": "Haddock",
+  "fintastic.cod_common.pollock": "Pollock",
+  "fintastic.cod_common.whiting_pout": "Pouting",
+
+  "fintastic.cod_sci.vanilla": "Gadus sp",
+  "fintastic.cod_sci.haddock": "Melanogrammus aeglefinus",
+  "fintastic.cod_sci.pollock": "Pollachius sp",
+  "fintastic.cod_sci.whiting_pout": "Trisopterus luscus",
+
 
 
   "advancements.fintastic.root.title" : "Yet Another Fish Mod...",

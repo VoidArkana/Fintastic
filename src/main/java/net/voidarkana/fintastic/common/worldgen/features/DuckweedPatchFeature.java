@@ -67,22 +67,26 @@ public class DuckweedPatchFeature extends Feature<DuckweedPatchConfiguration> {
                         if (duckweed.canSurvive(pLevel, blockpos$mutableblockpos)) {
                             BlockPos blockpos = blockpos$mutableblockpos.immutable();
 
-                            if (pLevel.getBlockState(blockpos$mutableblockpos).is(FintyBlocks.DUCKWEED.get())){
-                                BlockState newBlockstate = pLevel.getBlockState(blockpos);
-                                int existingAmount = newBlockstate.getValue(DuckweedBlock.AMOUNT);
+                            BlockState existingState = pLevel.getBlockState(blockpos$mutableblockpos);
 
-                                pLevel.setBlock(blockpos, newBlockstate.setValue(DuckweedBlock.AMOUNT, existingAmount == 5 ? 5 : Math.max(1, Math.min(4, (existingAmount+duckweedAmount)/2))), 3);
-                            }else {
-                                pLevel.setBlock(blockpos, duckweed, 3);
+                            if (existingState.canBeReplaced()){
+                                if (pLevel.getBlockState(blockpos$mutableblockpos).is(FintyBlocks.DUCKWEED.get())){
+                                    BlockState newBlockstate = pLevel.getBlockState(blockpos);
+                                    int existingAmount = newBlockstate.getValue(DuckweedBlock.AMOUNT);
+
+                                    pLevel.setBlock(blockpos, newBlockstate.setValue(DuckweedBlock.AMOUNT, existingAmount == 5 ? 5 : Math.max(1, Math.min(4, (existingAmount+duckweedAmount)/2))), 3);
+                                }else {
+                                    pLevel.setBlock(blockpos, duckweed, 3);
+                                }
+
+                                pLevel.scheduleTick(blockpos, duckweed.getBlock(), 0);
+                                pLevel.scheduleTick(blockpos.north(), duckweed.getBlock(), 0);
+                                pLevel.scheduleTick(blockpos.south(), duckweed.getBlock(), 0);
+                                pLevel.scheduleTick(blockpos.east(), duckweed.getBlock(), 0);
+                                pLevel.scheduleTick(blockpos.west(), duckweed.getBlock(), 0);
+
+                                set.add(blockpos);
                             }
-
-                            pLevel.scheduleTick(blockpos, duckweed.getBlock(), 0);
-                            pLevel.scheduleTick(blockpos.north(), duckweed.getBlock(), 0);
-                            pLevel.scheduleTick(blockpos.south(), duckweed.getBlock(), 0);
-                            pLevel.scheduleTick(blockpos.east(), duckweed.getBlock(), 0);
-                            pLevel.scheduleTick(blockpos.west(), duckweed.getBlock(), 0);
-
-                            set.add(blockpos);
                         }
                     }
                 }

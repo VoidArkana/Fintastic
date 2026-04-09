@@ -29,8 +29,7 @@ public class MinnowSpawnEgg extends FishVariantSpawnEggItem {
                     int i = itemstack.getTag().getInt(DATA_CREATURE);
                     Minnow.MinnowVariant variant = Minnow.MinnowVariant.values()[i];
                     if (variant != null){
-                        minnow.setVariantModel(variant.getModel());
-                        minnow.setVariantSkin(variant.getSkin());
+                        minnow.setVariant(variant.getVariant());
                     }
                 }
     }

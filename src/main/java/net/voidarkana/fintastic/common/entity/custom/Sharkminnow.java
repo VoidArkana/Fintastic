@@ -43,7 +43,7 @@ public class Sharkminnow extends VariantSchoolingFish {
 
     @Override
     public EntityDimensions getDimensions(Pose pPose) {
-        return switch (this.getVariantModel()){
+        return switch (this.getVariant()){
             case 2, 3, 4 -> super.getDimensions(pPose).scale(0.75F, 0.75F);
             default -> super.getDimensions(pPose).scale(1.5F, 1F);
         };
@@ -67,7 +67,7 @@ public class Sharkminnow extends VariantSchoolingFish {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
         compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("VariantModel", this.getVariantModel());
+        compoundnbt.putInt("VariantModel", this.getVariant());
         compoundnbt.putInt("Age", this.getAge());
 
         compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
@@ -81,7 +81,7 @@ public class Sharkminnow extends VariantSchoolingFish {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
 
         if (pTag.contains("VariantModel")) {
-            this.setVariantModel(pTag.getInt("VariantModel"));
+            this.setVariant(pTag.getInt("VariantModel"));
         }
         if (pTag.contains("Age")) {
             this.setAge(pTag.getInt("Age"));
@@ -95,7 +95,7 @@ public class Sharkminnow extends VariantSchoolingFish {
         super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
 
         if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantModel", 3)) {
-            this.setVariantModel(pDataTag.getInt("VariantModel"));
+            this.setVariant(pDataTag.getInt("VariantModel"));
             if (pDataTag.contains("Age")) {
                 this.setAge(pDataTag.getInt("Age"));
             }
@@ -130,10 +130,10 @@ public class Sharkminnow extends VariantSchoolingFish {
                 pSpawnData = new FishGroupData(this, model);
             }
 
-            this.setVariantModel(model);
+            this.setVariant(model);
         }else {
 
-            this.setVariantModel(this.getRandom().nextInt(6));
+            this.setVariant(this.getRandom().nextInt(6));
 
         }
 
@@ -145,14 +145,14 @@ public class Sharkminnow extends VariantSchoolingFish {
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
         Sharkminnow baby = FintyEntities.SHARKMINNOW.get().create(pLevel);
         if (baby != null){
-            baby.setVariantModel(this.getVariantModel());
+            baby.setVariant(this.getVariant());
             baby.setFromBucket(true);
         }
         return baby;
     }
 
     public String getVariantName(){
-        return SharkminnowVariant.byId(this.getVariantModel()).getSerializedName();
+        return SharkminnowVariant.byId(this.getVariant()).getSerializedName();
     }
 
     @Override
@@ -164,7 +164,7 @@ public class Sharkminnow extends VariantSchoolingFish {
     @Override
     public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
         Sharkminnow mate = (Sharkminnow) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && this.getVariantModel() == mate.getVariantModel();
+        return super.canMate(pOtherAnimal) && this.getVariant() == mate.getVariant();
     }
 
     static class FishGroupData extends SchoolSpawnGroupData {

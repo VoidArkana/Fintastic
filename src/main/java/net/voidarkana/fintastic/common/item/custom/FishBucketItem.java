@@ -58,8 +58,8 @@ public class FishBucketItem extends MobBucketItem {
 
         if (getFishType() == FintyEntities.COPEPOD.get()) {
             CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("VariantSkin", 3)) {
-                int i = compoundtag.getInt("VariantSkin");
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+                int i = compoundtag.getInt("Variant");
 
 
                 String scientific = "fintastic.copepod_sci";
@@ -98,9 +98,9 @@ public class FishBucketItem extends MobBucketItem {
 
         if (getFishType() == FintyEntities.GUPPY.get()) {
             CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("VariantSkin", 3)) {
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
 
-                int skin = compoundtag.getInt("VariantSkin");
+                int skin = compoundtag.getInt("Variant");
                 int fin_model = compoundtag.getInt("FinModel");
                 int fin_color = compoundtag.getInt("FinColor");
                 int tail_model = compoundtag.getInt("TailModel");
@@ -227,8 +227,8 @@ public class FishBucketItem extends MobBucketItem {
 
         if (getFishType() == FintyEntities.SHARKMINNOW.get()) {
             CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
-                int i = compoundtag.getInt("VariantModel");
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+                int i = compoundtag.getInt("Variant");
 
                 String featherback_sci = "fintastic.sharkminnow_sci." + Sharkminnow.SharkminnowVariant.byId(i).getSerializedName();
                 String common = "fintastic.sharkminnow_common." + Sharkminnow.SharkminnowVariant.byId(i).getSerializedName();
@@ -248,9 +248,9 @@ public class FishBucketItem extends MobBucketItem {
 
         if (getFishType() == FintyEntities.MINNOW.get()) {
             CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
 
-                int joinedVariantID = Integer.decode(String.valueOf(compoundtag.getInt("VariantModel")) + compoundtag.getInt("VariantSkin"));
+                int joinedVariantID = Integer.decode(String.valueOf(compoundtag.getInt("Variant")));
                 Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(joinedVariantID);
 
                 String featherback_sci = "fintastic.minnow_sci." + minnowVariant.getSerializedName();
@@ -269,8 +269,8 @@ public class FishBucketItem extends MobBucketItem {
 
         if (getFishType() == FintyEntities.FAIRY_SHRIMP.get()) {
             CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("VariantSkin", 3)) {
-                int j = compoundtag.getInt("VariantSkin");
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+                int j = compoundtag.getInt("Variant");
 
                 String featherback_sci = "fintastic.fairy_shrimp_sci." + FairyShrimp.FairyShrimpVariant.byId(j).getSerializedName();
                 String common = "fintastic.fairy_shrimp_common." + FairyShrimp.FairyShrimpVariant.byId(j).getSerializedName();
@@ -367,6 +367,43 @@ public class FishBucketItem extends MobBucketItem {
                 if (Screen.hasShiftDown()){
                     pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
 
+                    pTooltipComponents.add(mutablecomponent);
+                }
+            }
+        }
+
+        if (getFishType() == FintyEntities.COD.get()) {
+            CompoundTag compoundtag = pStack.getTag();
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+
+                int i = compoundtag.getInt("Variant");
+
+                String scientific = "fintastic.cod_sci." + FintasticCod.CodVariant.byId(i).getSerializedName();
+                String common = "fintastic.cod_common." + FintasticCod.CodVariant.byId(i).getSerializedName();
+
+                MutableComponent mutablecomponent = Component.translatable(scientific);
+                mutablecomponent.withStyle(bchatformatting);
+
+                if (Screen.hasShiftDown()){
+                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+                    pTooltipComponents.add(mutablecomponent);
+                }
+            }
+        }
+        if (getFishType() == FintyEntities.SALMON.get()) {
+            CompoundTag compoundtag = pStack.getTag();
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+
+                int i = compoundtag.getInt("Variant");
+
+                String scientific = "fintastic.salmon_sci." + FintasticSalmon.SalmonVariant.byId(i).getSerializedName();
+                String common = "fintastic.salmon_common." + FintasticSalmon.SalmonVariant.byId(i).getSerializedName();
+
+                MutableComponent mutablecomponent = Component.translatable(scientific);
+                mutablecomponent.withStyle(bchatformatting);
+
+                if (Screen.hasShiftDown()){
+                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
                     pTooltipComponents.add(mutablecomponent);
                 }
             }

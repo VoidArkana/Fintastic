@@ -3,7 +3,6 @@ package net.voidarkana.fintastic.client.renderers.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +12,6 @@ import net.voidarkana.fintastic.client.FintasticLayers;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.client.models.entity.sharkminnows.*;
 import net.voidarkana.fintastic.common.entity.custom.Sharkminnow;
-import org.jetbrains.annotations.Nullable;
 
 public class SharkminnowRenderer extends MobRenderer<Sharkminnow, FintasticModel<Sharkminnow>> {
 
@@ -36,7 +34,7 @@ public class SharkminnowRenderer extends MobRenderer<Sharkminnow, FintasticModel
     public void render(Sharkminnow entity, float entityYaw, float partialTicks, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLightIn) {
 
-        this.model = switch (entity.getVariantModel()){
+        this.model = switch (entity.getVariant()){
             case 2,3,4 -> rainbowSharkModel;
             case 0, 5 -> entity.isBaby() ? babyBalaSharkModel : balaSharkModel;
             default -> entity.isBaby() ? babyHighfinSharkModel : highfinSharkModel;
@@ -47,7 +45,7 @@ public class SharkminnowRenderer extends MobRenderer<Sharkminnow, FintasticModel
 
     @Override
     public ResourceLocation getTextureLocation(Sharkminnow pEntity) {
-        Sharkminnow.SharkminnowVariant variant = Sharkminnow.SharkminnowVariant.byId(pEntity.getVariantModel());
+        Sharkminnow.SharkminnowVariant variant = Sharkminnow.SharkminnowVariant.byId(pEntity.getVariant());
         if (variant == Sharkminnow.SharkminnowVariant.BALA_SHARK || variant == Sharkminnow.SharkminnowVariant.CIGAR_SHARK
                 || variant == Sharkminnow.SharkminnowVariant.HIGHFIN_SHARK){
 

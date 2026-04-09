@@ -43,8 +43,8 @@ public class AquaticPlantBlock extends BushBlock implements BonemealableBlock, L
         return SHAPE;
     }
 
-    protected boolean mayPlaceOn(BlockState p_154539_, BlockGetter p_154540_, BlockPos p_154541_) {
-        return p_154539_.isFaceSturdy(p_154540_, p_154541_, Direction.UP) && !p_154539_.is(Blocks.MAGMA_BLOCK);
+    protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        return pState.isFaceSturdy(pLevel, pPos, Direction.UP) && !pState.is(Blocks.MAGMA_BLOCK) && pLevel.getBlockState(pPos.above()).getFluidState().is(Fluids.WATER);
     }
 
     @Nullable
