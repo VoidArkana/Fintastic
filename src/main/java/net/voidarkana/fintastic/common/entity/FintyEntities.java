@@ -16,7 +16,7 @@ public class FintyEntities {
 
     public static final RegistryObject<EntityType<Featherback>> FEATHERBACK =
             ENTITY_TYPES.register("featherback",
-                    () -> EntityType.Builder.of(Featherback::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Featherback::new, MobCategory.WATER_CREATURE)
                             .sized(0.7f, 0.9f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "featherback").toString()));
 
@@ -28,7 +28,7 @@ public class FintyEntities {
 
     public static final RegistryObject<EntityType<Catfish>> CATFISH =
             ENTITY_TYPES.register("catfish",
-                    () -> EntityType.Builder.of(Catfish::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Catfish::new, MobCategory.WATER_CREATURE)
                             .sized(1f, 0.9f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "catfish").toString()));
 
@@ -40,19 +40,19 @@ public class FintyEntities {
 
     public static final RegistryObject<EntityType<Sharkminnow>> SHARKMINNOW =
             ENTITY_TYPES.register("freshwater_shark",
-                    () -> EntityType.Builder.of(Sharkminnow::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Sharkminnow::new, MobCategory.WATER_CREATURE)
                             .sized(0.6f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "freshwater_shark").toString()));
 
     public static final RegistryObject<EntityType<Pleco>> PLECO =
             ENTITY_TYPES.register("pleco",
-                    () -> EntityType.Builder.of(Pleco::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Pleco::new, MobCategory.WATER_CREATURE)
                             .sized(1f, 0.5f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "pleco").toString()));
 
     public static final RegistryObject<EntityType<Arapaima>> ARAPAIMA =
             ENTITY_TYPES.register("arapaima",
-                    () -> EntityType.Builder.of(Arapaima::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Arapaima::new, MobCategory.WATER_CREATURE)
                             .sized(1.5f, 0.8f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "arapaima").toString()));
 
@@ -64,7 +64,7 @@ public class FintyEntities {
 
     public static final RegistryObject<EntityType<Daphnia>> DAPHNIA =
             ENTITY_TYPES.register("daphnia",
-                    () -> EntityType.Builder.of(Daphnia::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Daphnia::new, MobCategory.WATER_CREATURE)
                             .sized(0.8f, 0.8f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "daphnia").toString()));
 
@@ -78,7 +78,7 @@ public class FintyEntities {
 
     public static final RegistryObject<EntityType<Coelacanth>> COELACANTH =
             ENTITY_TYPES.register("coelacanth",
-                    () -> EntityType.Builder.of(Coelacanth::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Coelacanth::new, MobCategory.WATER_CREATURE)
                             .sized(1.5f, 1f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "coelacanth").toString()));
 
@@ -91,7 +91,7 @@ public class FintyEntities {
     //update 3.0
     public static final RegistryObject<EntityType<Copepod>> COPEPOD =
             ENTITY_TYPES.register("copepod",
-                    () -> EntityType.Builder.of(Copepod::new, MobCategory.WATER_AMBIENT)
+                    () -> EntityType.Builder.of(Copepod::new, MobCategory.WATER_CREATURE)
                             .sized(0.8f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "copepod").toString()));
 
@@ -106,6 +106,13 @@ public class FintyEntities {
                     () -> EntityType.Builder.of(FintasticSalmon::new, MobCategory.WATER_AMBIENT)
                             .sized(0.6f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "fintastic_salmon").toString()));
+
+
+    public static final RegistryObject<EntityType<DwarfFrog>> DWARF_FROG =
+            ENTITY_TYPES.register("dwarf_frog",
+                    () -> EntityType.Builder.of(DwarfFrog::new, MobCategory.WATER_CREATURE)
+                            .sized(0.4f, 0.4f)
+                            .build(new ResourceLocation(Fintastic.MOD_ID, "dwarf_frog").toString()));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

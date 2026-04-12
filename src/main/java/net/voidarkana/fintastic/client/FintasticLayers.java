@@ -91,6 +91,11 @@ public class FintasticLayers {
     public static final ModelLayerLocation SALMON =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "salmon"), "main");
 
+    public static final ModelLayerLocation DWARF_FROG =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "dwarf_frog"), "main");
+    public static final ModelLayerLocation DWARF_FROG_TADPOLE =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "dwarf_frog_tadpole"), "main");
+
     public static final ModelLayerLocation HAT_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fishing_hat"), "main");
 }

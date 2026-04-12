@@ -585,7 +585,27 @@
   "fintastic.cod_sci.pollock": "Pollachius sp",
   "fintastic.cod_sci.whiting_pout": "Trisopterus luscus",
 
+  "item.fintastic.dwarf_frog_spawn_egg" : "Dwarf Frog Spawn Egg",
+  "item.fintastic.dwarf_frog_bucket" : "Bucket of Dwarf Frog",
+  "item.fintastic.dwarf_frog_tadpole_bucket" : "Bucket of Dwarf Frog Tadpole",
+  "entity.fintastic.dwarf_frog" : "Dwarf Frog",
+  "item.fintastic.dwarf_frog" : "Dwarf Frog",
+  "item.fintastic.cooked_dwarf_frog" : "Cooked Dwarf Frog",
 
+  "fintastic.dwarf_frog_common.brown": "Brown Dwarf Frog",
+  "fintastic.dwarf_frog_common.green": "Green Dwarf Frog",
+  "fintastic.dwarf_frog_common.peach": "Peach Dwarf Frog",
+  "fintastic.dwarf_frog_common.pink":  "Pink Dwarf Frog",
+  "fintastic.dwarf_frog_common.tan": "Tan Dwarf Frog Tadpole",
+  "fintastic.dwarf_frog_common.pale":  "Pale Dwarf Frog Tadpole",
+  "fintastic.dwarf_frog_sci": "Hymenochirus sp",
+
+  "fintastic.size.title": "Size",
+  "fintastic.size.tiny": "Tiny",
+  "fintastic.size.small": "Small",
+  "fintastic.size.medium": "Medium",
+  "fintastic.size.big": "Big",
+  "fintastic.size.huge": "Huge",
 
   "advancements.fintastic.root.title" : "Yet Another Fish Mod...",
   "advancements.fintastic.root.description" : "It's Fintastic!",

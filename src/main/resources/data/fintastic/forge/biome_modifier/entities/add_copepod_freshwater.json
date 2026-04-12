@@ -3,7 +3,7 @@
   "biomes": "#fintastic:copepod_freshwater_biomes",
   "spawners": {
     "type": "fintastic:copepod",
-    "weight": 5,
+    "weight": 4,
     "minCount": 4,
     "maxCount": 10,
     "category": "water_creature"

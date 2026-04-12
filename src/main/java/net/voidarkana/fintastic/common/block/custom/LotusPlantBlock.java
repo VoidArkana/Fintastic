@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -55,8 +56,28 @@ public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlo
     }
 
     protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        return this.mayPlaceOnWater(pState, pLevel, pPos) || this.mayPlaceOnLand(pState, pLevel, pPos);
+    }
+
+    protected boolean mayPlaceOnLand(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        if (pState.is(BlockTags.DIRT) || pState.is(BlockTags.SAND)){
+            for(Direction direction : Direction.Plane.HORIZONTAL) {
+                BlockState blockstate1 = pLevel.getBlockState(pPos.relative(direction));
+                FluidState fluidstate = pLevel.getFluidState(pPos.relative(direction));
+
+                if (pState.canBeHydrated(pLevel, pPos, fluidstate, pPos.relative(direction))
+                        || blockstate1.is(Blocks.FROSTED_ICE)) {
+                    return pLevel.getFluidState(pPos.above()).is(Fluids.EMPTY);
+                }
+            }
+        }
+        return false;
+    }
+
+    protected boolean mayPlaceOnWater(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
         return pState.isFaceSturdy(pLevel, pPos, Direction.UP) && !pState.is(Blocks.MAGMA_BLOCK)
-                && pLevel.getBlockState(pPos.above(2)).getFluidState().is(Fluids.EMPTY) && pLevel.getBlockState(pPos.above()).getFluidState().is(Fluids.WATER);
+                && pLevel.getBlockState(pPos.above(2)).getFluidState().is(Fluids.EMPTY)
+                && pLevel.getBlockState(pPos.above()).getFluidState().is(Fluids.WATER);
     }
 
     @Nullable
@@ -74,13 +95,7 @@ public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlo
         } else {
             BlockPos blockpos = pPos.below();
             BlockState blockstate = pLevel.getBlockState(blockpos);
-            for(Direction direction : Direction.Plane.HORIZONTAL) {
-                BlockState blockstate1 = pLevel.getBlockState(blockpos.relative(direction));
-                FluidState fluidstate = pLevel.getFluidState(blockpos.relative(direction));
-                if (pState.canBeHydrated(pLevel, pPos, fluidstate, blockpos.relative(direction)) || blockstate1.is(Blocks.FROSTED_ICE)) {
-                    return pLevel.getFluidState(blockpos.above()).is(Fluids.EMPTY);
-                }
-            }
+
             return this.mayPlaceOn(blockstate, pLevel, blockpos);
         }
     }

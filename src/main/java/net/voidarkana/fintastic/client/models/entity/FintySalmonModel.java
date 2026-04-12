@@ -1,5 +1,7 @@
 package net.voidarkana.fintastic.client.models.entity;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -11,6 +13,8 @@ import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.FintasticSalmon;
 
 public class FintySalmonModel<T extends FintasticSalmon> extends FintasticModel<T> {
+
+	public FintasticSalmon.SalmonSize salmonSize = FintasticSalmon.SalmonSize.MEDIUM;
 
 	private final ModelPart root;
 	private final ModelPart swim_rot;
@@ -101,7 +105,7 @@ public class FintySalmonModel<T extends FintasticSalmon> extends FintasticModel<
 		this.animateIdle(entity.idleAnimationState, SalmonAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwing)));
 		this.animateIdle(entity.idleAnimationState, SalmonAnims.FLOP, ageInTicks, 1.0F,entity.getTicksOutsideWater()/3f);
 
-		this.animateWalk(SalmonAnims.SWIM, limbSwing, limbSwingAmount, 2f, Mth.lerp(entity.getTicksOutsideWater()/3f,3f,0));
+		this.animateWalk(SalmonAnims.SWIM, limbSwing*2, limbSwingAmount, 2f, Mth.lerp(entity.getTicksOutsideWater()/3f,3f,0));
 
 		this.swim_rot.xRot = Mth.lerp(entity.getTicksOutsideWater()/3f,headPitch * ((float)Math.PI / 180F),0) ;
 		this.swim_rot.zRot = Mth.lerp(entity.getTicksOutsideWater()/3f,netHeadYaw * ((float)Math.PI / 180F)/2,0);
@@ -110,5 +114,40 @@ public class FintySalmonModel<T extends FintasticSalmon> extends FintasticModel<
 	@Override
 	public ModelPart root() {
 		return root;
+	}
+
+	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
+
+		pPoseStack.pushPose();
+
+		pPoseStack.scale(this.salmonSize.getSizeMultiplier(), this.salmonSize.getSizeMultiplier(), this.salmonSize.getSizeMultiplier());
+
+		switch (this.salmonSize){
+			case TINY:
+				pPoseStack.translate(0.0F, 1.6f, 0.0F);
+				break;
+			case SMALL:
+				pPoseStack.translate(0.0F, 0.6f, 0.0F);
+				break;
+			case BIG:
+				pPoseStack.translate(0.0F, -0.3f, 0.0F);
+				break;
+			case HUGE:
+				pPoseStack.translate(0.0F, -0.35f, 0.0F);
+				break;
+			default:
+				pPoseStack.translate(0.0F, 0.0f, 0.0F);
+
+		}
+
+
+		if (this.young) {
+			pPoseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
+			pPoseStack.translate(0.0F, this.bodyYOffset, 0.0F);
+		}
+
+		this.root().render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+
+		pPoseStack.popPose();
 	}
 }

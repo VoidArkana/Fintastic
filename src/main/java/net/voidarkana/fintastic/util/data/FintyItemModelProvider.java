@@ -101,6 +101,8 @@ public class FintyItemModelProvider extends ItemModelProvider {
         simpleBlockItemBlockTexture(FintyBlocks.RED_ALGAE);
         simpleBlockItemBlockTexture(FintyBlocks.DRAGONS_BREATH_ALGAE);
 
+        simpleBlockItemBlockTexture(FintyBlocks.AQUATIC_MOSS_PHYLLID);
+
         simpleBlockItemBlockTexture(FintyBlocks.AMAZON_SWORD);
         simpleBlockItemBlockTexture(FintyBlocks.BLUE_HYPNEA);
         simpleBlockItemBlockTexture(FintyBlocks.MERMAID_FAN);
@@ -108,6 +110,12 @@ public class FintyItemModelProvider extends ItemModelProvider {
         simpleItem(FintyItems.SEA_GRAPE_SALAD);
 
         simpleBlockItem(FintyBlocks.SEA_GRAPES);
+
+        simpleItem(FintyItems.DWARF_FROG_BUCKET);
+        simpleItem(FintyItems.DWARF_FROG_TADPOLE_BUCKET);
+        simpleItem(FintyItems.DWARF_FROG_SPAWN_EGG);
+        simpleItem(FintyItems.DWARF_FROG);
+        simpleItem(FintyItems.COOKED_DWARF_FROG);
     }
 
     private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {

@@ -6,7 +6,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ByIdMap;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
@@ -23,14 +25,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.FollowIndiscriminateSchoolLeaderGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.SchoolingFish;
 import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyCommonConfig;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -309,5 +315,13 @@ public class Copepod extends SchoolingFish {
         public static CopepodVariant byName(String pName) {
             return CODEC.byName(pName, GREEN);
         }
+    }
+
+
+    public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends WaterAnimal> pWaterAnimal, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
+        int i = pLevel.getSeaLevel();
+        int j = i - 13;
+        return (!pLevel.getBiome(pPos).is(Tags.Biomes.IS_COLD) || (pLevel.getBiome(pPos).is(Tags.Biomes.IS_COLD) && pLevel.getBiome(pPos).is(BiomeTags.IS_OCEAN)))
+                && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER);
     }
 }

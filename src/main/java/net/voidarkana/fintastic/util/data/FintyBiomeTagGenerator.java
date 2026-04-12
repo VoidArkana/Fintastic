@@ -63,15 +63,16 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
                 .addTag(BiomeTags.IS_JUNGLE)
                 .addTag(BiomeTags.IS_FOREST)
                 .addTag(BiomeTags.IS_MOUNTAIN)
+                .addTag(BiomeTags.IS_BADLANDS)
                 .addTag(BiomeTags.IS_SAVANNA)
                 .addTag(Tags.Biomes.IS_PLAINS)
                 .addTag(Tags.Biomes.IS_LUSH);
 
         this.tag(FintyTags.Biomes.COPEPOD_FRESHWATER_BIOMES)
-                .addTag(BiomeTags.IS_RIVER)
                 .addTag(BiomeTags.IS_JUNGLE)
                 .addTag(BiomeTags.IS_FOREST)
                 .addTag(BiomeTags.IS_MOUNTAIN)
+                .addTag(BiomeTags.IS_BADLANDS)
                 .addTag(BiomeTags.IS_SAVANNA)
                 .addTag(Tags.Biomes.IS_PLAINS)
                 .addTag(Tags.Biomes.IS_LUSH);
@@ -118,6 +119,17 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
         this.tag(FintyTags.Biomes.LOTUS_BIOMES)
                 .addTag(Tags.Biomes.IS_SWAMP)
                 .addTag(BiomeTags.IS_JUNGLE);
+
+        this.tag(FintyTags.Biomes.COD_BIOMES)
+                .addTag(BiomeTags.IS_OCEAN);
+
+        this.tag(FintyTags.Biomes.SALMON_BIOMES)
+                .add(Biomes.RIVER)
+                .add(Biomes.FROZEN_RIVER)
+                .add(Biomes.DEEP_FROZEN_OCEAN)
+                .add(Biomes.FROZEN_OCEAN)
+                .add(Biomes.COLD_OCEAN)
+                .add(Biomes.DEEP_COLD_OCEAN);
     }
 
 }

@@ -28,6 +28,9 @@ public class FintyTags {
         public static final TagKey<Biome> COPEPOD_SALTWATER_BIOMES = tag("copepod_saltwater_biomes");
         public static final TagKey<Biome> COPEPOD_FRESHWATER_BIOMES = tag("copepod_freshwater_biomes");
 
+        public static final TagKey<Biome> COD_BIOMES = tag("fintastic_cod_biomes");
+        public static final TagKey<Biome> SALMON_BIOMES = tag("fintastic_salmon_biomes");
+
         public static final TagKey<Biome> FRESHWATER_PLANT_BIOME_BLACKLIST = tag("common_freshwater_plant_blacklisted_biomes");
 
         public static final TagKey<Biome> LIVEROCK_BOULDER_BIOMES = tag("liverock_boulder_biomes");

@@ -191,7 +191,7 @@ public class FintyItems {
         }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
     });
     public static final RegistryObject<Item> COPEPOD = ITEMS.register("copepod",
-            () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH_MED)));
+            () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH_TINY)));
 
     public static final RegistryObject<Item> SALMON_SPAWN_EGG = ITEMS.register("fintastic_salmon_spawn_egg",
             () -> new SalmonSpawnEgg(FintyEntities.SALMON, 0xffffff, 0xffffff, new Item.Properties()));
@@ -209,6 +209,22 @@ public class FintyItems {
         }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
     });
 
+    public static final RegistryObject<Item> DWARF_FROG_SPAWN_EGG = ITEMS.register("dwarf_frog_spawn_egg",
+            () -> new CodSpawnEgg(FintyEntities.DWARF_FROG, 0xddbe9e, 0x6d654e, new Item.Properties()));
+    public static final RegistryObject<Item> DWARF_FROG_BUCKET = ITEMS.register("dwarf_frog_bucket", () -> {
+        return new FishBucketItem(FintyEntities.DWARF_FROG, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
+    });
+    public static final RegistryObject<Item> DWARF_FROG_TADPOLE_BUCKET = ITEMS.register("dwarf_frog_tadpole_bucket", () -> {
+        return new FishBucketItem(FintyEntities.DWARF_FROG, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
+    });
+    public static final RegistryObject<Item> DWARF_FROG = ITEMS.register("dwarf_frog",
+            () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH)));
+    public static final RegistryObject<Item> COOKED_DWARF_FROG = ITEMS.register("cooked_dwarf_frog",
+            () -> new Item(new Item.Properties().food(YAFMFoods.COOKED_FISH)));
 
     public static final RegistryObject<Item> SEA_GRAPE_SALAD = ITEMS.register("sea_grape_salad",
             () -> new StackableBowlFoodItem(new Item.Properties().food(YAFMFoods.SEA_GRAPE_SALAD).stacksTo(16)));

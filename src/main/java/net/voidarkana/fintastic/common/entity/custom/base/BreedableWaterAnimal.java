@@ -58,7 +58,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     }
 
     public void calculateEntityAnimation(boolean pIncludeHeight) {
-        float f = (float)Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+        float f = (float)Mth.length(this.getX() - this.xo, this.floatsDown()  ? 0 : this.getY() - this.yo , this.getZ() - this.zo);
         this.updateWalkAnimation(f);
     }
 
@@ -248,8 +248,11 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             this.moveRelative(this.getSpeed(), pTravelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-            if (this.getTarget() == null && this.canFloat()) {
+            if (this.getTarget() == null && this.floatsUp()) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+            }
+            if (this.getTarget() == null && this.floatsDown()) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.009D, 0.0D));
             }
         } else {
             super.travel(pTravelVector);
@@ -257,8 +260,13 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     }
 
-    public boolean canFloat(){
+    public boolean floatsUp(){
         return true;
+    }
+
+
+    public boolean floatsDown(){
+        return false;
     }
 
     protected SoundEvent getHurtSound(DamageSource pDamageSource) {
@@ -824,6 +832,6 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     }
 
     public void setupAnimationStates() {
-        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
+        this.idleAnimationState.animateWhen(true, this.tickCount);
     }
 }

@@ -289,6 +289,11 @@ public class FintyBlocks {
                     .instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
             (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
 
+    public static final Supplier<Block> DWARF_FROGSPAWN = registerBlockWithItem("dwarf_frogspawn",
+            ()-> new DwarfFrogspawnBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN)
+                    .instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
+            (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
+
     private static <T extends Block> Supplier<T> registerBlockWithItem(String key, Supplier<T> block, Function<Supplier<T>, Item> item) {
         Supplier<T> entry = create(key, block);
         FintyItems.ITEMS.register(key, () -> item.apply(entry));

@@ -44,6 +44,11 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.COPEPOD_BUCKET.get());
                         output.accept(FintyItems.DAPHNIA.get());
                         output.accept(FintyItems.DAPHNIA_BUCKET.get());
+                        output.accept(FintyItems.DWARF_FROG.get());
+                        output.accept(FintyItems.COOKED_DWARF_FROG.get());
+                        output.accept(FintyBlocks.DWARF_FROGSPAWN.get());
+                        output.accept(FintyItems.DWARF_FROG_BUCKET.get());
+                        output.accept(FintyItems.DWARF_FROG_TADPOLE_BUCKET.get());
                         output.accept(FintyItems.FAIRY_SHRIMP.get());
                         output.accept(FintyItems.ARTEMIA_BUCKET.get());
                         output.accept(FintyItems.FEATHERBACK.get());
@@ -68,6 +73,7 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.COELACANTH_SPAWN_EGG.get());
                         output.accept(FintyItems.COPEPOD_SPAWN_EGG.get());
                         output.accept(FintyItems.DAPHNIA_SPAWN_EGG.get());
+                        output.accept(FintyItems.DWARF_FROG_SPAWN_EGG.get());
                         output.accept(FintyItems.FAIRY_SHRIMP_SPAWN_EGG.get());
                         output.accept(FintyItems.FEATHERBACK_SPAWN_EGG.get());
                         output.accept(FintyItems.GOURAMI_SPAWN_EGG.get());
@@ -77,6 +83,7 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.PLECO_SPAWN_EGG.get());
                         output.accept(FintyItems.FRESHWATER_SHARK_SPAWN_EGG.get());
                         output.accept(FintyItems.SALMON_SPAWN_EGG.get());
+
 
                         output.accept(FintyBlocks.AMAZON_SWORD.get());
                         output.accept(FintyBlocks.TALL_AMAZON_SWORD.get());

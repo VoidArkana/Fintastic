@@ -64,7 +64,7 @@ public class LotusFeature extends Feature<NoneFeatureConfiguration> {
                 worldgenlevel.setBlock(blockpos1, blockstate, 2);
                 worldgenlevel.setBlock(blockpos1.above(), blockstate2, 2);
 
-                this.placePatchAround(worldgenlevel, randomsource, (bottomFluidstate ? blockpos1 : blockpos1.below()), randomsource.nextInt(2, 5), randomsource.nextInt(2, 5));
+                this.placePatchAround(worldgenlevel, randomsource, (bottomFluidstate ? blockpos1.above() : blockpos1), randomsource.nextInt(2, 5), randomsource.nextInt(2, 5));
 
                 flag = true;
             }

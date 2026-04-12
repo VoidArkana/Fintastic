@@ -3,24 +3,32 @@ package net.voidarkana.fintastic.common.item.custom;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.animal.Bucketable;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.*;
+import net.voidarkana.fintastic.common.item.FintyItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -41,6 +49,37 @@ public class FishBucketItem extends MobBucketItem {
                 });
             };
         });
+    }
+
+    @Override
+    public void checkExtraContent(@Nullable Player pPlayer, Level pLevel, ItemStack pContainerStack, BlockPos pPos) {
+        if (pLevel instanceof ServerLevel) {
+            this.spawn((ServerLevel)pLevel, pContainerStack, pPos);
+            pLevel.gameEvent(pPlayer, GameEvent.ENTITY_PLACE, pPos);
+        }
+
+    }
+
+    private void spawn(ServerLevel pServerLevel, ItemStack pBucketedMobStack, BlockPos pPos) {
+        Entity entity = getFishType().spawn(pServerLevel, pBucketedMobStack, (Player)null, pPos, MobSpawnType.BUCKET, true, false);
+        if (entity instanceof DwarfFrog frog){
+            CompoundTag pTag = pBucketedMobStack.getOrCreateTag();
+            frog.loadFromBucketTag(pTag);
+            frog.setFromBucket(true);
+            if (!pTag.contains("Age")){
+                if (frog.isBaby() && pBucketedMobStack.is(FintyItems.DWARF_FROG_BUCKET.get())){
+                    frog.setBaby(false);
+                }else if (!frog.isBaby() && pBucketedMobStack.is(FintyItems.DWARF_FROG_TADPOLE_BUCKET.get())){
+                    frog.setAge(-12000);
+                }
+            }
+        }else if (entity instanceof Bucketable bucketable) {
+            CompoundTag pTag = pBucketedMobStack.getOrCreateTag();
+            bucketable.loadFromBucketTag(pTag);
+            bucketable.setFromBucket(true);
+
+        }
+
     }
 
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
@@ -395,9 +434,40 @@ public class FishBucketItem extends MobBucketItem {
             if (compoundtag != null && compoundtag.contains("Variant", 3)) {
 
                 int i = compoundtag.getInt("Variant");
+                String j = compoundtag.getString("Size");
 
                 String scientific = "fintastic.salmon_sci." + FintasticSalmon.SalmonVariant.byId(i).getSerializedName();
                 String common = "fintastic.salmon_common." + FintasticSalmon.SalmonVariant.byId(i).getSerializedName();
+                String size = "fintastic.size." + j;
+
+                MutableComponent sizeInfo = Component.translatable("fintastic.size.title").append(":");
+                sizeInfo.append(CommonComponents.SPACE).append(Component.translatable(size));
+
+                sizeInfo.withStyle(achatformatting);
+
+                MutableComponent mutablecomponent = Component.translatable(scientific);
+                mutablecomponent.withStyle(bchatformatting);
+
+                if (Screen.hasShiftDown()){
+                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+                    pTooltipComponents.add(sizeInfo);
+                    pTooltipComponents.add(mutablecomponent);
+                }
+            }
+        }
+
+
+        if (getFishType() == FintyEntities.DWARF_FROG.get()) {
+            CompoundTag compoundtag = pStack.getTag();
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+                int i = compoundtag.getInt("Variant");
+                int age = compoundtag.getInt("Age");
+
+                String scientific = "fintastic.dwarf_frog_sci";
+
+                String common = "fintastic.dwarf_frog_common." + (age < 0 ? DwarfFrog.FrogVariant.byId(i).getTadpoleName() :
+                        DwarfFrog.FrogVariant.byId(i).getSerializedName());
+
 
                 MutableComponent mutablecomponent = Component.translatable(scientific);
                 mutablecomponent.withStyle(bchatformatting);

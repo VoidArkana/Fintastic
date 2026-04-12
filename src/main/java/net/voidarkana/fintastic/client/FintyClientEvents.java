@@ -16,6 +16,8 @@ import net.voidarkana.fintastic.client.models.entity.*;
 import net.voidarkana.fintastic.client.models.entity.arapaima.ArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.arapaima.BabyArapaimaModel;
 import net.voidarkana.fintastic.client.models.entity.catfish.*;
+import net.voidarkana.fintastic.client.models.entity.dwarf_frog.DwarfFrogModel;
+import net.voidarkana.fintastic.client.models.entity.dwarf_frog.DwarfFrogTadpoleModel;
 import net.voidarkana.fintastic.client.models.entity.featherback.*;
 import net.voidarkana.fintastic.client.models.entity.gourami.*;
 import net.voidarkana.fintastic.client.models.entity.guppy.BabyGuppyModel;
@@ -79,6 +81,8 @@ public class FintyClientEvents {
         event.registerLayerDefinition(FintasticLayers.COPEPOD, CopepodModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.COD, FintyCodModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.SALMON, FintySalmonModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.DWARF_FROG, DwarfFrogModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.DWARF_FROG_TADPOLE, DwarfFrogTadpoleModel::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.HAT_LAYER, HatModel::createArmorLayer);
 

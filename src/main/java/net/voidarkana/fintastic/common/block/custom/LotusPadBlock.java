@@ -21,11 +21,14 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.Tags;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import org.jetbrains.annotations.Nullable;
 
 public class LotusPadBlock extends BushBlock {
+    protected static final VoxelShape AABB = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 1.5D, 15.0D);
 
     public static final BooleanProperty FLOWER = BooleanProperty.create("flower");
 
@@ -34,9 +37,8 @@ public class LotusPadBlock extends BushBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(FLOWER, false));
     }
 
-    @Override
-    public float getMaxHorizontalOffset() {
-        return 0.15f;
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return AABB;
     }
 
     @Override

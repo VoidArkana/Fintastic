@@ -124,9 +124,6 @@ public class Fintastic
         if (e.getEntity() instanceof Fox fox) {
             fox.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(fox, VariantSchoolingFish.class, false, FISH_PREY));
         }
-        if (e.getEntity() instanceof PolarBear bear) {
-            bear.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(bear, VariantSchoolingFish.class, false, FISH_PREY));
-        }
     }
 
 }

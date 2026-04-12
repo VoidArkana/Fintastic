@@ -43,10 +43,12 @@ public abstract class VanillaFishMixin extends AbstractFish {
                 FintasticCod cod = FintyEntities.COD.get().create(pLevel.getLevel());
 
                 if (cod != null){
-                    BlockPos pos = self.blockPosition();
-                    cod.moveTo(pos.getX(), pos.getY(), pos.getZ(), random.nextInt(360), 0.0F);
-                    cod.finalizeSpawn(pLevel,pDifficulty,pReason,null,null);
-                    pLevel.addFreshEntity(cod);
+                    if (FintyCommonConfig.ALLOW_FINTASTIC_COD.get() && this.getRandom().nextBoolean()){
+                        BlockPos pos = self.blockPosition();
+                        cod.moveTo(pos.getX(), pos.getY(), pos.getZ(), random.nextInt(360), 0.0F);
+                        cod.finalizeSpawn(pLevel,pDifficulty,pReason,null,null);
+                        pLevel.addFreshEntity(cod);
+                    }
                     this.discard();
                 }
             }
@@ -55,10 +57,12 @@ public abstract class VanillaFishMixin extends AbstractFish {
                 FintasticSalmon salmon = FintyEntities.SALMON.get().create(pLevel.getLevel());
 
                 if (salmon != null){
-                    BlockPos pos = self.blockPosition();
-                    salmon.moveTo(pos.getX(), pos.getY(), pos.getZ(), random.nextInt(360), 0.0F);
-                    salmon.finalizeSpawn(pLevel,pDifficulty,pReason,null,null);
-                    pLevel.addFreshEntity(salmon);
+                    if (FintyCommonConfig.ALLOW_FINTASTIC_SALMON.get() && this.getRandom().nextBoolean()){
+                        BlockPos pos = self.blockPosition();
+                        salmon.moveTo(pos.getX(), pos.getY(), pos.getZ(), random.nextInt(360), 0.0F);
+                        salmon.finalizeSpawn(pLevel,pDifficulty,pReason,null,null);
+                        pLevel.addFreshEntity(salmon);
+                    }
                     this.discard();
                 }
             }

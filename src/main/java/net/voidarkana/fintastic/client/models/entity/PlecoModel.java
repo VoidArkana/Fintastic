@@ -98,6 +98,7 @@ public class PlecoModel<T extends Pleco> extends FintasticModel<T> {
 
 		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-(pEntity.getTicksOnGround()/3f)-(pEntity.getTicksAttached()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
 		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.IDLE_GROUND, pAgeInTicks, 1.0f, Math.max(0, (pEntity.getTicksAttached()/3f)-(pEntity.getTicksOnGround()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
+		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.IDLE_GROUND, pAgeInTicks, 1.0f, Math.max(0, (pEntity.getTicksOnGround()/3f)-(pEntity.getTicksAttached()/3f)-(pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount)));
 
 		this.animateIdle(pEntity.idleAnimationState, PlecoAnims.BEACHED, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
 

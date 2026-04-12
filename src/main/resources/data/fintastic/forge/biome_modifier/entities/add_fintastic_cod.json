@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "#fintastic:fintastic_cod_biomes",
+  "spawners": {
+    "type": "fintastic:fintastic_cod",
+    "weight": 15,
+    "minCount": 4,
+    "maxCount": 8,
+    "category": "water_ambient"
+  }
+}
