@@ -125,6 +125,13 @@ public class DwarfFroglight extends Block implements SimpleWaterloggedBlock {
             } else {
                 state = this.defaultBlockState().setValue(TYPE, AttachmentStyle.MIDDLE).setValue(FACING, pContext.getHorizontalDirection().getCounterClockWise().getAxis());
             }
+            BlockState otherBlock = pContext.getLevel().getBlockState(pContext.getClickedPos().offset(direction.getNormal()));
+
+            if (this.isSameFroglight(state, otherBlock)){
+                if (state.getValue(FACING) == otherBlock.getValue(FACING)){
+                    state.setValue(TYPE, otherBlock.getValue(TYPE));
+                }
+            }
 
             BlockGetter blockgetter = pContext.getLevel();
             BlockPos blockpos = pContext.getClickedPos();

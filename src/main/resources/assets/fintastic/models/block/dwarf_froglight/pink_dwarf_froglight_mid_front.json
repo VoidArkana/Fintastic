@@ -1,0 +1,6 @@
+{
+  "parent": "fintastic:block/dwarf_froglight/dwarf_froglight_base_mid_front",
+  "textures": {
+    "texture": "fintastic:block/pink_dwarf_froglight"
+  }
+}
