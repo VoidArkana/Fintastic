@@ -128,7 +128,14 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
                 .add(Blocks.TALL_SEAGRASS)
                 .add(Blocks.KELP_PLANT)
                 .add(Blocks.KELP)
-                .add(Blocks.LILY_PAD);
+                .add(Blocks.LILY_PAD)
+                .add(FintyBlocks.LOTUS.get())
+                .add(FintyBlocks.LOTUS_PAD.get())
+                .add(FintyBlocks.LOTUS_FLOWER.get())
+                .add(FintyBlocks.AQUATIC_MOSS_PHYLLID.get())
+                .add(FintyBlocks.BLUE_HYPNEA.get())
+                .add(FintyBlocks.TALL_AMAZON_SWORD.get())
+                .add(FintyBlocks.AMAZON_SWORD.get());
 
         this.tag(FintyTags.Blocks.GOURAMI_INVESTIGATION_TARGETS)
                 .addTag(FintyTags.Blocks.AQUATIC_PLANTS)

@@ -67,7 +67,7 @@ public class Sharkminnow extends VariantSchoolingFish {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
         compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("VariantModel", this.getVariant());
+        compoundnbt.putInt("Variant", this.getVariant());
         compoundnbt.putInt("Age", this.getAge());
 
         compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
@@ -80,8 +80,8 @@ public class Sharkminnow extends VariantSchoolingFish {
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
 
-        if (pTag.contains("VariantModel")) {
-            this.setVariant(pTag.getInt("VariantModel"));
+        if (pTag.contains("Variant")) {
+            this.setVariant(pTag.getInt("Variant"));
         }
         if (pTag.contains("Age")) {
             this.setAge(pTag.getInt("Age"));
@@ -94,8 +94,8 @@ public class Sharkminnow extends VariantSchoolingFish {
 
         super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantModel", 3)) {
-            this.setVariant(pDataTag.getInt("VariantModel"));
+        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
+            this.setVariant(pDataTag.getInt("Variant"));
             if (pDataTag.contains("Age")) {
                 this.setAge(pDataTag.getInt("Age"));
             }

@@ -30,6 +30,7 @@ public class FintyTags {
 
         public static final TagKey<Biome> COD_BIOMES = tag("fintastic_cod_biomes");
         public static final TagKey<Biome> SALMON_BIOMES = tag("fintastic_salmon_biomes");
+        public static final TagKey<Biome> DWARF_FROG_BIOMES = tag("dwarf_frog_biomes");
 
         public static final TagKey<Biome> FRESHWATER_PLANT_BIOME_BLACKLIST = tag("common_freshwater_plant_blacklisted_biomes");
 

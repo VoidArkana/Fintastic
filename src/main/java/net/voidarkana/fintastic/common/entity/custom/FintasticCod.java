@@ -45,7 +45,7 @@ public class FintasticCod extends VariantSchoolingFish {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.6F);
+                .add(Attributes.MOVEMENT_SPEED, 0.8F);
     }
 
     @Override

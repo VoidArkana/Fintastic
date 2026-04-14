@@ -25,7 +25,7 @@ public class CopepodRenderer<T extends Copepod> extends MobRenderer<T, CopepodMo
         if (pEntity.isMylops())
             return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/copepod/copepod_mylops.png");
 
-        Copepod.CopepodVariant variant = Copepod.CopepodVariant.byId(pEntity.getVariantSkin());
+        Copepod.CopepodVariant variant = Copepod.CopepodVariant.byId(pEntity.getVariant());
 
         return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/copepod/copepod_"+variant.getSerializedName()+".png");
     }

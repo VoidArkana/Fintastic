@@ -53,5 +53,20 @@
       }
     ],
     "subtitle": "fintastic.sound.subtitle.gourami_croak"
+  },
+  "dwarf_frog_idle": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "fintastic:dwarf_frog_idle_1"
+      },
+      {
+        "name": "fintastic:dwarf_frog_idle_2"
+      },
+      {
+        "name": "fintastic:dwarf_frog_idle_3"
+      }
+    ],
+    "subtitle": "fintastic.sound.subtitle.dwarf_frog_idle"
   }
 }

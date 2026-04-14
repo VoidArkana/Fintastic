@@ -3,9 +3,9 @@
   "biomes": "#fintastic:copepod_saltwater_biomes",
   "spawners": {
     "type": "fintastic:copepod",
-    "weight": 8,
+    "weight": 6,
     "minCount": 4,
     "maxCount": 10,
-    "category": "water_creature"
+    "category": "water_ambient"
   }
 }

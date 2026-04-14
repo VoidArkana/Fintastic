@@ -210,7 +210,7 @@ public class FintyItems {
     });
 
     public static final RegistryObject<Item> DWARF_FROG_SPAWN_EGG = ITEMS.register("dwarf_frog_spawn_egg",
-            () -> new CodSpawnEgg(FintyEntities.DWARF_FROG, 0xddbe9e, 0x6d654e, new Item.Properties()));
+            () -> new DwarfFrogSpawnEgg(FintyEntities.DWARF_FROG, 0xddbe9e, 0x6d654e, new Item.Properties()));
     public static final RegistryObject<Item> DWARF_FROG_BUCKET = ITEMS.register("dwarf_frog_bucket", () -> {
         return new FishBucketItem(FintyEntities.DWARF_FROG, () -> {
             return Fluids.WATER;

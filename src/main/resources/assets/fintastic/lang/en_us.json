@@ -585,12 +585,17 @@
   "fintastic.cod_sci.pollock": "Pollachius sp",
   "fintastic.cod_sci.whiting_pout": "Trisopterus luscus",
 
-  "item.fintastic.dwarf_frog_spawn_egg" : "Dwarf Frog Spawn Egg",
-  "item.fintastic.dwarf_frog_bucket" : "Bucket of Dwarf Frog",
-  "item.fintastic.dwarf_frog_tadpole_bucket" : "Bucket of Dwarf Frog Tadpole",
   "entity.fintastic.dwarf_frog" : "Dwarf Frog",
   "item.fintastic.dwarf_frog" : "Dwarf Frog",
   "item.fintastic.cooked_dwarf_frog" : "Cooked Dwarf Frog",
+  "item.fintastic.dwarf_frog_spawn_egg" : "Dwarf Frog Spawn Egg",
+  "item.fintastic.dwarf_frog_bucket" : "Bucket of Dwarf Frog",
+  "item.fintastic.dwarf_frog_tadpole_bucket" : "Bucket of Dwarf Frog Tadpole",
+
+  "block.fintastic.green_dwarf_froglight" : "Green Dwarf Froglight",
+  "block.fintastic.red_dwarf_froglight" : "Red Dwarf Froglight",
+  "block.fintastic.pink_dwarf_froglight" : "Pink Dwarf Froglight",
+  "block.fintastic.yellow_dwarf_froglight" : "Yellow Dwarf Froglight",
 
   "fintastic.dwarf_frog_common.brown": "Brown Dwarf Frog",
   "fintastic.dwarf_frog_common.green": "Green Dwarf Frog",
@@ -599,6 +604,7 @@
   "fintastic.dwarf_frog_common.tan": "Tan Dwarf Frog Tadpole",
   "fintastic.dwarf_frog_common.pale":  "Pale Dwarf Frog Tadpole",
   "fintastic.dwarf_frog_sci": "Hymenochirus sp",
+  "fintastic.sound.subtitle.dwarf_frog_idle" : "Dwarf Frog Croaks",
 
   "fintastic.size.title": "Size",
   "fintastic.size.tiny": "Tiny",

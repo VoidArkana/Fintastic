@@ -29,7 +29,7 @@ public class FairyShrimpRenderer<T extends FairyShrimp> extends MobRenderer<T, F
         if (pEntity.isNinni())
             return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/fairy_shrimp/fairy_shrimp_ninni.png");
 
-        FairyShrimp.FairyShrimpVariant variant = FairyShrimp.FairyShrimpVariant.byId(pEntity.getVariantSkin());
+        FairyShrimp.FairyShrimpVariant variant = FairyShrimp.FairyShrimpVariant.byId(pEntity.getVariant());
 
         return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/fairy_shrimp/fairy_shrimp_"+variant.getSerializedName()+".png");
     }

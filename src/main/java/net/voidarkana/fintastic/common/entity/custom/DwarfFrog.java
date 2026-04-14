@@ -1,34 +1,44 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.ByIdMap;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Bucketable;
-import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluids;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
 import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.common.sound.FintySounds;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,6 +48,7 @@ public class DwarfFrog extends BucketableFishEntity {
 
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(DwarfFrog.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> TICKS_ON_GROUND = SynchedEntityData.defineId(DwarfFrog.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> IS_PREGNANT = SynchedEntityData.defineId(DwarfFrog.class, EntityDataSerializers.BOOLEAN);
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
     private static final Ingredient FOOD_ITEMS2 = Ingredient.of(Items.SLIME_BALL);
@@ -53,15 +64,17 @@ public class DwarfFrog extends BucketableFishEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
+        this.goalSelector.addGoal(1, new FrogBreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(1, new FrogLaySpawnGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
             if (entity instanceof Player player){
                 return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(FintyItems.FISHING_HAT.get());
             }
             return false;}));
-        this.goalSelector.addGoal(4, new FrogSwimGoal(this, 1.0D, 400, 10));
-        this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS2, false));
+        this.goalSelector.addGoal(4, new FrogSwimGoal(this, 1.0D, 400, 10));
+        this.goalSelector.addGoal(5, new FrogGetAirGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -76,7 +89,7 @@ public class DwarfFrog extends BucketableFishEntity {
 
     @Override
     public boolean floatsDown() {
-        return !this.isBaby() && this.getNavigation().isDone();
+        return !this.isBaby() && this.getNavigation().isDone() && !this.isPregnant();
     }
 
     @Override
@@ -89,16 +102,19 @@ public class DwarfFrog extends BucketableFishEntity {
         super.defineSynchedData();
         this.entityData.define(VARIANT, 0);
         this.entityData.define(TICKS_ON_GROUND, 3);
+        this.entityData.define(IS_PREGNANT, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Variant", this.getVariant());
+        compound.putBoolean("IsPregnant", this.isPregnant());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setVariant(compound.getInt("Variant"));
+        this.setPregnant(compound.getBoolean("IsPregnant"));
     }
 
     //variants
@@ -118,6 +134,14 @@ public class DwarfFrog extends BucketableFishEntity {
         this.entityData.set(TICKS_ON_GROUND, ticks);
     }
 
+    public boolean isPregnant() {
+        return this.entityData.get(IS_PREGNANT);
+    }
+
+    public void setPregnant(boolean isPregnant) {
+        this.entityData.set(IS_PREGNANT, isPregnant);
+    }
+
     int prevTicksOnGround;
     @Override
     public void aiStep() {
@@ -129,8 +153,8 @@ public class DwarfFrog extends BucketableFishEntity {
                     this.prevTicksOnGround = this.getTicksOnGround();
                     this.setTicksOnGround(this.prevTicksOnGround-1);
                 }
-            }else {
-                if (this.getTicksOnGround() < 3){
+            }else if (this.isInWaterOrBubble() && this.onGround()){
+                if (this.getTicksOnGround() < 20){
                     this.prevTicksOnGround = this.getTicksOnGround();
                     this.setTicksOnGround(this.prevTicksOnGround+1);
                 }
@@ -218,6 +242,112 @@ public class DwarfFrog extends BucketableFishEntity {
         }
     }
 
+    public static class FrogGetAirGoal extends BreathAirGoal {
+        DwarfFrog frog;
+        public FrogGetAirGoal(DwarfFrog pMob) {
+            super(pMob);
+            this.frog = pMob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return this.frog.getRandom().nextInt(6000)==0;
+        }
+
+        @Override
+        public boolean isInterruptable() {
+            return true;
+        }
+    }
+
+    public static class FrogBreedGoal extends FishBreedGoal {
+        private final DwarfFrog animal;
+
+        public FrogBreedGoal(DwarfFrog pAnimal, double pSpeedModifier) {
+            super(pAnimal, pSpeedModifier);
+            this.animal = pAnimal;
+        }
+
+        public boolean canUse() {
+            return super.canUse() && !animal.isPregnant();
+        }
+
+        protected void breed() {
+            ServerPlayer serverplayer = this.animal.getLoveCause();
+            if (serverplayer == null && this.partner.getLoveCause() != null) {
+                serverplayer = this.partner.getLoveCause();
+            }
+
+            if (serverplayer != null) {
+                serverplayer.awardStat(Stats.ANIMALS_BRED);
+//                CriteriaTriggers.BRED_ANIMALS.trigger(serverplayer, this.animal, this.partner, (AgeableMob)null);
+            }
+
+            this.animal.setPregnant(true);
+            this.animal.setAge(6000);
+            this.partner.setAge(6000);
+            this.animal.resetLove();
+            this.partner.resetLove();
+            RandomSource randomsource = this.animal.getRandom();
+            if (this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+                this.level.addFreshEntity(new ExperienceOrb(this.level, this.animal.getX(), this.animal.getY(), this.animal.getZ(), randomsource.nextInt(7) + 1));
+            }
+        }
+    }
+
+    public static class FrogLaySpawnGoal extends MoveToBlockGoal{
+
+        DwarfFrog animal;
+        public FrogLaySpawnGoal(DwarfFrog pMob, double pSpeedModifier) {
+            super(pMob, pSpeedModifier, 10, 10);
+            this.animal = pMob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return animal.isPregnant() && super.canUse();
+        }
+
+        public boolean canContinueToUse() {
+            return animal.isPregnant() && super.canContinueToUse();
+        }
+
+        public void tick() {
+            super.tick();
+            BlockPos blockpos = this.animal.blockPosition();
+            if (this.isReachedTarget()) {
+                Level level = this.animal.level();
+                level.playSound(null, blockpos, SoundEvents.FROG_LAY_SPAWN, SoundSource.BLOCKS, 0.3F, 0.9F + level.random.nextFloat() * 0.2F);
+                BlockPos blockpos1 = this.blockPos;
+                BlockState blockstate = FintyBlocks.DWARF_FROGSPAWN.get().defaultBlockState();
+                level.setBlock(blockpos1, blockstate, 3);
+                level.gameEvent(GameEvent.BLOCK_PLACE, blockpos1, GameEvent.Context.of(this.animal, blockstate));
+                animal.setPregnant(false);
+                this.animal.setInLoveTime(600);
+            }else if (isValidTarget(animal.level(), animal.blockPosition().above())){
+
+                Level level = this.animal.level();
+                level.playSound(null, blockpos, SoundEvents.FROG_LAY_SPAWN, SoundSource.BLOCKS, 0.3F, 0.9F + level.random.nextFloat() * 0.2F);
+                BlockPos blockpos1 = animal.blockPosition().above();
+                BlockState blockstate = FintyBlocks.DWARF_FROGSPAWN.get().defaultBlockState();
+                level.setBlock(blockpos1, blockstate, 3);
+                level.gameEvent(GameEvent.BLOCK_PLACE, blockpos1, GameEvent.Context.of(this.animal, blockstate));
+                animal.setPregnant(false);
+                this.animal.setInLoveTime(600);
+            }
+        }
+
+        @Override
+        protected int nextStartTick(PathfinderMob pCreature) {
+            return 80 + pCreature.getRandom().nextInt(100);
+        }
+
+        @Override
+        protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
+            return pLevel.getBlockState(pPos.below()).getFluidState().is(Fluids.WATER) && pLevel.getBlockState(pPos).isAir();
+        }
+    }
+
     public enum FrogVariant implements StringRepresentable {
         BROWN(0, "brown", "tan"),
         GREEN(1, "green", "tan"),
@@ -260,5 +390,14 @@ public class DwarfFrog extends BucketableFishEntity {
         public static FrogVariant byName(String pName) {
             return CODEC.byName(pName, PEACH);
         }
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return this.isBaby() || this.getRandom().nextBoolean() ? super.getAmbientSound() : FintySounds.DWARF_FROG_IDLE.get();
+    }
+
+    public int getAmbientSoundInterval() {
+        return 200;
     }
 }

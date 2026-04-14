@@ -52,7 +52,7 @@ public class GuppyRenderer <T extends Guppy> extends MobRenderer<T, FintasticMod
         if (pEntity.isBaby())
             return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/guppy/baby_guppy.png");
         else
-            return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/guppy/base/guppy_base_"+pEntity.getVariantSkin()+".png");
+            return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/guppy/base/guppy_base_"+pEntity.getVariant()+".png");
     }
 
     @Override

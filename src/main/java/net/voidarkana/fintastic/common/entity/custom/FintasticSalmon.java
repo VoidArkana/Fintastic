@@ -31,6 +31,7 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
+import net.voidarkana.fintastic.common.entity.custom.ai.FishJumpGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
 import net.voidarkana.fintastic.common.item.FintyItems;
@@ -62,7 +63,7 @@ public class FintasticSalmon extends VariantSchoolingFish {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.6F);
+                .add(Attributes.MOVEMENT_SPEED, 0.8F);
     }
 
     @Override
@@ -70,6 +71,7 @@ public class FintasticSalmon extends VariantSchoolingFish {
         super.registerGoals();
         this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
+        this.goalSelector.addGoal(4, new FishJumpGoal(this, 15));
     }
 
     @Override

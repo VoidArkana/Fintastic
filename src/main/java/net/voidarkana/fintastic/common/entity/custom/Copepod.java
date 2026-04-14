@@ -36,7 +36,6 @@ import net.voidarkana.fintastic.common.entity.custom.ai.FollowIndiscriminateScho
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.SchoolingFish;
 import net.voidarkana.fintastic.common.item.FintyItems;
-import net.voidarkana.fintastic.util.FintyCommonConfig;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -112,7 +111,7 @@ public class Copepod extends SchoolingFish {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
         compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("VariantSkin", this.getVariantSkin());
+        compoundnbt.putInt("Variant", this.getVariant());
 
         compoundnbt.putInt("Age", this.getAge());
         compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
@@ -128,16 +127,16 @@ public class Copepod extends SchoolingFish {
         if (pTag.contains("Age"))
             this.setAge(pTag.getInt("Age"));
         if (pTag.contains("VariantSkin"))
-            this.setVariantSkin(pTag.getInt("VariantSkin"));
+            this.setVariant(pTag.getInt("Variant"));
     }
 
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantSkin", 3)) {
+        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
 
-            this.setVariantSkin(pDataTag.getInt("VariantSkin"));
+            this.setVariant(pDataTag.getInt("Variant"));
             if (pDataTag.contains("Age")) {
                 this.setAge(pDataTag.getInt("Age"));
             }
@@ -146,13 +145,13 @@ public class Copepod extends SchoolingFish {
 
         }else {
             if (pReason.equals(MobSpawnType.SPAWN_EGG) || (pReason == MobSpawnType.BUCKET && pDataTag == null) ){
-                this.setVariantSkin(Util.getRandom(Copepod.CopepodVariant.values(), random).getID());
+                this.setVariant(Util.getRandom(Copepod.CopepodVariant.values(), random).getID());
             }else
             {
                 if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_OCEAN)){
-                    this.setVariantSkin(this.random.nextBoolean() ? CopepodVariant.RED.getID() : CopepodVariant.GREEN.getID());
+                    this.setVariant(this.random.nextBoolean() ? CopepodVariant.RED.getID() : CopepodVariant.GREEN.getID());
                 }else {
-                    this.setVariantSkin(this.random.nextBoolean() ? CopepodVariant.YELLOW.getID() : CopepodVariant.ORANGE.getID());
+                    this.setVariant(this.random.nextBoolean() ? CopepodVariant.YELLOW.getID() : CopepodVariant.ORANGE.getID());
                 }
             }
         }
@@ -165,7 +164,7 @@ public class Copepod extends SchoolingFish {
         Copepod baby = FintyEntities.COPEPOD.get().create(pLevel);
         Copepod otherGuy = (Copepod) pOtherParent;
         if (baby != null){
-            baby.setVariantSkin(this.random.nextBoolean() ? this.getVariantSkin() : otherGuy.getVariantSkin());
+            baby.setVariant(this.random.nextBoolean() ? this.getVariant() : otherGuy.getVariant());
             baby.setFromBucket(true);
         }
         return baby;

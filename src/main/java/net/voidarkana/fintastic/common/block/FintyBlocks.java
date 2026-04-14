@@ -276,23 +276,47 @@ public class FintyBlocks {
 
     public static final RegistryObject<Block> LOTUS = registerBlock("lotus",
             () -> new LotusPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
-                    .noCollission().instabreak().sound(SoundType.WET_GRASS)
+                    .noCollission().noOcclusion().instabreak().sound(SoundType.WET_GRASS)
                     .pushReaction(PushReaction.DESTROY)));
 
     public static final Supplier<Block> LOTUS_FLOWER = registerBlockWithItem("lotus_flower",
             () -> new LotusFlowerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
-                    .offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)),
+                    .noOcclusion().offsetType(BlockBehaviour.OffsetType.XZ).noCollission().instabreak().sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)),
             (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
 
     public static final Supplier<Block> LOTUS_PAD = registerBlockWithItem("lotus_pad",
             ()-> new LotusPadBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD).mapColor(MapColor.COLOR_GREEN)
-                    .instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
+                    .noOcclusion().instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
             (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
 
     public static final Supplier<Block> DWARF_FROGSPAWN = registerBlockWithItem("dwarf_frogspawn",
             ()-> new DwarfFrogspawnBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN)
                     .instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
             (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
+
+    public static final RegistryObject<Block> GREEN_DWARF_FROGLIGHT = registerBlock("green_dwarf_froglight",
+            () -> new DwarfFroglight(BlockBehaviour.Properties.of().instabreak().sound(SoundType.FROGLIGHT).pushReaction(PushReaction.DESTROY)
+                    .lightLevel((p_220871_) -> {
+                return 15;
+            })));
+
+    public static final RegistryObject<Block> RED_DWARF_FROGLIGHT = registerBlock("red_dwarf_froglight",
+            () -> new DwarfFroglight(BlockBehaviour.Properties.of().instabreak().sound(SoundType.FROGLIGHT).pushReaction(PushReaction.DESTROY)
+                    .lightLevel((p_220871_) -> {
+                return 15;
+            })));
+
+    public static final RegistryObject<Block> YELLOW_DWARF_FROGLIGHT = registerBlock("yellow_dwarf_froglight",
+            () -> new DwarfFroglight(BlockBehaviour.Properties.of().instabreak().sound(SoundType.FROGLIGHT).pushReaction(PushReaction.DESTROY)
+                    .lightLevel((p_220867_) -> {
+                return 15;
+            })));
+
+    public static final RegistryObject<Block> PINK_DWARF_FROGLIGHT = registerBlock("pink_dwarf_froglight",
+            () -> new DwarfFroglight(BlockBehaviour.Properties.of().instabreak().sound(SoundType.FROGLIGHT).pushReaction(PushReaction.DESTROY)
+                    .lightLevel((p_220871_) -> {
+                return 15;
+            })));
 
     private static <T extends Block> Supplier<T> registerBlockWithItem(String key, Supplier<T> block, Function<Supplier<T>, Item> item) {
         Supplier<T> entry = create(key, block);

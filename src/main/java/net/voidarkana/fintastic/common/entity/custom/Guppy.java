@@ -224,7 +224,7 @@ public class Guppy extends SchoolingFish {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
         compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("VariantSkin", this.getVariantSkin());
+        compoundnbt.putInt("Variant", this.getVariant());
         compoundnbt.putInt("FinModel", this.getFinModel());
         compoundnbt.putInt("FinColor", this.getFinColor());
         compoundnbt.putInt("TailModel", this.getTailModel());
@@ -286,7 +286,7 @@ public class Guppy extends SchoolingFish {
 
         if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantSkin", 3)) {
 
-            this.setVariantSkin(pDataTag.getInt("VariantSkin"));
+            this.setVariant(pDataTag.getInt("VariantSkin"));
             this.setFinModel(pDataTag.getInt("FinModel"));
             this.setFinColor(pDataTag.getInt("FinColor"));
             this.setTailModel(pDataTag.getInt("TailModel"));
@@ -310,7 +310,7 @@ public class Guppy extends SchoolingFish {
 
         }else{
 
-            this.setVariantSkin(this.random.nextInt(12));
+            this.setVariant(this.random.nextInt(12));
 
             this.setFinModel(this.random.nextInt(5)==0 ? 0 : 1);
             this.setFinColor(this.random.nextInt(22));
@@ -493,7 +493,7 @@ public class Guppy extends SchoolingFish {
 
                         hasDorsalFin = this.random.nextInt(5)>0;
                     }else {
-                        skin = this.random.nextBoolean() ? this.getVariantSkin() : otherParent.getVariantSkin();
+                        skin = this.random.nextBoolean() ? this.getVariant() : otherParent.getVariant();
                         finModel = this.random.nextBoolean() ? this.getFinModel() : otherParent.getFinModel();
                         finColor = this.random.nextBoolean() ? this.getFinColor() : otherParent.getFinColor();
 
@@ -513,7 +513,7 @@ public class Guppy extends SchoolingFish {
                     break;
 
                 case 2:
-                    skin = this.random.nextBoolean() ? this.getVariantSkin() : otherParent.getVariantSkin();
+                    skin = this.random.nextBoolean() ? this.getVariant() : otherParent.getVariant();
                     finModel = this.random.nextBoolean() ? this.getFinModel() : otherParent.getFinModel();
                     finColor = this.random.nextBoolean() ? this.getFinColor() : otherParent.getFinColor();
 
@@ -535,7 +535,7 @@ public class Guppy extends SchoolingFish {
                 case 3:
                     boolean parent = this.random.nextBoolean();
 
-                    skin = parent ? this.getVariantSkin() : otherParent.getVariantSkin();
+                    skin = parent ? this.getVariant() : otherParent.getVariant();
                     finModel = parent ? this.getFinModel() : otherParent.getFinModel();
                     finColor = parent ? this.getFinColor() : otherParent.getFinColor();
 
@@ -574,7 +574,7 @@ public class Guppy extends SchoolingFish {
                     break;
             }
 
-            baby.setVariantSkin(skin);
+            baby.setVariant(skin);
             baby.setFinModel(finModel);
             baby.setFinColor(finColor);
             baby.setTailModel(tailModel);

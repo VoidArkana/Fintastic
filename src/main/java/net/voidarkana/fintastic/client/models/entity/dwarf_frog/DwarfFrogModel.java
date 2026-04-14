@@ -72,7 +72,7 @@ public class DwarfFrogModel<T extends DwarfFrog> extends FintasticModel<T> {
 
 		this.animateIdle(entity.idleAnimationState, DwarfFrogAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwing)));
 		this.animateIdle(entity.idleAnimationState, DwarfFrogAnims.BEACHED, ageInTicks, 1.0F, Math.max(0, entity.getTicksOutsideWater()/3f-Math.abs(limbSwing)));
-		this.animateIdle(entity.idleAnimationState, DwarfFrogAnims.FALLING, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOnGround()/3f-entity.getTicksOutsideWater()/3f-Math.abs(limbSwing)));
+		this.animateIdle(entity.idleAnimationState, DwarfFrogAnims.FALLING, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOnGround()/20f-entity.getTicksOutsideWater()/3f));
 
 		this.animateIdle(entity.idleAnimationState, DwarfFrogAnims.POSE_WATER, ageInTicks, 1.0F, 1-entity.getTicksOutsideWater()/3f);
 		this.animateIdle(entity.idleAnimationState, DwarfFrogAnims.POSE_LAND, ageInTicks, 1.0F, entity.getTicksOutsideWater()/3f);

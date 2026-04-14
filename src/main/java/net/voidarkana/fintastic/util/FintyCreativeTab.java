@@ -46,6 +46,10 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.DAPHNIA_BUCKET.get());
                         output.accept(FintyItems.DWARF_FROG.get());
                         output.accept(FintyItems.COOKED_DWARF_FROG.get());
+                        output.accept(FintyBlocks.GREEN_DWARF_FROGLIGHT.get());
+                        output.accept(FintyBlocks.PINK_DWARF_FROGLIGHT.get());
+                        output.accept(FintyBlocks.RED_DWARF_FROGLIGHT.get());
+                        output.accept(FintyBlocks.YELLOW_DWARF_FROGLIGHT.get());
                         output.accept(FintyBlocks.DWARF_FROGSPAWN.get());
                         output.accept(FintyItems.DWARF_FROG_BUCKET.get());
                         output.accept(FintyItems.DWARF_FROG_TADPOLE_BUCKET.get());

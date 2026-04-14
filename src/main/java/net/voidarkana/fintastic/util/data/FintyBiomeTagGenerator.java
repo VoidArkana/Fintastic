@@ -130,6 +130,10 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
                 .add(Biomes.FROZEN_OCEAN)
                 .add(Biomes.COLD_OCEAN)
                 .add(Biomes.DEEP_COLD_OCEAN);
+
+        this.tag(FintyTags.Biomes.DWARF_FROG_BIOMES)
+                .addTag(Tags.Biomes.IS_SWAMP)
+                .addTag(BiomeTags.IS_JUNGLE);
     }
 
 }

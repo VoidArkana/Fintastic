@@ -183,7 +183,7 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
         compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putFloat("Variant", this.getVariant());
+        compoundnbt.putInt("Variant", this.getVariant());
         compoundnbt.putInt("Age", this.getAge());
         compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
         if (this.hasCustomName()) {

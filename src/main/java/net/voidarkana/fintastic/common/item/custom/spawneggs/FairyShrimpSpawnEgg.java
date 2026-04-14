@@ -25,7 +25,7 @@ public class FairyShrimpSpawnEgg extends FishVariantSpawnEggItem {
                     int i = itemstack.getTag().getInt(DATA_CREATURE);
                     FairyShrimp.FairyShrimpVariant variant = FairyShrimp.FairyShrimpVariant.values()[i];
                     if (variant != null)
-                        fish.setVariantSkin(variant.getID());
+                        fish.setVariant(variant.getID());
                 }
     }
 

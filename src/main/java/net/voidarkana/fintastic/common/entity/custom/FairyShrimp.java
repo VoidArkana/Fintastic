@@ -91,7 +91,7 @@ public class FairyShrimp extends SchoolingFish {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
         compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("VariantSkin", this.getVariantSkin());
+        compoundnbt.putInt("Variant", this.getVariant());
 
         compoundnbt.putInt("Age", this.getAge());
         compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
@@ -107,16 +107,16 @@ public class FairyShrimp extends SchoolingFish {
         if (pTag.contains("Age"))
             this.setAge(pTag.getInt("Age"));
         if (pTag.contains("VariantSkin"))
-            this.setVariantSkin(pTag.getInt("VariantSkin"));
+            this.setVariant(pTag.getInt("Variant"));
     }
 
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantSkin", 3)) {
+        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
 
-            this.setVariantSkin(pDataTag.getInt("VariantSkin"));
+            this.setVariant(pDataTag.getInt("Variant"));
             if (pDataTag.contains("Age")) {
                 this.setAge(pDataTag.getInt("Age"));
             }
@@ -124,7 +124,7 @@ public class FairyShrimp extends SchoolingFish {
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
 
         }else {
-            this.setVariantSkin(Util.getRandom(FairyShrimp.FairyShrimpVariant.values(), random).getID());
+            this.setVariant(Util.getRandom(FairyShrimp.FairyShrimpVariant.values(), random).getID());
         }
 
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
@@ -135,7 +135,7 @@ public class FairyShrimp extends SchoolingFish {
         FairyShrimp baby = FintyEntities.FAIRY_SHRIMP.get().create(pLevel);
         FairyShrimp otherGuy = (FairyShrimp) pOtherParent;
         if (baby != null){
-            baby.setVariantSkin(this.random.nextBoolean() ? this.getVariantSkin() : otherGuy.getVariantSkin());
+            baby.setVariant(this.random.nextBoolean() ? this.getVariant() : otherGuy.getVariant());
             baby.setFromBucket(true);
         }
         return baby;

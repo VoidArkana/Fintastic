@@ -26,7 +26,7 @@ public class CopepodSpawnEgg extends FishVariantSpawnEggItem {
                     int i = itemstack.getTag().getInt(DATA_CREATURE);
                     Copepod.CopepodVariant variant = Copepod.CopepodVariant.values()[i];
                     if (variant != null)
-                        fish.setVariantSkin(variant.getID());
+                        fish.setVariant(variant.getID());
                 }
     }
 

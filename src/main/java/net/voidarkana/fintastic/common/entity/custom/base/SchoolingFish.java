@@ -19,8 +19,7 @@ import java.util.stream.Stream;
 
 public abstract class SchoolingFish extends BucketableFishEntity{
 
-    private static final EntityDataAccessor<Integer> MODEL_VARIANT = SynchedEntityData.defineId(SchoolingFish.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> SKIN_VARIANT = SynchedEntityData.defineId(SchoolingFish.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(SchoolingFish.class, EntityDataSerializers.INT);
 
     protected SchoolingFish(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -34,38 +33,26 @@ public abstract class SchoolingFish extends BucketableFishEntity{
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(MODEL_VARIANT, 0);
-        this.entityData.define(SKIN_VARIANT, 0);
+        this.entityData.define(VARIANT, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putInt("VariantModel", this.getVariantModel());
-        compound.putInt("VariantSkin", this.getVariantSkin());
+        compound.putInt("Variant", this.getVariant());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.setVariantModel(compound.getInt("VariantModel"));
-        this.setVariantSkin(compound.getInt("VariantSkin"));
+        this.setVariant(compound.getInt("Variant"));
     }
 
-    public int getVariantModel() {
-        return this.entityData.get(MODEL_VARIANT);
+    public int getVariant() {
+        return this.entityData.get(VARIANT);
     }
 
-    public void setVariantModel(int variant) {
-        this.entityData.set(MODEL_VARIANT, variant);
+    public void setVariant(int variant) {
+        this.entityData.set(VARIANT, variant);
     }
-
-    public int getVariantSkin() {
-        return this.entityData.get(SKIN_VARIANT);
-    }
-
-    public void setVariantSkin(int variant) {
-        this.entityData.set(SKIN_VARIANT, variant);
-    }
-
     @Override
     public abstract ItemStack getBucketItemStack();
 

@@ -20,6 +20,8 @@ public class FintySounds {
     public static final RegistryObject<SoundEvent> SHUNJI = registerSoundEvents("shunji");
 
     public static final RegistryObject<SoundEvent> GOURAMI_CROAK = registerSoundEvents("gourami_croak");
+    public static final RegistryObject<SoundEvent> DWARF_FROG_IDLE = registerSoundEvents("dwarf_frog_idle");
+
 
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Fintastic.MOD_ID, name)));
