@@ -13,15 +13,25 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ByIdMap;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Bucketable;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.animal.Rabbit;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.MagmaCube;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -29,6 +39,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
@@ -43,6 +54,7 @@ import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.IntFunction;
+import java.util.function.Predicate;
 
 public class DwarfFrog extends BucketableFishEntity {
 
@@ -71,10 +83,25 @@ public class DwarfFrog extends BucketableFishEntity {
                 return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(FintyItems.FISHING_HAT.get());
             }
             return false;}));
+        this.goalSelector.addGoal(2, new FrogEatTargetGoal(this, 1.5D, false));
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS2, false));
         this.goalSelector.addGoal(4, new FrogSwimGoal(this, 1.0D, 400, 10));
         this.goalSelector.addGoal(5, new FrogGetAirGoal(this));
+
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 150, true, false, (entity) -> {
+            if (entity instanceof Slime slime){
+                return slime.getSize() == 1;
+            }
+            return entity instanceof GlowSquid;
+        }));
+    }
+
+    @Override
+    public boolean canAttack(LivingEntity pLivingentity, TargetingConditions pCondition) {
+        if (this.isBaby())
+            return false;
+        return super.canAttack(pLivingentity, pCondition);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -348,20 +375,52 @@ public class DwarfFrog extends BucketableFishEntity {
         }
     }
 
+    public static class FrogEatTargetGoal extends MeleeAttackGoal{
+        DwarfFrog frog;
+        public FrogEatTargetGoal(DwarfFrog pMob, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
+            super(pMob, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
+            this.frog = pMob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return !frog.isBaby() && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return !frog.isBaby() && super.canContinueToUse();
+        }
+
+        @Override
+        protected void checkAndPerformAttack(LivingEntity pEnemy, double pDistToEnemySqr) {
+            double d0 = this.getAttackReachSqr(pEnemy);
+            if (pDistToEnemySqr <= d0) {
+                pEnemy.discard();
+                if (pEnemy instanceof GlowSquid || pEnemy instanceof MagmaCube && !this.frog.level().isClientSide()){
+                    FrogVariant variant = FrogVariant.byId(this.frog.getVariant());
+                    this.frog.spawnAtLocation(variant.getFroglight());
+                }
+            }
+        }
+    }
+
     public enum FrogVariant implements StringRepresentable {
-        BROWN(0, "brown", "tan"),
-        GREEN(1, "green", "tan"),
-        PEACH(2, "peach", "pale"),
-        PINK(3, "pink", "tan");
+        BROWN(0, "brown", "tan", FintyBlocks.RED_DWARF_FROGLIGHT.get()),
+        GREEN(1, "green", "tan", FintyBlocks.GREEN_DWARF_FROGLIGHT.get()),
+        PEACH(2, "peach", "pale", FintyBlocks.YELLOW_DWARF_FROGLIGHT.get()),
+        PINK(3, "pink", "tan", FintyBlocks.PINK_DWARF_FROGLIGHT.get());
 
         private final int joinedVariant;
         private final String name;
         private final String tadpole;
+        private final Block froglight;
 
-        FrogVariant(int variant, String name, String tadpole){
+        FrogVariant(int variant, String name, String tadpole, Block froglight){
             this.joinedVariant = variant;
             this.name = name;
             this.tadpole = tadpole;
+            this.froglight = froglight;
         }
 
         public int getJoinedVariant(){
@@ -375,6 +434,10 @@ public class DwarfFrog extends BucketableFishEntity {
 
         public String getTadpoleName() {
             return this.tadpole;
+        }
+
+        public Block getFroglight() {
+            return froglight;
         }
 
         public static final IntFunction<FrogVariant> BY_ID
