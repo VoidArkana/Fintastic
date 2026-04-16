@@ -10,7 +10,10 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.block.custom.DuckweedBlock;
+import net.voidarkana.fintastic.common.block.custom.LotusPadBlock;
+import net.voidarkana.fintastic.common.block.custom.LotusPlantBlock;
 import net.voidarkana.fintastic.common.worldgen.configurations.DuckweedPatchConfiguration;
+import net.voidarkana.fintastic.util.FintyTags;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,10 +29,14 @@ public class DuckweedPatchFeature extends Feature<DuckweedPatchConfiguration> {
         DuckweedPatchConfiguration vegetationpatchconfiguration = pContext.config();
         RandomSource randomsource = pContext.random();
         BlockPos blockpos = pContext.origin();
-        int i = vegetationpatchconfiguration.xzRadius.sample(randomsource) + randomsource.nextInt(1, 3);
-        int j = vegetationpatchconfiguration.xzRadius.sample(randomsource) + randomsource.nextInt(1, 3);
-        Set<BlockPos> set = this.placePatch(worldgenlevel, vegetationpatchconfiguration, randomsource, blockpos, i, j);
-        return !set.isEmpty();
+        if (worldgenlevel.getBiome(blockpos).is(FintyTags.Biomes.DUCKWEED_BLACKLISTED_BIOMES)){
+            return false;
+        }else {
+            int i = vegetationpatchconfiguration.xzRadius.sample(randomsource) + randomsource.nextInt(1, 3);
+            int j = vegetationpatchconfiguration.xzRadius.sample(randomsource) + randomsource.nextInt(1, 3);
+            Set<BlockPos> set = this.placePatch(worldgenlevel, vegetationpatchconfiguration, randomsource, blockpos, i, j);
+            return !set.isEmpty();
+        }
     }
 
     protected Set<BlockPos> placePatch(WorldGenLevel pLevel, DuckweedPatchConfiguration pConfig, RandomSource pRandom, BlockPos pPos, int pXRadius, int pZRadius) {
@@ -76,6 +83,9 @@ public class DuckweedPatchFeature extends Feature<DuckweedPatchConfiguration> {
 
                                     pLevel.setBlock(blockpos, newBlockstate.setValue(DuckweedBlock.AMOUNT, existingAmount == 5 ? 5 : Math.max(1, Math.min(4, (existingAmount+duckweedAmount)/2))), 3);
                                 }else {
+                                    if (pRandom.nextInt(100)<10 && duckweedAmount<3){
+                                        duckweed = FintyBlocks.LOTUS_PAD.get().defaultBlockState().setValue(LotusPadBlock.FLOWER, pRandom.nextBoolean());
+                                    }
                                     pLevel.setBlock(blockpos, duckweed, 3);
                                 }
 

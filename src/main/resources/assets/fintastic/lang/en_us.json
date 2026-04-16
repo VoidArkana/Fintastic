@@ -502,9 +502,14 @@
 
   "block.fintastic.amazon_sword": "Amazon Swords",
   "block.fintastic.tall_amazon_sword": "Tall Amazon Swords",
+
   "block.fintastic.lotus": "Lotus",
   "block.fintastic.lotus_pad": "Lotus Pad",
   "block.fintastic.lotus_flower": "Lotus Flower",
+  "fintastic.sound.subtitle.lotus_water" : "Water gently splashes",
+  "fintastic.sound.subtitle.lotus_frog" : "Frogs croaking in the distance",
+  "fintastic.sound.subtitle.lotus_bug" : "Bugs chirping in the distance",
+
   "block.fintastic.blue_hypnea": "Blue Hypnea",
   "block.fintastic.mermaid_fan": "Mermaid's Fan",
 

@@ -64,7 +64,7 @@ public class FintyPlacedFeatures {
                 aquaticPlantPlacement(15));
 
         register(context, LOTUS_PLACED_KEY, configuredFeatures.getOrThrow(FintyConfiguredFeatures.LOTUS_KEY),
-                aquaticPlantPlacement(3));
+                aquaticPlantPlacement(4));
     }
 
     private static List<PlacementModifier> aquaticPlantPlacement(int pCount) {

@@ -108,6 +108,9 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
         this.tag(FintyTags.Biomes.DUCKWEED_BIOMES)
                 .addTag(Tags.Biomes.IS_SWAMP);
 
+        this.tag(FintyTags.Biomes.DUCKWEED_BLACKLISTED_BIOMES)
+                .addTag(Tags.Biomes.IS_COLD);
+
         this.tag(FintyTags.Biomes.AQUATIC_MOSS_BIOMES)
                 .addTag(BiomeTags.IS_JUNGLE)
                 .addTag(Tags.Biomes.IS_SWAMP)

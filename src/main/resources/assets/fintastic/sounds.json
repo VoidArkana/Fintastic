@@ -68,5 +68,146 @@
       }
     ],
     "subtitle": "fintastic.sound.subtitle.dwarf_frog_idle"
+  },
+
+  "lotus_water": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "fintastic:lotus_water_1"
+      },
+      {
+        "name": "fintastic:lotus_water_2"
+      },
+      {
+        "name": "fintastic:lotus_water_3"
+      },
+      {
+        "name": "fintastic:lotus_water_4"
+      },
+      {
+        "name": "fintastic:lotus_water_5"
+      },
+      {
+        "name": "fintastic:lotus_water_6"
+      }
+    ],
+    "subtitle": "fintastic.sound.subtitle.lotus_water"
+  },
+
+
+  "lotus_bug": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "fintastic:lotus_bug_1"
+      },
+      {
+        "name": "fintastic:lotus_bug_2"
+      },
+      {
+        "name": "fintastic:lotus_bug_3"
+      },
+      {
+        "name": "fintastic:lotus_bug_4"
+      }
+    ],
+    "subtitle": "fintastic.sound.subtitle.lotus_bug"
+  },
+
+
+  "lotus_bug_night": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "fintastic:lotus_bug_night_1"
+      },
+      {
+        "name": "fintastic:lotus_bug_night_2"
+      },
+      {
+        "name": "fintastic:lotus_bug_night_3"
+      }
+    ],
+    "subtitle": "fintastic.sound.subtitle.lotus_bug"
+  },
+
+
+  "lotus_frog": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "fintastic:lotus_frog_1"
+      },
+      {
+        "name": "fintastic:lotus_frog_2"
+      },
+      {
+        "name": "fintastic:lotus_frog_3"
+      },
+      {
+        "name": "fintastic:lotus_frog_4"
+      },
+      {
+        "name": "fintastic:lotus_frog_5"
+      },
+      {
+        "name": "fintastic:lotus_frog_6"
+      },
+      {
+        "name": "fintastic:lotus_frog_7"
+      },
+      {
+        "name": "fintastic:lotus_frog_8"
+      },
+      {
+        "name": "fintastic:lotus_frog_9"
+      },
+      {
+        "name": "fintastic:lotus_frog_10"
+      },
+      {
+        "name": "fintastic:lotus_frog_11"
+      },
+      {
+        "name": "fintastic:lotus_frog_12"
+      },
+      {
+        "name": "fintastic:lotus_frog_13"
+      },
+      {
+        "name": "fintastic:lotus_frog_14"
+      }
+    ],
+    "subtitle": "fintastic.sound.subtitle.lotus_frog"
+  },
+
+
+  "lotus_frog_night": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "fintastic:lotus_frog_night_1"
+      },
+      {
+        "name": "fintastic:lotus_frog_night_2"
+      },
+      {
+        "name": "fintastic:lotus_frog_night_3"
+      },
+      {
+        "name": "fintastic:lotus_frog_night_4"
+      },
+      {
+        "name": "fintastic:lotus_frog_night_5"
+      },
+      {
+        "name": "fintastic:lotus_frog_night_6"
+      },
+      {
+        "name": "fintastic:lotus_frog_night_7"
+      }
+    ],
+    "subtitle": "fintastic.sound.subtitle.lotus_frog"
   }
 }

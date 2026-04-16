@@ -36,6 +36,7 @@ public class FintyTags {
 
         public static final TagKey<Biome> LIVEROCK_BOULDER_BIOMES = tag("liverock_boulder_biomes");
         public static final TagKey<Biome> DUCKWEED_BIOMES = tag("duckweed_biomes");
+        public static final TagKey<Biome> DUCKWEED_BLACKLISTED_BIOMES = tag("duckweed_blacklisted_biomes");
         public static final TagKey<Biome> HORNWORT_BIOMES = tag("hornwort_biomes");
         public static final TagKey<Biome> STROMATOLITE_BIOMES = tag("stromatolite_biomes");
         public static final TagKey<Biome> ANUBIAS_BIOMES = tag("anubias_biomes");

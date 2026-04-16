@@ -22,6 +22,11 @@ public class FintySounds {
     public static final RegistryObject<SoundEvent> GOURAMI_CROAK = registerSoundEvents("gourami_croak");
     public static final RegistryObject<SoundEvent> DWARF_FROG_IDLE = registerSoundEvents("dwarf_frog_idle");
 
+    public static final RegistryObject<SoundEvent> LOTUS_WATER = registerSoundEvents("lotus_water");
+    public static final RegistryObject<SoundEvent> LOTUS_BUG = registerSoundEvents("lotus_bug");
+    public static final RegistryObject<SoundEvent> LOTUS_FROG = registerSoundEvents("lotus_frog");
+    public static final RegistryObject<SoundEvent> LOTUS_BUG_NIGHT = registerSoundEvents("lotus_bug_night");
+    public static final RegistryObject<SoundEvent> LOTUS_FROG_NIGHT = registerSoundEvents("lotus_frog_night");
 
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Fintastic.MOD_ID, name)));
