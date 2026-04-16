@@ -29,6 +29,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.Tags;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.sound.FintySounds;
+import net.voidarkana.fintastic.util.FintyCommonConfig;
 import org.jetbrains.annotations.Nullable;
 
 public class LotusPadBlock extends BushBlock {
@@ -94,7 +95,7 @@ public class LotusPadBlock extends BushBlock {
 
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
 
-        if (pRandom.nextInt(100) < 3){
+        if (pRandom.nextInt(1000) < FintyCommonConfig.LOTUS_PAD_FREQUENCY.get()){
             for(Direction direction : Direction.Plane.HORIZONTAL) {
                 BlockState blockstate1 = pLevel.getBlockState(pPos.relative(direction));
 
@@ -105,18 +106,17 @@ public class LotusPadBlock extends BushBlock {
 
                      if (!pState.getValue(FLOWER) && pLevel.getBlockState(pPos.below()).getFluidState().is(Fluids.WATER) && pRandom.nextInt(4)==0){
 
-                         pLevel.playLocalSound(d0, d1, d2, FintySounds.LOTUS_WATER.get(), SoundSource.BLOCKS, 0.5F,
+                         pLevel.playLocalSound(d0, d1, d2, FintySounds.LOTUS_WATER.get(), SoundSource.BLOCKS, FintyCommonConfig.LOTUS_PAD_LOUDNESS.get(),
                                  (pRandom.nextFloat() - pRandom.nextFloat()) * 0.2F + 0.9F, false);
 
                     }else if (pState.getValue(FLOWER) && pRandom.nextInt(3)>0) {
 
                         if (blockstate1.is(FintyBlocks.LOTUS_FLOWER.get()) && pRandom.nextInt(pLevel.isDay() ? 2 : 3)>0){
                             pLevel.playLocalSound(d0, d1, d2, !pLevel.isDay() && pRandom.nextBoolean() ? FintySounds.LOTUS_BUG_NIGHT.get() :  FintySounds.LOTUS_BUG.get(), SoundSource.BLOCKS,
-                                    0.5F, (pRandom.nextFloat() - pRandom.nextFloat()) * 0.2F + 0.9F, false);
+                                    FintyCommonConfig.LOTUS_PAD_LOUDNESS.get(), (pRandom.nextFloat() - pRandom.nextFloat()) * 0.2F + 0.9F, false);
                         }else {
                             pLevel.playLocalSound(d0, d1, d2, !pLevel.isDay() && pRandom.nextBoolean() ? FintySounds.LOTUS_FROG_NIGHT.get() : FintySounds.LOTUS_FROG.get(), SoundSource.BLOCKS,
-                                    0.5F, (pRandom.nextFloat() - pRandom.nextFloat()) * 0.2F + 0.9F, false);
-
+                                    FintyCommonConfig.LOTUS_PAD_LOUDNESS.get(), (pRandom.nextFloat() - pRandom.nextFloat()) * 0.2F + 0.9F, false);
                         }
 
                     }
