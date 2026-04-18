@@ -247,6 +247,12 @@ public class FintyItems {
             () -> new RecordItem(6, FintySounds.SALTY, new Item.Properties().stacksTo(1)
                     .rarity(Rarity.RARE), 2400));
 
+    public static final RegistryObject<Item> LOTUS_ROOT = ITEMS.register("lotus_root",
+            () -> new Item(new Item.Properties().food(YAFMFoods.LOTUS_ROOT)));
+
+    public static final RegistryObject<Item> BAKED_LOTUS_ROOT = ITEMS.register("baked_lotus_root",
+            () -> new Item(new Item.Properties().food(YAFMFoods.COOKED_LOTUS_ROOT)));
+
 
     public static final RegistryObject<Item> AXOLOTL_MUSIC_DISC = ITEMS.register("axolotl_music_disc",
             () -> new RecordItem(7, FintySounds.AXOLOTL, new Item.Properties().stacksTo(1)

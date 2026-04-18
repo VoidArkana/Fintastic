@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,6 +33,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
+import net.voidarkana.fintastic.common.item.FintyItems;
 import org.checkerframework.checker.units.qual.A;
 
 import javax.annotation.Nullable;
@@ -111,6 +113,30 @@ public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlo
                     .setValue(FLOWERS, pFacingState.getValue(FLOWERS)) : Blocks.AIR.defaultBlockState();
         } else {
             return doubleblockhalf == DoubleBlockHalf.LOWER && pFacing == Direction.DOWN && !pState.canSurvive(pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+        }
+    }
+
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+        if ((pState.getValue(HALF) == DoubleBlockHalf.LOWER && pLevel.getBlockState(pPos.below()).is(Blocks.MUDDY_MANGROVE_ROOTS))
+        || (pState.getValue(HALF) == DoubleBlockHalf.UPPER && pLevel.getBlockState(pPos.below(2)).is(Blocks.MUDDY_MANGROVE_ROOTS))){
+
+            int i = pState.getValue(FLOWERS);
+            int j = pState.getValue(AMOUNT);
+            if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, true)) {
+
+                if (j<5 || i<this.getMaxFlowers(pState)) {
+                    this.performBonemeal(pLevel, pRandom, pPos, pState);
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean isRandomlyTicking(BlockState pState) {
+        if (pState.getValue(HALF) == DoubleBlockHalf.UPPER){
+            return false;
+        }else{
+            return true;
         }
     }
 
@@ -196,7 +222,15 @@ public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlo
             popResource(pLevel, pPos, new ItemStack(FintyBlocks.LOTUS_PAD.get()));
 
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
-        } else {
+        } else if (pState.getValue(HALF) == DoubleBlockHalf.LOWER && pPlayer.getItemInHand(pHand).is(ItemTags.SHOVELS)){
+            for (int i = pState.getValue(AMOUNT); i > 0; i--){
+                popResource(pLevel, pPos, new ItemStack(FintyItems.LOTUS_ROOT.get()));
+            }
+            pLevel.destroyBlock(pPos,false);
+            pLevel.destroyBlock(pPos.above(),false);
+
+            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        }else {
             return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
         }
     }
@@ -218,11 +252,11 @@ public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlo
             BlockState blockState = pLevel.getBlockState(blockpos);
 
             if (pState.getValue(FLOWERS)<this.getMaxFlowers(pState) && pRandom.nextInt(3)==0){
-                pLevel.setBlock(pPos, pState.setValue(FLOWERS, pState.getValue(FLOWERS)+1), 3);
-                pLevel.setBlock(blockpos, blockState.setValue(FLOWERS, blockState.getValue(FLOWERS)+1), 3);
+                pLevel.setBlock(pPos, pState.setValue(FLOWERS, Math.min(this.getMaxFlowers(pState), pState.getValue(FLOWERS)+1)), 3);
+                pLevel.setBlock(blockpos, blockState.setValue(FLOWERS, Math.min(this.getMaxFlowers(pState), pState.getValue(FLOWERS)+1)), 3);
             }else{
-                pLevel.setBlock(pPos, pState.setValue(AMOUNT, pState.getValue(AMOUNT)+1), 3);
-                pLevel.setBlock(blockpos, blockState.setValue(AMOUNT, blockState.getValue(AMOUNT)+1), 3);
+                pLevel.setBlock(pPos, pState.setValue(AMOUNT, Math.min(5, pState.getValue(AMOUNT)+1)), 3);
+                pLevel.setBlock(blockpos, blockState.setValue(AMOUNT, Math.min(5, pState.getValue(AMOUNT)+1)), 3);
             }
         }else {
             if (pRandom.nextInt(3)==0){

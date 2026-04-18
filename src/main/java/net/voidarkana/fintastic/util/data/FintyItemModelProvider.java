@@ -120,6 +120,9 @@ public class FintyItemModelProvider extends ItemModelProvider {
         simpleItem(FintyItems.SMALL_CATFISH_SPAWN_EGG);
         simpleItem(FintyItems.SMALL_CATFISH_BUCKET);
         simpleItem(FintyItems.SMALL_CATFISH);
+
+        simpleItem(FintyItems.LOTUS_ROOT);
+        simpleItem(FintyItems.BAKED_LOTUS_ROOT);
     }
 
     private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {

@@ -44,4 +44,12 @@ public class YAFMFoods {
     public static final FoodProperties SEA_GRAPE_SALAD = (new FoodProperties.Builder())
             .nutrition(6)
             .saturationMod(0.4F).build();
+
+    public static final FoodProperties LOTUS_ROOT = (new FoodProperties.Builder())
+            .nutrition(2)
+            .saturationMod(0.1F).build();
+
+    public static final FoodProperties COOKED_LOTUS_ROOT = (new FoodProperties.Builder())
+            .nutrition(6)
+            .saturationMod(0.4F).build();
 }

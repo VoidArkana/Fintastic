@@ -103,6 +103,8 @@ public class FintyCreativeTab {
                         output.accept(FintyBlocks.LOTUS.get());
                         output.accept(FintyBlocks.LOTUS_PAD.get());
                         output.accept(FintyBlocks.LOTUS_FLOWER.get());
+                        output.accept(FintyItems.LOTUS_ROOT.get());
+                        output.accept(FintyItems.BAKED_LOTUS_ROOT.get());
                         output.accept(FintyBlocks.MERMAID_FAN.get());
                         output.accept(FintyBlocks.SEA_GRAPES.get());
                         output.accept(FintyItems.SEA_GRAPE_SALAD.get());

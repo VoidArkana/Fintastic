@@ -277,7 +277,7 @@ public class FintyBlocks {
     public static final RegistryObject<Block> LOTUS = registerBlock("lotus",
             () -> new LotusPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
                     .noCollission().noOcclusion().instabreak().sound(SoundType.WET_GRASS)
-                    .pushReaction(PushReaction.DESTROY)));
+                    .pushReaction(PushReaction.DESTROY).randomTicks()));
 
     public static final Supplier<Block> LOTUS_FLOWER = registerBlockWithItem("lotus_flower",
             () -> new LotusFlowerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)

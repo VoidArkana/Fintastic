@@ -72,24 +72,36 @@ public class SmallCatfish extends AbstractBottomSchooler {
             return false;}));
 
         this.goalSelector.addGoal(4, new BottomDwellerSwimGoal(this));
-        this.goalSelector.addGoal(10, new BottomMoveGoal(this, 1, 80));
+        this.goalSelector.addGoal(10, new BottomMoveGoal(this, 1, 30));
 
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 3.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.8F);
+                .add(Attributes.MOVEMENT_SPEED, 0.7F);
     }
 
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Pleco baby = FintyEntities.PLECO.get().create(pLevel);
+        SmallCatfish baby = FintyEntities.SMALL_CATFISH.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
-            baby.setVariant(this.getVariant());
+            baby.setVariant(this.getRandom().nextBoolean() ? ((SmallCatfish)pOtherParent).getVariant() : this.getVariant());
         }
         return baby;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.isFollower() && this.tickCount % 40 == 0){
+            this.setWantsToSwim(this.leader.getWantsToSwim());
+            if (!this.getWantsToSwim()){
+                this.swimmingTicks = 0;
+                this.prevSwimTick = 0;
+            }
+        }
     }
 
     @Override

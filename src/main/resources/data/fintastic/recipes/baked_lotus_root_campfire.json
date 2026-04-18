@@ -1,9 +1,9 @@
 {
   "type": "minecraft:campfire_cooking",
   "ingredient": {
-    "item": "fintastic:dwarf_frog"
+    "item": "fintastic:lotus_root"
   },
-  "result": "fintastic:cooked_dwarf_frog",
+  "result": "fintastic:baked_lotus_root",
   "experience": 0.35,
   "cookingtime": 600
 }
