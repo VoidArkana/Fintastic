@@ -34,6 +34,7 @@ public class FintyEvents {
         event.put(FintyEntities.COD.get(), FintasticCod.createAttributes().build());
         event.put(FintyEntities.SALMON.get(), FintasticSalmon.createAttributes().build());
         event.put(FintyEntities.DWARF_FROG.get(), DwarfFrog.createAttributes().build());
+        event.put(FintyEntities.SMALL_CATFISH.get(), SmallCatfish.createAttributes().build());
     }
 
 }

@@ -226,6 +226,16 @@ public class FintyItems {
     public static final RegistryObject<Item> COOKED_DWARF_FROG = ITEMS.register("cooked_dwarf_frog",
             () -> new Item(new Item.Properties().food(YAFMFoods.COOKED_FISH)));
 
+    public static final RegistryObject<Item> SMALL_CATFISH_SPAWN_EGG = ITEMS.register("small_catfish_spawn_egg",
+            () -> new SmallCatfishSpawnEgg(FintyEntities.SMALL_CATFISH, 0xffffff, 0xffffff, new Item.Properties()));
+    public static final RegistryObject<Item> SMALL_CATFISH_BUCKET = ITEMS.register("small_catfish_bucket", () -> {
+        return new FishBucketItem(FintyEntities.SMALL_CATFISH, () -> {
+            return Fluids.WATER;
+        }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
+    });
+    public static final RegistryObject<Item> SMALL_CATFISH = ITEMS.register("small_catfish",
+            () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH_TINY)));
+
     public static final RegistryObject<Item> SEA_GRAPE_SALAD = ITEMS.register("sea_grape_salad",
             () -> new StackableBowlFoodItem(new Item.Properties().food(YAFMFoods.SEA_GRAPE_SALAD).stacksTo(16)));
 

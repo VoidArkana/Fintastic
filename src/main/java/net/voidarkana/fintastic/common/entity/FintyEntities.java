@@ -107,12 +107,17 @@ public class FintyEntities {
                             .sized(0.6f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "fintastic_salmon").toString()));
 
-
     public static final RegistryObject<EntityType<DwarfFrog>> DWARF_FROG =
             ENTITY_TYPES.register("dwarf_frog",
                     () -> EntityType.Builder.of(DwarfFrog::new, MobCategory.WATER_CREATURE)
                             .sized(0.4f, 0.4f)
                             .build(new ResourceLocation(Fintastic.MOD_ID, "dwarf_frog").toString()));
+
+    public static final RegistryObject<EntityType<SmallCatfish>> SMALL_CATFISH =
+            ENTITY_TYPES.register("small_catfish",
+                    () -> EntityType.Builder.of(SmallCatfish::new, MobCategory.WATER_AMBIENT)
+                            .sized(0.4f, 0.4f)
+                            .build(new ResourceLocation(Fintastic.MOD_ID, "small_catfish").toString()));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

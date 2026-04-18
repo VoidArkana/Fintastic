@@ -16,14 +16,10 @@
     "hidden": true
   },
   "requirements": [
-    ["regular_feed",
-      "quality_feed",
-      "great_feed",
-      "premium_feed"
-    ]
+    ["fish_buckets"]
   ],
   "criteria": {
-    "regular_feed": {
+    "fish_buckets": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -39,41 +35,9 @@
           {"items": ["fintastic:minnow_bucket"]},
           {"items": ["fintastic:moony_bucket"]},
           {"items": ["fintastic:pleco_bucket"]},
-          {"items": ["fintastic:freshwater_shark_bucket"]}
-        ]
-      }
-    },
-    "quality_feed": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [{
-          "items": [
-            "fintastic:quality_feed"
-          ]
-        }]
-      }
-    },
-    "great_feed": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "fintastic:great_feed"
-            ]
-          }
-        ]
-      }
-    },
-    "premium_feed": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "fintastic:premium_feed"
-            ]
-          }
+          {"items": ["fintastic:freshwater_shark_bucket"]},
+          {"items": ["fintastic:dwarf_frog_bucket"]},
+          {"items": ["fintastic:small_catfish_bucket"]}
         ]
       }
     }

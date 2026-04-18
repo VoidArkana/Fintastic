@@ -2,8 +2,6 @@ package net.voidarkana.fintastic.client.models.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
-import net.minecraft.core.Direction;
 import net.voidarkana.fintastic.client.animation.PlecoAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Pleco;
@@ -115,28 +113,10 @@ public class PlecoModel<T extends Pleco> extends FintasticModel<T> {
 
         this.swim_rot.z = Mth.lerp(pEntity.getTicksAttached()/3f, 0, 1f);
 		this.swim_rot.y = Mth.lerp(pEntity.getTicksAttached()/3f, this.swim_rot.y, -3f);
-
-//		if (pEntity.getPointingDirection().getAxis().isHorizontal()){
-//			System.out.println(pEntity.getStrafingTicks());
-//			this.swim_rot.zRot = this.swim_rot.zRot + Mth.lerp(pEntity.getStrafingTicks()/5f,
-//					0,
-//						(float) Math.toRadians(pEntity.getAttachedDirection().getClockWise() == pEntity.getPointingDirection() ?
-//						-45 : 45));
-//		}
-
 	}
 
 	@Override
 	public ModelPart root() {
 		return root;
-	}
-
-	@Override
-	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
-//		pPoseStack.pushPose();
-
-
-		super.renderToBuffer(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
-//		pPoseStack.popPose();
 	}
 }

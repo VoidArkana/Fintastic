@@ -25,6 +25,7 @@ public class FintyEntityPlacements {
         SpawnPlacements.register(FintyEntities.SALMON.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FintasticSalmon::checkSurfaceWaterAnimalSpawnRules);
         SpawnPlacements.register(FintyEntities.COD.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FintasticCod::checkSurfaceWaterAnimalSpawnRules);
         SpawnPlacements.register(FintyEntities.DWARF_FROG.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
+        SpawnPlacements.register(FintyEntities.SMALL_CATFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
 
     }
 }

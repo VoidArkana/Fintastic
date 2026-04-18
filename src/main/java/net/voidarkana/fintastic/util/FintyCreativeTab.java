@@ -57,7 +57,6 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.ARTEMIA_BUCKET.get());
                         output.accept(FintyItems.FEATHERBACK.get());
                         output.accept(FintyItems.FEATHERBACK_BUCKET.get());
-                        output.accept(FintyItems.FRESHWATER_SHARK_BUCKET.get());
                         output.accept(FintyItems.GUPPY.get());
                         output.accept(FintyItems.GUPPY_BUCKET.get());
                         output.accept(FintyItems.GOURAMI.get());
@@ -70,6 +69,9 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.PLECO_BUCKET.get());
                         output.accept(FintyItems.SALMON_BUCKET.get());
                         output.accept(FintyItems.SHARKMINNOW.get());
+                        output.accept(FintyItems.FRESHWATER_SHARK_BUCKET.get());
+                        output.accept(FintyItems.SMALL_CATFISH.get());
+                        output.accept(FintyItems.SMALL_CATFISH_BUCKET.get());
 
                         output.accept(FintyItems.ARAPAIMA_SPAWN_EGG.get());
                         output.accept(FintyItems.CATFISH_SPAWN_EGG.get());
@@ -85,8 +87,9 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.MINNOW_SPAWN_EGG.get());
                         output.accept(FintyItems.MOONY_SPAWN_EGG.get());
                         output.accept(FintyItems.PLECO_SPAWN_EGG.get());
-                        output.accept(FintyItems.FRESHWATER_SHARK_SPAWN_EGG.get());
                         output.accept(FintyItems.SALMON_SPAWN_EGG.get());
+                        output.accept(FintyItems.FRESHWATER_SHARK_SPAWN_EGG.get());
+                        output.accept(FintyItems.SMALL_CATFISH_SPAWN_EGG.get());
 
 
                         output.accept(FintyBlocks.AMAZON_SWORD.get());

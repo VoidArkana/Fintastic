@@ -46,16 +46,12 @@ import java.util.function.IntFunction;
 
 public class Pleco extends AbstractSwimmingBottomDweller {
 
-    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> TICKS_ON_GROUND = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.INT);
-
     private static final EntityDataAccessor<Boolean> WANTS_TO_ATTACH = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> ATTACHED_TICKS = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Direction> ATTACHED_DIRECTION = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.DIRECTION);
     private static final EntityDataAccessor<Direction> POINTING_DIRECTION = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.DIRECTION);
     private static final EntityDataAccessor<Integer> STRAFING_TICKS = SynchedEntityData.defineId(Pleco.class, EntityDataSerializers.INT);
 
-    int prevTicksOnGround;
     int prevTicksAttached;
     int prevTicksStrifing;
 
@@ -98,9 +94,7 @@ public class Pleco extends AbstractSwimmingBottomDweller {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(VARIANT, 0);
         this.entityData.define(WANTS_TO_ATTACH, false);
-        this.entityData.define(TICKS_ON_GROUND, 0);
         this.entityData.define(ATTACHED_TICKS, 0);
         this.entityData.define(STRAFING_TICKS, 0);
         this.entityData.define(ATTACHED_DIRECTION, Direction.DOWN);
@@ -109,29 +103,16 @@ public class Pleco extends AbstractSwimmingBottomDweller {
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putInt("Variant", this.getVariant());
+        compound.putBoolean("WantsToAttach", this.wantsToAttach());
+        compound.putInt("AttachedDirection", this.getAttachedDirection().get3DDataValue());
+        compound.putInt("PointingDirection", this.getPointingDirection().get3DDataValue());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.setVariant(compound.getInt("Variant"));
-    }
-
-    //variants
-    public int getVariant() {
-        return this.entityData.get(VARIANT);
-    }
-
-    public void setVariant(int variant) {
-        this.entityData.set(VARIANT, variant);
-    }
-
-    public int getTicksOnGround() {
-        return this.entityData.get(TICKS_ON_GROUND);
-    }
-
-    public void setTicksOnGround(int ticks) {
-        this.entityData.set(TICKS_ON_GROUND, ticks);
+        this.setWantsToAttach(compound.getBoolean("WantsToAttach"));
+        this.setAttachedDirection(Direction.from3DDataValue(compound.getInt("AttachedDirection")));
+        this.setPointingDirection(Direction.from3DDataValue(compound.getInt("PointingDirection")));
     }
 
     public int getTicksAttached() {
@@ -377,17 +358,6 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         }
 
         if (!this.level().isClientSide()){
-            if (this.isInWaterOrBubble() && !this.onGround()){
-                if (this.getTicksOnGround() > 0){
-                    this.prevTicksOnGround = this.getTicksOnGround();
-                    this.setTicksOnGround(this.prevTicksOnGround-1);
-                }
-            }else {
-                if (this.getTicksOnGround() < 3){
-                    this.prevTicksOnGround = this.getTicksOnGround();
-                    this.setTicksOnGround(this.prevTicksOnGround+1);
-                }
-            }
 
             if (this.isAttached() && this.getTicksAttached() < 3){
                 this.prevTicksAttached = this.getTicksAttached();
@@ -501,17 +471,12 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         }
     }
 
-    @Override
-    public boolean onClimbable() {
-        return super.onClimbable();
-    }
-
-    class PlecoSwimGoal extends RandomSwimmingGoal{
+    static class PlecoSwimGoal extends BottomDwellerSwimGoal{
 
         Pleco pleco;
 
         public PlecoSwimGoal(Pleco mob) {
-            super(mob, 1.0D, 50);
+            super(mob);
             this.pleco = mob;
         }
 
@@ -519,18 +484,18 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         public boolean canUse() {
             if (this.pleco.isAttached())
                 return false;
-            return this.pleco.getWantsToSwim() && super.canUse();
+            return super.canUse();
         }
 
         @Override
         public boolean canContinueToUse() {
             if (this.pleco.isAttached())
                 return false;
-            return this.pleco.getWantsToSwim() && super.canContinueToUse();
+            return super.canContinueToUse();
         }
     }
 
-    class PlecoBottomMoveGoal extends RandomStrollGoal{
+    static class PlecoBottomMoveGoal extends BottomMoveGoal{
 
         Pleco pleco;
         public PlecoBottomMoveGoal(Pleco pMob, double pSpeedModifier, int interval) {
@@ -542,20 +507,14 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         public boolean canUse() {
             if (this.pleco.isAttached())
                 return false;
-            return !this.pleco.getWantsToSwim() && this.pleco.onGround() && super.canUse();
+            return super.canUse();
         }
 
         @Override
         public boolean canContinueToUse() {
             if (this.pleco.isAttached())
                 return false;
-            return !this.pleco.getWantsToSwim() && super.canContinueToUse();
-        }
-
-        @Nullable
-        @Override
-        protected Vec3 getPosition() {
-            return DefaultRandomPos.getPos(this.pleco, 10, 1);
+            return super.canContinueToUse();
         }
     }
 

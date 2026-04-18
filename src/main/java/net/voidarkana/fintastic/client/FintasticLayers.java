@@ -96,6 +96,15 @@ public class FintasticLayers {
     public static final ModelLayerLocation DWARF_FROG_TADPOLE =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "dwarf_frog_tadpole"), "main");
 
+    public static final ModelLayerLocation SMALL_CATFISH_BANJO =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "small_catfish_banjo"), "main");
+    public static final ModelLayerLocation SMALL_CATFISH_CORY =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "small_catfish_cory"), "main");
+    public static final ModelLayerLocation SMALL_CATFISH_THORNY =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "small_catfish_thorny"), "main");
+    public static final ModelLayerLocation SMALL_CATFISH_TINY_CORY =
+            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "small_catfish_tiny_cory"), "main");
+
     public static final ModelLayerLocation HAT_LAYER =
             new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fishing_hat"), "main");
 }

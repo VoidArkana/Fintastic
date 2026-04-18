@@ -137,6 +137,10 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
         this.tag(FintyTags.Biomes.DWARF_FROG_BIOMES)
                 .addTag(Tags.Biomes.IS_SWAMP)
                 .addTag(BiomeTags.IS_JUNGLE);
+
+        this.tag(FintyTags.Biomes.SMALL_CATFISH_BIOMES)
+                .add(Biomes.SWAMP)
+                .addTag(BiomeTags.IS_JUNGLE);
     }
 
 }

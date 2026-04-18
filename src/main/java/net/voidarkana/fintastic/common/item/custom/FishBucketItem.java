@@ -479,5 +479,25 @@ public class FishBucketItem extends MobBucketItem {
             }
         }
 
+        if (getFishType() == FintyEntities.SMALL_CATFISH.get()) {
+            CompoundTag compoundtag = pStack.getTag();
+            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+                int i = compoundtag.getInt("Variant");
+                SmallCatfish.SmallCatfishVariant variant = SmallCatfish.SmallCatfishVariant.byId(i);
+
+                String featherback_sci = "fintastic.small_catfish_sci." + variant.getSerializedName();
+                String common = "fintastic.small_catfish_common." + variant.getSerializedName();
+
+
+                MutableComponent mutablecomponent = Component.translatable(featherback_sci);
+                mutablecomponent.withStyle(bchatformatting);
+
+                if (Screen.hasShiftDown()){
+                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+                    pTooltipComponents.add(mutablecomponent);
+                }
+            }
+        }
+
     }
 }

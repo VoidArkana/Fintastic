@@ -116,6 +116,10 @@ public class FintyItemModelProvider extends ItemModelProvider {
         simpleItem(FintyItems.DWARF_FROG_SPAWN_EGG);
         simpleItem(FintyItems.DWARF_FROG);
         simpleItem(FintyItems.COOKED_DWARF_FROG);
+
+        simpleItem(FintyItems.SMALL_CATFISH_SPAWN_EGG);
+        simpleItem(FintyItems.SMALL_CATFISH_BUCKET);
+        simpleItem(FintyItems.SMALL_CATFISH);
     }
 
     private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {

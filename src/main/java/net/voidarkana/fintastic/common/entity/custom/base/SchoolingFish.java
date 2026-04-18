@@ -53,8 +53,6 @@ public abstract class SchoolingFish extends BucketableFishEntity{
     public void setVariant(int variant) {
         this.entityData.set(VARIANT, variant);
     }
-    @Override
-    public abstract ItemStack getBucketItemStack();
 
     @Nullable
     protected SchoolingFish leader;

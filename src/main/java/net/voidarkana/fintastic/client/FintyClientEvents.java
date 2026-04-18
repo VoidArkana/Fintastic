@@ -25,6 +25,10 @@ import net.voidarkana.fintastic.client.models.entity.guppy.GuppyModel;
 import net.voidarkana.fintastic.client.models.entity.minnows.*;
 import net.voidarkana.fintastic.client.models.entity.moonies.*;
 import net.voidarkana.fintastic.client.models.entity.sharkminnows.*;
+import net.voidarkana.fintastic.client.models.entity.small_catfish.SmallCatfishBanjoModel;
+import net.voidarkana.fintastic.client.models.entity.small_catfish.SmallCatfishCoryModel;
+import net.voidarkana.fintastic.client.models.entity.small_catfish.SmallCatfishThornyModel;
+import net.voidarkana.fintastic.client.models.entity.small_catfish.SmallCatfishTinyCoryModel;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 
 @Mod.EventBusSubscriber(modid = Fintastic.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -83,6 +87,10 @@ public class FintyClientEvents {
         event.registerLayerDefinition(FintasticLayers.SALMON, FintySalmonModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.DWARF_FROG, DwarfFrogModel::createBodyLayer);
         event.registerLayerDefinition(FintasticLayers.DWARF_FROG_TADPOLE, DwarfFrogTadpoleModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.SMALL_CATFISH_BANJO, SmallCatfishBanjoModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.SMALL_CATFISH_CORY, SmallCatfishCoryModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.SMALL_CATFISH_THORNY, SmallCatfishThornyModel::createBodyLayer);
+        event.registerLayerDefinition(FintasticLayers.SMALL_CATFISH_TINY_CORY, SmallCatfishTinyCoryModel::createBodyLayer);
 
         event.registerLayerDefinition(FintasticLayers.HAT_LAYER, HatModel::createArmorLayer);
 
