@@ -143,5 +143,10 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
                 .add(FintyBlocks.STROMATOLITE_GROWTHS.get())
                 .add(FintyBlocks.FOSSIL_STROMATOLITE.get())
                 .add(FintyBlocks.FOSSIL_STROMATOLITE_GROWTHS.get());
+
+        this.tag(FintyTags.Blocks.LOTUS_GROWABLE)
+                .add(Blocks.ROOTED_DIRT)
+                .add(Blocks.MUD)
+                .add(Blocks.MUDDY_MANGROVE_ROOTS);
     }
 }

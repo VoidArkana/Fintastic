@@ -216,7 +216,7 @@ public class SmallCatfish extends AbstractBottomSchooler {
         PANTANA_CORYDORAS(116, "pantana_corydoras"),
         PEPPERED_CORYDORAS(117, "peppered_corydoras"),
         SLATE_CORYDORAS(118, "slate_corydoras"),
-        SMUDGE_SPOT_CORYDORAS(119, "smudge_corydoras"),
+        SMUDGE_SPOT_CORYDORAS(119, "smudge_spot_corydoras"),
         STERBAS_CORYDORAS(120, "sterbas_corydoras"),
         SWORD_CORYDORAS(121, "sword_corydoras"),
         TWO_TONE_CORYDORAS(122, "two_tone_corydoras"),

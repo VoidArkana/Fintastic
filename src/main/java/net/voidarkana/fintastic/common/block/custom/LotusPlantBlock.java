@@ -34,6 +34,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 import org.checkerframework.checker.units.qual.A;
 
 import javax.annotation.Nullable;
@@ -117,12 +118,12 @@ public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlo
     }
 
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if ((pState.getValue(HALF) == DoubleBlockHalf.LOWER && pLevel.getBlockState(pPos.below()).is(Blocks.MUDDY_MANGROVE_ROOTS))
-        || (pState.getValue(HALF) == DoubleBlockHalf.UPPER && pLevel.getBlockState(pPos.below(2)).is(Blocks.MUDDY_MANGROVE_ROOTS))){
+        if ((pState.getValue(HALF) == DoubleBlockHalf.LOWER && pLevel.getBlockState(pPos.below()).is(FintyTags.Blocks.LOTUS_GROWABLE))
+        || (pState.getValue(HALF) == DoubleBlockHalf.UPPER && pLevel.getBlockState(pPos.below(2)).is(FintyTags.Blocks.LOTUS_GROWABLE))){
 
             int i = pState.getValue(FLOWERS);
             int j = pState.getValue(AMOUNT);
-            if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, true)) {
+            if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, true) && pRandom.nextInt(3)>0) {
 
                 if (j<5 || i<this.getMaxFlowers(pState)) {
                     this.performBonemeal(pLevel, pRandom, pPos, pState);

@@ -32,7 +32,8 @@ public class LotusFeature extends Feature<NoneFeatureConfiguration> {
         int k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + i, blockpos.getZ() + j);
         BlockPos blockpos1 = new BlockPos(blockpos.getX() + i, k, blockpos.getZ() + j);
 
-        if (worldgenlevel.getBlockState(blockpos1.above()).getFluidState().isEmpty()){
+        if (worldgenlevel.getBlockState(blockpos1.above()).isAir() && (worldgenlevel.getBlockState(blockpos1).isAir()
+                || worldgenlevel.getBlockState(blockpos1).getFluidState().is(Fluids.WATER))){
             Direction direction = switch (randomsource.nextInt(0, 4)) {
                 case 1 -> Direction.EAST;
                 case 2 -> Direction.WEST;
@@ -80,7 +81,7 @@ public class LotusFeature extends Feature<NoneFeatureConfiguration> {
 
                 int currentRadius = Math.toIntExact(Math.round(Math.sqrt(Math.pow(z, 2) + Math.pow(x, 2))));
 
-                if (currentRadius <= pXRadius || currentRadius <= pZRadius && pRandom.nextInt(5)==0) {
+                if (currentRadius <= pXRadius || currentRadius <= pZRadius && pRandom.nextInt(6)==0) {
                     blockpos$mutableblockpos.setWithOffset(pPos, x, 0, z);
 
                     BlockState blockState;
@@ -95,7 +96,7 @@ public class LotusFeature extends Feature<NoneFeatureConfiguration> {
 
                     BlockState existingBlock = pLevel.getBlockState(blockpos$mutableblockpos);
                     if (existingBlock.is(Blocks.AIR)){
-                        if (pRandom.nextInt(5)==0){
+                        if (pRandom.nextInt(4)==0){
 
                             Direction direction = switch (pRandom.nextInt(0, 4)) {
                                 case 1 -> Direction.EAST;
@@ -122,12 +123,24 @@ public class LotusFeature extends Feature<NoneFeatureConfiguration> {
                                     .setValue(LotusPlantBlock.HALF, DoubleBlockHalf.UPPER)
                                     .setValue(LotusPlantBlock.FLOWERS, actualFlowers);
 
-                            if (blockState.canSurvive(pLevel, pPos.below())) {
+                            if (pLevel.getBlockState(pPos.below()).isFaceSturdy(pLevel, pPos.below(), Direction.UP)
+                                    && blockState.canSurvive(pLevel, pPos.below())) {
                                 pLevel.setBlock(pPos.below(), blockState, 2);
                                 pLevel.setBlock(pPos, blockstate2, 2);
-                            }else if (pLevel.getBlockState(pPos).isFaceSturdy(pLevel, pPos, Direction.UP)) {
+                            }else if (pLevel.getBlockState(pPos).isFaceSturdy(pLevel, pPos, Direction.UP)
+                                    && blockState.canSurvive(pLevel, pPos)) {
                                 pLevel.setBlock(pPos, blockState, 2);
                                 pLevel.setBlock(pPos.above(), blockstate2, 2);
+                            }else {
+                                if (pRandom.nextInt(3)==0){
+                                    blockState = FintyBlocks.LOTUS_FLOWER.get().defaultBlockState().setValue(LotusFlowerBlock.FLOWERS, pRandom.nextInt(1,4));
+                                }else {
+                                    blockState = FintyBlocks.LOTUS_PAD.get().defaultBlockState().setValue(LotusPadBlock.FLOWER, pRandom.nextInt(3)==0);
+                                }
+
+                                if (blockState.canSurvive(pLevel, blockpos$mutableblockpos)) {
+                                    pLevel.setBlock(blockpos, blockState, 3);
+                                }
                             }
 
                         }else {

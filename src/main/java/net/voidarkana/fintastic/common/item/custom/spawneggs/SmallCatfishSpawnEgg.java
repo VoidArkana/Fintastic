@@ -32,7 +32,7 @@ public class SmallCatfishSpawnEgg extends FishVariantSpawnEggItem {
 
 
     public int getLength() {
-        int length = Catfish.CatfishVariant.values().length-1;
+        int length = SmallCatfish.SmallCatfishVariant.values().length-1;
         return length;
     }
 

@@ -559,7 +559,7 @@ public class Pleco extends AbstractSwimmingBottomDweller {
                                 this.direction = pDirection;
                                 return true;
                             }else if (blockstate.getBlock() instanceof AquariumGlassPane glassPane){
-                                if (glassPane.getDirection(blockstate).getAxis() == this.direction.getAxis()){
+                                if (glassPane.getDirection(blockstate).getAxis() == pDirection.getAxis()){
                                     this.direction = pDirection;
                                     return true;
                                 }

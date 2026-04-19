@@ -1,5 +1,6 @@
 package net.voidarkana.fintastic.common.worldgen.features;
 
+import com.mojang.datafixers.kinds.IdF;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -50,33 +51,32 @@ public class DuckweedPatchFeature extends Feature<DuckweedPatchConfiguration> {
 
                 if (currentRadius <= pXRadius || currentRadius <= pZRadius) {
                     blockpos$mutableblockpos.setWithOffset(pPos, x, 0, z);
+                    BlockState existingState = pLevel.getBlockState(blockpos$mutableblockpos);
 
-                    int zRadius = Math.max(1, Math.abs(z));
-                    int xRadius = Math.max(1, Math.abs(x));
-                    double mpowz = Math.pow(zRadius, 2);
-                    double mpowx = Math.pow(xRadius, 2);
+                    if (existingState.isAir() || existingState.is(FintyBlocks.DUCKWEED.get())){
+                        int zRadius = Math.max(1, Math.abs(z));
+                        int xRadius = Math.max(1, Math.abs(x));
+                        double mpowz = Math.pow(zRadius, 2);
+                        double mpowx = Math.pow(xRadius, 2);
 
-                    double gauss_sharpness = 4.1; // less than your top limit
-                    double gauss_width = 0.03;
-                    int gauss_bottom_limit = 1;
-                    double mexp = Math.exp(gauss_width*(-mpowx -mpowz));
+                        double gauss_sharpness = 4.1; // less than your top limit
+                        double gauss_width = 0.03;
+                        int gauss_bottom_limit = 1;
+                        double mexp = Math.exp(gauss_width*(-mpowx -mpowz));
 
-                    int random = pRandom.nextInt(-1, 2);
-                    int duckweedAmount = (int)Math.min(5, Math.round(mexp*gauss_sharpness + gauss_bottom_limit) + (x <= 1 || z <= 1 ? 0 : random));
-                    if (duckweedAmount == 0 && pRandom.nextBoolean()){
-                        duckweedAmount = 1;
-                    }
+                        int random = pRandom.nextInt(-1, 2);
+                        int duckweedAmount = (int)Math.min(5, Math.round(mexp*gauss_sharpness + gauss_bottom_limit) + (x <= 1 || z <= 1 ? 0 : random));
+                        if (duckweedAmount == 0 && pRandom.nextBoolean()){
+                            duckweedAmount = 1;
+                        }
 
-                    if (duckweedAmount != 0){
-                        BlockState duckweed = FintyBlocks.DUCKWEED.get().defaultBlockState().setValue(DuckweedBlock.AMOUNT, duckweedAmount)
-                                .setValue(DuckweedBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(pRandom));
+                        if (duckweedAmount != 0){
+                            BlockState duckweed = FintyBlocks.DUCKWEED.get().defaultBlockState().setValue(DuckweedBlock.AMOUNT, duckweedAmount)
+                                    .setValue(DuckweedBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(pRandom));
 
-                        if (duckweed.canSurvive(pLevel, blockpos$mutableblockpos)) {
-                            BlockPos blockpos = blockpos$mutableblockpos.immutable();
+                            if (duckweed.canSurvive(pLevel, blockpos$mutableblockpos)) {
+                                BlockPos blockpos = blockpos$mutableblockpos.immutable();
 
-                            BlockState existingState = pLevel.getBlockState(blockpos$mutableblockpos);
-
-                            if (existingState.canBeReplaced()){
                                 if (pLevel.getBlockState(blockpos$mutableblockpos).is(FintyBlocks.DUCKWEED.get())){
                                     BlockState newBlockstate = pLevel.getBlockState(blockpos);
                                     int existingAmount = newBlockstate.getValue(DuckweedBlock.AMOUNT);
