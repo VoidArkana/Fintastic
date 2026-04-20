@@ -21,6 +21,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
+import net.voidarkana.fintastic.common.entity.custom.ai.FollowBottomDwellingLeaderGoal;
+import net.voidarkana.fintastic.common.entity.custom.ai.FollowVariantSchoolLeaderGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.AbstractBottomSchooler;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.item.FintyItems;
@@ -73,7 +75,7 @@ public class SmallCatfish extends AbstractBottomSchooler {
 
         this.goalSelector.addGoal(4, new BottomDwellerSwimGoal(this));
         this.goalSelector.addGoal(10, new BottomMoveGoal(this, 1, 30));
-
+        this.goalSelector.addGoal(2, new FollowBottomDwellingLeaderGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {

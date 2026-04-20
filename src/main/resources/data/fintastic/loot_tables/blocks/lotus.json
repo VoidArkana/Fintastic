@@ -11,7 +11,7 @@
               "add": false,
               "conditions": [
                 {
-                  "block": "fintastic:hornwort",
+                  "block": "fintastic:lotus",
                   "condition": "minecraft:block_state_property",
                   "properties": {
                     "amount": "1",
@@ -26,7 +26,7 @@
               "add": false,
               "conditions": [
                 {
-                  "block": "fintastic:hornwort",
+                  "block": "fintastic:lotus",
                   "condition": "minecraft:block_state_property",
                   "properties": {
                     "amount": "2",
@@ -41,7 +41,7 @@
               "add": false,
               "conditions": [
                 {
-                  "block": "fintastic:hornwort",
+                  "block": "fintastic:lotus",
                   "condition": "minecraft:block_state_property",
                   "properties": {
                     "amount": "3",
@@ -56,7 +56,7 @@
               "add": false,
               "conditions": [
                 {
-                  "block": "fintastic:hornwort",
+                  "block": "fintastic:lotus",
                   "condition": "minecraft:block_state_property",
                   "properties": {
                     "amount": "4",
@@ -71,7 +71,7 @@
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "fintastic:hornwort"
+          "name": "fintastic:lotus"
         }
       ],
       "rolls": 1.0

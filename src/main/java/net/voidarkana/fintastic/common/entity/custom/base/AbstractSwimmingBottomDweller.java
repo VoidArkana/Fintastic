@@ -36,7 +36,7 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         this.setMaxUpStep(1);
         this.jumpControl = new FishJumpControl(this);
         if (this instanceof SmallCatfish){
-            this.moveControl = new SmoothSwimmingMoveControl(this, 1, 10, 0.02F, 0.1F, true);
+            this.moveControl = new SmoothSwimmingMoveControl(this, 1, 20, 0.02F, 0.1F, true);
         }else {
             this.moveControl = new SmoothSwimmingMoveControl(this, 1, 1, 0.02F, 0.1F, true);
         }
