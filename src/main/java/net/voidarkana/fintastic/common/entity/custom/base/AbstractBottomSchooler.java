@@ -25,6 +25,10 @@ public abstract class AbstractBottomSchooler extends AbstractSwimmingBottomDwell
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+
+        if (pReason == MobSpawnType.STRUCTURE){
+            this.setFromBucket(true);
+        }
         if (pSpawnData == null) {
             pSpawnData = new AbstractBottomSchooler.SchoolSpawnGroupData(this);
         } else {

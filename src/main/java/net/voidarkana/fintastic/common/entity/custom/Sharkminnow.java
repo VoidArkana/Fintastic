@@ -100,7 +100,7 @@ public class Sharkminnow extends VariantSchoolingFish {
                 this.setAge(pDataTag.getInt("Age"));
             }
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-        }else if (pReason != MobSpawnType.SPAWN_EGG && !(pReason == MobSpawnType.BUCKET && pDataTag == null)){
+        }else if (pReason != MobSpawnType.STRUCTURE && pReason != MobSpawnType.SPAWN_EGG && !(pReason == MobSpawnType.BUCKET && pDataTag == null)){
 
             int model;
 

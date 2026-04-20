@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.voidarkana.fintastic.common.entity.custom.Pleco;
+import net.voidarkana.fintastic.common.entity.custom.SmallCatfish;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity{
@@ -34,7 +35,11 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         super(pEntityType, pLevel);
         this.setMaxUpStep(1);
         this.jumpControl = new FishJumpControl(this);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 1, 1, 0.02F, 0.1F, true);
+        if (this instanceof SmallCatfish){
+            this.moveControl = new SmoothSwimmingMoveControl(this, 1, 10, 0.02F, 0.1F, true);
+        }else {
+            this.moveControl = new SmoothSwimmingMoveControl(this, 1, 1, 0.02F, 0.1F, true);
+        }
     }
 
     protected void defineSynchedData() {

@@ -103,7 +103,7 @@ public class Minnow extends VariantSchoolingFish {
 
             int pVariant;
 
-            if(pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
+            if(pReason == MobSpawnType.STRUCTURE || pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
 
                 variant = Util.getRandom(MinnowVariant.values(), this.random);
 

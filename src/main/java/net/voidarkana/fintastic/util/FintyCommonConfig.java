@@ -13,6 +13,12 @@ public class FintyCommonConfig {
 
     public static final ForgeConfigSpec.ConfigValue<Integer> LOTUS_PAD_FREQUENCY;
     public static final ForgeConfigSpec.ConfigValue<Float> LOTUS_PAD_LOUDNESS;
+
+    public static final ForgeConfigSpec.ConfigValue<Integer> PLAINS_VILLAGE_WEIGHT;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SAVANNA_VILLAGE_WEIGHT;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SNOWY_VILLAGE_WEIGHT;
+    public static final ForgeConfigSpec.ConfigValue<Integer> TAIGA_VILLAGE_WEIGHT;
+    public static final ForgeConfigSpec.ConfigValue<Integer> DESERT_VILLAGE_WEIGHT;
     static {
         BUILDER.push("Configs for Fintastic");
 
@@ -30,6 +36,26 @@ public class FintyCommonConfig {
                 .define("Lotus Pad Sound Frequency, This Many Times Every 1000 Ticks", 30);
         LOTUS_PAD_LOUDNESS = BUILDER.comment("Defines the volume of the sounds produced by Lotus Pads. Should be a floating number, ranging from 0 to 1.")
                 .define("Lotus Pad Volume", 0.5f);
+
+        PLAINS_VILLAGE_WEIGHT = BUILDER.comment("Defines the weight of aquarium shops in plains villages. The higher the value the more common they become. " +
+                        "Default value is 30 and the number must be 0 or higher.")
+                .define("Plains aquarium shop weight:", 30);
+
+        SAVANNA_VILLAGE_WEIGHT = BUILDER.comment("Defines the weight of aquarium shops in savanna villages. The higher the value the more common they become. " +
+                        "Default value is 25 and the number must be 0 or higher.")
+                .define("Savanna aquarium shop weight:", 25);
+
+        TAIGA_VILLAGE_WEIGHT = BUILDER.comment("Defines the weight of aquarium shops in taiga villages. The higher the value the more common they become. " +
+                        "Default value is 20 and the number must be 0 or higher.")
+                .define("Taiga aquarium shop weight:", 20);
+
+        SNOWY_VILLAGE_WEIGHT = BUILDER.comment("Defines the weight of aquarium shops in snowy villages. The higher the value the more common they become. " +
+                        "Default value is 20 and the number must be 0 or higher.")
+                .define("Snowy aquarium shop weight:", 20);
+
+        DESERT_VILLAGE_WEIGHT = BUILDER.comment("Defines the weight of aquarium shops in desert villages. The higher the value the more common they become. " +
+                        "Default value is 30 and the number must be 0 or higher.")
+                .define("Desert aquarium shop weight:", 30);
 
         BUILDER.pop();
         SPEC= BUILDER.build();

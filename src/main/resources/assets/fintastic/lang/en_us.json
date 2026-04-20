@@ -506,6 +506,8 @@
   "block.fintastic.lotus": "Lotus",
   "block.fintastic.lotus_pad": "Lotus Pad",
   "block.fintastic.lotus_flower": "Lotus Flower",
+  "item.fintastic.lotus_root": "Lotus Root",
+  "item.fintastic.cooked_lotus_root": "Baked Lotus Root",
   "fintastic.sound.subtitle.lotus_water" : "Water gently splashes",
   "fintastic.sound.subtitle.lotus_frog" : "Frogs croaking in the distance",
   "fintastic.sound.subtitle.lotus_bug" : "Bugs chirping in the distance",
@@ -596,7 +598,7 @@
   "item.fintastic.dwarf_frog_spawn_egg" : "Dwarf Frog Spawn Egg",
   "item.fintastic.dwarf_frog_bucket" : "Bucket of Dwarf Frog",
   "item.fintastic.dwarf_frog_tadpole_bucket" : "Bucket of Dwarf Frog Tadpole",
-
+  "block.fintastic.dwarf_frogspawn" : "Green Dwarf Froglight",
   "block.fintastic.green_dwarf_froglight" : "Green Dwarf Froglight",
   "block.fintastic.red_dwarf_froglight" : "Red Dwarf Froglight",
   "block.fintastic.pink_dwarf_froglight" : "Pink Dwarf Froglight",
@@ -750,5 +752,9 @@
   "advancements.fintastic.dwarf_frog.title" : "It Is Wednesday, My Dudes",
   "advancements.fintastic.dwarf_frog.description" : "Encounter a Dwarf Frog, a water-bound frog that loves just hanging out and likes to eat shiny entities to produce Dwarf Froglights",
   "advancements.fintastic.insaniquarium.title" : "Insaniquarium!",
-  "advancements.fintastic.insaniquarium.description" : "Have every single bucketable mob in the mod in your inventory, truly a fish fanatic!"
+  "advancements.fintastic.insaniquarium.description" : "Have every single bucketable mob in the mod in your inventory, truly a fish fanatic!",
+  "advancements.fintastic.deltarune.title" : "Really, Deltarune Fans?",
+  "advancements.fintastic.deltarune.description" : "Have a Pink and a Yellow Dwarf Froglight in your inventory, truly a reference of all time",
+  "advancements.fintastic.green_aquatic_thumb.title" : "Green (Aquatic) Thumb",
+  "advancements.fintastic.green_aquatic_thumb.description" : "Collect all the plants the world of aquarium-keeping has to offer for you"
 }

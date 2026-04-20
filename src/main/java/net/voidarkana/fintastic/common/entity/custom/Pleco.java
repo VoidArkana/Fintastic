@@ -191,6 +191,10 @@ public class Pleco extends AbstractSwimmingBottomDweller {
             this.setVariant(pDataTag.getInt("Variant"));
         }else {
             this.setVariant(Util.getRandom(PlecoVariant.values(), random).getVariantID());
+
+            if (pReason == MobSpawnType.STRUCTURE){
+                this.setFromBucket(true);
+            }
         }
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
