@@ -87,6 +87,7 @@ public class FintyTags {
         public static final TagKey<Block> GOURAMI_INVESTIGATION_TARGETS = tag("gourami_investigation_targets");
 
         public static final TagKey<Block> LOTUS_GROWABLE = tag("lotus_fertile_soil");
+        public static final TagKey<Block> HOUNEN_FAIRY_SHRIMP_GROWABLE = tag("hounen_fairy_shrimp_growable");
 
         private static TagKey<Block> tag(String name){
             return BlockTags.create(new ResourceLocation(Fintastic.MOD_ID, name));

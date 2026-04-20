@@ -2,18 +2,18 @@ package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +22,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.FollowIndiscriminateSchoolLeaderGoal;
@@ -54,11 +56,24 @@ public class FairyShrimp extends SchoolingFish {
     }
 
     @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("CropsGrownSincePollination", this.numCropsGrownSincePollination);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.numCropsGrownSincePollination = compound.getInt("CropsGrownSincePollination");
+    }
+
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
         this.goalSelector.addGoal(5, new FollowIndiscriminateSchoolLeaderGoal(this));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.5D));
+        this.goalSelector.addGoal(0, new FairyShrimpGrowCropGoal());
 
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
             if (entity instanceof Player player){
@@ -278,6 +293,54 @@ public class FairyShrimp extends SchoolingFish {
 
         public static FairyShrimpVariant byName(String pName) {
             return CODEC.byName(pName, ARTEMIA);
+        }
+    }
+
+    private int numCropsGrownSincePollination;
+
+    int getCropsGrownSincePollination() {
+        return this.numCropsGrownSincePollination;
+    }
+
+    void incrementNumCropsGrownSincePollination() {
+        ++this.numCropsGrownSincePollination;
+    }
+
+    class FairyShrimpGrowCropGoal extends Goal {
+        static final int GROW_CHANCE = 30;
+
+        public boolean canUse() {
+            if (FairyShrimp.this.getCropsGrownSincePollination() >= 10) {
+                return false;
+            } else if (FairyShrimp.this.random.nextFloat() < 0.3F) {
+                return false;
+            } else {
+                return FairyShrimp.this.getVariant() == 3;
+            }
+        }
+
+        public void tick() {
+            if (FairyShrimp.this.random.nextInt(this.adjustedTickDelay(30)) == 0) {
+                for(int i = 1; i <= 2; ++i) {
+                    BlockPos blockpos = FairyShrimp.this.blockPosition();
+                    BlockState blockstate = FairyShrimp.this.level().getBlockState(blockpos);
+                    Block block = blockstate.getBlock();
+                    BlockState blockstate1 = null;
+                    if (blockstate.is(FintyTags.Blocks.HOUNEN_FAIRY_SHRIMP_GROWABLE)) {
+                        if (block instanceof BonemealableBlock bonemealableBlock) {
+                            bonemealableBlock.performBonemeal((ServerLevel)FairyShrimp.this.level(),
+                                    FairyShrimp.this.random, blockpos, blockstate);
+                        }
+
+                        if (blockstate1 != null) {
+                            FairyShrimp.this.level().levelEvent(2005, blockpos, 0);
+                            FairyShrimp.this.level().setBlockAndUpdate(blockpos, blockstate1);
+                            FairyShrimp.this.incrementNumCropsGrownSincePollination();
+                        }
+                    }
+                }
+
+            }
         }
     }
 }

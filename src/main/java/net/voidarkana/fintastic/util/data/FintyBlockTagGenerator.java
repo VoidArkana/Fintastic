@@ -2,6 +2,7 @@ package net.voidarkana.fintastic.util.data;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
@@ -148,5 +149,8 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
                 .add(Blocks.ROOTED_DIRT)
                 .add(Blocks.MUD)
                 .add(Blocks.MUDDY_MANGROVE_ROOTS);
+
+        this.tag(FintyTags.Blocks.HOUNEN_FAIRY_SHRIMP_GROWABLE)
+                .addOptional(new ResourceLocation("farmersdelight:rice"));
     }
 }
