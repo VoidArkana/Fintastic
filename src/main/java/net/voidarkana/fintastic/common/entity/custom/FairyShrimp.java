@@ -306,21 +306,24 @@ public class FairyShrimp extends SchoolingFish {
         ++this.numCropsGrownSincePollination;
     }
 
+    void resetNumCropsGrownSincePollination() {
+        this.numCropsGrownSincePollination = 0;
+    }
+
     class FairyShrimpGrowCropGoal extends Goal {
         static final int GROW_CHANCE = 30;
 
         public boolean canUse() {
-            if (FairyShrimp.this.getCropsGrownSincePollination() >= 10) {
-                return false;
-            } else if (FairyShrimp.this.random.nextFloat() < 0.3F) {
+            if (FairyShrimp.this.getCropsGrownSincePollination() >= 20) {
+                FairyShrimp.this.resetNumCropsGrownSincePollination();
                 return false;
             } else {
-                return FairyShrimp.this.getVariant() == 3;
+                return FairyShrimp.this.getVariant() == 3 && FairyShrimp.this.random.nextFloat() > 0.3F;
             }
         }
 
         public void tick() {
-            if (FairyShrimp.this.random.nextInt(this.adjustedTickDelay(30)) == 0) {
+            if (FairyShrimp.this.random.nextInt(this.adjustedTickDelay(120)) == 0) {
                 for(int i = 1; i <= 2; ++i) {
                     BlockPos blockpos = FairyShrimp.this.blockPosition();
                     BlockState blockstate = FairyShrimp.this.level().getBlockState(blockpos);

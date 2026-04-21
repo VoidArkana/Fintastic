@@ -117,30 +117,6 @@ public class LotusPlantBlock extends DoublePlantBlock implements BonemealableBlo
         }
     }
 
-    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if ((pState.getValue(HALF) == DoubleBlockHalf.LOWER && pLevel.getBlockState(pPos.below()).is(FintyTags.Blocks.LOTUS_GROWABLE))
-        || (pState.getValue(HALF) == DoubleBlockHalf.UPPER && pLevel.getBlockState(pPos.below(2)).is(FintyTags.Blocks.LOTUS_GROWABLE))){
-
-            int i = pState.getValue(FLOWERS);
-            int j = pState.getValue(AMOUNT);
-            if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, true) && pRandom.nextInt(3)>0) {
-
-                if (j<5 || i<this.getMaxFlowers(pState)) {
-                    this.performBonemeal(pLevel, pRandom, pPos, pState);
-                }
-            }
-        }
-    }
-
-    @Override
-    public boolean isRandomlyTicking(BlockState pState) {
-        if (pState.getValue(HALF) == DoubleBlockHalf.UPPER){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
     public FluidState getFluidState(BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }

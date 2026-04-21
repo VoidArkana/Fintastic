@@ -82,6 +82,10 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
 
         this.tag(FintyTags.Items.SUGAR_GLASS).addOptional(new ResourceLocation( "alexscaves:peppermint_powder"));
 
+        this.tag(FintyTags.Items.QUALITY_FISH_FEED_INGREDIENT)
+                .add(FintyItems.DAPHNIA.get())
+                .add(FintyItems.COPEPOD.get());
+
         this.tag(FintyTags.Items.FISHBOWL_PLANTS)
                 .add(FintyBlocks.ANUBIAS.get().asItem(),
                         FintyBlocks.HORNWORT.get().asItem(),
