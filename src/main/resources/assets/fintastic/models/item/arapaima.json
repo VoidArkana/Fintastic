@@ -4,6 +4,7 @@
   "base": {
     "parent": "fintastic:item/large_handheld",
     "textures": {
+      "particle": "fintastic:item/arapaima_handheld",
       "layer0": "fintastic:item/arapaima_handheld"
     }
   },

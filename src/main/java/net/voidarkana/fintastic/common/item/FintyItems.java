@@ -34,7 +34,7 @@ public class FintyItems {
         }, Items.BUCKET, false, (new Item.Properties()).stacksTo(1));
     });
     public static final RegistryObject<Item> FEATHERBACK = ITEMS.register("featherback",
-            () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH_MED).craftRemainder(Items.BONE_MEAL)));
+            () -> new Item(new Item.Properties().craftRemainder(Items.BONE_MEAL)));
 
 
     public static final RegistryObject<Item> MINNOW_SPAWN_EGG = ITEMS.register("minnow_spawn_egg",
@@ -102,7 +102,7 @@ public class FintyItems {
     public static final RegistryObject<Item> ARAPAIMA_SPAWN_EGG = ITEMS.register("arapaima_spawn_egg",
             () -> new FishSpawnEggItem(FintyEntities.ARAPAIMA, 0xffffff, 0xffffff, new Item.Properties()));
     public static final RegistryObject<Item> ARAPAIMA = ITEMS.register("arapaima",
-            () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH_BIG).craftRemainder(Items.BONE_MEAL)));
+            () -> new Item(new Item.Properties().craftRemainder(Items.BONE_MEAL)));
 
 
     public static final RegistryObject<Item> REGULAR_FEED = ITEMS.register("regular_feed",
@@ -170,7 +170,7 @@ public class FintyItems {
             return Fluids.WATER;
         }, Items.BUCKET, false, (new Item.Properties()).craftRemainder(Items.BUCKET).stacksTo(1));});
     public static final RegistryObject<Item> COELACANTH = ITEMS.register("coelacanth",
-            () -> new Item(new Item.Properties().food(YAFMFoods.RAW_FISH_MED).craftRemainder(Items.BONE_MEAL)));
+            () -> new Item(new Item.Properties().craftRemainder(Items.BONE_MEAL)));
 
 
     public static final RegistryObject<Item> GOURAMI_SPAWN_EGG = ITEMS.register("gourami_spawn_egg",

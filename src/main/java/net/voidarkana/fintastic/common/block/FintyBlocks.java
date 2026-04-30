@@ -65,7 +65,6 @@ public class FintyBlocks {
     public static final RegistryObject<Block> FISHBOWL = registerBlock("fishbowl",
             ()-> new FishbowlBlock(BlockBehaviour.Properties.copy(Blocks.GLASS)));
 
-
     public static final RegistryObject<Block> AQUARIUM_GLASS = registerBlock("aquarium_glass",
             ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.WATER).noOcclusion()));
 
@@ -112,6 +111,108 @@ public class FintyBlocks {
 
     public static final RegistryObject<Block> TINTED_SUGAR_AQUARIUM_GLASS = registerBlock("tinted_sugar_aquarium_glass",
             ()-> new TintedAquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.TINTED_GLASS).mapColor(MapColor.COLOR_PURPLE)));
+
+
+    public static final RegistryObject<Block> RED_AQUARIUM_GLASS = registerBlock("red_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_RED)));
+
+    public static final RegistryObject<Block> RED_AQUARIUM_GLASS_PANE = registerBlock("red_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_RED)));
+
+    public static final RegistryObject<Block> WHITE_AQUARIUM_GLASS = registerBlock("white_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.TERRACOTTA_WHITE)));
+
+    public static final RegistryObject<Block> WHITE_AQUARIUM_GLASS_PANE = registerBlock("white_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.TERRACOTTA_WHITE)));
+
+    public static final RegistryObject<Block> LIGHT_GRAY_AQUARIUM_GLASS = registerBlock("light_gray_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_LIGHT_GRAY)));
+
+    public static final RegistryObject<Block> LIGHT_GRAY_AQUARIUM_GLASS_PANE = registerBlock("light_gray_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_LIGHT_GRAY)));
+
+    public static final RegistryObject<Block> GRAY_AQUARIUM_GLASS = registerBlock("gray_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_GRAY)));
+
+    public static final RegistryObject<Block> GRAY_AQUARIUM_GLASS_PANE = registerBlock("gray_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_GRAY)));
+
+    public static final RegistryObject<Block> BLACK_AQUARIUM_GLASS = registerBlock("black_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_BLACK)));
+
+    public static final RegistryObject<Block> BLACK_AQUARIUM_GLASS_PANE = registerBlock("black_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_BLACK)));
+
+    public static final RegistryObject<Block> ORANGE_AQUARIUM_GLASS = registerBlock("orange_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_ORANGE)));
+
+    public static final RegistryObject<Block> ORANGE_AQUARIUM_GLASS_PANE = registerBlock("orange_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_ORANGE)));
+
+    public static final RegistryObject<Block> YELLOW_AQUARIUM_GLASS = registerBlock("yellow_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_YELLOW)));
+
+    public static final RegistryObject<Block> YELLOW_AQUARIUM_GLASS_PANE = registerBlock("yellow_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_YELLOW)));
+
+    public static final RegistryObject<Block> GREEN_AQUARIUM_GLASS = registerBlock("green_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_GREEN)));
+
+    public static final RegistryObject<Block> GREEN_AQUARIUM_GLASS_PANE = registerBlock("green_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_GREEN)));
+
+    public static final RegistryObject<Block> LIME_AQUARIUM_GLASS = registerBlock("lime_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_LIGHT_GREEN)));
+
+    public static final RegistryObject<Block> LIME_AQUARIUM_GLASS_PANE = registerBlock("lime_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_LIGHT_GREEN)));
+
+    public static final RegistryObject<Block> BROWN_AQUARIUM_GLASS = registerBlock("brown_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_BROWN)));
+
+    public static final RegistryObject<Block> BROWN_AQUARIUM_GLASS_PANE = registerBlock("brown_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_BROWN)));
+
+    public static final RegistryObject<Block> LIGHT_BLUE_AQUARIUM_GLASS = registerBlock("light_blue_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_LIGHT_BLUE)));
+
+    public static final RegistryObject<Block> LIGHT_BLUE_AQUARIUM_GLASS_PANE = registerBlock("light_blue_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_LIGHT_BLUE)));
+
+    public static final RegistryObject<Block> BLUE_AQUARIUM_GLASS = registerBlock("blue_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_BLUE)));
+
+    public static final RegistryObject<Block> BLUE_AQUARIUM_GLASS_PANE = registerBlock("blue_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_BLUE)));
+
+    public static final RegistryObject<Block> CYAN_AQUARIUM_GLASS = registerBlock("cyan_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_CYAN)));
+
+    public static final RegistryObject<Block> CYAN_AQUARIUM_GLASS_PANE = registerBlock("cyan_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_CYAN)));
+
+    public static final RegistryObject<Block> PURPLE_AQUARIUM_GLASS = registerBlock("purple_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_PURPLE)));
+
+    public static final RegistryObject<Block> PURPLE_AQUARIUM_GLASS_PANE = registerBlock("purple_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_PURPLE)));
+
+    public static final RegistryObject<Block> MAGENTA_AQUARIUM_GLASS = registerBlock("magenta_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_MAGENTA)));
+
+    public static final RegistryObject<Block> MAGENTA_AQUARIUM_GLASS_PANE = registerBlock("magenta_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_MAGENTA)));
+
+    public static final RegistryObject<Block> PINK_AQUARIUM_GLASS = registerBlock("pink_aquarium_glass",
+            ()-> new AquariumGlassBlock(BlockBehaviour.Properties.copy(Blocks.GLASS).mapColor(MapColor.COLOR_PINK)));
+
+    public static final RegistryObject<Block> PINK_AQUARIUM_GLASS_PANE = registerBlock("pink_aquarium_glass_pane",
+            ()-> new AquariumGlassPane(BlockBehaviour.Properties.copy(Blocks.GLASS_PANE).mapColor(MapColor.COLOR_PINK)));
+
+
+
+
+
 
 
 
@@ -286,7 +387,7 @@ public class FintyBlocks {
 
     public static final Supplier<Block> LOTUS_PAD = registerBlockWithItem("lotus_pad",
             ()-> new LotusPadBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD).mapColor(MapColor.COLOR_GREEN)
-                    .noOcclusion().instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
+                    .offsetType(BlockBehaviour.OffsetType.XZ).noOcclusion().instabreak().noCollission().pushReaction(PushReaction.DESTROY)),
             (entry) -> new PlaceOnWaterBlockItem(entry.get(), new Item.Properties()));
 
     public static final Supplier<Block> DWARF_FROGSPAWN = registerBlockWithItem("dwarf_frogspawn",

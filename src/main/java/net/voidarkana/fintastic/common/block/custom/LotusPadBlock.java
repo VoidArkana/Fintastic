@@ -47,6 +47,11 @@ public class LotusPadBlock extends BushBlock {
     }
 
     @Override
+    public float getMaxHorizontalOffset() {
+        return 0.1f;
+    }
+
+    @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pState.getValue(FLOWER) && pPlayer.getItemInHand(pHand).is(FintyBlocks.LOTUS_FLOWER.get().asItem())) {
             if (pLevel instanceof ServerLevel serverLevel){

@@ -2,6 +2,7 @@ package net.voidarkana.fintastic.client;
 
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -129,6 +130,71 @@ public class FintyClientEvents {
                 0x8a1edc, FintyBlocks.SUGAR_AQUARIUM_GLASS.get(),
                 FintyBlocks.SUGAR_AQUARIUM_GLASS_PANE.get(),
                 FintyBlocks.TINTED_SUGAR_AQUARIUM_GLASS.get());
+
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0xf23b2e, FintyBlocks.RED_AQUARIUM_GLASS.get(),
+                FintyBlocks.RED_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0xffffff, FintyBlocks.WHITE_AQUARIUM_GLASS.get(),
+                FintyBlocks.WHITE_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0xb5b5b5, FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS.get(),
+                FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0x828282, FintyBlocks.GRAY_AQUARIUM_GLASS.get(),
+                FintyBlocks.GRAY_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0x474747, FintyBlocks.BLACK_AQUARIUM_GLASS.get(),
+                FintyBlocks.BLACK_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0x4a5bf0, FintyBlocks.BLUE_AQUARIUM_GLASS.get(),
+                FintyBlocks.BLUE_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0x9cb4ff, FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS.get(),
+                FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0x705438, FintyBlocks.BROWN_AQUARIUM_GLASS.get(),
+                FintyBlocks.BROWN_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0xa9c979, FintyBlocks.LIME_AQUARIUM_GLASS.get(),
+                FintyBlocks.LIME_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0x5e8045, FintyBlocks.GREEN_AQUARIUM_GLASS.get(),
+                FintyBlocks.GREEN_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0x3d917e, FintyBlocks.CYAN_AQUARIUM_GLASS.get(),
+                FintyBlocks.CYAN_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0xebc3ea, FintyBlocks.PINK_AQUARIUM_GLASS.get(),
+                FintyBlocks.PINK_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0xed72c8, FintyBlocks.MAGENTA_AQUARIUM_GLASS.get(),
+                FintyBlocks.MAGENTA_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0x9c59c9, FintyBlocks.PURPLE_AQUARIUM_GLASS.get(),
+                FintyBlocks.PURPLE_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0xde8a5f, FintyBlocks.ORANGE_AQUARIUM_GLASS.get(),
+                FintyBlocks.ORANGE_AQUARIUM_GLASS_PANE.get());
+
+        event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) ->
+                        0xf5e1ab, FintyBlocks.YELLOW_AQUARIUM_GLASS.get(),
+                FintyBlocks.YELLOW_AQUARIUM_GLASS_PANE.get());
     }
 
     @SubscribeEvent
@@ -156,5 +222,69 @@ public class FintyClientEvents {
                 FintyBlocks.SUGAR_AQUARIUM_GLASS_PANE.get(),
                 FintyBlocks.TINTED_SUGAR_AQUARIUM_GLASS.get());
 
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0xf23b2e, FintyBlocks.RED_AQUARIUM_GLASS.get(),
+                FintyBlocks.RED_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0xffffff, FintyBlocks.WHITE_AQUARIUM_GLASS.get(),
+                FintyBlocks.WHITE_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0xb5b5b5, FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS.get(),
+                FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0x828282, FintyBlocks.GRAY_AQUARIUM_GLASS.get(),
+                FintyBlocks.GRAY_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0x474747, FintyBlocks.BLACK_AQUARIUM_GLASS.get(),
+                FintyBlocks.BLACK_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0x4a5bf0, FintyBlocks.BLUE_AQUARIUM_GLASS.get(),
+                FintyBlocks.BLUE_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0x9cb4ff, FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS.get(),
+                FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0x705438, FintyBlocks.BROWN_AQUARIUM_GLASS.get(),
+                FintyBlocks.BROWN_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0xa9c979, FintyBlocks.LIME_AQUARIUM_GLASS.get(),
+                FintyBlocks.LIME_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0x5e8045, FintyBlocks.GREEN_AQUARIUM_GLASS.get(),
+                FintyBlocks.GREEN_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0x3d917e, FintyBlocks.CYAN_AQUARIUM_GLASS.get(),
+                FintyBlocks.CYAN_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0xebc3ea, FintyBlocks.PINK_AQUARIUM_GLASS.get(),
+                FintyBlocks.PINK_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0xed72c8, FintyBlocks.MAGENTA_AQUARIUM_GLASS.get(),
+                FintyBlocks.MAGENTA_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0x9c59c9, FintyBlocks.PURPLE_AQUARIUM_GLASS.get(),
+                FintyBlocks.PURPLE_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState, pTintIndex) ->
+                        0xde8a5f, FintyBlocks.ORANGE_AQUARIUM_GLASS.get(),
+                FintyBlocks.ORANGE_AQUARIUM_GLASS_PANE.get());
+
+        event.getItemColors().register((pState,  pTintIndex) ->
+                        0xf5e1ab, FintyBlocks.YELLOW_AQUARIUM_GLASS.get(),
+                FintyBlocks.YELLOW_AQUARIUM_GLASS_PANE.get());
     }
 }

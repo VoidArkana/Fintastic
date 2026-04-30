@@ -35,14 +35,49 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
                 .add(FintyBlocks.TINTED_AQUARIUM_GLASS.get().asItem())
                 .add(FintyBlocks.TINTED_INFERNAL_AQUARIUM_GLASS.get().asItem())
                 .add(FintyBlocks.TINTED_RADON_AQUARIUM_GLASS.get().asItem())
-                .add(FintyBlocks.TINTED_SUGAR_AQUARIUM_GLASS.get().asItem());
+                .add(FintyBlocks.TINTED_SUGAR_AQUARIUM_GLASS.get().asItem())
+
+                .add(FintyBlocks.RED_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.WHITE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.GRAY_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.BLACK_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.BROWN_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.LIME_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.GREEN_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.YELLOW_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.ORANGE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.BLUE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.PURPLE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.PINK_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.MAGENTA_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.CYAN_AQUARIUM_GLASS.get().asItem());
+        ;
 
         this.tag(Tags.Items.GLASS_PANES)
                 .add(FintyBlocks.AQUARIUM_GLASS_PANE.get().asItem())
                 .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS_PANE.get().asItem())
                 .add(FintyBlocks.CLEAR_AQUARIUM_GLASS_PANE.get().asItem())
                 .add(FintyBlocks.RADON_AQUARIUM_GLASS_PANE.get().asItem())
-                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS_PANE.get().asItem());
+                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS_PANE.get().asItem())
+
+                .add(FintyBlocks.RED_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.WHITE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.GRAY_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.BLACK_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.BROWN_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.LIME_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.GREEN_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.YELLOW_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.ORANGE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.BLUE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.PURPLE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.PINK_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.MAGENTA_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.CYAN_AQUARIUM_GLASS_PANE.get().asItem());
 
         this.tag(FintyTags.Items.FISH_FEED)
                 .add(FintyItems.REGULAR_FEED.get())
@@ -51,7 +86,20 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
                 .add(FintyItems.PREMIUM_FEED.get())
                 .add(FintyItems.ARTEMIA_BUCKET.get());
 
-        this.tag(ItemTags.FISHES).add(FintyItems.RAW_FISH.get()).add(FintyItems.COOKED_FISH.get());
+        this.tag(ItemTags.FISHES)
+                .add(FintyItems.RAW_FISH.get())
+                .add(FintyItems.COOKED_FISH.get())
+                .add(FintyItems.SHARKMINNOW.get())
+                .add(FintyItems.MINNOW.get())
+                .add(FintyItems.GUPPY.get())
+                .add(FintyItems.GOURAMI.get())
+                .add(FintyItems.ARAPAIMA.get())
+                .add(FintyItems.COELACANTH.get())
+                .add(FintyItems.FEATHERBACK.get())
+                .add(FintyItems.PLECO.get())
+                .add(FintyItems.CATFISH.get())
+                .add(FintyItems.SMALL_CATFISH.get())
+                .add(FintyItems.MOONY_BUCKET.get());
 
         this.tag(ItemTags.AXOLOTL_TEMPT_ITEMS)
                 .add(FintyItems.MINNOW_BUCKET.get())
@@ -67,7 +115,9 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
                 .add(FintyItems.COPEPOD_BUCKET.get())
                 .add(FintyItems.DAPHNIA_BUCKET.get())
                 .add(FintyItems.COD_BUCKET.get())
-                .add(FintyItems.SALMON_BUCKET.get());
+                .add(FintyItems.SALMON_BUCKET.get())
+                .add(FintyItems.SMALL_CATFISH_BUCKET.get())
+                .add(FintyItems.GOURAMI_BUCKET.get());
 
         this.tag(ItemTags.PIGLIN_LOVED)
                 .add(FintyItems.PREMIUM_FEED.get());

@@ -4,6 +4,7 @@
   "base": {
     "parent": "fintastic:item/large_handheld",
     "textures": {
+      "particle": "fintastic:item/featherback_handheld",
       "layer0": "fintastic:item/featherback_handheld"
     }
   },

@@ -3,13 +3,16 @@
     {
       "apply": [
         {
-          "model": "fintastic:block/lotus_pad_1"
+          "model": "fintastic:block/lotus_pad_1",
+          "weight": 1
         },
         {
-          "model": "fintastic:block/lotus_pad_2"
+          "model": "fintastic:block/lotus_pad_2",
+          "weight": 2
         },
         {
-          "model": "fintastic:block/lotus_pad_3"
+          "model": "fintastic:block/lotus_pad_3",
+          "weight": 2
         }
       ]
     },

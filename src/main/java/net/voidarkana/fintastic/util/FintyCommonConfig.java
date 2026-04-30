@@ -19,6 +19,7 @@ public class FintyCommonConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> SNOWY_VILLAGE_WEIGHT;
     public static final ForgeConfigSpec.ConfigValue<Integer> TAIGA_VILLAGE_WEIGHT;
     public static final ForgeConfigSpec.ConfigValue<Integer> DESERT_VILLAGE_WEIGHT;
+    public static final ForgeConfigSpec.ConfigValue<Integer> HOUNEN_FAIRY_SHRIMP_BONEMEAL_RATE;
     static {
         BUILDER.push("Configs for Fintastic");
 
@@ -56,6 +57,10 @@ public class FintyCommonConfig {
         DESERT_VILLAGE_WEIGHT = BUILDER.comment("Defines the weight of aquarium shops in desert villages. The higher the value the more common they become. " +
                         "Default value is 30 and the number must be 0 or higher.")
                 .define("Desert aquarium shop weight:", 30);
+
+        HOUNEN_FAIRY_SHRIMP_BONEMEAL_RATE = BUILDER.comment("Defines how often Hounen Fairy Shrimp will bonemeal plants. The value is once every X amount of ticks, resulting in lower values making bonemealing more often and higher values making bonemealing less often." +
+                        "Default value is 250 and the number must be 0 or higher.")
+                .define("Hounen Fairy Shrimp Bonemeal Rate:", 250);
 
         BUILDER.pop();
         SPEC= BUILDER.build();

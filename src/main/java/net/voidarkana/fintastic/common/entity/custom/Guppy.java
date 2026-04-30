@@ -256,6 +256,8 @@ public class Guppy extends SchoolingFish {
         if (compound.contains("Age"))
             this.setAge(compound.getInt("Age"));
 
+        if (compound.contains("Variant"))
+            this.setVariant(compound.getInt("Variant"));
         if (compound.contains("FinModel"))
             this.setFinModel(compound.getInt("FinModel"));
         if (compound.contains("FinColor"))
@@ -284,9 +286,9 @@ public class Guppy extends SchoolingFish {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantSkin", 3)) {
+        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
 
-            this.setVariant(pDataTag.getInt("VariantSkin"));
+            this.setVariant(pDataTag.getInt("Variant"));
             this.setFinModel(pDataTag.getInt("FinModel"));
             this.setFinColor(pDataTag.getInt("FinColor"));
             this.setTailModel(pDataTag.getInt("TailModel"));

@@ -102,6 +102,406 @@ public class FintyRecipeProvider extends RecipeProvider implements IConditionBui
                 .requires(FintyBlocks.LOTUS_FLOWER.get())
                 .unlockedBy(getHasName(FintyBlocks.LOTUS_FLOWER.get()), has(FintyBlocks.LOTUS_FLOWER.get()))
                 .save(consumer, this.name("pink_dye_from_lotus"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.RED_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.RED_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.RED_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.RED_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.RED_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.RED_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("red_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.WHITE_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.WHITE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.WHITE_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.WHITE_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.WHITE_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.WHITE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("white_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.GRAY_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.GRAY_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.GRAY_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.GRAY_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.GRAY_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.GRAY_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("gray_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.LIGHT_GRAY_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.LIGHT_GRAY_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("light_gray_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.BLACK_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.BLACK_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.BLACK_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.BLACK_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.BLACK_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.BLACK_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("black_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.ORANGE_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.ORANGE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.ORANGE_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.ORANGE_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.ORANGE_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.ORANGE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("orange_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.YELLOW_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.YELLOW_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.YELLOW_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.YELLOW_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.YELLOW_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.YELLOW_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("yellow_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.BROWN_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.BROWN_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.BROWN_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.BROWN_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.BROWN_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.BROWN_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("brown_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.GREEN_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.GREEN_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.GREEN_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.GREEN_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.GREEN_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.GREEN_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("green_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.LIME_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.LIME_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.LIME_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.LIME_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.LIME_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.LIME_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("lime_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.CYAN_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.CYAN_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.CYAN_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.CYAN_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.CYAN_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.CYAN_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("cyan_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.BLUE_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.BLUE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.BLUE_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.BLUE_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.BLUE_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.BLUE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("blue_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.LIGHT_BLUE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.LIGHT_BLUE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("light_blue_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.PURPLE_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.PURPLE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.PURPLE_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.PURPLE_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.PURPLE_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.PURPLE_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("purple_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.PINK_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.PINK_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.PINK_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.PINK_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.PINK_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.PINK_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("pink_aquarium_glass_pane_alt"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.MAGENTA_AQUARIUM_GLASS.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS.get())
+                .define('D', Items.MAGENTA_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.MAGENTA_AQUARIUM_GLASS_PANE.get().asItem(), 16)
+                .pattern("GGG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.MAGENTA_AQUARIUM_GLASS.get())
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, FintyBlocks.MAGENTA_AQUARIUM_GLASS_PANE.get().asItem(), 8)
+                .pattern("GGG")
+                .pattern("GDG")
+                .pattern("GGG")
+                .define('G', FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .define('D', Items.MAGENTA_DYE)
+                .unlockedBy(getHasName(FintyBlocks.AQUARIUM_GLASS.get()), has(FintyBlocks.AQUARIUM_GLASS.get()))
+                .save(consumer, this.name("magenta_aquarium_glass_pane_alt"));
     }
 
     public ShapelessRecipeBuilder makePlanks(Supplier<? extends Block> plankOut, TagKey<Item> logIn) {

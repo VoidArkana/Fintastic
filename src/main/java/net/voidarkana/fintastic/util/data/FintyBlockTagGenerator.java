@@ -26,6 +26,66 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(BlockTags.WALLS).add(FintyBlocks.STROMATOLITE_BRICKS_WALL.get());
 
+        this.tag(BlockTags.MINEABLE_WITH_HOE)
+                .add(FintyBlocks.GREEN_ALGAE_BLOCK.get())
+                .add(FintyBlocks.RED_ALGAE_BLOCK.get())
+                .add(FintyBlocks.GREEN_ALGAE_CARPET.get())
+                .add(FintyBlocks.RED_ALGAE_CARPET.get())
+                .add(FintyBlocks.AQUATIC_MOSS_BLOCK.get())
+                .add(FintyBlocks.AQUATIC_MOSS_CARPET.get());
+
+        this.tag(FintyTags.Blocks.AQUARIUM_GLASS)
+                .add(FintyBlocks.AQUARIUM_GLASS.get())
+                .add(FintyBlocks.TINTED_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.CLEAR_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.TINTED_INFERNAL_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.RADON_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.TINTED_RADON_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.TINTED_SUGAR_AQUARIUM_GLASS.get())
+
+                .add(FintyBlocks.RED_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.WHITE_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.GRAY_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.BLACK_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.BROWN_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.LIME_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.GREEN_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.YELLOW_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.ORANGE_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.BLUE_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.PURPLE_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.PINK_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.MAGENTA_AQUARIUM_GLASS.get())
+                .add(FintyBlocks.CYAN_AQUARIUM_GLASS.get());
+
+        this.tag(FintyTags.Blocks.AQUARIUM_GLASS_PANES)
+                .add(FintyBlocks.AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.CLEAR_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.RADON_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS_PANE.get())
+
+                .add(FintyBlocks.RED_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.WHITE_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.GRAY_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.BLACK_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.BROWN_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.LIME_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.GREEN_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.YELLOW_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.ORANGE_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.BLUE_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.PURPLE_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.PINK_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.MAGENTA_AQUARIUM_GLASS_PANE.get())
+                .add(FintyBlocks.CYAN_AQUARIUM_GLASS_PANE.get());
+
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(FintyBlocks.STROMATOLITE_BRICKS.get())
                 .add(FintyBlocks.STROMATOLITE_BRICKS_WALL.get())
@@ -43,31 +103,9 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
                 .add(FintyBlocks.DEAD_LIVE_ROCK.get())
                 .add(FintyBlocks.DEAD_POROUS_LIVE_ROCK.get())
                 .add(FintyBlocks.RED_ALGAE_LIVE_ROCK.get())
-                .add(FintyBlocks.GREEN_ALGAE_LIVE_ROCK.get());
-
-        this.tag(BlockTags.MINEABLE_WITH_HOE)
-                .add(FintyBlocks.GREEN_ALGAE_BLOCK.get())
-                .add(FintyBlocks.RED_ALGAE_BLOCK.get())
-                .add(FintyBlocks.GREEN_ALGAE_CARPET.get())
-                .add(FintyBlocks.RED_ALGAE_CARPET.get())
-                .add(FintyBlocks.AQUATIC_MOSS_BLOCK.get())
-                .add(FintyBlocks.AQUATIC_MOSS_CARPET.get());
-
-        this.tag(FintyTags.Blocks.AQUARIUM_GLASS)
-                .add(FintyBlocks.AQUARIUM_GLASS.get())
-                .add(FintyBlocks.AQUARIUM_GLASS_PANE.get())
-                .add(FintyBlocks.TINTED_AQUARIUM_GLASS.get())
-                .add(FintyBlocks.CLEAR_AQUARIUM_GLASS.get())
-                .add(FintyBlocks.CLEAR_AQUARIUM_GLASS_PANE.get())
-                .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS.get())
-                .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS_PANE.get())
-                .add(FintyBlocks.TINTED_INFERNAL_AQUARIUM_GLASS.get())
-                .add(FintyBlocks.RADON_AQUARIUM_GLASS.get())
-                .add(FintyBlocks.RADON_AQUARIUM_GLASS_PANE.get())
-                .add(FintyBlocks.TINTED_RADON_AQUARIUM_GLASS.get())
-                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS.get())
-                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS_PANE.get())
-                .add(FintyBlocks.TINTED_SUGAR_AQUARIUM_GLASS.get());
+                .add(FintyBlocks.GREEN_ALGAE_LIVE_ROCK.get())
+                .addTag(FintyTags.Blocks.AQUARIUM_GLASS_PANES)
+                .addTag(FintyTags.Blocks.AQUARIUM_GLASS);
 
         this.tag(FintyTags.Blocks.INFERNAL_AQUARIUM_GLASS)
                 .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS.get())
@@ -87,6 +125,8 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
         this.tag(BlockTags.IMPERMEABLE).addTag(FintyTags.Blocks.AQUARIUM_GLASS);
 
         this.tag(Tags.Blocks.GLASS).addTag(FintyTags.Blocks.AQUARIUM_GLASS);
+
+        this.tag(Tags.Blocks.GLASS_PANES).addTag(FintyTags.Blocks.AQUARIUM_GLASS_PANES);
 
         this.tag(FintyTags.Blocks.FRESHWATER_PLANTS)
                 .add(FintyBlocks.HORNWORT.get());

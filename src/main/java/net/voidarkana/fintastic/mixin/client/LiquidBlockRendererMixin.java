@@ -6,6 +6,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.voidarkana.fintastic.common.block.custom.AquariumGlassBlock;
 import net.voidarkana.fintastic.common.block.custom.AquariumGlassPane;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,32 +25,33 @@ public class LiquidBlockRendererMixin {
     )
     private static void shouldRenderFace(BlockAndTintGetter pLevel, BlockPos pPos, FluidState pFluidState, BlockState pBlockState, Direction pSide, FluidState pNeighborFluid, CallbackInfoReturnable<Boolean> cir) {
 
+        BlockState state = pLevel.getBlockState(pPos.offset(pSide.getNormal()));
 
         if (pFluidState.is(Fluids.WATER)){
 
-            if(pLevel.getBlockState(pPos.offset(pSide.getNormal())).is(FintyTags.Blocks.AQUARIUM_GLASS)
-                || pLevel.getBlockState(pPos).is(FintyTags.Blocks.AQUARIUM_GLASS)) {
+            BlockState thisState = pLevel.getBlockState(pPos);
+            if(state.is(FintyTags.Blocks.AQUARIUM_GLASS_PANES) || state.is(FintyTags.Blocks.AQUARIUM_GLASS)
+                    || thisState.is(FintyTags.Blocks.AQUARIUM_GLASS_PANES)) {
 
-                if (pLevel.getBlockState(pPos.offset(pSide.getNormal())).getBlock() instanceof AquariumGlassPane){
-                    if (pSide == pLevel.getBlockState(pPos.offset(pSide.getNormal()))
-                            .getValue(AquariumGlassPane.FACING).getOpposite()){
+                if (state.getBlock() instanceof AquariumGlassPane){
+                    if (pSide == state.getValue(AquariumGlassPane.FACING).getOpposite()){
+                        cir.setReturnValue(false);
+                    }
+                }else if(thisState.getBlock() instanceof AquariumGlassPane){
+                    if (pSide == thisState.getValue(AquariumGlassPane.FACING)){
                         cir.setReturnValue(false);
                     }
                 }else{
                     cir.setReturnValue(false);
                 }
-
-                cir.setReturnValue(false);
-
             }
         }
 
         if (pFluidState.is(Fluids.LAVA)){
-            if(pLevel.getBlockState(pPos.offset(pSide.getNormal())).is(FintyTags.Blocks.INFERNAL_AQUARIUM_GLASS)){
+            if(state.is(FintyTags.Blocks.INFERNAL_AQUARIUM_GLASS)){
 
-                if (pLevel.getBlockState(pPos.offset(pSide.getNormal())).getBlock() instanceof AquariumGlassPane){
-                    if (pSide == pLevel.getBlockState(pPos.offset(pSide.getNormal()))
-                            .getValue(AquariumGlassPane.FACING).getOpposite()){
+                if (state.getBlock() instanceof AquariumGlassPane){
+                    if (pSide == state.getValue(AquariumGlassPane.FACING).getOpposite()){
                         cir.setReturnValue(false);
                     }
                 }else{
@@ -59,12 +61,11 @@ public class LiquidBlockRendererMixin {
         }
 
         if (pFluidState.is(FintyTags.Fluid.AC_ACID)){
-            if(pLevel.getBlockState(pPos.offset(pSide.getNormal())).is(FintyTags.Blocks.RADON_AQUARIUM_GLASS)
+            if(state.is(FintyTags.Blocks.RADON_AQUARIUM_GLASS)
                     || pLevel.getBlockState(pPos).is(FintyTags.Blocks.RADON_AQUARIUM_GLASS)){
 
-                if (pLevel.getBlockState(pPos.offset(pSide.getNormal())).getBlock() instanceof AquariumGlassPane){
-                    if (pSide == pLevel.getBlockState(pPos.offset(pSide.getNormal()))
-                            .getValue(AquariumGlassPane.FACING).getOpposite()){
+                if (state.getBlock() instanceof AquariumGlassPane){
+                    if (pSide == state.getValue(AquariumGlassPane.FACING).getOpposite()){
                         cir.setReturnValue(false);
                     }
                 }else{
@@ -74,12 +75,11 @@ public class LiquidBlockRendererMixin {
         }
 
         if (pFluidState.is(FintyTags.Fluid.AC_SODA)){
-            if(pLevel.getBlockState(pPos.offset(pSide.getNormal())).is(FintyTags.Blocks.SUGAR_AQUARIUM_GLASS)
+            if(state.is(FintyTags.Blocks.SUGAR_AQUARIUM_GLASS)
                     || pLevel.getBlockState(pPos).is(FintyTags.Blocks.SUGAR_AQUARIUM_GLASS)){
 
-                if (pLevel.getBlockState(pPos.offset(pSide.getNormal())).getBlock() instanceof AquariumGlassPane){
-                    if (pSide == pLevel.getBlockState(pPos.offset(pSide.getNormal()))
-                            .getValue(AquariumGlassPane.FACING).getOpposite()){
+                if (state.getBlock() instanceof AquariumGlassPane){
+                    if (pSide == state.getValue(AquariumGlassPane.FACING).getOpposite()){
                         cir.setReturnValue(false);
                     }
                 }else{

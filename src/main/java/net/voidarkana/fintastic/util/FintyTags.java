@@ -69,6 +69,7 @@ public class FintyTags {
     public static class Blocks {
 
         public static final TagKey<Block> AQUARIUM_GLASS = tag("aquarium_glass_blocks");
+        public static final TagKey<Block> AQUARIUM_GLASS_PANES = tag("aquarium_glass_panes");
         public static final TagKey<Block> INFERNAL_AQUARIUM_GLASS = tag("infernal_aquarium_glass_blocks");
         public static final TagKey<Block> RADON_AQUARIUM_GLASS = tag("radon_aquarium_glass_blocks");
         public static final TagKey<Block> SUGAR_AQUARIUM_GLASS = tag("sugar_aquarium_glass_blocks");

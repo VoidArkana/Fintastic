@@ -30,6 +30,7 @@ import net.voidarkana.fintastic.common.entity.custom.ai.FollowIndiscriminateScho
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.SchoolingFish;
 import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyCommonConfig;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -323,7 +324,7 @@ public class FairyShrimp extends SchoolingFish {
         }
 
         public void tick() {
-            if (FairyShrimp.this.random.nextInt(this.adjustedTickDelay(120)) == 0) {
+            if (FairyShrimp.this.random.nextInt(FintyCommonConfig.HOUNEN_FAIRY_SHRIMP_BONEMEAL_RATE.get()) == 0) {
                 for(int i = 1; i <= 2; ++i) {
                     BlockPos blockpos = FairyShrimp.this.blockPosition();
                     BlockState blockstate = FairyShrimp.this.level().getBlockState(blockpos);
