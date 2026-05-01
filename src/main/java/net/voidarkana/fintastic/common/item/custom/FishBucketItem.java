@@ -149,10 +149,6 @@ public class FishBucketItem extends MobBucketItem {
                 int second_pattern = compoundtag.getInt("SecondaryPattern");
                 int second_pattern_color = compoundtag.getInt("SecondaryPatternColor");
 
-                Boolean has_main_pattern = compoundtag.getBoolean("HasMainPattern");
-                Boolean has_second_pattern = compoundtag.getBoolean("HasSecondaryPattern");
-                Boolean hasDorsalFin = compoundtag.getBoolean("HasDorsalFin");
-
                 String base = "fintastic.guppy_base." + skin;
 
                 String fins = "fintastic.guppy_fin." + Guppy.getFinsName(fin_model);
@@ -206,18 +202,31 @@ public class FishBucketItem extends MobBucketItem {
 
                 scientific_name.withStyle(bchatformatting);
 
+
                 if (Screen.hasShiftDown()){
                     pTooltipComponents.add(Component.translatable(base).withStyle(achatformatting));
                     pTooltipComponents.add(finInfo);
                     pTooltipComponents.add(tailInfo);
-                    if (has_main_pattern){
-                        pTooltipComponents.add(mainPatternInfo);
+
+                    if (compoundtag.contains("HasMainPattern")){
+                        boolean has_main_pattern = compoundtag.getBoolean("HasMainPattern");
+                        if (has_main_pattern){
+                            pTooltipComponents.add(mainPatternInfo);
+                        }
                     }
-                    if (has_second_pattern){
-                        pTooltipComponents.add(secondPatternInfo);
+
+                    if (compoundtag.contains("HasSecondaryPattern")){
+                        boolean has_second_pattern = compoundtag.getBoolean("HasSecondaryPattern");
+                        if (has_second_pattern){
+                            pTooltipComponents.add(secondPatternInfo);
+                        }
                     }
-                    if (hasDorsalFin){
-                        pTooltipComponents.add(dorsalFinInfo);
+
+                    if (compoundtag.contains("HasDorsalFin")){
+                        boolean hasDorsalFin = compoundtag.getBoolean("HasDorsalFin");
+                        if (hasDorsalFin){
+                            pTooltipComponents.add(dorsalFinInfo);
+                        }
                     }
                     pTooltipComponents.add(scientific_name);
                 }

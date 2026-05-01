@@ -101,7 +101,7 @@
 
 
   "fintastic.guppy_pattern_1" : "Main Pattern",
-  "fintastic.guppy_pattern_2" : " Secondary Pattern",
+  "fintastic.guppy_pattern_2" : "Secondary Pattern",
 
   "fintastic.guppy_pattern.bar" : "Bar",
   "fintastic.guppy_pattern.belly" : "Belly",
@@ -172,10 +172,10 @@
   "block.fintastic.gray_aquarium_glass_pane" : "Gray Stained Aquarium Glass Pane",
   "block.fintastic.green_aquarium_glass" : "Green Stained Aquarium Glass Block",
   "block.fintastic.green_aquarium_glass_pane" : "Green Stained Aquarium Glass Pane",
-  "block.fintastic.light_blue_aquarium_glass" : "Light_Blue Stained Aquarium Glass Block",
-  "block.fintastic.light_blue_aquarium_glass_pane" : "Light_Blue Stained Aquarium Glass Pane",
-  "block.fintastic.light_gray_aquarium_glass" : "Light_Gray Stained Aquarium Glass Block",
-  "block.fintastic.light_gray_aquarium_glass_pane" : "Light_Gray Stained Aquarium Glass Pane",
+  "block.fintastic.light_blue_aquarium_glass" : "Light Blue Stained Aquarium Glass Block",
+  "block.fintastic.light_blue_aquarium_glass_pane" : "Light Blue Stained Aquarium Glass Pane",
+  "block.fintastic.light_gray_aquarium_glass" : "Light Gray Stained Aquarium Glass Block",
+  "block.fintastic.light_gray_aquarium_glass_pane" : "Light Gray Stained Aquarium Glass Pane",
   "block.fintastic.lime_aquarium_glass" : "Lime Stained Aquarium Glass Block",
   "block.fintastic.lime_aquarium_glass_pane" : "Lime Stained Aquarium Glass Pane",
   "block.fintastic.magenta_aquarium_glass" : "Magenta Stained Aquarium Glass Block",

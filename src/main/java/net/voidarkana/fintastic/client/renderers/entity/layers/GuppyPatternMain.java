@@ -24,7 +24,7 @@ public class GuppyPatternMain <T extends Guppy> extends RenderLayer<T, Fintastic
     @Override
     public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, T entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 
-        if (!entity.isInvisible() && !entity.isBaby()) {
+        if (!entity.isInvisible() && !entity.isBaby() && entity.getHasMainPattern()) {
             ResourceLocation texture = new ResourceLocation(Fintastic.MOD_ID,
                     "textures/entity/guppy/patterns/"+entity.getMainPatternName(entity.getMainPattern())
                             +"/guppy_pattern_"+entity.getMainPatternName(entity.getMainPattern())+"_"+entity.getMainPatternColor()+".png");
