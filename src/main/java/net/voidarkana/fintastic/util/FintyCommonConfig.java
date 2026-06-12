@@ -1,25 +1,27 @@
 package net.voidarkana.fintastic.util;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import com.electronwill.nightconfig.core.ConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.NeoForgeConfig;
 
 public class FintyCommonConfig {
-    public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    public static final ForgeConfigSpec SPEC;
+    public static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    public static final ModConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.ConfigValue<Boolean> REPLACE_VANILLA_COD;
-    public static final ForgeConfigSpec.ConfigValue<Boolean> REPLACE_VANILLA_SALMON;
-    public static final ForgeConfigSpec.ConfigValue<Boolean> ALLOW_FINTASTIC_COD;
-    public static final ForgeConfigSpec.ConfigValue<Boolean> ALLOW_FINTASTIC_SALMON;
+    public static final ModConfigSpec.ConfigValue<Boolean> REPLACE_VANILLA_COD;
+    public static final ModConfigSpec.ConfigValue<Boolean> REPLACE_VANILLA_SALMON;
+    public static final ModConfigSpec.ConfigValue<Boolean> ALLOW_FINTASTIC_COD;
+    public static final ModConfigSpec.ConfigValue<Boolean> ALLOW_FINTASTIC_SALMON;
 
-    public static final ForgeConfigSpec.ConfigValue<Integer> LOTUS_PAD_FREQUENCY;
-    public static final ForgeConfigSpec.ConfigValue<Float> LOTUS_PAD_LOUDNESS;
+    public static final ModConfigSpec.ConfigValue<Integer> LOTUS_PAD_FREQUENCY;
+    public static final ModConfigSpec.ConfigValue<Float> LOTUS_PAD_LOUDNESS;
 
-    public static final ForgeConfigSpec.ConfigValue<Integer> PLAINS_VILLAGE_WEIGHT;
-    public static final ForgeConfigSpec.ConfigValue<Integer> SAVANNA_VILLAGE_WEIGHT;
-    public static final ForgeConfigSpec.ConfigValue<Integer> SNOWY_VILLAGE_WEIGHT;
-    public static final ForgeConfigSpec.ConfigValue<Integer> TAIGA_VILLAGE_WEIGHT;
-    public static final ForgeConfigSpec.ConfigValue<Integer> DESERT_VILLAGE_WEIGHT;
-    public static final ForgeConfigSpec.ConfigValue<Integer> HOUNEN_FAIRY_SHRIMP_BONEMEAL_RATE;
+    public static final ModConfigSpec.ConfigValue<Integer> PLAINS_VILLAGE_WEIGHT;
+    public static final ModConfigSpec.ConfigValue<Integer> SAVANNA_VILLAGE_WEIGHT;
+    public static final ModConfigSpec.ConfigValue<Integer> SNOWY_VILLAGE_WEIGHT;
+    public static final ModConfigSpec.ConfigValue<Integer> TAIGA_VILLAGE_WEIGHT;
+    public static final ModConfigSpec.ConfigValue<Integer> DESERT_VILLAGE_WEIGHT;
+    public static final ModConfigSpec.ConfigValue<Integer> HOUNEN_FAIRY_SHRIMP_BONEMEAL_RATE;
     static {
         BUILDER.push("Configs for Fintastic");
 

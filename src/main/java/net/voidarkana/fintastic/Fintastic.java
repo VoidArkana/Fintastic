@@ -10,16 +10,15 @@ import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.PolarBear;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.blockentity.FintyBlockEntities;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
@@ -46,7 +45,7 @@ import java.util.function.Predicate;
 @Mod(Fintastic.MOD_ID)
 public class Fintastic
 {
-    public static final CommonProxy PROXY = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+    public static final CommonProxy PROXY = unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public static final String MOD_ID = "fintastic";
     public static final List<Runnable> CALLBACKS = new ArrayList<>();
@@ -54,9 +53,9 @@ public class Fintastic
 
     public Fintastic()
     {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus modEventBus = ModLoadingContext.get().getActiveContainer().getEventBus();
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FintyCommonConfig.SPEC,
+        ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.COMMON, FintyCommonConfig.SPEC,
                 "fintastic.toml");
 
         modEventBus.addListener(this::commonSetup);
@@ -75,9 +74,9 @@ public class Fintastic
 
         FintyConfiguredFeatures.register(modEventBus);
 
-        MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new FintyEvents());
-        MinecraftForge.EVENT_BUS.addListener(this::addEntityGoals);
+        NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(new FintyEvents());
+        NeoForge.EVENT_BUS.addListener(this::addEntityGoals);
 
         PROXY.init();
 
@@ -126,4 +125,10 @@ public class Fintastic
         }
     }
 
+    private static <T> T unsafeRunForDist(java.util.function.Supplier<java.util.function.Supplier<T>> clientTarget, java.util.function.Supplier<java.util.function.Supplier<T>> serverTarget) {
+        return switch (FMLEnvironment.dist) {
+            case CLIENT -> clientTarget.get().get();
+            case DEDICATED_SERVER -> serverTarget.get().get();
+        };
+    }
 }

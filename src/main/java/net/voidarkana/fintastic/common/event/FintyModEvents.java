@@ -421,7 +421,7 @@ public class FintyModEvents {
                                           ResourceLocation poolRL,
                                           String nbtPieceRL,
                                           int weight) {
-Holder<StructureProcessorList> emptyProcessorList = processorListRegistry.getHolderOrThrow(EMPTY_PROCESSOR_LIST_KEY);
+        Holder<StructureProcessorList> emptyProcessorList = processorListRegistry.getHolderOrThrow(EMPTY_PROCESSOR_LIST_KEY);
 
         StructureTemplatePool pool = templatePoolRegistry.get(poolRL);
         if (pool == null) return;

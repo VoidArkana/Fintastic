@@ -1,21 +1,23 @@
 package net.voidarkana.fintastic.util;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.item.FintyItems;
+
+import java.util.function.Supplier;
 
 public class FintyCreativeTab {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Fintastic.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> YAFM_CREATIVE_TAB =
+    public static final Supplier<CreativeModeTab> YAFM_CREATIVE_TAB =
             CREATIVE_MODE_TABS.register("fintastic_creative_tab", ()-> CreativeModeTab.builder().icon(() -> new ItemStack(FintyItems.FEATHERBACK.get()))
                     .title(Component.translatable("creativetab.fintastic_creative_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
