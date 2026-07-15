@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -23,31 +24,31 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
 public class TallAquaticPlantBlock extends DoublePlantBlock implements LiquidBlockContainer, BonemealableBlock {
     public static final EnumProperty<DoubleBlockHalf> HALF = DoublePlantBlock.HALF;
-    protected static final float AABB_OFFSET = 6.0F;
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
 
     public TallAquaticPlantBlock(BlockBehaviour.Properties properties) {
         super(properties);
     }
 
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
-    protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return pState.isFaceSturdy(pLevel, pPos, Direction.UP) && !pState.is(Blocks.MAGMA_BLOCK);
+    protected boolean mayPlaceOn(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+        return state.isFaceSturdy(level, pos, Direction.UP) && !state.is(Blocks.MAGMA_BLOCK);
     }
 
     @Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        BlockState blockstate = super.getStateForPlacement(pContext);
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
+        BlockState blockstate = super.getStateForPlacement(context);
         if (blockstate != null) {
-            FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos().above());
+            FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos().above());
             if (fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8) {
                 return blockstate;
             }
@@ -56,49 +57,49 @@ public class TallAquaticPlantBlock extends DoublePlantBlock implements LiquidBlo
         return null;
     }
 
-    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-        if (pState.getValue(HALF) == DoubleBlockHalf.UPPER) {
-            BlockState blockstate = pLevel.getBlockState(pPos.below());
+    public boolean canSurvive(BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+        if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            BlockState blockstate = level.getBlockState(pos.below());
             return blockstate.is(this) && blockstate.getValue(HALF) == DoubleBlockHalf.LOWER;
         } else {
-            FluidState fluidstate = pLevel.getFluidState(pPos);
-            FluidState fluidstate2 = pLevel.getFluidState(pPos);
-            return super.canSurvive(pState, pLevel, pPos) && fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 && fluidstate2.is(FluidTags.WATER) && fluidstate2.getAmount() == 8;
+            FluidState fluidstate = level.getFluidState(pos);
+            FluidState fluidstate2 = level.getFluidState(pos);
+            return super.canSurvive(state, level, pos) && fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 && fluidstate2.is(FluidTags.WATER) && fluidstate2.getAmount() == 8;
         }
     }
 
-    public FluidState getFluidState(BlockState p_154772_) {
+    public @NotNull FluidState getFluidState(@NotNull BlockState state) {
         return Fluids.WATER.getSource(false);
     }
 
-    public boolean canPlaceLiquid(BlockGetter p_154753_, BlockPos p_154754_, BlockState p_154755_, Fluid p_154756_) {
+    public boolean canPlaceLiquid(@Nullable Player player, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Fluid fluid) {
         return false;
     }
 
-    public boolean placeLiquid(LevelAccessor p_154758_, BlockPos p_154759_, BlockState p_154760_, FluidState p_154761_) {
+    public boolean placeLiquid(@NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull FluidState fluidState) {
         return false;
     }
 
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
-        BlockPos blockpos = pPos.above();
-        pLevel.setBlock(blockpos, this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), 3);
+    public void setPlacedBy(Level level, BlockPos pos, @NotNull BlockState state, @NotNull LivingEntity placer, @NotNull ItemStack stack) {
+        BlockPos blockpos = pos.above();
+        level.setBlock(blockpos, this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), 3);
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
         ItemStack item = new ItemStack(this);
         if (item.is(FintyBlocks.TALL_AMAZON_SWORD.get().asItem()))
-            popResource(pLevel, pPos, new ItemStack(FintyBlocks.AMAZON_SWORD.get().asItem()));
+            popResource(level, pos, new ItemStack(FintyBlocks.AMAZON_SWORD.get().asItem()));
     }
 
     public float getMaxHorizontalOffset() {

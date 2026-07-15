@@ -18,15 +18,15 @@ public class FishBreedGoal extends Goal {
     private int loveTime;
     private final double speedModifier;
 
-    public FishBreedGoal(BreedableWaterAnimal pAnimal, double pSpeedModifier) {
-        this(pAnimal, pSpeedModifier, pAnimal.getClass());
+    public FishBreedGoal(BreedableWaterAnimal animal, double speedModifier) {
+        this(animal, speedModifier, animal.getClass());
     }
 
-    public FishBreedGoal(BreedableWaterAnimal pAnimal, double pSpeedModifier, Class<? extends BreedableWaterAnimal> pPartnerClass) {
-        this.animal = pAnimal;
-        this.level = pAnimal.level();
-        this.partnerClass = pPartnerClass;
-        this.speedModifier = pSpeedModifier;
+    public FishBreedGoal(BreedableWaterAnimal animal, double speedModifier, Class<? extends BreedableWaterAnimal> partnerClass) {
+        this.animal = animal;
+        this.level = animal.level();
+        this.partnerClass = partnerClass;
+        this.speedModifier = speedModifier;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
@@ -40,6 +40,7 @@ public class FishBreedGoal extends Goal {
     }
 
     public boolean canContinueToUse() {
+        assert this.partner != null;
         return this.partner.isAlive() && this.partner.isInLove() && this.loveTime < 60;
     }
 
@@ -49,6 +50,7 @@ public class FishBreedGoal extends Goal {
     }
 
     public void tick() {
+        assert this.partner != null;
         this.animal.getLookControl().setLookAt(this.partner, 10.0F, (float)this.animal.getMaxHeadXRot());
         this.animal.getNavigation().moveTo(this.partner, this.speedModifier);
         ++this.loveTime;

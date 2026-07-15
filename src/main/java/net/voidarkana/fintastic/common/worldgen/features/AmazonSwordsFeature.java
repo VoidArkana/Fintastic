@@ -16,16 +16,16 @@ import net.voidarkana.fintastic.common.block.FintyBlocks;
 
 public class AmazonSwordsFeature extends Feature<ProbabilityFeatureConfiguration> {
 
-    public AmazonSwordsFeature(Codec<ProbabilityFeatureConfiguration> p_66768_) {
-        super(p_66768_);
+    public AmazonSwordsFeature(Codec<ProbabilityFeatureConfiguration> codec) {
+        super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> p_160318_) {
+    public boolean place(FeaturePlaceContext<ProbabilityFeatureConfiguration> context) {
         boolean flag = false;
-        RandomSource randomsource = p_160318_.random();
-        WorldGenLevel worldgenlevel = p_160318_.level();
-        BlockPos blockpos = p_160318_.origin();
-        ProbabilityFeatureConfiguration probabilityfeatureconfiguration = p_160318_.config();
+        RandomSource randomsource = context.random();
+        WorldGenLevel worldgenlevel = context.level();
+        BlockPos blockpos = context.origin();
+        ProbabilityFeatureConfiguration probabilityfeatureconfiguration = context.config();
         int i = randomsource.nextInt(8) - randomsource.nextInt(8);
         int j = randomsource.nextInt(8) - randomsource.nextInt(8);
         int k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + i, blockpos.getZ() + j);

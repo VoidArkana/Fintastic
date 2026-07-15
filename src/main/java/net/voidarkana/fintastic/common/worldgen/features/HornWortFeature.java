@@ -16,15 +16,15 @@ import net.voidarkana.fintastic.common.block.custom.HornwortBlock;
 
 public class HornWortFeature extends Feature<NoneFeatureConfiguration> {
 
-    public HornWortFeature(Codec<NoneFeatureConfiguration> p_66754_) {
-        super(p_66754_);
+    public HornWortFeature(Codec<NoneFeatureConfiguration> codec) {
+        super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> pContext) {
+    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         boolean flag = false;
-        RandomSource randomsource = pContext.random();
-        WorldGenLevel worldgenlevel = pContext.level();
-        BlockPos blockpos = pContext.origin();
+        RandomSource randomsource = context.random();
+        WorldGenLevel worldgenlevel = context.level();
+        BlockPos blockpos = context.origin();
         int i = randomsource.nextInt(8) - randomsource.nextInt(8);
         int j = randomsource.nextInt(8) - randomsource.nextInt(8);
         int k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + i, blockpos.getZ() + j);
@@ -39,7 +39,7 @@ public class HornWortFeature extends Feature<NoneFeatureConfiguration> {
                 default -> Direction.SOUTH;};
 
             BlockState blockstate = FintyBlocks.HORNWORT.get().defaultBlockState()
-                    .setValue(HornwortBlock.AMOUNT, Integer.valueOf(randomsource.nextInt(4) + 1))
+                    .setValue(HornwortBlock.AMOUNT, randomsource.nextInt(4) + 1)
                     .setValue(HornwortBlock.FACING, direction);
 
             if (blockstate.canSurvive(worldgenlevel, blockpos1)) {

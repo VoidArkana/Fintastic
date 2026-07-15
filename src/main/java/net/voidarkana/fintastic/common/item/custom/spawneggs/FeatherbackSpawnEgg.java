@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.item.custom.spawneggs;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,10 +20,11 @@ public class FeatherbackSpawnEgg extends FishVariantSpawnEggItem {
 
     @Override
     public void applyEntityVariant(ItemStack itemstack, Entity entity) {
-        if (entity instanceof Featherback fish && itemstack.hasTag())
-            if (itemstack.getTag().contains(DATA_CREATURE))
-                if (itemstack.getTag().getInt(DATA_CREATURE)!=-1){
-                    int i = itemstack.getTag().getInt(DATA_CREATURE);
+        CompoundTag tag = getCreatureData(itemstack);
+        if (entity instanceof Featherback fish)
+            if (tag.contains(DATA_CREATURE))
+                if (tag.getInt(DATA_CREATURE)!=-1){
+                    int i = tag.getInt(DATA_CREATURE);
                     Featherback.FeatherbackVariant variant = Featherback.FeatherbackVariant.values()[i];
                     if (variant != null)
                         fish.setVariant(variant.getJoinedVariant());
@@ -31,8 +33,7 @@ public class FeatherbackSpawnEgg extends FishVariantSpawnEggItem {
 
 
     public int getLength() {
-        int length = Featherback.FeatherbackVariant.values().length-1;
-        return length;
+        return Featherback.FeatherbackVariant.values().length-1;
     }
 
     public void setTooltip(List<Component> tooltip, int i, ChatFormatting[] achatformatting) {

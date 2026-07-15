@@ -1,0 +1,8 @@
+{
+  "sound_event": "fintastic:fresh",
+  "description": {
+    "translate": "item.fintastic.fresh_music_disc.desc"
+  },
+  "length_in_seconds": 192,
+  "comparator_output": 5
+}

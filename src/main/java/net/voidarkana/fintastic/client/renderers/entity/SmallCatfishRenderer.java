@@ -1,7 +1,6 @@
 package net.voidarkana.fintastic.client.renderers.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -14,7 +13,6 @@ import net.voidarkana.fintastic.client.models.entity.small_catfish.SmallCatfishB
 import net.voidarkana.fintastic.client.models.entity.small_catfish.SmallCatfishCoryModel;
 import net.voidarkana.fintastic.client.models.entity.small_catfish.SmallCatfishThornyModel;
 import net.voidarkana.fintastic.client.models.entity.small_catfish.SmallCatfishTinyCoryModel;
-import net.voidarkana.fintastic.common.entity.custom.Catfish;
 import net.voidarkana.fintastic.common.entity.custom.SmallCatfish;
 
 public class SmallCatfishRenderer<T extends SmallCatfish> extends MobRenderer<T, FintasticModel<T>> {
@@ -24,13 +22,13 @@ public class SmallCatfishRenderer<T extends SmallCatfish> extends MobRenderer<T,
     private final SmallCatfishTinyCoryModel<T> modelTinyCory;
     private final SmallCatfishThornyModel<T> modelThorny;
 
-    public SmallCatfishRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new SmallCatfishBanjoModel<>(pContext.bakeLayer(FintasticLayers.SMALL_CATFISH_BANJO)), 0.15f);
+    public SmallCatfishRenderer(EntityRendererProvider.Context context) {
+        super(context, new SmallCatfishBanjoModel<>(context.bakeLayer(FintasticLayers.SMALL_CATFISH_BANJO)), 0.15f);
 
-        this.modelBanjo = new SmallCatfishBanjoModel<>(pContext.bakeLayer(FintasticLayers.SMALL_CATFISH_BANJO));
-        this.modelCory = new SmallCatfishCoryModel<>(pContext.bakeLayer(FintasticLayers.SMALL_CATFISH_CORY));
-        this.modelTinyCory = new SmallCatfishTinyCoryModel<>(pContext.bakeLayer(FintasticLayers.SMALL_CATFISH_TINY_CORY));
-        this.modelThorny = new SmallCatfishThornyModel<>(pContext.bakeLayer(FintasticLayers.SMALL_CATFISH_THORNY));
+        this.modelBanjo = new SmallCatfishBanjoModel<>(context.bakeLayer(FintasticLayers.SMALL_CATFISH_BANJO));
+        this.modelCory = new SmallCatfishCoryModel<>(context.bakeLayer(FintasticLayers.SMALL_CATFISH_CORY));
+        this.modelTinyCory = new SmallCatfishTinyCoryModel<>(context.bakeLayer(FintasticLayers.SMALL_CATFISH_TINY_CORY));
+        this.modelThorny = new SmallCatfishThornyModel<>(context.bakeLayer(FintasticLayers.SMALL_CATFISH_THORNY));
     }
 
     @Override
@@ -57,9 +55,9 @@ public class SmallCatfishRenderer<T extends SmallCatfish> extends MobRenderer<T,
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T pEntity) {
-        SmallCatfish.SmallCatfishVariant variant = SmallCatfish.SmallCatfishVariant.byId(pEntity.getVariant());
+    public ResourceLocation getTextureLocation(T entity) {
+        SmallCatfish.SmallCatfishVariant variant = SmallCatfish.SmallCatfishVariant.byId(entity.getVariant());
 //        System.out.println(variant.getModelName());
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/small_catfish/"+variant.getModelName()+"/smallcatfish_"+variant.getSerializedName()+".png");
+        return Fintastic.location("textures/entity/small_catfish/"+variant.getModelName()+"/smallcatfish_"+variant.getSerializedName()+".png");
     }
 }

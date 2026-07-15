@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "fintastic:stromatolite_block"
+  },
+  "result": {
+    "id": "fintastic:cut_stromatolite_block",
+    "count": 1
+  }
+}

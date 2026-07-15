@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#fintastic:liverock_boulder_biomes",
+  "features": "fintastic:live_rock_boulder_placed",
+  "step": "local_modifications"
+}

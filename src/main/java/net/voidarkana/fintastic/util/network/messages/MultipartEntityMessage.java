@@ -1,60 +1,45 @@
 package net.voidarkana.fintastic.util.network.messages;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.voidarkana.fintastic.Fintastic;
 
-import java.util.function.Supplier;
+public record MultipartEntityMessage(int parentId, int playerId, int actionType, double damage) implements CustomPacketPayload {
 
-public class MultipartEntityMessage {
+    public static final CustomPacketPayload.Type<MultipartEntityMessage> TYPE =
+            new CustomPacketPayload.Type<>(Fintastic.location("multipart_entity"));
 
-    public int parentId;
-    public int playerId;
-    public int type;
-    public double damage;
+    public static final StreamCodec<FriendlyByteBuf, MultipartEntityMessage> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.VAR_INT, MultipartEntityMessage::parentId,
+            ByteBufCodecs.VAR_INT, MultipartEntityMessage::playerId,
+            ByteBufCodecs.VAR_INT, MultipartEntityMessage::actionType,
+            ByteBufCodecs.DOUBLE, MultipartEntityMessage::damage,
+            MultipartEntityMessage::new);
 
-    public MultipartEntityMessage(int parentId, int playerId, int type, double damage) {
-        this.parentId = parentId;
-        this.playerId = playerId;
-        this.type = type;
-        this.damage = damage;
+    @Override
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public MultipartEntityMessage() {
-    }
-
-    public static MultipartEntityMessage read(FriendlyByteBuf buf) {
-        return new MultipartEntityMessage(buf.readInt(), buf.readInt(), buf.readInt(), buf.readDouble());
-    }
-
-    public static void write(MultipartEntityMessage message, FriendlyByteBuf buf) {
-        buf.writeInt(message.parentId);
-        buf.writeInt(message.playerId);
-        buf.writeInt(message.type);
-        buf.writeDouble(message.damage);
-    }
-
-    public static void handle(MultipartEntityMessage message, Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            Player playerSided = context.get().getSender();
-            if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
-                playerSided = Fintastic.PROXY.getClientSidePlayer();
-            }
-            Entity parent = playerSided.level().getEntity(message.parentId);
-            Entity interacter = playerSided.level().getEntity(message.playerId);
+    public static void handle(final MultipartEntityMessage message, final IPayloadContext context) {
+        context.enqueueWork(() -> {
+            Player playerSided = context.player();
+            Entity parent = playerSided.level().getEntity(message.parentId());
+            Entity interacter = playerSided.level().getEntity(message.playerId());
             if (interacter != null && parent != null && parent.isMultipartEntity() && interacter.distanceTo(parent) < 16) {
-                if (message.type == 0) {
+                if (message.actionType() == 0) {
                     if (interacter instanceof Player player) {
                         parent.interact(player, player.getUsedItemHand());
                     }
-                } else if (message.type == 1) {
-                    parent.hurt(parent.damageSources().generic(), (float) message.damage);
+                } else if (message.actionType() == 1) {
+                    parent.hurt(parent.damageSources().generic(), (float) message.damage());
                 }
             }
         });
-        context.get().setPacketHandled(true);
     }
 }

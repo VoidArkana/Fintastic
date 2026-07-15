@@ -1,23 +1,34 @@
 package net.voidarkana.fintastic.util;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
+import net.voidarkana.fintastic.common.entity.custom.*;
 import net.voidarkana.fintastic.common.item.FintyItems;
 
-import java.util.function.Supplier;
+import java.util.function.BiConsumer;
+import java.util.function.ToIntFunction;
 
 public class FintyCreativeTab {
+
+    private static final int ADULT_AGE = 0;
+    private static final int BABY_AGE = -24000;
+    private static final int TADPOLE_AGE = -12000;
+
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Fintastic.MOD_ID);
 
-    public static final Supplier<CreativeModeTab> YAFM_CREATIVE_TAB =
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> YAFM_CREATIVE_TAB =
             CREATIVE_MODE_TABS.register("fintastic_creative_tab", ()-> CreativeModeTab.builder().icon(() -> new ItemStack(FintyItems.FEATHERBACK.get()))
                     .title(Component.translatable("creativetab.fintastic_creative_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -42,6 +53,7 @@ public class FintyCreativeTab {
                         output.accept(FintyItems.CATFISH_BUCKET.get());
                         output.accept(FintyItems.COD_BUCKET.get());
                         output.accept(FintyItems.COELACANTH.get());
+                        output.accept(FintyItems.COELACANTH_BUCKET.get());
                         output.accept(FintyItems.COPEPOD.get());
                         output.accept(FintyItems.COPEPOD_BUCKET.get());
                         output.accept(FintyItems.DAPHNIA.get());
@@ -205,6 +217,61 @@ public class FintyCreativeTab {
 
                     })
                     .build());
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> YAFM_VARIANTS_TAB =
+            CREATIVE_MODE_TABS.register("fintastic_variants_tab", ()-> CreativeModeTab.builder().icon(() -> new ItemStack(FintyItems.CATFISH_BUCKET.get()))
+                    .withTabsBefore(YAFM_CREATIVE_TAB.getId())
+                    .title(Component.translatable("creativetab.fintastic_variants_tab"))
+                    .displayItems((itemDisplayParameters, output) -> {
+
+                        variantBuckets(output, FintyItems.CATFISH_BUCKET.get(), Catfish.CatfishVariant.values(), (tag, variant) -> {
+                            tag.putInt("Variant", variant.getJoinedVariant());
+                            tag.putInt("Age", variant == Catfish.CatfishVariant.PIRAIBA || variant == Catfish.CatfishVariant.DEVIL_GOONCH ? BABY_AGE : ADULT_AGE);
+                        });
+                        variantBuckets(output, FintyItems.SMALL_CATFISH_BUCKET.get(), SmallCatfish.SmallCatfishVariant.values(), SmallCatfish.SmallCatfishVariant::getVariant);
+                        variantBuckets(output, FintyItems.COD_BUCKET.get(), FintasticCod.CodVariant.values(), FintasticCod.CodVariant::getVariant);
+                        variantBuckets(output, FintyItems.SALMON_BUCKET.get(), FintasticSalmon.SalmonVariant.values(), (tag, variant) -> {
+                            tag.putInt("Variant", variant.getVariant());
+                            tag.putString("Size", FintasticSalmon.SalmonSize.MEDIUM.getSerializedName());
+                        });
+                        variantBuckets(output, FintyItems.COPEPOD_BUCKET.get(), Copepod.CopepodVariant.values(), Copepod.CopepodVariant::getID);
+                        variantBuckets(output, FintyItems.ARTEMIA_BUCKET.get(), FairyShrimp.FairyShrimpVariant.values(), FairyShrimp.FairyShrimpVariant::getID);
+                        variantBuckets(output, FintyItems.FEATHERBACK_BUCKET.get(), Featherback.FeatherbackVariant.values(), (tag, variant) -> {
+                            tag.putInt("Variant", variant.getJoinedVariant());
+                            tag.putInt("Age", ADULT_AGE);
+                        });
+                        variantBuckets(output, FintyItems.MINNOW_BUCKET.get(), Minnow.MinnowVariant.values(), Minnow.MinnowVariant::getVariant);
+                        variantBuckets(output, FintyItems.MOONY_BUCKET.get(), Moony.MoonyVariant.values(), Moony.MoonyVariant::getJoinedVariant);
+                        variantBuckets(output, FintyItems.PLECO_BUCKET.get(), Pleco.PlecoVariant.values(), Pleco.PlecoVariant::getVariantID);
+                        variantBuckets(output, FintyItems.FRESHWATER_SHARK_BUCKET.get(), Sharkminnow.SharkminnowVariant.values(), Sharkminnow.SharkminnowVariant::getVariant);
+                        variantBuckets(output, FintyItems.DWARF_FROG_BUCKET.get(), DwarfFrog.FrogVariant.values(), (tag, variant) -> {
+                            tag.putInt("Variant", variant.getJoinedVariant());
+                            tag.putInt("Age", ADULT_AGE);
+                        });
+                        variantBuckets(output, FintyItems.DWARF_FROG_TADPOLE_BUCKET.get(), DwarfFrog.FrogVariant.values(), (tag, variant) -> {
+                            tag.putInt("Variant", variant.getJoinedVariant());
+                            tag.putInt("Age", TADPOLE_AGE);
+                        });
+                        variantBuckets(output, FintyItems.GOURAMI_BUCKET.get(), Gourami.GouramiVariant.values(), (tag, variant) -> {
+                            tag.putInt("VariantModel", variant.getModel());
+                            tag.putInt("VariantSkin", variant.getSkin());
+                            tag.putInt("Age", variant.getModel() == 0 ? BABY_AGE : ADULT_AGE);
+                        });
+
+                    })
+                    .build());
+
+    private static <E extends Enum<E>> void variantBuckets(CreativeModeTab.Output output, Item bucket, E[] values, ToIntFunction<E> variant) {
+        variantBuckets(output, bucket, values, (tag, value) -> tag.putInt("Variant", variant.applyAsInt(value)));
+    }
+
+    private static <E extends Enum<E>> void variantBuckets(CreativeModeTab.Output output, Item bucket, E[] values, BiConsumer<CompoundTag, E> data) {
+        for (E value : values) {
+            ItemStack stack = new ItemStack(bucket);
+            CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack, tag -> data.accept(tag, value));
+            output.accept(stack);
+        }
+    }
 
     public static void register(IEventBus eventBus){
         CREATIVE_MODE_TABS.register(eventBus);

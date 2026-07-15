@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:campfire_cooking",
-  "ingredient": {
-    "item": "fintastic:raw_fish"
-  },
-  "result": "fintastic:cooked_fish",
-  "experience": 0.35,
-  "cookingtime": 600
-}

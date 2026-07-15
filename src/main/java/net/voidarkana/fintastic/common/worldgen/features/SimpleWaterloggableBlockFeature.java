@@ -16,15 +16,15 @@ import net.voidarkana.fintastic.common.block.custom.StromatoliteBlock;
 
 public class SimpleWaterloggableBlockFeature extends Feature<SimpleBlockConfiguration> {
 
-   public SimpleWaterloggableBlockFeature(Codec< SimpleBlockConfiguration > p_66808_) {
-        super(p_66808_);
+   public SimpleWaterloggableBlockFeature(Codec< SimpleBlockConfiguration > codec) {
+        super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<SimpleBlockConfiguration> pContext) {
-        SimpleBlockConfiguration simpleblockconfiguration = pContext.config();
-        WorldGenLevel worldgenlevel = pContext.level();
-        BlockPos blockpos = pContext.origin();
-        BlockState blockstate = simpleblockconfiguration.toPlace().getState(pContext.random(), blockpos);
+    public boolean place(FeaturePlaceContext<SimpleBlockConfiguration> context) {
+        SimpleBlockConfiguration simpleblockconfiguration = context.config();
+        WorldGenLevel worldgenlevel = context.level();
+        BlockPos blockpos = context.origin();
+        BlockState blockstate = simpleblockconfiguration.toPlace().getState(context.random(), blockpos);
 
         if (((worldgenlevel.isEmptyBlock(blockpos)) || (worldgenlevel.isWaterAt(blockpos)))
                 && (worldgenlevel.isEmptyBlock(blockpos.above()) || (worldgenlevel.isWaterAt(blockpos)))) {

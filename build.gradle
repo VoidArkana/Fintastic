@@ -23,11 +23,12 @@ sourceSets.main.resources {
 
     // Exclude common development only resources from finalized outputs
     exclude("**/*.bbmodel") // BlockBench project files
-    exclude("src/generated/**/.cache") // datagen cache files
+    exclude("**/.cache/**") // datagen cache files
 }
 
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
+    maven { url = "https://api.modrinth.com/maven" }
 }
 
 base {
@@ -111,6 +112,8 @@ configurations {
 }
 
 dependencies {
+    compileOnly "maven.modrinth:spawn-mod:4.0.4"
+    localRuntime "maven.modrinth:spawn-mod:4.0.4"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
@@ -123,6 +126,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
@@ -147,6 +152,7 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+    options.compilerArgs << '-Xmaxerrs' << '10000'
 }
 
 // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.

@@ -14,20 +14,20 @@ import net.voidarkana.fintastic.common.worldgen.configurations.LiveRockBoulderCo
 
 public class LiveRockBoulderFeature extends Feature<LiveRockBoulderConfig> {
 
-    public LiveRockBoulderFeature(Codec< LiveRockBoulderConfig > p_65248_) {
-        super(p_65248_);
+    public LiveRockBoulderFeature(Codec< LiveRockBoulderConfig > codec) {
+        super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<LiveRockBoulderConfig> pContext) {
-        BlockPos blockpos = pContext.origin();
-        WorldGenLevel worldgenlevel = pContext.level();
-        RandomSource pRandom = pContext.random();
+    public boolean place(FeaturePlaceContext<LiveRockBoulderConfig> context) {
+        BlockPos blockpos = context.origin();
+        WorldGenLevel worldgenlevel = context.level();
+        RandomSource random = context.random();
 
         if (blockpos.getY() >= 50)
             return false;
 
-        LiveRockBoulderConfig pConfig;
-        for(pConfig = pContext.config(); blockpos.getY() > worldgenlevel.getMinBuildHeight() + 3; blockpos = blockpos.below()) {
+        LiveRockBoulderConfig config;
+        for(config = context.config(); blockpos.getY() > worldgenlevel.getMinBuildHeight() + 3; blockpos = blockpos.below()) {
             if (!worldgenlevel.isEmptyBlock(blockpos.below())) {
                 BlockState blockstate = worldgenlevel.getBlockState(blockpos.below());
                 if (isDirt(blockstate) || isStone(blockstate)) {
@@ -40,30 +40,30 @@ public class LiveRockBoulderFeature extends Feature<LiveRockBoulderConfig> {
             return false;
         } else {
 
-            int x = pRandom.nextInt(2, 5);
-            int y = pRandom.nextInt(2,6);
-            int z = pRandom.nextInt(2, 5);
+            int x = random.nextInt(2, 5);
+            int y = random.nextInt(2,6);
+            int z = random.nextInt(2, 5);
             float f = (float)(x + y + z) * 0.333F + 0.5F;
-            boolean type = pRandom.nextBoolean();
+            boolean type = random.nextBoolean();
 
             for(BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-x, -y, -z), blockpos.offset(x, y, z))) {
                 if (blockpos1.distSqr(blockpos) <= (double)(f * f)) {
 
                     BlockState blockstate;
                     if (type)
-                        blockstate = pConfig.grassState1.getState(pRandom, blockpos1);
+                        blockstate = config.grassState1.getState(random, blockpos1);
                     else
-                        blockstate = pConfig.grassState2.getState(pRandom, blockpos1);
+                        blockstate = config.grassState2.getState(random, blockpos1);
 
                     worldgenlevel.setBlock(blockpos1, blockstate, 3);
                     worldgenlevel.scheduleTick(blockpos1, blockstate.getBlock(), 0);
 
-                    if (worldgenlevel.getBlockState(blockpos1).getBlock() instanceof AlgaeLiveRockBlock block
-                            && pRandom.nextInt(4)==0){
+                    if (worldgenlevel.getBlockState(blockpos1).getBlock() instanceof AlgaeLiveRockBlock
+                            && random.nextInt(4)==0){
                         if (type)
-                            pConfig.vegetationFeature1.value().place(worldgenlevel, pContext.chunkGenerator(), pRandom, blockpos1.relative(Direction.UP));
+                            config.vegetationFeature1.value().place(worldgenlevel, context.chunkGenerator(), random, blockpos1.relative(Direction.UP));
                         else
-                            pConfig.vegetationFeature2.value().place(worldgenlevel, pContext.chunkGenerator(), pRandom, blockpos1.relative(Direction.UP));
+                            config.vegetationFeature2.value().place(worldgenlevel, context.chunkGenerator(), random, blockpos1.relative(Direction.UP));
                     }
                 }
             }

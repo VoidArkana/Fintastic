@@ -1,10 +1,12 @@
 package net.voidarkana.fintastic.common.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -22,10 +24,13 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
 public class HornwortBlock extends BushBlock implements BonemealableBlock, LiquidBlockContainer {
+
+    public static final MapCodec<HornwortBlock> CODEC = simpleCodec(HornwortBlock::new);
 
     protected static final VoxelShape SOUTH_1 = Block.box(8, 0, 8, 15, 15, 15);
     protected static final VoxelShape SOUTH_2 = Block.box(8, 0, 1, 15, 15, 15);
@@ -44,25 +49,30 @@ public class HornwortBlock extends BushBlock implements BonemealableBlock, Liqui
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final IntegerProperty AMOUNT = BlockStateProperties.FLOWER_AMOUNT;
 
-    public HornwortBlock(Properties pProperties) {
-        super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AMOUNT, Integer.valueOf(1)));
+    public HornwortBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AMOUNT, 1));
     }
 
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    @Override
+    protected @NotNull MapCodec<? extends HornwortBlock> codec() {
+        return CODEC;
+    }
 
-        if (pState.getValue(AMOUNT)<3) {
-            if (pState.getValue(FACING) == Direction.NORTH){
-                return pState.getValue(AMOUNT)==1 ? NORTH_1: NORTH_2;
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
 
-            }else if (pState.getValue(FACING) == Direction.WEST){
-                return pState.getValue(AMOUNT)==1 ? WEST_1: WEST_2;
+        if (state.getValue(AMOUNT)<3) {
+            if (state.getValue(FACING) == Direction.NORTH){
+                return state.getValue(AMOUNT)==1 ? NORTH_1: NORTH_2;
 
-            }else if (pState.getValue(FACING) == Direction.SOUTH){
-                return pState.getValue(AMOUNT)==1 ? SOUTH_1: SOUTH_2;
+            }else if (state.getValue(FACING) == Direction.WEST){
+                return state.getValue(AMOUNT)==1 ? WEST_1: WEST_2;
+
+            }else if (state.getValue(FACING) == Direction.SOUTH){
+                return state.getValue(AMOUNT)==1 ? SOUTH_1: SOUTH_2;
 
             }else{
-                return pState.getValue(AMOUNT)==1 ? EAST_1: EAST_2;
+                return state.getValue(AMOUNT)==1 ? EAST_1: EAST_2;
             }
         }else {
             return FULL;
@@ -70,76 +80,76 @@ public class HornwortBlock extends BushBlock implements BonemealableBlock, Liqui
 
     }
 
-    public BlockState rotate(BlockState pState, Rotation pRotation) {
-        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
+    public @NotNull BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
+    public @NotNull BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
-    public boolean canBeReplaced(BlockState pState, BlockPlaceContext context) {
-        return !context.isSecondaryUseActive() && context.getItemInHand().is(this.asItem()) && pState.getValue(AMOUNT) < 4 ? true : super.canBeReplaced(pState, context);
+    public boolean canBeReplaced(@NotNull BlockState state, BlockPlaceContext context) {
+        return !context.isSecondaryUseActive() && context.getItemInHand().is(this.asItem()) && state.getValue(AMOUNT) < 4 || super.canBeReplaced(state, context);
     }
 
-    protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return pState.isFaceSturdy(pLevel, pPos, Direction.UP) && !pState.is(Blocks.MAGMA_BLOCK);
+    protected boolean mayPlaceOn(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+        return state.isFaceSturdy(level, pos, Direction.UP) && !state.is(Blocks.MAGMA_BLOCK);
     }
 
     @Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        BlockState blockstate = pContext.getLevel().getBlockState(pContext.getClickedPos());
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos());
 
-        FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
+        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
         return fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 ?
-                blockstate.is(this) ? blockstate.setValue(AMOUNT, Integer.valueOf(Math.min(4, blockstate.getValue(AMOUNT) + 1)))
-                        : this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite()) : null;
+                blockstate.is(this) ? blockstate.setValue(AMOUNT, Math.min(4, blockstate.getValue(AMOUNT) + 1))
+                        : this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()) : null;
     }
 
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        BlockState blockstate = super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+    public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
+        BlockState blockstate = super.updateShape(state, facing, facingState, level, currentPos, facingPos);
         if (!blockstate.isAir()) {
-            pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
         return blockstate;
     }
 
-    public FluidState getFluidState(BlockState p_154537_) {
+    public @NotNull FluidState getFluidState(@NotNull BlockState state) {
         return Fluids.WATER.getSource(false);
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
         return true;
     }
 
-    public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
-        int i = pState.getValue(AMOUNT);
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, BlockState state) {
+        int i = state.getValue(AMOUNT);
         if (i < 4) {
-            pLevel.setBlock(pPos, pState.setValue(AMOUNT, Integer.valueOf(i + 1)), 2);
+            level.setBlock(pos, state.setValue(AMOUNT, i + 1), 2);
         } else {
-            popResource(pLevel, pPos, new ItemStack(this));
+            popResource(level, pos, new ItemStack(this));
         }
 
     }
 
     @Override
-    public boolean canPlaceLiquid(BlockGetter pLevel, BlockPos pPos, BlockState pState, Fluid pFluid) {
+    public boolean canPlaceLiquid(@Nullable Player player, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Fluid fluid) {
         return false;
     }
 
     @Override
-    public boolean placeLiquid(LevelAccessor pLevel, BlockPos pPos, BlockState pState, FluidState pFluidState) {
+    public boolean placeLiquid(@NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull FluidState fluidState) {
         return false;
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, AMOUNT);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, AMOUNT);
     }
 }

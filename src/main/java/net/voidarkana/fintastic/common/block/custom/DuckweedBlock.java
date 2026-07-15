@@ -10,8 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -32,13 +31,13 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Objects;
 
-public class DuckweedBlock extends Block implements IPlantable, BonemealableBlock {
+public class DuckweedBlock extends Block implements BonemealableBlock {
     protected static final VoxelShape AABB = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 1.5D, 15.0D);
 
     public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
@@ -46,56 +45,55 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
     public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
     public static final BooleanProperty WEST = BlockStateProperties.WEST;
 
-    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (p_55164_) -> {
-        p_55164_.put(Direction.NORTH, NORTH);
-        p_55164_.put(Direction.EAST, EAST);
-        p_55164_.put(Direction.SOUTH, SOUTH);
-        p_55164_.put(Direction.WEST, WEST);
+    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (map) -> {
+        map.put(Direction.NORTH, NORTH);
+        map.put(Direction.EAST, EAST);
+        map.put(Direction.SOUTH, SOUTH);
+        map.put(Direction.WEST, WEST);
     }));
 
     public static final IntegerProperty AMOUNT = IntegerProperty.create("duckweed_amount", 1, 5);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public DuckweedBlock(Properties pProperties) {
-        super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false))
-                .setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false))
-                .setValue(WEST, Boolean.valueOf(false))
-                .setValue(FACING, Direction.NORTH).setValue(AMOUNT, Integer.valueOf(1)));
+    public DuckweedBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.FALSE)
+                .setValue(EAST, Boolean.FALSE).setValue(SOUTH, Boolean.FALSE)
+                .setValue(WEST, Boolean.FALSE)
+                .setValue(FACING, Direction.NORTH).setValue(AMOUNT, 1));
     }
 
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    @Override
+    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
 
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        BlockState blockstate = level.getBlockState(pos);
 
-        BlockState blockstate = pLevel.getBlockState(pPos);
-
-        if (itemstack.is(FintyBlocks.DUCKWEED.get().asItem()) && blockstate.getValue(AMOUNT) < 5) {
-            this.usePlayerItem(pPlayer, itemstack);
-            pLevel.playSound(null, pPos, SoundEvents.LILY_PAD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        if (stack.is(FintyBlocks.DUCKWEED.get().asItem()) && blockstate.getValue(AMOUNT) < 5) {
+            this.usePlayerItem(player, stack);
+            level.playSound(null, pos, SoundEvents.LILY_PAD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
             int prev = blockstate.getValue(AMOUNT);
-            pLevel.setBlock(pPos, pState.setValue(AMOUNT, Integer.valueOf(prev + 1)), 2);
-            return InteractionResult.SUCCESS;
+            level.setBlock(pos, state.setValue(AMOUNT, prev + 1), 2);
+            return ItemInteractionResult.SUCCESS;
         }
 
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    protected void usePlayerItem(Player pPlayer, ItemStack pStack) {
-        if (!pPlayer.getAbilities().instabuild) {
-            pStack.shrink(1);
+    protected void usePlayerItem(Player player, ItemStack stack) {
+        if (!player.getAbilities().instabuild) {
+            stack.shrink(1);
         }
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(NORTH, EAST, WEST, SOUTH, AMOUNT, FACING);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(NORTH, EAST, WEST, SOUTH, AMOUNT, FACING);
     }
 
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        BlockGetter blockgetter = pContext.getLevel();
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockGetter blockgetter = context.getLevel();
 
-        BlockPos blockpos = pContext.getClickedPos();
-        BlockState blockstate = pContext.getLevel().getBlockState(blockpos);
+        BlockPos blockpos = context.getClickedPos();
+        BlockState blockstate = context.getLevel().getBlockState(blockpos);
 
         BlockPos blockpos1 = blockpos.north();
         BlockPos blockpos2 = blockpos.east();
@@ -107,119 +105,107 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
         BlockState blockstate4 = blockgetter.getBlockState(blockpos4);
 
         return blockstate.is(this) ?
-                super.getStateForPlacement(pContext)
-                    .setValue(NORTH, Boolean.valueOf(this.connectsTo(blockstate1, blockstate)))
-                    .setValue(EAST, Boolean.valueOf(this.connectsTo(blockstate2, blockstate)))
-                    .setValue(SOUTH, Boolean.valueOf(this.connectsTo(blockstate3, blockstate)))
-                    .setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate4, blockstate)))
+                Objects.requireNonNull(super.getStateForPlacement(context))
+                    .setValue(NORTH, connectsTo(blockstate1, blockstate))
+                    .setValue(EAST, connectsTo(blockstate2, blockstate))
+                    .setValue(SOUTH, connectsTo(blockstate3, blockstate))
+                    .setValue(WEST, connectsTo(blockstate4, blockstate))
                 :
-                super.getStateForPlacement(pContext)
-                    .setValue(NORTH, Boolean.valueOf(this.connectsTo(blockstate1, blockstate)))
-                    .setValue(EAST, Boolean.valueOf(this.connectsTo(blockstate2, blockstate)))
-                    .setValue(SOUTH, Boolean.valueOf(this.connectsTo(blockstate3, blockstate)))
-                    .setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate4, blockstate)))
-                    .setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+                Objects.requireNonNull(super.getStateForPlacement(context))
+                    .setValue(NORTH, connectsTo(blockstate1, blockstate))
+                    .setValue(EAST, connectsTo(blockstate2, blockstate))
+                    .setValue(SOUTH, connectsTo(blockstate3, blockstate))
+                    .setValue(WEST, connectsTo(blockstate4, blockstate))
+                    .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    public BlockState mirror(BlockState p_272961_, Mirror p_273278_) {
-        return p_272961_.rotate(p_273278_.getRotation(p_272961_.getValue(FACING)));
+    public @NotNull BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
-    public boolean propagatesSkylightDown(BlockState pState, BlockGetter pReader, BlockPos pPos) {
+    public boolean propagatesSkylightDown(@NotNull BlockState state, @NotNull BlockGetter reader, @NotNull BlockPos pos) {
         return true;
     }
 
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
 
-        if (!pState.canSurvive(pLevel, pCurrentPos)) {
-            pLevel.scheduleTick(pCurrentPos, this, 1);
+        if (!state.canSurvive(level, currentPos)) {
+            level.scheduleTick(currentPos, this, 1);
             return Blocks.AIR.defaultBlockState();
-        } else if (pFacing.getAxis().getPlane() == Direction.Plane.HORIZONTAL){
-            boolean flag = connectsTo(pFacingState, pState);
-            return pState.setValue(PROPERTY_BY_DIRECTION.get(pFacing), flag);
+        } else if (facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL){
+            boolean flag = connectsTo(facingState, state);
+            return state.setValue(PROPERTY_BY_DIRECTION.get(facing), flag);
         }
-        return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return AABB;
     }
 
-    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-        return mayPlaceOn(pLevel, pPos.below());
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, BlockPos pos) {
+        return mayPlaceOn(level, pos.below());
     }
 
-    private static boolean mayPlaceOn(BlockGetter pLevel, BlockPos pPos) {
-        FluidState fluidstate = pLevel.getFluidState(pPos);
-        FluidState fluidstate1 = pLevel.getFluidState(pPos.above());
+    private static boolean mayPlaceOn(BlockGetter level, BlockPos pos) {
+        FluidState fluidstate = level.getFluidState(pos);
+        FluidState fluidstate1 = level.getFluidState(pos.above());
         return fluidstate.getType() == Fluids.WATER && fluidstate1.getType() == Fluids.EMPTY;
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
-        int i = pState.getValue(AMOUNT);
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, BlockState state) {
+        int i = state.getValue(AMOUNT);
         if (i < 5) {
-            pLevel.setBlock(pPos, pState.setValue(AMOUNT, Integer.valueOf(i + 1)), 2);
+            level.setBlock(pos, state.setValue(AMOUNT, i + 1), 2);
         } else {
-            popResource(pLevel, pPos, new ItemStack(this));
+            popResource(level, pos, new ItemStack(this));
         }
 
     }
 
-    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+    public boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType type) {
         return true;
     }
 
-    @Override
-    public BlockState getPlant(BlockGetter level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
-        if (state.getBlock() != this) return defaultBlockState();
-        return state;
-    }
-
-    public static boolean connectsTo(BlockState pOtherState, BlockState thisState) {
-        if (pOtherState.is(FintyBlocks.DUCKWEED.get()) && thisState.is(FintyBlocks.DUCKWEED.get())){
-            return pOtherState.getValue(AMOUNT)==5 && thisState.getValue(AMOUNT)==5;
+    public static boolean connectsTo(BlockState otherState, BlockState thisState) {
+        if (otherState.is(FintyBlocks.DUCKWEED.get()) && thisState.is(FintyBlocks.DUCKWEED.get())){
+            return otherState.getValue(AMOUNT)==5 && thisState.getValue(AMOUNT)==5;
         }else {
             return false;
         }
     }
 
-    public void tick(BlockState pState, ServerLevel pLevel, BlockPos blockpos, RandomSource pRandom) {
-        if (pState.is(this))
-            if (pState.getValue(AMOUNT) == 5){
+    public void tick(BlockState state, @NotNull ServerLevel level, @NotNull BlockPos blockpos, @NotNull RandomSource random) {
+        if (state.is(this))
+            if (state.getValue(AMOUNT) == 5){
 
                 BlockPos blockpos1 = blockpos.north();
                 BlockPos blockpos2 = blockpos.east();
                 BlockPos blockpos3 = blockpos.south();
                 BlockPos blockpos4 = blockpos.west();
-                BlockState blockstate1 = pLevel.getBlockState(blockpos1);
-                BlockState blockstate2 = pLevel.getBlockState(blockpos2);
-                BlockState blockstate3 = pLevel.getBlockState(blockpos3);
-                BlockState blockstate4 = pLevel.getBlockState(blockpos4);
+                BlockState blockstate1 = level.getBlockState(blockpos1);
+                BlockState blockstate2 = level.getBlockState(blockpos2);
+                BlockState blockstate3 = level.getBlockState(blockpos3);
+                BlockState blockstate4 = level.getBlockState(blockpos4);
 
-                pLevel.setBlock(blockpos,
-                        pState.setValue(NORTH, connectsTo(blockstate1, pState))
-                              .setValue(EAST,  connectsTo(blockstate2, pState))
-                              .setValue(SOUTH, connectsTo(blockstate3, pState))
-                              .setValue(WEST,  connectsTo(blockstate4, pState)),
+                level.setBlock(blockpos,
+                        state.setValue(NORTH, connectsTo(blockstate1, state))
+                              .setValue(EAST,  connectsTo(blockstate2, state))
+                              .setValue(SOUTH, connectsTo(blockstate3, state))
+                              .setValue(WEST,  connectsTo(blockstate4, state)),
                         2);
             }
-    }
-
-    @Override
-    public PlantType getPlantType(BlockGetter level, BlockPos pos) {
-        return PlantType.WATER;
     }
 
 }

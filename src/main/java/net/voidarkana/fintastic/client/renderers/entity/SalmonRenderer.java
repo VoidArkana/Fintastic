@@ -13,25 +13,25 @@ import net.voidarkana.fintastic.common.entity.custom.FintasticSalmon;
 
 public class SalmonRenderer<T extends FintasticSalmon> extends MobRenderer<T, FintySalmonModel<T>> {
 
-    public SalmonRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new FintySalmonModel<>(pContext.bakeLayer(FintasticLayers.SALMON)), 0.35f);
+    public SalmonRenderer(EntityRendererProvider.Context context) {
+        super(context, new FintySalmonModel<>(context.bakeLayer(FintasticLayers.SALMON)), 0.35f);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T pEntity) {
-        FintasticSalmon.SalmonVariant variant = FintasticSalmon.SalmonVariant.byId(pEntity.getVariant());
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/salmon/salmon_"+variant.getSerializedName()+".png");
+    public ResourceLocation getTextureLocation(T entity) {
+        FintasticSalmon.SalmonVariant variant = FintasticSalmon.SalmonVariant.byId(entity.getVariant());
+        return Fintastic.location("textures/entity/salmon/salmon_"+variant.getSerializedName()+".png");
     }
 
     @Override
-    protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));
+    protected void setupRotations(T entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(entityLiving.currentRoll*360/4));
     }
 
     @Override
-    public void render(T pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
-        this.model.salmonSize = FintasticSalmon.SalmonSize.byId(pEntity.getSize());
-        super.render(pEntity, pEntityYaw, pPartialTicks, pPoseStack, pBuffer, pPackedLight);
+    public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        this.model.salmonSize = FintasticSalmon.SalmonSize.byId(entity.getSize());
+        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 }

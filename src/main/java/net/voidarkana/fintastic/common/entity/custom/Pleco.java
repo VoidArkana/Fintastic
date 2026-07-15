@@ -3,12 +3,12 @@ package net.voidarkana.fintastic.common.entity.custom;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
@@ -19,11 +19,11 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -61,8 +61,8 @@ public class Pleco extends AbstractSwimmingBottomDweller {
     @Nullable
     BlockPos attachmentPos;
 
-    public Pleco(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Pleco(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -87,18 +87,18 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         this.goalSelector.addGoal(4, new PlecoSwimGoal(this));
         this.goalSelector.addGoal(10, new PlecoBottomMoveGoal(this, 1, 80));
 
-        this.goalSelector.addGoal(3, new PlecoAttachToWallGoal(this ));
+        this.goalSelector.addGoal(3, new PlecoAttachToWallGoal(this));
 
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(WANTS_TO_ATTACH, false);
-        this.entityData.define(ATTACHED_TICKS, 0);
-        this.entityData.define(STRAFING_TICKS, 0);
-        this.entityData.define(ATTACHED_DIRECTION, Direction.DOWN);
-        this.entityData.define(POINTING_DIRECTION, Direction.DOWN);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(WANTS_TO_ATTACH, false);
+        builder.define(ATTACHED_TICKS, 0);
+        builder.define(STRAFING_TICKS, 0);
+        builder.define(ATTACHED_DIRECTION, Direction.DOWN);
+        builder.define(POINTING_DIRECTION, Direction.DOWN);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -161,55 +161,51 @@ public class Pleco extends AbstractSwimmingBottomDweller {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Variant", this.getVariant());
-        compoundnbt.putInt("Age", this.getAge());
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Variant", this.getVariant());
+            compoundnbt.putInt("Age", this.getAge());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
-        if (pTag.contains("Age"))
-            this.setAge(pTag.getInt("Age"));
-        if (pTag.contains("Variant"))
-            this.setVariant(pTag.getInt("Variant"));
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
+        if (tag.contains("Age"))
+            this.setAge(tag.getInt("Age"));
+        if (tag.contains("Variant"))
+            this.setVariant(tag.getInt("Variant"));
+        if (tag.contains("CanGrow"))
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Age", 3)) {
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));}
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-            this.setVariant(pDataTag.getInt("Variant"));
-        }else {
-            this.setVariant(Util.getRandom(PlecoVariant.values(), random).getVariantID());
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+        this.setVariant(Util.getRandom(PlecoVariant.values(), random).getVariantID());
 
-            if (pReason == MobSpawnType.STRUCTURE){
-                this.setFromBucket(true);
-            }
+        if (reason == MobSpawnType.STRUCTURE){
+            this.setFromBucket(true);
         }
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pPose) {
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
         float width = (float) Mth.lerp(this.getTicksAttached()/3D, 1, 0.4);
         float height = (float) Mth.lerp(this.getTicksAttached()/3D, 1, 1.25);
-        return super.getDimensions(pPose).scale(width, height);
+        return super.getDefaultDimensions(pose).scale(width, height);
     }
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Pleco baby = FintyEntities.PLECO.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        Pleco baby = FintyEntities.PLECO.get().create(level);
         if (baby != null){
             baby.setFromBucket(true);
             baby.setVariant(this.getVariant());
@@ -268,9 +264,9 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         return this.getPointingDirection() != Direction.DOWN && (this.isAttached() || this.onGround());
     }
 
-    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         this.refreshDimensions();
-        super.onSyncedDataUpdated(pKey);
+        super.onSyncedDataUpdated(key);
     }
 
     @Override
@@ -392,8 +388,8 @@ public class Pleco extends AbstractSwimmingBottomDweller {
     }
 
     @Override
-    public InteractionResult interactAt(Player pPlayer, Vec3 pVec, InteractionHand pHand) {
-        ItemStack itemStack = pPlayer.getItemInHand(pHand);
+    public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
 
         if (itemStack.is(Items.DEBUG_STICK) && !this.level().isClientSide){
 //            if (!this.wantsToAttach())
@@ -417,13 +413,13 @@ public class Pleco extends AbstractSwimmingBottomDweller {
             }
         }
 
-        return super.interactAt(pPlayer, pVec, pHand);
+        return super.interactAt(player, vec, hand);
     }
 
     @Override
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        Pleco otherGuy = (Pleco) pOtherAnimal;
-        return this.getVariant() == otherGuy.getVariant() && super.canMate(pOtherAnimal);
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        Pleco otherGuy = (Pleco) otherAnimal;
+        return this.getVariant() == otherGuy.getVariant() && super.canMate(otherAnimal);
     }
 
     @Override
@@ -466,12 +462,12 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         public static final StringRepresentable.EnumCodec<PlecoVariant> CODEC
                 = StringRepresentable.fromEnum(PlecoVariant::values);
 
-        public static PlecoVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static PlecoVariant byId(int id) {
+            return BY_ID.apply(id);
         }
 
-        public static PlecoVariant byName(String pName) {
-            return CODEC.byName(pName, SAILFIN);
+        public static PlecoVariant byName(String name) {
+            return CODEC.byName(name, SAILFIN);
         }
     }
 
@@ -502,9 +498,9 @@ public class Pleco extends AbstractSwimmingBottomDweller {
     static class PlecoBottomMoveGoal extends BottomMoveGoal{
 
         Pleco pleco;
-        public PlecoBottomMoveGoal(Pleco pMob, double pSpeedModifier, int interval) {
-            super(pMob, pSpeedModifier, interval);
-            this.pleco = pMob;
+        public PlecoBottomMoveGoal(Pleco mob, double speedModifier, int interval) {
+            super(mob, speedModifier, interval);
+            this.pleco = mob;
         }
 
         @Override
@@ -522,14 +518,14 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         }
     }
 
-    class PlecoAttachToWallGoal extends MoveToBlockGoal{
+    static class PlecoAttachToWallGoal extends MoveToBlockGoal{
 
         Pleco pleco;
         Direction direction;
 
-        public PlecoAttachToWallGoal(Pleco pMob) {
-            super(pMob, 1, 16, 8);
-            this.pleco = pMob;
+        public PlecoAttachToWallGoal(Pleco mob) {
+            super(mob, 1, 16, 8);
+            this.pleco = mob;
         }
 
         @Override
@@ -547,24 +543,24 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         }
 
         @Override
-        protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
-            Direction pDirection;
+        protected boolean isValidTarget(LevelReader level, BlockPos pos) {
+            Direction direction;
             BlockPos otherPos;
             for (int x = -1; x < 1; x++){
                 for (int z = -1; z < 1; z++){
                     if (x == 0 || z == 0){
-                        pDirection = Direction.fromDelta(x, 0, z);
-                        if (pDirection != null){
-                            otherPos = pPos.relative(pDirection);
+                        direction = Direction.fromDelta(x, 0, z);
+                        if (direction != null){
+                            otherPos = pos.relative(direction);
 
-                            BlockState blockstate = pLevel.getBlockState(otherPos);
-                            if ((blockstate.isFaceSturdy(pLevel, otherPos, pDirection) || blockstate.is(Blocks.GLASS))
-                                    && pLevel.getBlockState(pPos).is(Blocks.WATER)){
-                                this.direction = pDirection;
+                            BlockState blockstate = level.getBlockState(otherPos);
+                            if ((blockstate.isFaceSturdy(level, otherPos, direction) || blockstate.is(Blocks.GLASS))
+                                    && level.getBlockState(pos).is(Blocks.WATER)){
+                                this.direction = direction;
                                 return true;
                             }else if (blockstate.getBlock() instanceof AquariumGlassPane glassPane){
-                                if (glassPane.getDirection(blockstate).getAxis() == pDirection.getAxis()){
-                                    this.direction = pDirection;
+                                if (glassPane.getDirection(blockstate).getAxis() == direction.getAxis()){
+                                    this.direction = direction;
                                     return true;
                                 }
                             }
@@ -590,8 +586,8 @@ public class Pleco extends AbstractSwimmingBottomDweller {
 
 
             if (this.shouldRecalculatePath()){
-                this.mob.getNavigation().moveTo((double)((float)this.blockPos.getX()),
-                        (double)this.blockPos.getY(),
+                this.mob.getNavigation().moveTo((float)this.blockPos.getX(),
+                        this.blockPos.getY(),
                         (double)((float)this.blockPos.getZ()) + 0.5D, 1.25);
 
             }
@@ -602,7 +598,7 @@ public class Pleco extends AbstractSwimmingBottomDweller {
                 this.pleco.setDeltaMovement(Vec3.ZERO);
                 this.stop();
             }else{
-                this.mob.getLookControl().setLookAt((double)((float)this.blockPos.getX()) + 0.5D, (double)this.blockPos.getY(), (double)((float)this.blockPos.getZ()) + 0.5D);
+                this.mob.getLookControl().setLookAt((double)((float)this.blockPos.getX()) + 0.5D, this.blockPos.getY(), (double)((float)this.blockPos.getZ()) + 0.5D);
             }
 
             super.tick();

@@ -9,19 +9,13 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class LiveRockBoulderConfig implements FeatureConfiguration {
 
-    public static final Codec<LiveRockBoulderConfig> CODEC = RecordCodecBuilder.create((configInstance) -> {
-        return configInstance.group(BlockStateProvider.CODEC.fieldOf("grass_state_1").forGetter((config) -> {
-            return config.grassState1;
-        }),BlockStateProvider.CODEC.fieldOf("grass_state_2").forGetter((config2) -> {
-            return config2.grassState2;
-        }), Codec.floatRange(0.0F, 1.0F).fieldOf("vegetation_chance").forGetter((config4) -> {
-            return config4.vegetationChance;
-        }), PlacedFeature.CODEC.fieldOf("vegetation_feature1").forGetter((p_204867_) -> {
-            return p_204867_.vegetationFeature1;
-        }), PlacedFeature.CODEC.fieldOf("vegetation_feature2").forGetter((p_204867_) -> {
-            return p_204867_.vegetationFeature2;
-        })).apply(configInstance, LiveRockBoulderConfig::new);
-    });
+    public static final Codec<LiveRockBoulderConfig> CODEC = RecordCodecBuilder.create((configInstance)
+            -> configInstance.group(BlockStateProvider.CODEC.fieldOf("grass_state_1").forGetter((config)
+            -> config.grassState1),BlockStateProvider.CODEC.fieldOf("grass_state_2").forGetter((config2)
+            -> config2.grassState2), Codec.floatRange(0.0F, 1.0F).fieldOf("vegetation_chance").forGetter((config4)
+            -> config4.vegetationChance), PlacedFeature.CODEC.fieldOf("vegetation_feature1").forGetter((config5)
+            -> config5.vegetationFeature1), PlacedFeature.CODEC.fieldOf("vegetation_feature2").forGetter((config6)
+            -> config6.vegetationFeature2)).apply(configInstance, LiveRockBoulderConfig::new));
 
     public final BlockStateProvider grassState1;
     public final BlockStateProvider grassState2;

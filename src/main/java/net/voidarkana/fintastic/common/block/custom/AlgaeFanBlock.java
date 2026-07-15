@@ -4,17 +4,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseCoralFanBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class AlgaeFanBlock extends BaseCoralFanBlock {
-    public AlgaeFanBlock(Properties pProperties) {
-        super(pProperties);
+    public AlgaeFanBlock(Properties properties) {
+        super(properties);
     }
 
     @Override
-    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-        if (!pLevel.isWaterAt(pPos)){
+    public boolean canSurvive(@NotNull BlockState state, LevelReader level, @NotNull BlockPos pos) {
+        if (!level.isWaterAt(pos)){
             return false;
         }
-        return super.canSurvive(pState, pLevel, pPos);
+        return super.canSurvive(state, level, pos);
     }
 }

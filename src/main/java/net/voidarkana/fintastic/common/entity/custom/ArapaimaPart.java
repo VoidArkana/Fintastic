@@ -3,6 +3,8 @@ package net.voidarkana.fintastic.common.entity.custom;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,7 +14,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.entity.PartEntity;
+import net.neoforged.neoforge.entity.PartEntity;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.network.FintyMessages;
 import net.voidarkana.fintastic.util.network.messages.MultipartEntityMessage;
@@ -26,12 +28,12 @@ public class ArapaimaPart<T extends Arapaima> extends PartEntity<Arapaima> {
     public float scale = 1;
     public final Arapaima parentMob;
 
-    public ArapaimaPart(T parent, float pWidth, float pHeight) {
+    public ArapaimaPart(T parent, float width, float height) {
         super(parent);
 
         this.blocksBuilding = true;
         this.parentMob = parent;
-        this.size = EntityDimensions.scalable(pWidth, pHeight);
+        this.size = EntityDimensions.scalable(width, height);
         this.refreshDimensions();
     }
 
@@ -43,48 +45,38 @@ public class ArapaimaPart<T extends Arapaima> extends PartEntity<Arapaima> {
     protected void collideWithNearbyEntities() {
         final List<Entity> entities = this.level().getEntities(this, this.getBoundingBox().expandTowards(0.2D, 0.0D, 0.2D));
         Entity parent = this.getParent();
-        if (parent != null) {
-            entities.stream().filter(entity -> entity != parent && !(entity instanceof ArapaimaPart && ((ArapaimaPart) entity).getParent() == parent) && entity.isPushable()).forEach(entity -> entity.push(parent));
-        }
+        entities.stream().filter(entity -> entity != parent && !(entity instanceof ArapaimaPart && ((ArapaimaPart<?>) entity).getParent() == parent) && entity.isPushable()).forEach(entity -> entity.push(parent));
     }
 
     @Override
     public boolean canBeCollidedWith() {
         Entity parent = this.getParent();
-        return parent != null && parent.canBeCollidedWith();
+        return parent.canBeCollidedWith();
     }
 
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         Entity parent = this.getParent();
-        if (parent == null) {
-            return InteractionResult.PASS;
-        } else {
-            if (player.level().isClientSide) {
-                FintyMessages.sendToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 0, 0));
-            }
-            return parent.interact(player, hand);
+        if (player.level().isClientSide) {
+            FintyMessages.sendToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 0, 0));
         }
-    }
-
-    protected void collideWithEntity(Entity entityIn) {
-        entityIn.push(this);
+        return parent.interact(player, hand);
     }
 
     @Override
-    protected void defineSynchedData() {}
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag pCompound) {}
+    protected void readAdditionalSaveData(CompoundTag compound) {}
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag pCompound) {}
+    protected void addAdditionalSaveData(CompoundTag compound) {}
 
 
     @Nullable
     public ItemStack getPickResult() {
         Entity parent = this.getParent();
-        return parent != null ? parent.getPickResult() : ItemStack.EMPTY;
+        return parent.getPickResult();
     }
 
     public boolean isPickable() {
@@ -95,7 +87,7 @@ public class ArapaimaPart<T extends Arapaima> extends PartEntity<Arapaima> {
     public boolean hurt(DamageSource source, float amount) {
         //return this.isInvulnerableTo(source) ? false : this.getParent().hurt(source, amount);
         Entity parent = this.getParent();
-        if (!this.isInvulnerableTo(source) && parent != null) {
+        if (!this.isInvulnerableTo(source)) {
             Entity player = source.getEntity();
             if (player != null && player.level().isClientSide) {
                 FintyMessages.sendToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 1, amount));
@@ -116,7 +108,8 @@ public class ArapaimaPart<T extends Arapaima> extends PartEntity<Arapaima> {
         return this.size == null ? EntityDimensions.scalable(0, 0) : this.size.scale(scale);
     }
 
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
         throw new UnsupportedOperationException();
     }
 

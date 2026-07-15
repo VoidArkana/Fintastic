@@ -16,42 +16,42 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 public class UnderwaterWaterloggedVegetationPatchFeature extends UnderwaterVegetationPatchFeature {
-    public UnderwaterWaterloggedVegetationPatchFeature(Codec<VegetationPatchConfiguration> pCodec) {
-        super(pCodec);
+    public UnderwaterWaterloggedVegetationPatchFeature(Codec<VegetationPatchConfiguration> codec) {
+        super(codec);
     }
 
-    protected Set<BlockPos> placeGroundPatch(WorldGenLevel pLevel, VegetationPatchConfiguration pConfig, RandomSource pRandom, BlockPos pPos, Predicate<BlockState> pState, int pXRadius, int pZRadius) {
-        Set<BlockPos> set = super.placeGroundPatch(pLevel, pConfig, pRandom, pPos, pState, pXRadius, pZRadius);
+    protected Set<BlockPos> placeGroundPatch(WorldGenLevel level, VegetationPatchConfiguration config, RandomSource random, BlockPos pos, Predicate<BlockState> state, int xRadius, int zRadius) {
+        Set<BlockPos> set = super.placeGroundPatch(level, config, random, pos, state, xRadius, zRadius);
         Set<BlockPos> set1 = new HashSet<>();
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
         for(BlockPos blockpos : set) {
-            if (!isExposed(pLevel, set, blockpos, blockpos$mutableblockpos)) {
+            if (!isExposed(level, set, blockpos, blockpos$mutableblockpos)) {
                 set1.add(blockpos);
             }
         }
 
         for(BlockPos blockpos1 : set1) {
-            pLevel.setBlock(blockpos1, Blocks.WATER.defaultBlockState(), 2);
+            level.setBlock(blockpos1, Blocks.WATER.defaultBlockState(), 2);
         }
 
         return set1;
     }
 
-    private static boolean isExposed(WorldGenLevel pLevel, Set<BlockPos> pPositions, BlockPos pPos, BlockPos.MutableBlockPos pMutablePos) {
-        return isExposedDirection(pLevel, pPos, pMutablePos, Direction.NORTH) || isExposedDirection(pLevel, pPos, pMutablePos, Direction.EAST) || isExposedDirection(pLevel, pPos, pMutablePos, Direction.SOUTH) || isExposedDirection(pLevel, pPos, pMutablePos, Direction.WEST) || isExposedDirection(pLevel, pPos, pMutablePos, Direction.DOWN);
+    private static boolean isExposed(WorldGenLevel level, Set<BlockPos> positions, BlockPos pos, BlockPos.MutableBlockPos mutablePos) {
+        return isExposedDirection(level, pos, mutablePos, Direction.NORTH) || isExposedDirection(level, pos, mutablePos, Direction.EAST) || isExposedDirection(level, pos, mutablePos, Direction.SOUTH) || isExposedDirection(level, pos, mutablePos, Direction.WEST) || isExposedDirection(level, pos, mutablePos, Direction.DOWN);
     }
 
-    private static boolean isExposedDirection(WorldGenLevel pLevel, BlockPos pPos, BlockPos.MutableBlockPos pMutablePos, Direction pDirection) {
-        pMutablePos.setWithOffset(pPos, pDirection);
-        return !pLevel.getBlockState(pMutablePos).isFaceSturdy(pLevel, pMutablePos, pDirection.getOpposite());
+    private static boolean isExposedDirection(WorldGenLevel level, BlockPos pos, BlockPos.MutableBlockPos mutablePos, Direction direction) {
+        mutablePos.setWithOffset(pos, direction);
+        return !level.getBlockState(mutablePos).isFaceSturdy(level, mutablePos, direction.getOpposite());
     }
 
-    protected boolean placeVegetation(WorldGenLevel pLevel, VegetationPatchConfiguration pConfig, ChunkGenerator pChunkGenerator, RandomSource pRandom, BlockPos pPos) {
-        if (super.placeVegetation(pLevel, pConfig, pChunkGenerator, pRandom, pPos.below())) {
-            BlockState blockstate = pLevel.getBlockState(pPos);
+    protected boolean placeVegetation(WorldGenLevel level, VegetationPatchConfiguration config, ChunkGenerator chunkGenerator, RandomSource random, BlockPos pos) {
+        if (super.placeVegetation(level, config, chunkGenerator, random, pos.below())) {
+            BlockState blockstate = level.getBlockState(pos);
             if (blockstate.hasProperty(BlockStateProperties.WATERLOGGED) && !blockstate.getValue(BlockStateProperties.WATERLOGGED)) {
-                pLevel.setBlock(pPos, blockstate.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(true)), 2);
+                level.setBlock(pos, blockstate.setValue(BlockStateProperties.WATERLOGGED, Boolean.TRUE), 2);
             }
 
             return true;

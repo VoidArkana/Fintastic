@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:nether_wart"
+    },
+    {
+      "item": "fintastic:quality_feed"
+    },
+    {
+      "item": "fintastic:fairy_shrimp"
+    },
+    {
+      "tag": "fintastic:quality_fish_feed_ingredient"
+    }
+  ],
+  "result": {
+    "id": "fintastic:great_feed",
+    "count": 2
+  }
+}

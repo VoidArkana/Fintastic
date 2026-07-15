@@ -8,9 +8,8 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.client.renderers.block.FishbowlRenderer;
 import net.voidarkana.fintastic.client.renderers.entity.*;
@@ -21,10 +20,7 @@ import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.common.item.custom.FishnetItem;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = Fintastic.MOD_ID, value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy{
-
-    public void init() {}
 
     public void clientInit() {
 
@@ -51,7 +47,7 @@ public class ClientProxy extends CommonProxy{
         EntityRenderers.register(FintyEntities.DWARF_FROG.get(), DwarfFrogRenderer::new);
         EntityRenderers.register(FintyEntities.SMALL_CATFISH.get(), SmallCatfishRenderer::new);
 
-        ItemProperties.register(FintyItems.FISHNET.get(), new ResourceLocation("has_entity"),
+        ItemProperties.register(FintyItems.FISHNET.get(), ResourceLocation.parse("has_entity"),
                 (stack, level, living, i) -> FishnetItem.containsEntity(stack) ? 1 : 0);
 
         BlockEntityRenderers.register(FintyBlockEntities.FISHBOWL_ENTITY.get(), FishbowlRenderer::new);

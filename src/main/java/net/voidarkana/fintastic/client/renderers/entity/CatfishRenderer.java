@@ -21,15 +21,15 @@ public class CatfishRenderer<T extends Catfish> extends MobRenderer<T, Fintastic
     private final CatfishModelPiraiba<T> modelPiraiba;
     private final CatfishModelSlender<T> modelSlender;
 
-    public CatfishRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new CatfishModelBig<>(pContext.bakeLayer(FintasticLayers.CATFISH_BIG)), 0.25f);
+    public CatfishRenderer(EntityRendererProvider.Context context) {
+        super(context, new CatfishModelBig<>(context.bakeLayer(FintasticLayers.CATFISH_BIG)), 0.25f);
 
-        this.modelBig = new CatfishModelBig<>(pContext.bakeLayer(FintasticLayers.CATFISH_BIG));
-        this.modelChannel = new CatfishModelChannel<>(pContext.bakeLayer(FintasticLayers.CATFISH_CHANNEL));
-        this.modelFlat = new CatfishModelFlat<>(pContext.bakeLayer(FintasticLayers.CATFISH_FLAT));
-        this.modelPangasius = new CatfishModelPangasius<>(pContext.bakeLayer(FintasticLayers.CATFISH_PANGASIUS));
-        this.modelPiraiba = new CatfishModelPiraiba<>(pContext.bakeLayer(FintasticLayers.CATFISH_PIRAIBA));
-        this.modelSlender = new CatfishModelSlender<>(pContext.bakeLayer(FintasticLayers.CATFISH_SLENDER));
+        this.modelBig = new CatfishModelBig<>(context.bakeLayer(FintasticLayers.CATFISH_BIG));
+        this.modelChannel = new CatfishModelChannel<>(context.bakeLayer(FintasticLayers.CATFISH_CHANNEL));
+        this.modelFlat = new CatfishModelFlat<>(context.bakeLayer(FintasticLayers.CATFISH_FLAT));
+        this.modelPangasius = new CatfishModelPangasius<>(context.bakeLayer(FintasticLayers.CATFISH_PANGASIUS));
+        this.modelPiraiba = new CatfishModelPiraiba<>(context.bakeLayer(FintasticLayers.CATFISH_PIRAIBA));
+        this.modelSlender = new CatfishModelSlender<>(context.bakeLayer(FintasticLayers.CATFISH_SLENDER));
     }
 
     @Override
@@ -62,16 +62,16 @@ public class CatfishRenderer<T extends Catfish> extends MobRenderer<T, Fintastic
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T pEntity) {
+    public ResourceLocation getTextureLocation(T entity) {
 
-        Catfish.CatfishVariant variant = Catfish.CatfishVariant.byId(pEntity.getVariant());
+        Catfish.CatfishVariant variant = Catfish.CatfishVariant.byId(entity.getVariant());
 
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/catfish/catfish_"+variant.getSerializedName()+".png");
+        return Fintastic.location("textures/entity/catfish/catfish_"+variant.getSerializedName()+".png");
     }
 
     @Override
-    protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));
+    protected void setupRotations(T entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(entityLiving.currentRoll*360/4));
     }
 }

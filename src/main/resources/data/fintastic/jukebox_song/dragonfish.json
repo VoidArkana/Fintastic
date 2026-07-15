@@ -1,0 +1,8 @@
+{
+  "sound_event": "fintastic:dragonfish",
+  "description": {
+    "translate": "item.fintastic.dragonfish_music_disc.desc"
+  },
+  "length_in_seconds": 384,
+  "comparator_output": 8
+}

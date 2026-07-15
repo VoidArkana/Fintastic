@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "fintastic:item/baby_coelacanth_bucket"
+  }
+}

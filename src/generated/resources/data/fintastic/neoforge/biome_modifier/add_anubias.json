@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#fintastic:anubias_biomes",
+  "features": "fintastic:anubias_placed",
+  "step": "vegetal_decoration"
+}

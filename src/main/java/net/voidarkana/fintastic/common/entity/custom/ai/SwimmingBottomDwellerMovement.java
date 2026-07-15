@@ -16,14 +16,14 @@ public class SwimmingBottomDwellerMovement extends MoveControl {
     private final boolean applyGravity;
     private final AbstractSwimmingBottomDweller mob;
 
-    public SwimmingBottomDwellerMovement(AbstractSwimmingBottomDweller pMob, int pMaxTurnX, int pMaxTurnY, float pInWaterSpeedModifier, float pOutsideWaterSpeedModifier, boolean pApplyGravity) {
-        super(pMob);
-        mob = pMob;
-        this.maxTurnX = pMaxTurnX;
-        this.maxTurnY = pMaxTurnY;
-        this.inWaterSpeedModifier = pInWaterSpeedModifier;
-        this.outsideWaterSpeedModifier = pOutsideWaterSpeedModifier;
-        this.applyGravity = pApplyGravity;
+    public SwimmingBottomDwellerMovement(AbstractSwimmingBottomDweller mob, int maxTurnX, int maxTurnY, float inWaterSpeedModifier, float outsideWaterSpeedModifier, boolean applyGravity) {
+        super(mob);
+        this.mob = mob;
+        this.maxTurnX = maxTurnX;
+        this.maxTurnY = maxTurnY;
+        this.inWaterSpeedModifier = inWaterSpeedModifier;
+        this.outsideWaterSpeedModifier = outsideWaterSpeedModifier;
+        this.applyGravity = applyGravity;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SwimmingBottomDwellerMovement extends MoveControl {
         }
     }
 
-    private static float getTurningSpeedFactor(float p_249853_) {
-        return 1.0F - Mth.clamp((p_249853_ - 10.0F) / 50.0F, 0.0F, 1.0F);
+    private static float getTurningSpeedFactor(float degreesToTurn) {
+        return 1.0F - Mth.clamp((degreesToTurn - 10.0F) / 50.0F, 0.0F, 1.0F);
     }
 }

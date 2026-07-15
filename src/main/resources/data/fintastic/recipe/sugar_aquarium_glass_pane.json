@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "G": {
+      "item": "fintastic:sugar_aquarium_glass"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GGG"
+  ],
+  "result": {
+    "id": "fintastic:sugar_aquarium_glass_pane",
+    "count": 16
+  },
+  "show_notification": true
+}

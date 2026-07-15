@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#fintastic:fintastic_salmon_biomes",
+  "spawners": {
+    "type": "fintastic:fintastic_salmon",
+    "weight": 15,
+    "minCount": 4,
+    "maxCount": 8,
+    "category": "water_ambient"
+  }
+}

@@ -126,23 +126,23 @@ public class FairyShrimpModel<T extends FairyShrimp> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		if (this.young){
 			this.applyStatic(FairyShrimpAnims.BABY);
-			pLimbSwing /= 2;
+			limbSwing /= 2;
 		}
-		this.animateIdle(pEntity.idleAnimationState, FairyShrimpAnims.LEGS, pAgeInTicks, 1.5F, 1);
-		this.animateIdle(pEntity.idleAnimationState, FairyShrimpAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, FairyShrimpAnims.FLOP, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(entity.idleAnimationState, FairyShrimpAnims.LEGS, ageInTicks, 1.5F, 1);
+		this.animateIdle(entity.idleAnimationState, FairyShrimpAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount)));
+		this.animateIdle(entity.idleAnimationState, FairyShrimpAnims.FLOP, ageInTicks, 1.0f, entity.getTicksOutsideWater()/3f);
 
-		this.animateIdle(pEntity.circleAnimationState, FairyShrimpAnims.CIRCLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f));
+		this.animateIdle(entity.circleAnimationState, FairyShrimpAnims.CIRCLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f));
 
-		this.animateWalk(FairyShrimpAnims.SWIM, pLimbSwing, pLimbSwingAmount*5f, 2f, (1-(pEntity.getTicksOutsideWater()/3f)));
+		this.animateWalk(FairyShrimpAnims.SWIM, limbSwing, limbSwingAmount*5f, 2f, (1-(entity.getTicksOutsideWater()/3f)));
 //		this.animateWalk(FairyShrimpAnims.LEGS, pLimbSwing, pLimbSwingAmount*5f, 2f, (1-(pEntity.getTicksOutsideWater()/3f)));
 
-		this.swim_control.xRot = Mth.lerp( pEntity.getTicksOutsideWater()/5f, headPitch * ((float)Math.PI / 180F)/1.5f, 0);
+		this.swim_control.xRot = Mth.lerp( entity.getTicksOutsideWater()/5f, headPitch * ((float)Math.PI / 180F)/1.5f, 0);
 	}
 
 	@Override

@@ -3,15 +3,15 @@ package net.voidarkana.fintastic.util.data;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.voidarkana.fintastic.Fintastic;
 
 import java.util.concurrent.CompletableFuture;
 
-@Mod.EventBusSubscriber(modid = Fintastic.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Fintastic.MOD_ID)
 public class DataGenerators {
 
     @SubscribeEvent
@@ -22,8 +22,8 @@ public class DataGenerators {
 
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(event.includeServer(), new FintyRecipeProvider(packOutput));
-//        generator.addProvider(event.includeServer(), FintyLootTableProvider.create(packOutput));
+        generator.addProvider(event.includeServer(), new FintyRecipeProvider(packOutput, lookupProvider));
+//        generator.addProvider(event.includeServer(), FintyLootTableProvider.create(packOutput, lookupProvider));
 
         generator.addProvider(event.includeClient(), new FintyBlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new FintyItemModelProvider(packOutput, existingFileHelper));

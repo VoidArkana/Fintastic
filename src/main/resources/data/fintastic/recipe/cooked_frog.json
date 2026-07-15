@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "fintastic:dwarf_frog"
+  },
+  "result": {
+    "id": "fintastic:cooked_dwarf_frog"
+  },
+  "experience": 0.35,
+  "cookingtime": 200
+}

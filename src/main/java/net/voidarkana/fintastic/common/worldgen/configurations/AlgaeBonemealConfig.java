@@ -7,21 +7,17 @@ import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfig
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 public class AlgaeBonemealConfig extends BlockPileConfiguration {
-    public static final Codec<AlgaeBonemealConfig> CODEC = RecordCodecBuilder.create((p_191267_) -> {
-        return p_191267_.group(BlockStateProvider.CODEC.fieldOf("state_provider").forGetter((p_191273_) -> {
-            return p_191273_.stateProvider;
-        }), ExtraCodecs.POSITIVE_INT.fieldOf("spread_width").forGetter((p_191271_) -> {
-            return p_191271_.spreadWidth;
-        }), ExtraCodecs.POSITIVE_INT.fieldOf("spread_height").forGetter((p_191269_) -> {
-            return p_191269_.spreadHeight;
-        })).apply(p_191267_, AlgaeBonemealConfig::new);
-    });
+    public static final Codec<AlgaeBonemealConfig> CODEC = RecordCodecBuilder.create((instance)
+            -> instance.group(BlockStateProvider.CODEC.fieldOf("state_provider").forGetter((config)
+            -> config.stateProvider), ExtraCodecs.POSITIVE_INT.fieldOf("spread_width").forGetter((config2)
+            -> config2.spreadWidth), ExtraCodecs.POSITIVE_INT.fieldOf("spread_height").forGetter((config3)
+            -> config3.spreadHeight)).apply(instance, AlgaeBonemealConfig::new));
     public final int spreadWidth;
     public final int spreadHeight;
 
-    public AlgaeBonemealConfig(BlockStateProvider p_191263_, int p_191264_, int p_191265_) {
-        super(p_191263_);
-        this.spreadWidth = p_191264_;
-        this.spreadHeight = p_191265_;
+    public AlgaeBonemealConfig(BlockStateProvider stateProvider, int spreadWidth, int spreadHeight) {
+        super(stateProvider);
+        this.spreadWidth = spreadWidth;
+        this.spreadHeight = spreadHeight;
     }
 }

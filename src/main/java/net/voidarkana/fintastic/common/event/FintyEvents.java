@@ -1,16 +1,14 @@
 package net.voidarkana.fintastic.common.event;
 
 
-import net.minecraft.world.entity.animal.Cod;
-import net.minecraft.world.entity.animal.Salmon;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.*;
 
-@Mod.EventBusSubscriber(modid = Fintastic.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Fintastic.MOD_ID)
 public class FintyEvents {
 
     @SubscribeEvent

@@ -1,12 +1,12 @@
 package net.voidarkana.fintastic.common.item.custom.spawneggs;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
-import net.voidarkana.fintastic.common.entity.custom.Catfish;
 import net.voidarkana.fintastic.common.entity.custom.SmallCatfish;
 
 import java.util.List;
@@ -20,10 +20,11 @@ public class SmallCatfishSpawnEgg extends FishVariantSpawnEggItem {
 
     @Override
     public void applyEntityVariant(ItemStack itemstack, Entity entity) {
-        if (entity instanceof SmallCatfish catfish && itemstack.hasTag())
-            if (itemstack.getTag().contains(DATA_CREATURE))
-                if (itemstack.getTag().getInt(DATA_CREATURE)!=-1){
-                    int i = itemstack.getTag().getInt(DATA_CREATURE);
+        CompoundTag tag = getCreatureData(itemstack);
+        if (entity instanceof SmallCatfish catfish)
+            if (tag.contains(DATA_CREATURE))
+                if (tag.getInt(DATA_CREATURE)!=-1){
+                    int i = tag.getInt(DATA_CREATURE);
                     SmallCatfish.SmallCatfishVariant variant = SmallCatfish.SmallCatfishVariant.values()[i];
                     if (variant != null)
                         catfish.setVariant(variant.getVariant());
@@ -32,8 +33,7 @@ public class SmallCatfishSpawnEgg extends FishVariantSpawnEggItem {
 
 
     public int getLength() {
-        int length = SmallCatfish.SmallCatfishVariant.values().length-1;
-        return length;
+        return SmallCatfish.SmallCatfishVariant.values().length-1;
     }
 
     public void setTooltip(List<Component> tooltip, int i, ChatFormatting[] achatformatting) {

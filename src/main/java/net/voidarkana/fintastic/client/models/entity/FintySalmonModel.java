@@ -116,38 +116,38 @@ public class FintySalmonModel<T extends FintasticSalmon> extends FintasticModel<
 		return root;
 	}
 
-	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
 
-		pPoseStack.pushPose();
+		poseStack.pushPose();
 
-		pPoseStack.scale(this.salmonSize.getSizeMultiplier(), this.salmonSize.getSizeMultiplier(), this.salmonSize.getSizeMultiplier());
+		poseStack.scale(this.salmonSize.getSizeMultiplier(), this.salmonSize.getSizeMultiplier(), this.salmonSize.getSizeMultiplier());
 
 		switch (this.salmonSize){
 			case TINY:
-				pPoseStack.translate(0.0F, 1.6f, 0.0F);
+				poseStack.translate(0.0F, 1.6f, 0.0F);
 				break;
 			case SMALL:
-				pPoseStack.translate(0.0F, 0.6f, 0.0F);
+				poseStack.translate(0.0F, 0.6f, 0.0F);
 				break;
 			case BIG:
-				pPoseStack.translate(0.0F, -0.3f, 0.0F);
+				poseStack.translate(0.0F, -0.3f, 0.0F);
 				break;
 			case HUGE:
-				pPoseStack.translate(0.0F, -0.35f, 0.0F);
+				poseStack.translate(0.0F, -0.35f, 0.0F);
 				break;
 			default:
-				pPoseStack.translate(0.0F, 0.0f, 0.0F);
+				poseStack.translate(0.0F, 0.0f, 0.0F);
 
 		}
 
 
 		if (this.young) {
-			pPoseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
-			pPoseStack.translate(0.0F, this.bodyYOffset, 0.0F);
+			poseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
+			poseStack.translate(0.0F, this.bodyYOffset, 0.0F);
 		}
 
-		this.root().render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+		this.root().render(poseStack, buffer, packedLight, packedOverlay, color);
 
-		pPoseStack.popPose();
+		poseStack.popPose();
 	}
 }

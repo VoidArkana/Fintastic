@@ -1,6 +1,5 @@
 package net.voidarkana.fintastic.common.entity.custom.base;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -14,8 +13,8 @@ import java.util.stream.Stream;
 
 public abstract class AbstractBottomSchooler extends AbstractSwimmingBottomDweller{
 
-    protected AbstractBottomSchooler(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    protected AbstractBottomSchooler(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
     }
 
     @Nullable
@@ -23,19 +22,19 @@ public abstract class AbstractBottomSchooler extends AbstractSwimmingBottomDwell
     protected int schoolSize = 1;
 
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-        super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+        super.finalizeSpawn(level, difficulty, reason, spawnData);
 
-        if (pReason == MobSpawnType.STRUCTURE){
+        if (reason == MobSpawnType.STRUCTURE){
             this.setFromBucket(true);
         }
-        if (pSpawnData == null) {
-            pSpawnData = new AbstractBottomSchooler.SchoolSpawnGroupData(this);
+        if (spawnData == null) {
+            spawnData = new AbstractBottomSchooler.SchoolSpawnGroupData(this);
         } else {
-            this.startFollowing(((AbstractBottomSchooler.SchoolSpawnGroupData)pSpawnData).leader);
+            this.startFollowing(((AbstractBottomSchooler.SchoolSpawnGroupData)spawnData).leader);
         }
 
-        return pSpawnData;
+        return spawnData;
     }
 
 
@@ -55,13 +54,14 @@ public abstract class AbstractBottomSchooler extends AbstractSwimmingBottomDwell
         return this.leader != null && this.leader.isAlive();
     }
 
-    public AbstractBottomSchooler startFollowing(AbstractBottomSchooler pLeader) {
-        this.leader = pLeader;
-        pLeader.addFollower();
-        return pLeader;
+    public AbstractBottomSchooler startFollowing(AbstractBottomSchooler leader) {
+        this.leader = leader;
+        leader.addFollower();
+        return leader;
     }
 
     public void stopFollowing() {
+        assert this.leader != null;
         this.leader.removeFollower();
         this.leader = null;
     }
@@ -94,28 +94,26 @@ public abstract class AbstractBottomSchooler extends AbstractSwimmingBottomDwell
     }
 
     public boolean inRangeOfLeader() {
+        assert this.leader != null;
         return this.distanceToSqr(this.leader) <= 121.0D;
     }
 
     public void pathToLeader() {
         if (this.isFollower()) {
+            assert this.leader != null;
             this.getNavigation().moveTo(this.leader, 1.2D);
         }
     }
 
-    public void addFollowers(Stream<? extends AbstractBottomSchooler> pFollowers) {
-        pFollowers.limit((long)(this.getMaxSchoolSize() - this.schoolSize)).filter((p_27538_) -> {
-            return p_27538_ != this;
-        }).forEach((fish) -> {
-            fish.startFollowing(this);
-        });
+    public void addFollowers(Stream<? extends AbstractBottomSchooler> followers) {
+        followers.limit(this.getMaxSchoolSize() - this.schoolSize).filter((fish) -> fish != this).forEach((fish) -> fish.startFollowing(this));
     }
 
     public static class SchoolSpawnGroupData extends AgeableFishGroupData {
         public final AbstractBottomSchooler leader;
-        public SchoolSpawnGroupData(AbstractBottomSchooler pLeader) {
+        public SchoolSpawnGroupData(AbstractBottomSchooler leader) {
             super(true);
-            this.leader = pLeader;
+            this.leader = leader;
         }
     }
 }

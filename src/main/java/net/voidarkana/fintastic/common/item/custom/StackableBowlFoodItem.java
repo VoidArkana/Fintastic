@@ -8,24 +8,23 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
 public class StackableBowlFoodItem extends Item {
-    public StackableBowlFoodItem(Properties pProperties) {
-        super(pProperties);
+    public StackableBowlFoodItem(Properties properties) {
+        super(properties);
     }
-    public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving) {
-        super.finishUsingItem(pStack, pLevel, pEntityLiving);
+    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving) {
+        super.finishUsingItem(stack, level, entityLiving);
 
-        if (pStack.isEmpty()) {
+        if (stack.isEmpty()) {
             return new ItemStack(Items.BOWL);
         } else {
-            if (pEntityLiving instanceof Player && !((Player)pEntityLiving).getAbilities().instabuild) {
+            if (entityLiving instanceof Player player && !player.getAbilities().instabuild) {
                 ItemStack itemstack = new ItemStack(Items.BOWL);
-                Player player = (Player)pEntityLiving;
                 if (!player.getInventory().add(itemstack)) {
                     player.drop(itemstack, false);
                 }
             }
 
-            return pStack;
+            return stack;
         }
     }
 }

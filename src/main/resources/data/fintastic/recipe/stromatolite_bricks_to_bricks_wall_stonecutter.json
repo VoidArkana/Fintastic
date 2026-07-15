@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "fintastic:stromatolite_bricks"
+  },
+  "result": {
+    "id": "fintastic:stromatolite_bricks_wall",
+    "count": 1
+  }
+}

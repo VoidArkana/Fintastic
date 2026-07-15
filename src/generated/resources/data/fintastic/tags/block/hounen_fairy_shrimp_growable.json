@@ -1,0 +1,9 @@
+{
+  "values": [
+    "fintastic:lotus",
+    {
+      "id": "farmersdelight:rice",
+      "required": false
+    }
+  ]
+}

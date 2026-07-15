@@ -7,6 +7,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.JumpControl;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
@@ -20,6 +22,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.voidarkana.fintastic.common.entity.custom.Pleco;
 import net.voidarkana.fintastic.common.entity.custom.SmallCatfish;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity{
@@ -31,9 +34,9 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
     private static final EntityDataAccessor<Integer> TICKS_ON_GROUND = SynchedEntityData.defineId(AbstractSwimmingBottomDweller.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(AbstractSwimmingBottomDweller.class, EntityDataSerializers.INT);
 
-    protected AbstractSwimmingBottomDweller(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-        this.setMaxUpStep(1);
+    protected AbstractSwimmingBottomDweller(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
+        this.setStepHeight(1);
         this.jumpControl = new FishJumpControl(this);
         if (this instanceof SmallCatfish){
             this.moveControl = new SmoothSwimmingMoveControl(this, 1, 20, 0.02F, 0.1F, true);
@@ -42,21 +45,28 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         }
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(WANTS_TO_SWIM, false);
-        this.entityData.define(TICKS_ON_GROUND, 0);
-        this.entityData.define(VARIANT, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(WANTS_TO_SWIM, false);
+        builder.define(TICKS_ON_GROUND, 0);
+        builder.define(VARIANT, 0);
     }
 
-    public void addAdditionalSaveData(CompoundTag pCompound) {
-        super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("Variant", this.getVariant());
+    protected void setStepHeight(float stepHeight) {
+        AttributeInstance attributeinstance = this.getAttribute(Attributes.STEP_HEIGHT);
+        if (attributeinstance != null) {
+            attributeinstance.setBaseValue(stepHeight);
+        }
     }
 
-    public void readAdditionalSaveData(CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
-        this.setVariant(pCompound.getInt("Variant"));
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("Variant", this.getVariant());
+    }
+
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setVariant(compound.getInt("Variant"));
     }
 
     //variants
@@ -80,13 +90,13 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         return this.entityData.get(WANTS_TO_SWIM);
     }
 
-    public void setWantsToSwim(boolean pFromBucket) {
-        if (pFromBucket){
+    public void setWantsToSwim(boolean fromBucket) {
+        if (fromBucket){
             this.lookControl = new SmoothSwimmingLookControl(this, 10);
         }else {
             this.lookControl = new LookControl(this);
         }
-        this.entityData.set(WANTS_TO_SWIM, pFromBucket);
+        this.entityData.set(WANTS_TO_SWIM, fromBucket);
     }
 
     @Override
@@ -113,13 +123,10 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
             swimmingTicks = prevSwimTick+1;
         }
 
-        if (!this.level().isClientSide) {
-
-//            if ( this.isInWater() && !this.getWantsToSwim() && !this.onGround()){
-//                this.moveRelative(0, new Vec3(0, this.yya-1, 0));
-//                this.move(MoverType.SELF, this.getDeltaMovement());
-//            }
-        }
+        //            if ( this.isInWater() && !this.getWantsToSwim() && !this.onGround()){
+        //                this.moveRelative(0, new Vec3(0, this.yya-1, 0));
+        //                this.move(MoverType.SELF, this.getDeltaMovement());
+        //            }
 
     }
 
@@ -128,10 +135,10 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         if (this.isInWater()){
             BlockPos pos = this.blockPosition();
             BlockState block = this.level().getBlockState(pos.above());
-            if (this.getStepHeight() >= 1 && block.getFluidState().is(Fluids.EMPTY)){
-                this.setMaxUpStep(0);
+            if (this.maxUpStep() >= 1 && block.getFluidState().is(Fluids.EMPTY)){
+                this.setStepHeight(0);
             }else if (this.isInWater() && block.getFluidState().is(Fluids.WATER)){
-                this.setMaxUpStep(1);
+                this.setStepHeight(1);
             }
             if (!this.level().isClientSide()){
                 if (this.isInWaterOrBubble() && !this.onGround()){
@@ -150,7 +157,7 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         super.aiStep();
     }
 
-    public void travel(Vec3 pTravelVector) {
+    public void travel(Vec3 travelVector) {
 
         if (this.isEffectiveAi() && this.isInWater() && !this.getWantsToSwim()) {
             if (this.getTarget() == null) {
@@ -167,11 +174,11 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
             }
         }
 
-        super.travel(pTravelVector);
+        super.travel(travelVector);
     }
 
     @Override
-    protected void actuallyHurt(DamageSource pDamageSource, float pDamageAmount) {
+    protected void actuallyHurt(@NotNull DamageSource damageSource, float damageAmount) {
 
         if (swimmingTicks>0){
             swimmingTicks=0;
@@ -180,7 +187,7 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
             this.setWantsToSwim(true);
         }
 
-        super.actuallyHurt(pDamageSource, pDamageAmount);
+        super.actuallyHurt(damageSource, damageAmount);
     }
 
     static class FishJumpControl extends JumpControl {
@@ -221,9 +228,9 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
 
     public static class BottomMoveGoal extends RandomStrollGoal {
         AbstractSwimmingBottomDweller fish;
-        public BottomMoveGoal(AbstractSwimmingBottomDweller pMob, double pSpeedModifier, int interval) {
-            super(pMob, pSpeedModifier, interval);
-            this.fish = pMob;
+        public BottomMoveGoal(AbstractSwimmingBottomDweller mob, double speedModifier, int interval) {
+            super(mob, speedModifier, interval);
+            this.fish = mob;
         }
 
         @Override

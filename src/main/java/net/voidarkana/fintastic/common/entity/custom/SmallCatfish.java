@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
@@ -16,13 +17,13 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.FollowBottomDwellingLeaderGoal;
-import net.voidarkana.fintastic.common.entity.custom.ai.FollowVariantSchoolLeaderGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.AbstractBottomSchooler;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.item.FintyItems;
@@ -36,28 +37,28 @@ public class SmallCatfish extends AbstractBottomSchooler {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
-    public boolean isFood(ItemStack pStack) {
-        return FOOD_ITEMS.test(pStack);
+    public boolean isFood(ItemStack stack) {
+        return FOOD_ITEMS.test(stack);
     }
 
-    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         this.refreshDimensions();
-        super.onSyncedDataUpdated(pKey);
+        super.onSyncedDataUpdated(key);
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pPose) {
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
         SmallCatfishVariant variant = SmallCatfishVariant.byId(this.getVariant());
         return switch (variant.getModel()){
-            case 0 ->super.getDimensions(pPose).scale(2F, 1F);
-            case 2 ->super.getDimensions(pPose).scale(1.25F, 1.25F);
-            case 3 ->super.getDimensions(pPose).scale(0.8F, 0.8F);
-            default ->super.getDimensions(pPose);
+            case 0 ->super.getDefaultDimensions(pose).scale(2F, 1F);
+            case 2 ->super.getDefaultDimensions(pose).scale(1.25F, 1.25F);
+            case 3 ->super.getDefaultDimensions(pose).scale(0.8F, 0.8F);
+            default ->super.getDefaultDimensions(pose);
         };
     }
 
-    public SmallCatfish(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public SmallCatfish(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
         this.refreshDimensions();
     }
 
@@ -85,11 +86,11 @@ public class SmallCatfish extends AbstractBottomSchooler {
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        SmallCatfish baby = FintyEntities.SMALL_CATFISH.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        SmallCatfish baby = FintyEntities.SMALL_CATFISH.get().create(level);
         if (baby != null){
             baby.setFromBucket(true);
-            baby.setVariant(this.getRandom().nextBoolean() ? ((SmallCatfish)pOtherParent).getVariant() : this.getVariant());
+            baby.setVariant(this.getRandom().nextBoolean() ? ((SmallCatfish)otherParent).getVariant() : this.getVariant());
         }
         return baby;
     }
@@ -98,6 +99,7 @@ public class SmallCatfish extends AbstractBottomSchooler {
     public void tick() {
         super.tick();
         if (this.isFollower() && this.tickCount % 40 == 0){
+            assert this.leader != null;
             this.setWantsToSwim(this.leader.getWantsToSwim());
             if (!this.getWantsToSwim()){
                 this.swimmingTicks = 0;
@@ -117,9 +119,11 @@ public class SmallCatfish extends AbstractBottomSchooler {
     }
 
     public boolean isFollower() {
-        if (super.isFollower())
-            return SmallCatfish.SmallCatfishVariant.byId(this.getVariant()).canSchool()
-                    && SmallCatfish.SmallCatfishVariant.byId(this.getVariant()).isSameSpecies(SmallCatfish.SmallCatfishVariant.byId(this.leader.getVariant()));
+        if (super.isFollower()) {
+            if (!SmallCatfishVariant.byId(this.getVariant()).canSchool()) return false;
+            assert this.leader != null;
+            return SmallCatfishVariant.byId(this.getVariant()).isSameSpecies(SmallCatfishVariant.byId(this.leader.getVariant()));
+        }
         return false;
     }
 
@@ -130,63 +134,56 @@ public class SmallCatfish extends AbstractBottomSchooler {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Variant", this.getVariant());
-        compoundnbt.putInt("Age", this.getAge());
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Variant", this.getVariant());
+            compoundnbt.putInt("Age", this.getAge());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
-        if (pTag.contains("Age"))
-            this.setAge(pTag.getInt("Age"));
-        if (pTag.contains("Variant"))
-            this.setVariant(pTag.getInt("Variant"));
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
+        if (tag.contains("Age"))
+            this.setAge(tag.getInt("Age"));
+        if (tag.contains("Variant"))
+            this.setVariant(tag.getInt("Variant"));
+        if (tag.contains("CanGrow"))
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Age", 3)) {
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));}
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-            this.setVariant(pDataTag.getInt("Variant"));
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+        if (spawnData instanceof SchoolSpawnGroupData fish$fishgroupdata){
+            AbstractBottomSchooler leader = fish$fishgroupdata.leader;
+
+            this.startFollowing(fish$fishgroupdata.leader);
+            this.setVariant(leader.getVariant());
         }else {
-            if (pSpawnData instanceof AbstractBottomSchooler.SchoolSpawnGroupData){
-                AbstractBottomSchooler.SchoolSpawnGroupData fish$fishgroupdata = (AbstractBottomSchooler.SchoolSpawnGroupData)pSpawnData;
-                AbstractBottomSchooler leader = fish$fishgroupdata.leader;
+            SmallCatfishVariant variant = Util.getRandom(SmallCatfishVariant.values(), random);
+            this.setVariant(variant.getVariant());
 
-                this.startFollowing(((AbstractBottomSchooler.SchoolSpawnGroupData)pSpawnData).leader);
-                this.setVariant(leader.getVariant());
-            }else {
-                SmallCatfishVariant variant = Util.getRandom(SmallCatfishVariant.values(), random);
-                this.setVariant(variant.getVariant());
-
-                if (variant.canSchool())
-                    pSpawnData = new AbstractBottomSchooler.SchoolSpawnGroupData(this);
-            }
+            if (variant.canSchool())
+                spawnData = new AbstractBottomSchooler.SchoolSpawnGroupData(this);
         }
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     @Override
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        SmallCatfish otherGuy = (SmallCatfish) pOtherAnimal;
-        return SmallCatfish.SmallCatfishVariant.byId(this.getVariant()).isSameSpecies(SmallCatfish.SmallCatfishVariant.byId(otherGuy.getVariant())) && super.canMate(pOtherAnimal);
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        SmallCatfish otherGuy = (SmallCatfish) otherAnimal;
+        return SmallCatfish.SmallCatfishVariant.byId(this.getVariant()).isSameSpecies(SmallCatfish.SmallCatfishVariant.byId(otherGuy.getVariant())) && super.canMate(otherAnimal);
     }
 
     @Override
-    public void addFollowers(Stream<? extends AbstractBottomSchooler> pFollowers) {
-        pFollowers.limit((long)(this.getMaxSchoolSize() - this.schoolSize)).filter((p_27538_) -> {
-            return p_27538_ != this;
-        }).forEach((fish) -> {
+    public void addFollowers(Stream<? extends AbstractBottomSchooler> followers) {
+        followers.limit(this.getMaxSchoolSize() - this.schoolSize).filter((fish) -> fish != this).forEach((fish) -> {
             if (this.getVariant()==fish.getVariant()
                     && this.isBaby()==fish.isBaby()){
                 fish.startFollowing(this);
@@ -290,12 +287,12 @@ public class SmallCatfish extends AbstractBottomSchooler {
         public static final EnumCodec<SmallCatfishVariant> CODEC
                 = StringRepresentable.fromEnum(SmallCatfishVariant::values);
 
-        public static SmallCatfishVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static SmallCatfishVariant byId(int id) {
+            return BY_ID.apply(id);
         }
 
-        public static SmallCatfishVariant byName(String pName) {
-            return CODEC.byName(pName, ANCHOR_CATFISH);
+        public static SmallCatfishVariant byName(String name) {
+            return CODEC.byName(name, ANCHOR_CATFISH);
         }
     }
 }

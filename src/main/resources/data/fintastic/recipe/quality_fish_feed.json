@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:seagrass"
+    },
+    {
+      "item": "fintastic:regular_feed"
+    },
+    {
+      "tag": "fintastic:quality_fish_feed_ingredient"
+    }
+  ],
+  "result": {
+    "id": "fintastic:quality_feed",
+    "count": 2
+  }
+}

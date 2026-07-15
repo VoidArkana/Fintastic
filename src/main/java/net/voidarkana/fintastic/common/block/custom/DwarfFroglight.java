@@ -1,6 +1,5 @@
 package net.voidarkana.fintastic.common.block.custom;
 
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,6 +17,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.*;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -27,9 +27,7 @@ public class DwarfFroglight extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
     public static final BooleanProperty WEST = PipeBlock.WEST;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    protected static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = PipeBlock.PROPERTY_BY_DIRECTION.entrySet().stream().filter((p_52346_) -> {
-        return p_52346_.getKey().getAxis().isHorizontal();
-    }).collect(Util.toMap());
+    protected static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = PipeBlock.PROPERTY_BY_DIRECTION.entrySet().stream().filter((entry) -> entry.getKey().getAxis().isHorizontal()).collect(Util.toMap());
     public static final EnumProperty<AttachmentStyle> TYPE = EnumProperty.create("type", AttachmentStyle.class);
     public static final EnumProperty<Direction.Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
@@ -49,83 +47,86 @@ public class DwarfFroglight extends Block implements SimpleWaterloggedBlock {
     public static final VoxelShape EAST_DOWN =   Block.box(12, 0, 4, 16, 8, 12);
     public static final VoxelShape WEST_DOWN =   Block.box(0, 0, 4, 4, 8, 12)  ;
 
-    public DwarfFroglight(Properties pProperties) {
-        super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(TYPE, AttachmentStyle.MIDDLE).setValue(FACING, Direction.Axis.X).setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)));
+    public DwarfFroglight(Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(TYPE, AttachmentStyle.MIDDLE).setValue(FACING, Direction.Axis.X).setValue(NORTH, Boolean.FALSE).setValue(EAST, Boolean.FALSE).setValue(SOUTH, Boolean.FALSE).setValue(WEST, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        switch (pState.getValue(TYPE)){
-            case TOP:
-                if (pState.getValue(FACING) == Direction.Axis.X){
-                    if (pState.getValue(NORTH) && pState.getValue(SOUTH)){
-                        return Shapes.or(CENTER_UP, NORTH_UP, SOUTH_UP);
-                    }else if (pState.getValue(NORTH)){
-                        return Shapes.or(CENTER_UP, NORTH_UP);
-                    }else if (pState.getValue(SOUTH)){
-                        return Shapes.or(CENTER_UP, SOUTH_UP);
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        return switch (state.getValue(TYPE)) {
+            case TOP -> {
+                if (state.getValue(FACING) == Direction.Axis.X) {
+                    if (state.getValue(NORTH) && state.getValue(SOUTH)) {
+                        yield Shapes.or(CENTER_UP, NORTH_UP, SOUTH_UP);
+                    } else if (state.getValue(NORTH)) {
+                        yield Shapes.or(CENTER_UP, NORTH_UP);
+                    } else if (state.getValue(SOUTH)) {
+                        yield Shapes.or(CENTER_UP, SOUTH_UP);
                     }
-                }else {
-                    if (pState.getValue(EAST) && pState.getValue(WEST)){
-                        return Shapes.or(CENTER_UP, EAST_UP, WEST_UP);
-                    }else if (pState.getValue(EAST)){
-                        return Shapes.or(CENTER_UP, EAST_UP);
-                    }else if (pState.getValue(WEST)){
-                        return Shapes.or(CENTER_UP, WEST_UP);
-                    }
-                }
-                return CENTER_UP;
-            case BOTTOM:
-                if (pState.getValue(FACING) == Direction.Axis.X){
-                    if (pState.getValue(NORTH) && pState.getValue(SOUTH)){
-                        return Shapes.or(CENTER_DOWN, NORTH_DOWN, SOUTH_DOWN);
-                    }else if (pState.getValue(NORTH)){
-                        return Shapes.or(CENTER_DOWN, NORTH_DOWN);
-                    }else if (pState.getValue(SOUTH)){
-                        return Shapes.or(CENTER_DOWN, SOUTH_DOWN);
-                    }
-                }else {
-                    if (pState.getValue(EAST) && pState.getValue(WEST)){
-                        return Shapes.or(CENTER_DOWN, EAST_DOWN, WEST_DOWN);
-                    }else if (pState.getValue(EAST)){
-                        return Shapes.or(CENTER_DOWN, EAST_DOWN);
-                    }else if (pState.getValue(WEST)){
-                        return Shapes.or(CENTER_DOWN, WEST_DOWN);
+                } else {
+                    if (state.getValue(EAST) && state.getValue(WEST)) {
+                        yield Shapes.or(CENTER_UP, EAST_UP, WEST_UP);
+                    } else if (state.getValue(EAST)) {
+                        yield Shapes.or(CENTER_UP, EAST_UP);
+                    } else if (state.getValue(WEST)) {
+                        yield Shapes.or(CENTER_UP, WEST_UP);
                     }
                 }
-                return CENTER_DOWN;
-            default:
-                if (pState.getValue(FACING) == Direction.Axis.X){
-                    if (pState.getValue(NORTH) && pState.getValue(SOUTH)){
-                        return Shapes.or(CENTER_MID, NORTH_MID, SOUTH_MID);
-                    }else if (pState.getValue(NORTH)){
-                        return Shapes.or(CENTER_MID, NORTH_MID);
-                    }else if (pState.getValue(SOUTH)){
-                        return Shapes.or(CENTER_MID, SOUTH_MID);
+                yield CENTER_UP;
+            }
+            case BOTTOM -> {
+                if (state.getValue(FACING) == Direction.Axis.X) {
+                    if (state.getValue(NORTH) && state.getValue(SOUTH)) {
+                        yield Shapes.or(CENTER_DOWN, NORTH_DOWN, SOUTH_DOWN);
+                    } else if (state.getValue(NORTH)) {
+                        yield Shapes.or(CENTER_DOWN, NORTH_DOWN);
+                    } else if (state.getValue(SOUTH)) {
+                        yield Shapes.or(CENTER_DOWN, SOUTH_DOWN);
                     }
-                }else {
-                    if (pState.getValue(EAST) && pState.getValue(WEST)){
-                        return Shapes.or(CENTER_MID, EAST_MID, WEST_MID);
-                    }else if (pState.getValue(EAST)){
-                        return Shapes.or(CENTER_MID, EAST_MID);
-                    }else if (pState.getValue(WEST)){
-                        return Shapes.or(CENTER_MID, WEST_MID);
+                } else {
+                    if (state.getValue(EAST) && state.getValue(WEST)) {
+                        yield Shapes.or(CENTER_DOWN, EAST_DOWN, WEST_DOWN);
+                    } else if (state.getValue(EAST)) {
+                        yield Shapes.or(CENTER_DOWN, EAST_DOWN);
+                    } else if (state.getValue(WEST)) {
+                        yield Shapes.or(CENTER_DOWN, WEST_DOWN);
                     }
                 }
-                return CENTER_MID;
-        }
+                yield CENTER_DOWN;
+            }
+            default -> {
+                if (state.getValue(FACING) == Direction.Axis.X) {
+                    if (state.getValue(NORTH) && state.getValue(SOUTH)) {
+                        yield Shapes.or(CENTER_MID, NORTH_MID, SOUTH_MID);
+                    } else if (state.getValue(NORTH)) {
+                        yield Shapes.or(CENTER_MID, NORTH_MID);
+                    } else if (state.getValue(SOUTH)) {
+                        yield Shapes.or(CENTER_MID, SOUTH_MID);
+                    }
+                } else {
+                    if (state.getValue(EAST) && state.getValue(WEST)) {
+                        yield Shapes.or(CENTER_MID, EAST_MID, WEST_MID);
+                    } else if (state.getValue(EAST)) {
+                        yield Shapes.or(CENTER_MID, EAST_MID);
+                    } else if (state.getValue(WEST)) {
+                        yield Shapes.or(CENTER_MID, WEST_MID);
+                    }
+                }
+                yield CENTER_MID;
+            }
+        };
     }
 
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        for(Direction direction : pContext.getNearestLookingDirections()) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        for(Direction direction : context.getNearestLookingDirections()) {
             BlockState state;
             if (direction.getAxis() == Direction.Axis.Y) {
                 state = this.defaultBlockState().setValue(TYPE, direction == Direction.UP ? AttachmentStyle.TOP : AttachmentStyle.BOTTOM)
-                        .setValue(FACING, pContext.getHorizontalDirection().getCounterClockWise().getAxis());
+                        .setValue(FACING, context.getHorizontalDirection().getCounterClockWise().getAxis());
             } else {
-                state = this.defaultBlockState().setValue(TYPE, AttachmentStyle.MIDDLE).setValue(FACING, pContext.getHorizontalDirection().getCounterClockWise().getAxis());
+                state = this.defaultBlockState().setValue(TYPE, AttachmentStyle.MIDDLE).setValue(FACING, context.getHorizontalDirection().getCounterClockWise().getAxis());
             }
-            BlockState otherBlock = pContext.getLevel().getBlockState(pContext.getClickedPos().offset(direction.getNormal()));
+            BlockState otherBlock = context.getLevel().getBlockState(context.getClickedPos().offset(direction.getNormal()));
 
             if (this.isSameFroglight(state, otherBlock)){
                 if (state.getValue(FACING) == otherBlock.getValue(FACING)){
@@ -133,9 +134,9 @@ public class DwarfFroglight extends Block implements SimpleWaterloggedBlock {
                 }
             }
 
-            BlockGetter blockgetter = pContext.getLevel();
-            BlockPos blockpos = pContext.getClickedPos();
-            FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
+            BlockGetter blockgetter = context.getLevel();
+            BlockPos blockpos = context.getClickedPos();
+            FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
             BlockPos blockpos1 = blockpos.north();
             BlockPos blockpos2 = blockpos.east();
             BlockPos blockpos3 = blockpos.south();
@@ -145,67 +146,67 @@ public class DwarfFroglight extends Block implements SimpleWaterloggedBlock {
             BlockState blockstate2 = blockgetter.getBlockState(blockpos3);
             BlockState blockstate3 = blockgetter.getBlockState(blockpos4);
             return state
-                    .setValue(NORTH, Boolean.valueOf(this.connectsTo(state, blockstate, blockstate.isFaceSturdy(blockgetter, blockpos1, Direction.SOUTH))))
-                    .setValue(EAST, Boolean.valueOf(this.connectsTo(state, blockstate1, blockstate1.isFaceSturdy(blockgetter, blockpos2, Direction.WEST))))
-                    .setValue(SOUTH, Boolean.valueOf(this.connectsTo(state, blockstate2, blockstate2.isFaceSturdy(blockgetter, blockpos3, Direction.NORTH))))
-                    .setValue(WEST, Boolean.valueOf(this.connectsTo(state, blockstate3, blockstate3.isFaceSturdy(blockgetter, blockpos4, Direction.EAST))))
-                    .setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                    .setValue(NORTH, this.connectsTo(state, blockstate, blockstate.isFaceSturdy(blockgetter, blockpos1, Direction.SOUTH)))
+                    .setValue(EAST, this.connectsTo(state, blockstate1, blockstate1.isFaceSturdy(blockgetter, blockpos2, Direction.WEST)))
+                    .setValue(SOUTH, this.connectsTo(state, blockstate2, blockstate2.isFaceSturdy(blockgetter, blockpos3, Direction.NORTH)))
+                    .setValue(WEST, this.connectsTo(state, blockstate3, blockstate3.isFaceSturdy(blockgetter, blockpos4, Direction.EAST)))
+                    .setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
         }
         return null;
     }
 
-    public boolean connectsTo(BlockState thisState, BlockState otherState, boolean pIsSideSolid) {
+    public boolean connectsTo(BlockState thisState, BlockState otherState, boolean isSideSolid) {
         boolean flag = this.isSameFroglight(thisState, otherState);
-        return (!isExceptionForConnection(otherState) && pIsSideSolid && thisState.getValue(TYPE) == AttachmentStyle.MIDDLE) || flag;
+        return (!isExceptionForConnection(otherState) && isSideSolid && thisState.getValue(TYPE) == AttachmentStyle.MIDDLE) || flag;
     }
 
-    private boolean isSameFroglight(BlockState otherState, BlockState pState) {
-        return ((pState.is(FintyBlocks.GREEN_DWARF_FROGLIGHT.get()) && otherState.is(FintyBlocks.GREEN_DWARF_FROGLIGHT.get())) ||
-                (pState.is(FintyBlocks.RED_DWARF_FROGLIGHT.get()) && otherState.is(FintyBlocks.RED_DWARF_FROGLIGHT.get())) ||
-                (pState.is(FintyBlocks.YELLOW_DWARF_FROGLIGHT.get()) && otherState.is(FintyBlocks.YELLOW_DWARF_FROGLIGHT.get())) ||
-                (pState.is(FintyBlocks.PINK_DWARF_FROGLIGHT.get()) && otherState.is(FintyBlocks.PINK_DWARF_FROGLIGHT.get()))) &&
-                pState.getValue(FACING) == otherState.getValue(FACING) && pState.getValue(TYPE) == otherState.getValue(TYPE);
+    private boolean isSameFroglight(BlockState otherState, BlockState state) {
+        return ((state.is(FintyBlocks.GREEN_DWARF_FROGLIGHT.get()) && otherState.is(FintyBlocks.GREEN_DWARF_FROGLIGHT.get())) ||
+                (state.is(FintyBlocks.RED_DWARF_FROGLIGHT.get()) && otherState.is(FintyBlocks.RED_DWARF_FROGLIGHT.get())) ||
+                (state.is(FintyBlocks.YELLOW_DWARF_FROGLIGHT.get()) && otherState.is(FintyBlocks.YELLOW_DWARF_FROGLIGHT.get())) ||
+                (state.is(FintyBlocks.PINK_DWARF_FROGLIGHT.get()) && otherState.is(FintyBlocks.PINK_DWARF_FROGLIGHT.get()))) &&
+                state.getValue(FACING) == otherState.getValue(FACING) && state.getValue(TYPE) == otherState.getValue(TYPE);
     }
 
-    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(TYPE, NORTH, EAST, WEST, SOUTH, WATERLOGGED, FACING);
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(TYPE, NORTH, EAST, WEST, SOUTH, WATERLOGGED, FACING);
     }
 
-    public FluidState getFluidState(BlockState pState) {
-        return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+    public @NotNull FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    public boolean propagatesSkylightDown(BlockState pState, BlockGetter pReader, BlockPos pPos) {
-        return !pState.getValue(WATERLOGGED);
+    public boolean propagatesSkylightDown(BlockState state, @NotNull BlockGetter reader, @NotNull BlockPos pos) {
+        return !state.getValue(WATERLOGGED);
     }
 
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        if (pState.getValue(WATERLOGGED)) {
-            pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
+        if (state.getValue(WATERLOGGED)) {
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        return pFacing.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? pState.setValue(PROPERTY_BY_DIRECTION.get(pFacing),
-                Boolean.valueOf(this.connectsTo(pState, pFacingState, pFacingState.isFaceSturdy(pLevel, pFacingPos, pFacing.getOpposite())))) :
-                super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+        return facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? state.setValue(PROPERTY_BY_DIRECTION.get(facing),
+                this.connectsTo(state, facingState, facingState.isFaceSturdy(level, facingPos, facing.getOpposite()))) :
+                super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 
-    public BlockState rotate(BlockState pState, Rotation pRot) {
-        return switch (pRot) {
+    public @NotNull BlockState rotate(@NotNull BlockState state, Rotation rot) {
+        return switch (rot) {
             case CLOCKWISE_180 ->
-                    pState.setValue(NORTH, pState.getValue(SOUTH)).setValue(EAST, pState.getValue(WEST)).setValue(SOUTH, pState.getValue(NORTH)).setValue(WEST, pState.getValue(EAST));
+                    state.setValue(NORTH, state.getValue(SOUTH)).setValue(EAST, state.getValue(WEST)).setValue(SOUTH, state.getValue(NORTH)).setValue(WEST, state.getValue(EAST));
             case COUNTERCLOCKWISE_90 ->
-                    pState.setValue(FACING, pState.getValue(FACING) == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X).setValue(NORTH, pState.getValue(EAST)).setValue(EAST, pState.getValue(SOUTH)).setValue(SOUTH, pState.getValue(WEST)).setValue(WEST, pState.getValue(NORTH));
+                    state.setValue(FACING, state.getValue(FACING) == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X).setValue(NORTH, state.getValue(EAST)).setValue(EAST, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(WEST)).setValue(WEST, state.getValue(NORTH));
             case CLOCKWISE_90 ->
-                    pState.setValue(FACING, pState.getValue(FACING) == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X).setValue(NORTH, pState.getValue(WEST)).setValue(EAST, pState.getValue(NORTH)).setValue(SOUTH, pState.getValue(EAST)).setValue(WEST, pState.getValue(SOUTH));
-            default -> pState;
+                    state.setValue(FACING, state.getValue(FACING) == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X).setValue(NORTH, state.getValue(WEST)).setValue(EAST, state.getValue(NORTH)).setValue(SOUTH, state.getValue(EAST)).setValue(WEST, state.getValue(SOUTH));
+            default -> state;
         };
     }
 
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return switch (pMirror) {
-            case LEFT_RIGHT -> pState.setValue(NORTH, pState.getValue(SOUTH)).setValue(SOUTH, pState.getValue(NORTH));
-            case FRONT_BACK -> pState.setValue(EAST, pState.getValue(WEST)).setValue(WEST, pState.getValue(EAST));
-            default -> super.mirror(pState, pMirror);
+    public @NotNull BlockState mirror(@NotNull BlockState state, Mirror mirror) {
+        return switch (mirror) {
+            case LEFT_RIGHT -> state.setValue(NORTH, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(NORTH));
+            case FRONT_BACK -> state.setValue(EAST, state.getValue(WEST)).setValue(WEST, state.getValue(EAST));
+            default -> super.mirror(state, mirror);
         };
     }
 
@@ -216,15 +217,15 @@ public class DwarfFroglight extends Block implements SimpleWaterloggedBlock {
 
         private final String name;
 
-        AttachmentStyle(String pName) {
-            this.name = pName;
+        AttachmentStyle(String name) {
+            this.name = name;
         }
 
         public String toString() {
             return this.name;
         }
 
-        public String getSerializedName() {
+        public @NotNull String getSerializedName() {
             return this.name;
         }
     }

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "L": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "G": {
+      "item": "fintastic:infernal_aquarium_glass"
+    }
+  },
+  "pattern": [
+    " L ",
+    "LGL",
+    " L "
+  ],
+  "result": {
+    "id": "fintastic:tinted_infernal_aquarium_glass",
+    "count": 2
+  },
+  "show_notification": true
+}

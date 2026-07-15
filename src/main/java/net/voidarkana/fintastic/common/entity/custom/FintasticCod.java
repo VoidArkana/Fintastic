@@ -2,9 +2,9 @@ package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.RandomSource;
@@ -17,13 +17,13 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
@@ -39,8 +39,8 @@ public class FintasticCod extends VariantSchoolingFish {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
-    public FintasticCod(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public FintasticCod(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -57,62 +57,59 @@ public class FintasticCod extends VariantSchoolingFish {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Variant", this.getVariant());
-        compoundnbt.putInt("Age", this.getAge());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Variant", this.getVariant());
+            compoundnbt.putInt("Age", this.getAge());
 
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
 
-        if (pTag.contains("Variant")) {
-            this.setVariant(pTag.getInt("Variant"));
+        if (tag.contains("Variant")) {
+            this.setVariant(tag.getInt("Variant"));
         }
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));
+        }
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
         }
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        super.finalizeSpawn(level, difficulty, reason, spawnData);
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
-            this.setVariant(pDataTag.getInt("Variant"));
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));
-            }
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-        }else if (pReason != MobSpawnType.SPAWN_EGG && !(pReason == MobSpawnType.BUCKET && pDataTag == null)){
+        if (reason != MobSpawnType.SPAWN_EGG && reason != MobSpawnType.BUCKET){
 
             int variant;
 
-            if (pSpawnData instanceof FishGroupData){
-                FishGroupData fish$fishgroupdata = (FishGroupData)pSpawnData;
+            if (spawnData instanceof FishGroupData fish$fishgroupdata){
                 variant = fish$fishgroupdata.variant;
 
-                this.startFollowing(((FishGroupData)pSpawnData).leader);
+                this.startFollowing(fish$fishgroupdata.leader);
             }else {
 
-                if (pLevel.getBiome(this.blockPosition()).is(Biomes.FROZEN_OCEAN) || pLevel.getBiome(this.blockPosition()).is(Biomes.DEEP_FROZEN_OCEAN)){
+                if (level.getBiome(this.blockPosition()).is(Biomes.FROZEN_OCEAN) || level.getBiome(this.blockPosition()).is(Biomes.DEEP_FROZEN_OCEAN)){
                     variant = this.getRandom().nextBoolean() ? CodVariant.VANILLA.getVariant() : CodVariant.WHITING_POUT.getVariant();
-                }else if (pLevel.getBiome(this.blockPosition()).is(Biomes.COLD_OCEAN) || pLevel.getBiome(this.blockPosition()).is(Biomes.DEEP_COLD_OCEAN)){
+                }else if (level.getBiome(this.blockPosition()).is(Biomes.COLD_OCEAN) || level.getBiome(this.blockPosition()).is(Biomes.DEEP_COLD_OCEAN)){
                     variant = Util.getRandom(CodVariant.values(), this.getRandom()).getVariant();
                 }else {
                     variant = this.getRandom().nextBoolean() ? CodVariant.VANILLA.getVariant() : CodVariant.POLLOCK.getVariant();
                 }
 
-                pSpawnData = new FishGroupData(this, variant);
+                spawnData = new FishGroupData(this, variant);
             }
 
             this.setVariant(variant);
@@ -122,13 +119,13 @@ public class FintasticCod extends VariantSchoolingFish {
 
         }
 
-        return pSpawnData;
+        return spawnData;
     }
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        FintasticCod baby = FintyEntities.COD.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        FintasticCod baby = FintyEntities.COD.get().create(level);
         if (baby != null){
             baby.setVariant(this.getVariant());
             baby.setFromBucket(true);
@@ -147,17 +144,17 @@ public class FintasticCod extends VariantSchoolingFish {
 
 
     @Override
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        FintasticCod mate = (FintasticCod) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && this.getVariant() == mate.getVariant();
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        FintasticCod mate = (FintasticCod) otherAnimal;
+        return super.canMate(otherAnimal) && this.getVariant() == mate.getVariant();
     }
 
     static class FishGroupData extends SchoolSpawnGroupData {
         final int variant;
 
-        FishGroupData(FintasticCod pLeader, int pVariant) {
-            super(pLeader);
-            this.variant = pVariant;
+        FishGroupData(FintasticCod leader, int variant) {
+            super(leader);
+            this.variant = variant;
         }
     }
 
@@ -190,18 +187,18 @@ public class FintasticCod extends VariantSchoolingFish {
         public static final EnumCodec<CodVariant> CODEC
                 = StringRepresentable.fromEnum(CodVariant::values);
 
-        public static CodVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static CodVariant byId(int id) {
+            return BY_ID.apply(id);
         }
 
-        public static CodVariant byName(String pName) {
-            return CODEC.byName(pName, VANILLA);
+        public static CodVariant byName(String name) {
+            return CODEC.byName(name, VANILLA);
         }
     }
 
-    public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends WaterAnimal> pWaterAnimal, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
-        int i = pLevel.getSeaLevel();
+    public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends WaterAnimal> waterAnimal, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        int i = level.getSeaLevel();
         int j = i - 25;
-        return FintyCommonConfig.ALLOW_FINTASTIC_COD.get() && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER);
+        return FintyCommonConfig.ALLOW_FINTASTIC_COD.get() && pos.getY() >= j && pos.getY() <= i && level.getFluidState(pos.below()).is(FluidTags.WATER) && level.getBlockState(pos.above()).is(Blocks.WATER);
     }
 }

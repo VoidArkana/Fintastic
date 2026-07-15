@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "fintastic:block/stromatolite_bricks",
+    "side": "fintastic:block/stromatolite_bricks",
+    "top": "fintastic:block/stromatolite_bricks"
+  }
+}

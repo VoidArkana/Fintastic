@@ -3,10 +3,9 @@ package net.voidarkana.fintastic.common.worldgen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -22,10 +21,9 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.block.custom.AlgaeCarpetBlock;
@@ -41,7 +39,7 @@ import java.util.function.Supplier;
 
 public class FintyConfiguredFeatures {
 
-    public static final DeferredRegister<Feature<?>> MOD_FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Fintastic.MOD_ID);
+    public static final DeferredRegister<Feature<?>> MOD_FEATURES = DeferredRegister.create(Registries.FEATURE, Fintastic.MOD_ID);
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> HORNWORT_KEY = registerKey("hornwort_key");
     public static final ResourceKey<ConfiguredFeature<?, ?>> DUCKWEED_KEY = registerKey("duckweed_key");
@@ -71,37 +69,37 @@ public class FintyConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> AMAZON_SWORD_KEY = registerKey("amazon_sword_key");
     public static final ResourceKey<ConfiguredFeature<?, ?>> LOTUS_KEY = registerKey("lotus_key");
 
-    public static final RegistryObject<Feature<VegetationPatchConfiguration>> ALGAE_PATCH_FEATURE =
+    public static final DeferredHolder<Feature<?>, Feature<VegetationPatchConfiguration>> ALGAE_PATCH_FEATURE =
             register_feature("algae_patch_feature", () -> new UnderwaterVegetationPatchFeature(VegetationPatchConfiguration.CODEC));
 
-    public static final RegistryObject<Feature<VegetationPatchConfiguration>> STROMATOLITE_PATCH_FEATURE =
+    public static final DeferredHolder<Feature<?>, Feature<VegetationPatchConfiguration>> STROMATOLITE_PATCH_FEATURE =
             register_feature("stromatolite_patch_feature", () -> new AmphibiousGroundCircleFeature(VegetationPatchConfiguration.CODEC));
 
-    public static final RegistryObject<Feature<AlgaeBonemealConfig>> ALGAE_BONEMEAL_FEATURE =
+    public static final DeferredHolder<Feature<?>, Feature<AlgaeBonemealConfig>> ALGAE_BONEMEAL_FEATURE =
             register_feature("algae_bonemeal_feature", () -> new AlgaeBonemealFeature(AlgaeBonemealConfig.CODEC));
 
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> HORNWORT_FEATURE =
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> HORNWORT_FEATURE =
             register_feature("hornwort_feature", () -> new HornWortFeature(NoneFeatureConfiguration.CODEC));
 
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ANUBIAS_FEATURE =
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> ANUBIAS_FEATURE =
             register_feature("anubias_feature", () -> new AnubiasLogFeature(NoneFeatureConfiguration.CODEC));
 
-    public static final RegistryObject<Feature<LiveRockBoulderConfig>> LIVE_ROCK_BOULDER_FEATURE =
+    public static final DeferredHolder<Feature<?>, Feature<LiveRockBoulderConfig>> LIVE_ROCK_BOULDER_FEATURE =
             register_feature("live_rock_boulder_feature", () -> new LiveRockBoulderFeature(LiveRockBoulderConfig.CODEC));
 
-    public static final RegistryObject<Feature<SimpleBlockConfiguration>> SIMPLE_WATERLOGGABLE_BLOCK
+    public static final DeferredHolder<Feature<?>, Feature<SimpleBlockConfiguration>> SIMPLE_WATERLOGGABLE_BLOCK
             = register_feature("simple_waterloggable_block", () -> new SimpleWaterloggableBlockFeature(SimpleBlockConfiguration.CODEC));
 
-    public static final RegistryObject<Feature<DuckweedPatchConfiguration>> DUCKWEED_FEATURE =
+    public static final DeferredHolder<Feature<?>, Feature<DuckweedPatchConfiguration>> DUCKWEED_FEATURE =
             register_feature("duckweed_feature", () -> new DuckweedPatchFeature(DuckweedPatchConfiguration.CODEC));
 
-    public static final RegistryObject<Feature<ProbabilityFeatureConfiguration>> AMAZON_SWORDS_FEATURE =
+    public static final DeferredHolder<Feature<?>, Feature<ProbabilityFeatureConfiguration>> AMAZON_SWORDS_FEATURE =
             register_feature("amazon_swords_feature", () -> new AmazonSwordsFeature(ProbabilityFeatureConfiguration.CODEC));
 
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> LOTUS_FEATURE =
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> LOTUS_FEATURE =
             register_feature("lotus_feature", () -> new LotusFeature(NoneFeatureConfiguration.CODEC));
 
-    public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
+    public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
         HolderGetter<ConfiguredFeature<?, ?>> holdergetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
@@ -248,23 +246,23 @@ public class FintyConfiguredFeatures {
     }
 
 
-    public static List<PlacementModifier> worldSurfaceSquaredWithCount(int pCount) {
-        return List.of(CountPlacement.of(pCount), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome());
+    public static List<PlacementModifier> worldSurfaceSquaredWithCount(int count) {
+        return List.of(CountPlacement.of(count), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome());
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(Fintastic.MOD_ID, name));
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, Fintastic.location(name));
     }
 
     private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register
-            (BootstapContext<ConfiguredFeature<?, ?>> context,
+            (BootstrapContext<ConfiguredFeature<?, ?>> context,
         ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
 
         context.register(key, new ConfiguredFeature<>(feature, configuration));
 
     }
 
-    public static <T extends FeatureConfiguration> RegistryObject<Feature<T>> register_feature(String name, Supplier<Feature<T>> featureSupplier) {
+    public static <T extends FeatureConfiguration> DeferredHolder<Feature<?>, Feature<T>> register_feature(String name, Supplier<Feature<T>> featureSupplier) {
         return MOD_FEATURES.register(name, featureSupplier);
     }
 

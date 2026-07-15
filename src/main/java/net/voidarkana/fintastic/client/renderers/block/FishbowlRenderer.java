@@ -10,12 +10,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.state.BlockState;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.blockentity.custom.FishbowlBlockEntity;
-import net.voidarkana.fintastic.common.item.FintyItems;
 import org.jetbrains.annotations.NotNull;
 
 public class FishbowlRenderer implements BlockEntityRenderer<FishbowlBlockEntity> {
 
-    public FishbowlRenderer(BlockEntityRendererProvider.Context pContext) {
+    public FishbowlRenderer(BlockEntityRendererProvider.Context context) {
     }
 
     @Override

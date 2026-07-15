@@ -21,13 +21,13 @@ public class SharkminnowRenderer extends MobRenderer<Sharkminnow, FintasticModel
     private final HighfinSharkModel<Sharkminnow> highfinSharkModel;
     private final RainbowSharkModel<Sharkminnow> rainbowSharkModel;
 
-    public SharkminnowRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new BalaSharkModel<>(pContext.bakeLayer(FintasticLayers.BALA_SHARK_LAYER)), 0.3f);
-        this.balaSharkModel = new BalaSharkModel<>(pContext.bakeLayer(FintasticLayers.BALA_SHARK_LAYER));
-        this.babyBalaSharkModel = new BabyBalaSharkModel<>(pContext.bakeLayer(FintasticLayers.BABY_BALA_SHARK_LAYER));
-        this.babyHighfinSharkModel = new BabyHighfinSharkModel<>(pContext.bakeLayer(FintasticLayers.BABY_HIGHFIN_SHARK_LAYER));
-        this.highfinSharkModel = new HighfinSharkModel<>(pContext.bakeLayer(FintasticLayers.HIGHFIN_SHARK_LAYER));
-        this.rainbowSharkModel = new RainbowSharkModel<>(pContext.bakeLayer(FintasticLayers.RAINBOW_SHARK_LAYER));
+    public SharkminnowRenderer(EntityRendererProvider.Context context) {
+        super(context, new BalaSharkModel<>(context.bakeLayer(FintasticLayers.BALA_SHARK_LAYER)), 0.3f);
+        this.balaSharkModel = new BalaSharkModel<>(context.bakeLayer(FintasticLayers.BALA_SHARK_LAYER));
+        this.babyBalaSharkModel = new BabyBalaSharkModel<>(context.bakeLayer(FintasticLayers.BABY_BALA_SHARK_LAYER));
+        this.babyHighfinSharkModel = new BabyHighfinSharkModel<>(context.bakeLayer(FintasticLayers.BABY_HIGHFIN_SHARK_LAYER));
+        this.highfinSharkModel = new HighfinSharkModel<>(context.bakeLayer(FintasticLayers.HIGHFIN_SHARK_LAYER));
+        this.rainbowSharkModel = new RainbowSharkModel<>(context.bakeLayer(FintasticLayers.RAINBOW_SHARK_LAYER));
     }
 
     @Override
@@ -44,19 +44,19 @@ public class SharkminnowRenderer extends MobRenderer<Sharkminnow, FintasticModel
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Sharkminnow pEntity) {
-        Sharkminnow.SharkminnowVariant variant = Sharkminnow.SharkminnowVariant.byId(pEntity.getVariant());
+    public ResourceLocation getTextureLocation(Sharkminnow entity) {
+        Sharkminnow.SharkminnowVariant variant = Sharkminnow.SharkminnowVariant.byId(entity.getVariant());
         if (variant == Sharkminnow.SharkminnowVariant.BALA_SHARK || variant == Sharkminnow.SharkminnowVariant.CIGAR_SHARK
                 || variant == Sharkminnow.SharkminnowVariant.HIGHFIN_SHARK){
 
-            return new ResourceLocation(Fintastic.MOD_ID, "textures/entity/sharkminnow/"+pEntity.getVariantName()+(pEntity.isBaby() ? "_baby":"")+".png");
+            return Fintastic.location("textures/entity/sharkminnow/"+entity.getVariantName()+(entity.isBaby() ? "_baby":"")+".png");
         }
-        return new ResourceLocation(Fintastic.MOD_ID, "textures/entity/sharkminnow/"+pEntity.getVariantName()+".png");
+        return Fintastic.location("textures/entity/sharkminnow/"+entity.getVariantName()+".png");
     }
 
     @Override
-    protected void setupRotations(Sharkminnow animatable, PoseStack poseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(animatable, poseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+    protected void setupRotations(Sharkminnow animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
 
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(animatable.getTicksOutsideWater()/3f, animatable.currentRoll*360/4, 0)));
     }

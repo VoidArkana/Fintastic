@@ -20,58 +20,57 @@ public abstract class FintasticModel <E extends Entity> extends HierarchicalMode
     public final float youngScaleFactor;
     public final float bodyYOffset;
 
-    public FintasticModel(float pYoungScaleFactor, float pBodyYOffset) {
-        this(pYoungScaleFactor, pBodyYOffset, RenderType::entityCutoutNoCull);
+    public FintasticModel(float youngScaleFactor, float bodyYOffset) {
+        this(youngScaleFactor, bodyYOffset, RenderType::entityCutoutNoCull);
     }
 
-    public FintasticModel(float pYoungScaleFactor, float pBodyYOffset, Function<ResourceLocation, RenderType> pRenderType) {
-        super(pRenderType);
-        this.bodyYOffset = pBodyYOffset;
-        this.youngScaleFactor = pYoungScaleFactor;
+    public FintasticModel(float youngScaleFactor, float bodyYOffset, Function<ResourceLocation, RenderType> renderType) {
+        super(renderType);
+        this.bodyYOffset = bodyYOffset;
+        this.youngScaleFactor = youngScaleFactor;
     }
 
-    public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
 
-        pPoseStack.pushPose();
+        poseStack.pushPose();
 
         if (this.young) {
-            pPoseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
-            pPoseStack.translate(0.0F, this.bodyYOffset, 0.0F);
+            poseStack.scale(this.youngScaleFactor, this.youngScaleFactor, this.youngScaleFactor);
+            poseStack.translate(0.0F, this.bodyYOffset, 0.0F);
         }
 
-        this.root().render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+        this.root().render(poseStack, buffer, packedLight, packedOverlay, color);
 
-        pPoseStack.popPose();
+        poseStack.popPose();
     }
 
-    protected void animateIdle(AnimationState pAnimationState, AnimationDefinition pAnimationDefinition, float pAgeInTicks, float pSpeed, float pScale) {
-        float scale = Math.max(0, Math.min(1-Math.abs(pSpeed), 1f));
-        pAnimationState.updateTime(pAgeInTicks, pSpeed);
-        pAnimationState.ifStarted((p_233392_) -> {
-            KeyframeAnimations.animate(this, pAnimationDefinition, p_233392_.getAccumulatedTime(), pScale, FintasticModel.ANIMATION_VECTOR_CACHE);
+    protected void animateIdle(AnimationState animationState, AnimationDefinition animationDefinition, float ageInTicks, float speed, float scale) {
+        animationState.updateTime(ageInTicks, speed);
+        animationState.ifStarted((state) -> {
+            KeyframeAnimations.animate(this, animationDefinition, state.getAccumulatedTime(), scale, FintasticModel.ANIMATION_VECTOR_CACHE);
         });
     }
 
-    protected void animate(AnimationState pAnimationState, AnimationDefinition pAnimationDefinition, float pAgeInTicks) {
-        this.animate(pAnimationState, pAnimationDefinition, pAgeInTicks, 1.0F);
+    protected void animate(AnimationState animationState, AnimationDefinition animationDefinition, float ageInTicks) {
+        this.animate(animationState, animationDefinition, ageInTicks, 1.0F);
     }
 
-    protected void animateWalk(AnimationDefinition pAnimationDefinition, float pLimbSwing, float pLimbSwingAmount, float pMaxAnimationSpeed, float pAnimationScaleFactor) {
-        if (pLimbSwing != 0 && pLimbSwingAmount != 0){
-            long i = (long)(pLimbSwing * 50.0F * pMaxAnimationSpeed);
-            float f = Math.min(pLimbSwingAmount * pAnimationScaleFactor, 1.0F);
-            KeyframeAnimations.animate(this, pAnimationDefinition, i, f, FintasticModel.ANIMATION_VECTOR_CACHE);
+    protected void animateWalk(AnimationDefinition animationDefinition, float limbSwing, float limbSwingAmount, float maxAnimationSpeed, float animationScaleFactor) {
+        if (limbSwing != 0 && limbSwingAmount != 0){
+            long i = (long)(limbSwing * 50.0F * maxAnimationSpeed);
+            float f = Math.min(limbSwingAmount * animationScaleFactor, 1.0F);
+            KeyframeAnimations.animate(this, animationDefinition, i, f, FintasticModel.ANIMATION_VECTOR_CACHE);
         }
     }
 
-    protected void animate(AnimationState pAnimationState, AnimationDefinition pAnimationDefinition, float pAgeInTicks, float pSpeed) {
-        pAnimationState.updateTime(pAgeInTicks, pSpeed);
-        pAnimationState.ifStarted((p_233392_) -> {
-            KeyframeAnimations.animate(this, pAnimationDefinition, p_233392_.getAccumulatedTime(), 1.0F, FintasticModel.ANIMATION_VECTOR_CACHE);
+    protected void animate(AnimationState animationState, AnimationDefinition animationDefinition, float ageInTicks, float speed) {
+        animationState.updateTime(ageInTicks, speed);
+        animationState.ifStarted((state) -> {
+            KeyframeAnimations.animate(this, animationDefinition, state.getAccumulatedTime(), 1.0F, FintasticModel.ANIMATION_VECTOR_CACHE);
         });
     }
 
-    protected void applyStatic(AnimationDefinition pAnimationDefinition) {
-        KeyframeAnimations.animate(this, pAnimationDefinition, 0L, 1.0F, FintasticModel.ANIMATION_VECTOR_CACHE);
+    protected void applyStatic(AnimationDefinition animationDefinition) {
+        KeyframeAnimations.animate(this, animationDefinition, 0L, 1.0F, FintasticModel.ANIMATION_VECTOR_CACHE);
     }
 }

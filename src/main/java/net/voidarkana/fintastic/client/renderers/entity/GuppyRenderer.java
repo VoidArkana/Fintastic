@@ -22,16 +22,16 @@ public class GuppyRenderer <T extends Guppy> extends MobRenderer<T, FintasticMod
     private final GuppyModel<T> modelAdult;
     private final BabyGuppyModel<T> modelBaby;
 
-    public GuppyRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new GuppyModel<>(pContext.bakeLayer(FintasticLayers.GUPPY)), 0.25f);
+    public GuppyRenderer(EntityRendererProvider.Context context) {
+        super(context, new GuppyModel<>(context.bakeLayer(FintasticLayers.GUPPY)), 0.25f);
 
-        this.modelAdult = new GuppyModel<>(pContext.bakeLayer(FintasticLayers.GUPPY));
-        this.modelBaby = new BabyGuppyModel<>(pContext.bakeLayer(FintasticLayers.BABY_GUPPY));
+        this.modelAdult = new GuppyModel<>(context.bakeLayer(FintasticLayers.GUPPY));
+        this.modelBaby = new BabyGuppyModel<>(context.bakeLayer(FintasticLayers.BABY_GUPPY));
 
-        this.addLayer(new GuppyFins<>(this, pContext));
-        this.addLayer(new GuppyTail<>(this, pContext));
-        this.addLayer(new GuppyPatternMain<>(this, pContext));
-        this.addLayer(new GuppyPatternSecond<>(this, pContext));
+        this.addLayer(new GuppyFins<>(this, context));
+        this.addLayer(new GuppyTail<>(this, context));
+        this.addLayer(new GuppyPatternMain<>(this, context));
+        this.addLayer(new GuppyPatternSecond<>(this, context));
     }
 
     @Override
@@ -48,16 +48,16 @@ public class GuppyRenderer <T extends Guppy> extends MobRenderer<T, FintasticMod
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T pEntity) {
-        if (pEntity.isBaby())
-            return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/guppy/baby_guppy.png");
+    public ResourceLocation getTextureLocation(T entity) {
+        if (entity.isBaby())
+            return Fintastic.location("textures/entity/guppy/baby_guppy.png");
         else
-            return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/guppy/base/guppy_base_"+pEntity.getVariant()+".png");
+            return Fintastic.location("textures/entity/guppy/base/guppy_base_"+entity.getVariant()+".png");
     }
 
     @Override
-    protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));
+    protected void setupRotations(T entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(entityLiving.currentRoll*360/4));
     }
 }

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "fintastic:block/stromatolite_bricks_slab"
+    },
+    "type=double": {
+      "model": "fintastic:block/stromatolite_bricks"
+    },
+    "type=top": {
+      "model": "fintastic:block/stromatolite_bricks_slab_top"
+    }
+  }
+}

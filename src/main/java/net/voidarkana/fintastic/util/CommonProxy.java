@@ -2,11 +2,8 @@ package net.voidarkana.fintastic.util;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.server.ServerLifecycleHooks;
-import net.voidarkana.fintastic.Fintastic;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
-@Mod.EventBusSubscriber(modid = Fintastic.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonProxy {
     public void init() {
     }
@@ -23,6 +20,7 @@ public class CommonProxy {
     }
 
     public Level getWorld() {
+        assert ServerLifecycleHooks.getCurrentServer() != null;
         return ServerLifecycleHooks.getCurrentServer().overworld();
     }
 }

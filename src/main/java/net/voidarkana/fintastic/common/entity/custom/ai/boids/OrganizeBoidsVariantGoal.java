@@ -8,19 +8,17 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class OrganizeBoidsVariantGoal extends Goal {
-    
-    private static final int INTERVAL_TICKS = 200;
+
     private final VariantBoidingFish mob;
-    private int timeToRecalcPath;
     private int nextStartTick;
 
-    public OrganizeBoidsVariantGoal(VariantBoidingFish pFish) {
-        this.mob = pFish;
-        this.nextStartTick = this.nextStartTick(pFish);
+    public OrganizeBoidsVariantGoal(VariantBoidingFish fish) {
+        this.mob = fish;
+        this.nextStartTick = this.nextStartTick(fish);
     }
 
-    protected int nextStartTick(VariantBoidingFish pTaskOwner) {
-        return reducedTickDelay(200 + pTaskOwner.getRandom().nextInt(200) % 20);
+    protected int nextStartTick(VariantBoidingFish taskOwner) {
+        return reducedTickDelay(200 + taskOwner.getRandom().nextInt(200) % 20);
     }
 
     public boolean canUse() {
@@ -33,14 +31,10 @@ public class OrganizeBoidsVariantGoal extends Goal {
             return false;
         } else {
             this.nextStartTick = this.nextStartTick(this.mob);
-            Predicate<VariantBoidingFish> predicate = (p_25258_) -> {
-                return p_25258_.canBeFollowed() || !p_25258_.isFollower();
-            };
+            Predicate<VariantBoidingFish> predicate = (fish) -> fish.canBeFollowed() || !fish.isFollower();
             List<? extends VariantBoidingFish> list = this.mob.level().getEntitiesOfClass(this.mob.getClass(), this.mob.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
             VariantBoidingFish abstractschoolingfish = DataFixUtils.orElse(list.stream().filter(VariantBoidingFish::canBeFollowed).findAny(), this.mob);
-            abstractschoolingfish.addFollowers(list.stream().filter((p_25255_) -> {
-                return !p_25255_.isFollower();
-            }));
+            abstractschoolingfish.addFollowers(list.stream().filter((fish) -> !fish.isFollower()));
             return this.mob.isFollower();
         }
     }
@@ -50,7 +44,6 @@ public class OrganizeBoidsVariantGoal extends Goal {
     }
 
     public void start() {
-        this.timeToRecalcPath = 0;
     }
 
     public void stop() {

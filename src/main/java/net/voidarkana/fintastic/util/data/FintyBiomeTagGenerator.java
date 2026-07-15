@@ -6,8 +6,8 @@ import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
@@ -16,19 +16,19 @@ import java.util.concurrent.CompletableFuture;
 
 public class FintyBiomeTagGenerator extends BiomeTagsProvider {
 
-    public FintyBiomeTagGenerator(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pProvider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(pOutput, pProvider, Fintastic.MOD_ID, existingFileHelper);
+    public FintyBiomeTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, provider, Fintastic.MOD_ID, existingFileHelper);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider pProvider) {
+    protected void addTags(HolderLookup.Provider provider) {
 
         this.tag(FintyTags.Biomes.FEATHERBACK_BIOMES)
                 .addTag(Tags.Biomes.IS_SWAMP);
 
         this.tag(FintyTags.Biomes.ARAPAIMA_BIOMES)
                 .addTag(BiomeTags.IS_JUNGLE)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
 
         this.tag(FintyTags.Biomes.CATFISH_BIOMES)
                 .addTag(BiomeTags.IS_RIVER)
@@ -45,7 +45,7 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
         this.tag(FintyTags.Biomes.FWSHARK_BIOMES)
                 .addTag(BiomeTags.IS_RIVER)
                 .addTag(BiomeTags.IS_JUNGLE)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
 
         this.tag(FintyTags.Biomes.MINNOW_SURFACE_BIOMES)
                 .addTag(BiomeTags.IS_RIVER)
@@ -53,13 +53,13 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
                 .addTag(Tags.Biomes.IS_SWAMP)
                 .addTag(BiomeTags.IS_BEACH)
                 .addTag(BiomeTags.IS_OCEAN)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
 
 
         this.tag(FintyTags.Biomes.PLECO_BIOMES)
                 .addTag(BiomeTags.IS_JUNGLE)
                 .addTag(Tags.Biomes.IS_SWAMP)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
 
         this.tag(FintyTags.Biomes.ARTEMIA_BIOMES)
                 .addTag(Tags.Biomes.IS_DESERT);
@@ -106,7 +106,7 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
 
         this.tag(FintyTags.Biomes.ANUBIAS_BIOMES)
                 .addTag(BiomeTags.IS_JUNGLE)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
 
         this.tag(FintyTags.Biomes.HORNWORT_BIOMES)
                 .add(Biomes.RIVER);
@@ -121,16 +121,16 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
                 .addTag(BiomeTags.IS_JUNGLE)
                 .addTag(Tags.Biomes.IS_SWAMP)
                 .addTag(Tags.Biomes.IS_LUSH)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
 
         this.tag(FintyTags.Biomes.AMAZON_SWORD_BIOMES)
                 .addTag(BiomeTags.IS_JUNGLE)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
 
         this.tag(FintyTags.Biomes.LOTUS_BIOMES)
                 .addTag(Tags.Biomes.IS_SWAMP)
                 .addTag(BiomeTags.IS_JUNGLE)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
 
         this.tag(FintyTags.Biomes.COD_BIOMES)
                 .addTag(BiomeTags.IS_OCEAN);
@@ -146,12 +146,12 @@ public class FintyBiomeTagGenerator extends BiomeTagsProvider {
         this.tag(FintyTags.Biomes.DWARF_FROG_BIOMES)
                 .addTag(Tags.Biomes.IS_SWAMP)
                 .addTag(BiomeTags.IS_JUNGLE)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
 
         this.tag(FintyTags.Biomes.SMALL_CATFISH_BIOMES)
                 .add(Biomes.SWAMP)
                 .addTag(BiomeTags.IS_JUNGLE)
-                .addOptional(new ResourceLocation("atmospheric:rainforest"));
+                .addOptional(ResourceLocation.parse("atmospheric:rainforest"));
     }
 
 }

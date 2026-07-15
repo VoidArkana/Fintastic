@@ -8,18 +8,17 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class FollowVariantSchoolLeaderGoal extends Goal {
-    private static final int INTERVAL_TICKS = 200;
     private final VariantSchoolingFish mob;
     private int timeToRecalcPath;
     private int nextStartTick;
 
-    public FollowVariantSchoolLeaderGoal(VariantSchoolingFish pFish) {
-        this.mob = pFish;
-        this.nextStartTick = this.nextStartTick(pFish);
+    public FollowVariantSchoolLeaderGoal(VariantSchoolingFish fish) {
+        this.mob = fish;
+        this.nextStartTick = this.nextStartTick(fish);
     }
 
-    protected int nextStartTick(VariantSchoolingFish pTaskOwner) {
-        return reducedTickDelay(200 + pTaskOwner.getRandom().nextInt(200) % 20);
+    protected int nextStartTick(VariantSchoolingFish taskOwner) {
+        return reducedTickDelay(200 + taskOwner.getRandom().nextInt(200) % 20);
     }
 
     public boolean canUse() {
@@ -32,14 +31,10 @@ public class FollowVariantSchoolLeaderGoal extends Goal {
             return false;
         } else {
             this.nextStartTick = this.nextStartTick(this.mob);
-            Predicate<VariantSchoolingFish> predicate = (fish) -> {
-                return fish.canBeFollowed() || !fish.isFollower();
-            };
+            Predicate<VariantSchoolingFish> predicate = (fish) -> fish.canBeFollowed() || !fish.isFollower();
             List<? extends VariantSchoolingFish> list = this.mob.level().getEntitiesOfClass(this.mob.getClass(), this.mob.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
             VariantSchoolingFish abstractschoolingfish = DataFixUtils.orElse(list.stream().filter(VariantSchoolingFish::canBeFollowed).findAny(), this.mob);
-            abstractschoolingfish.addFollowers(list.stream().filter((fish) -> {
-                return !fish.isFollower();
-            }));
+            abstractschoolingfish.addFollowers(list.stream().filter((fish) -> !fish.isFollower()));
             return this.mob.isFollower();
         }
     }

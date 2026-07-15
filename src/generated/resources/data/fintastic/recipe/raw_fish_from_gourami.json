@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "fintastic:gourami"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "fintastic:raw_fish"
+  }
+}

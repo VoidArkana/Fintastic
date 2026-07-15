@@ -9,7 +9,6 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
-import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.animation.MoonyAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Moony;
@@ -75,19 +74,19 @@ public class MoonyMidModel<T extends Moony> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(Moony pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+	public void setupAnim(Moony entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		if (this.young)
-			pLimbSwing /= 2;
+			limbSwing /= 2;
 
-		this.animateIdle(pEntity.idleAnimationState, MoonyAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, MoonyAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(entity.idleAnimationState, MoonyAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount)));
+		this.animateIdle(entity.idleAnimationState, MoonyAnims.FLOP, ageInTicks, 1.0F,entity.getTicksOutsideWater()/3f);
 
-		if (pEntity.isInWaterOrBubble()){
-			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
-			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
+		if (entity.isInWaterOrBubble()){
+			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F);
+			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2);
 
-			this.animateWalk(MoonyAnims.SWIM, pLimbSwing, pLimbSwingAmount, 2f, 3f);
+			this.animateWalk(MoonyAnims.SWIM, limbSwing, limbSwingAmount, 2f, 3f);
 		}else {
 			this.applyStatic(MoonyAnims.MOONYMID_FLOP);
 
@@ -97,7 +96,7 @@ public class MoonyMidModel<T extends Moony> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
 		poseStack.pushPose();
 
 		if (this.young){
@@ -105,7 +104,7 @@ public class MoonyMidModel<T extends Moony> extends FintasticModel<T> {
 			poseStack.translate(0, 1, 0);
 		}
 
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 		poseStack.popPose();
 	}
 

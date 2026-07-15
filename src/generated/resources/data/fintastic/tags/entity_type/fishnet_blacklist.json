@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "alexsmobs:cachalot_whale",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:orca",
+      "required": false
+    },
+    {
+      "id": "alexscaves:hullbreaker",
+      "required": false
+    }
+  ]
+}

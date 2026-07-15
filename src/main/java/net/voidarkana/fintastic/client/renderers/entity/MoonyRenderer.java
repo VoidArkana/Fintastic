@@ -21,11 +21,11 @@ public class MoonyRenderer extends MobRenderer<Moony, FintasticModel<Moony>> {
     private final MoonySmallModel<Moony> moonySmallModel;
     private final MoonyTallModel<Moony> moonyTallModel;
 
-    public MoonyRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new MoonyMidModel<>(pContext.bakeLayer(FintasticLayers.MOONYMID_LAYER)), 0.5f);
-        this.moonyMidModel = new MoonyMidModel<>(pContext.bakeLayer(FintasticLayers.MOONYMID_LAYER));
-        this.moonySmallModel = new MoonySmallModel<>(pContext.bakeLayer(FintasticLayers.MOONYSMALL_LAYER));
-        this.moonyTallModel = new MoonyTallModel<>(pContext.bakeLayer(FintasticLayers.MOONYTALL_LAYER));
+    public MoonyRenderer(EntityRendererProvider.Context context) {
+        super(context, new MoonyMidModel<>(context.bakeLayer(FintasticLayers.MOONYMID_LAYER)), 0.5f);
+        this.moonyMidModel = new MoonyMidModel<>(context.bakeLayer(FintasticLayers.MOONYMID_LAYER));
+        this.moonySmallModel = new MoonySmallModel<>(context.bakeLayer(FintasticLayers.MOONYSMALL_LAYER));
+        this.moonyTallModel = new MoonyTallModel<>(context.bakeLayer(FintasticLayers.MOONYTALL_LAYER));
     }
 
     @Override
@@ -47,14 +47,14 @@ public class MoonyRenderer extends MobRenderer<Moony, FintasticModel<Moony>> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Moony pEntity) {
-        Moony.MoonyVariant variant = Moony.MoonyVariant.byId(pEntity.getVariant());
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/moony/"+variant.getSerializedName()+".png");
+    public ResourceLocation getTextureLocation(Moony entity) {
+        Moony.MoonyVariant variant = Moony.MoonyVariant.byId(entity.getVariant());
+        return Fintastic.location("textures/entity/moony/"+variant.getSerializedName()+".png");
     }
 
     @Override
-    protected void setupRotations(Moony pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees((pEntityLiving.currentRoll*360)/4));
+    protected void setupRotations(Moony entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
+        poseStack.mulPose(Axis.ZP.rotationDegrees((entityLiving.currentRoll*360)/4));
     }
 }

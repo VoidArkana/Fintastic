@@ -60,18 +60,18 @@ public class MinnowHatchetModel<T extends Minnow> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(Minnow pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+	public void setupAnim(Minnow entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		if (this.young)
-			pLimbSwing /= 2;
+			limbSwing /= 2;
 
-		this.animateIdle(pEntity.idleAnimationState, MinnowAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, MinnowAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(entity.idleAnimationState, MinnowAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount)));
+		this.animateIdle(entity.idleAnimationState, MinnowAnims.FLOP, ageInTicks, 1.0F,entity.getTicksOutsideWater()/3f);
 
-		if (pEntity.isInWaterOrBubble()){
-			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
-			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
-			this.animateWalk(MinnowAnims.SWIM, pLimbSwing, pLimbSwingAmount, 2f, 3f);
+		if (entity.isInWaterOrBubble()){
+			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F);
+			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2);
+			this.animateWalk(MinnowAnims.SWIM, limbSwing, limbSwingAmount, 2f, 3f);
 		}else {
 			this.swim_rot.resetPose();
 			this.applyStatic(MinnowAnims.HATCHET_FLOP);
@@ -79,8 +79,8 @@ public class MinnowHatchetModel<T extends Minnow> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, red,green,blue,alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+		super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 	}
 
 	@Override

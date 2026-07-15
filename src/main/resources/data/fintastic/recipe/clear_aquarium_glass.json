@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "fintastic:aquarium_glass"
+  },
+  "result": {
+    "id": "fintastic:clear_aquarium_glass"
+  },
+  "experience": 0.35,
+  "cookingtime": 200
+}

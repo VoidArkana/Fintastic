@@ -1,5 +1,7 @@
 package net.voidarkana.fintastic.common.entity.custom.base;
 
+import net.minecraft.advancements.critereon.BredAnimalsTrigger;
+import net.voidarkana.fintastic.mixin.common.SimpleCriterionTriggerInvoker;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.particles.ParticleTypes;
@@ -34,9 +36,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.eventbus.api.Cancelable;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyTags;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -50,15 +55,15 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     @Nullable
     public RandomSwimmingGoal randomSwimmingGoal;
 
-    protected BreedableWaterAnimal(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    protected BreedableWaterAnimal(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
         if (hasNormalControls()){
             this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
             this.lookControl = new SmoothSwimmingLookControl(this, 10);
         }
     }
 
-    public void calculateEntityAnimation(boolean pIncludeHeight) {
+    public void calculateEntityAnimation(boolean includeHeight) {
         float f = (float)Mth.length(this.getX() - this.xo, this.floatsDown()  ? 0 : this.getY() - this.yo , this.getZ() - this.zo);
         this.updateWalkAnimation(f);
     }
@@ -89,34 +94,32 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     //ageable mob
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(BreedableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
-    public static final int BABY_START_AGE = -24000;
-    private static final int FORCED_AGE_PARTICLE_TICKS = 40;
     protected int age;
     protected int forcedAge;
     protected int forcedAgeTimer;
 
 
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor level, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        if (pSpawnData == null) {
-            pSpawnData = new BreedableWaterAnimal.AgeableFishGroupData(true);
+        if (spawnData == null) {
+            spawnData = new BreedableWaterAnimal.AgeableFishGroupData(true);
         }
 
-        if (pReason == MobSpawnType.STRUCTURE && this instanceof Bucketable bucketable){
+        if (reason == MobSpawnType.STRUCTURE && this instanceof Bucketable bucketable){
             bucketable.setFromBucket(true);
         }
 
-        BreedableWaterAnimal.AgeableFishGroupData ageablemob$ageablemobgroupdata = (BreedableWaterAnimal.AgeableFishGroupData)pSpawnData;
-        if (ageablemob$ageablemobgroupdata.isShouldSpawnBaby() && ageablemob$ageablemobgroupdata.getGroupSize() > 0 && pLevel.getRandom().nextFloat() <= ageablemob$ageablemobgroupdata.getBabySpawnChance()) {
+        BreedableWaterAnimal.AgeableFishGroupData ageablemob$ageablemobgroupdata = (BreedableWaterAnimal.AgeableFishGroupData)spawnData;
+        if (ageablemob$ageablemobgroupdata.isShouldSpawnBaby() && ageablemob$ageablemobgroupdata.getGroupSize() > 0 && level.getRandom().nextFloat() <= ageablemob$ageablemobgroupdata.getBabySpawnChance()) {
             this.setAge(-24000);
         }
 
         ageablemob$ageablemobgroupdata.increaseGroupSizeByOne();
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     @Nullable
-    public abstract BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent);
+    public abstract BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent);
 
     public int getAge() {
         if (this.level().isClientSide) {
@@ -126,17 +129,15 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         }
     }
 
-    public void ageUp(int pAmount, boolean pForced) {
+    public void ageUp(int amount, boolean forced) {
         int i = this.getAge();
-        i += pAmount * 20;
+        i += amount * 20;
         if (i > 0) {
             i = 0;
         }
 
-        int j = i - i;
         this.setAge(i);
-        if (pForced) {
-            this.forcedAge += j;
+        if (forced) {
             if (this.forcedAgeTimer == 0) {
                 this.forcedAgeTimer = 40;
             }
@@ -148,26 +149,26 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     }
 
-    public void ageUp(int pAmount) {
-        this.ageUp(pAmount, false);
+    public void ageUp(int amount) {
+        this.ageUp(amount, false);
     }
 
-    public void setAge(int pAge) {
+    public void setAge(int age) {
         int i = this.getAge();
-        this.age = pAge;
-        if (i < 0 && pAge >= 0 || i >= 0 && pAge < 0) {
-            this.entityData.set(DATA_BABY_ID, pAge < 0);
+        this.age = age;
+        if (i < 0 && age >= 0 || i >= 0 && age < 0) {
+            this.entityData.set(DATA_BABY_ID, age < 0);
             this.ageBoundaryReached();
         }
 
     }
 
-    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
-        if (DATA_BABY_ID.equals(pKey)) {
+    public void onSyncedDataUpdated(@NotNull EntityDataAccessor<?> key) {
+        if (DATA_BABY_ID.equals(key)) {
             this.refreshDimensions();
         }
 
-        super.onSyncedDataUpdated(pKey);
+        super.onSyncedDataUpdated(key);
     }
 
     protected void ageBoundaryReached() {
@@ -187,12 +188,12 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         return this.getAge() < 0;
     }
 
-    public void setBaby(boolean pBaby) {
-        this.setAge(pBaby ? -24000 : 0);
+    public void setBaby(boolean baby) {
+        this.setAge(baby ? -24000 : 0);
     }
 
-    public static int getSpeedUpSecondsWhenFeeding(int pTicksUntilAdult) {
-        return (int)((float)(pTicksUntilAdult / 20) * 0.1F);
+    public static int getSpeedUpSecondsWhenFeeding(int ticksUntilAdult) {
+        return (int)((float)(ticksUntilAdult / 20) * 0.1F);
     }
 
     public static class AgeableFishGroupData implements SpawnGroupData {
@@ -200,17 +201,17 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         private final boolean shouldSpawnBaby;
         private final float babySpawnChance;
 
-        private AgeableFishGroupData(boolean pShouldSpawnBaby, float pBabySpawnChance) {
-            this.shouldSpawnBaby = pShouldSpawnBaby;
-            this.babySpawnChance = pBabySpawnChance;
+        private AgeableFishGroupData(boolean shouldSpawnBaby, float babySpawnChance) {
+            this.shouldSpawnBaby = shouldSpawnBaby;
+            this.babySpawnChance = babySpawnChance;
         }
 
-        public AgeableFishGroupData(boolean pShouldSpawnBaby) {
-            this(pShouldSpawnBaby, 0.05F);
+        public AgeableFishGroupData(boolean shouldSpawnBaby) {
+            this(shouldSpawnBaby, 0.05F);
         }
 
-        public AgeableFishGroupData(float pBabySpawnChance) {
-            this(true, pBabySpawnChance);
+        public AgeableFishGroupData(float babySpawnChance) {
+            this(true, babySpawnChance);
         }
 
         public int getGroupSize() {
@@ -249,9 +250,9 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         super.customServerAiStep();
     }
 
-    public void travel(Vec3 pTravelVector) {
+    public void travel(@NotNull Vec3 travelVector) {
         if (this.isEffectiveAi() && this.isInWater()) {
-            this.moveRelative(this.getSpeed(), pTravelVector);
+            this.moveRelative(this.getSpeed(), travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
             if (this.getTarget() == null && this.floatsUp()) {
@@ -261,7 +262,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.009D, 0.0D));
             }
         } else {
-            super.travel(pTravelVector);
+            super.travel(travelVector);
         }
 
     }
@@ -275,7 +276,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         return false;
     }
 
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
         return SoundEvents.COD_HURT;
     }
 
@@ -287,30 +288,30 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         return SoundEvents.COD_DEATH;
     }
 
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return SoundEvents.FISH_SWIM;
     }
 
-    protected void playSwimSound(float pVolume) {
+    protected void playSwimSound(float volume) {
         this.playSound(this.getSwimSound(), 0, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
     }
 
-    public boolean hurt(DamageSource pSource, float pAmount) {
-        if (this.isInvulnerableTo(pSource)) {
+    public boolean hurt(@NotNull DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
             return false;
         } else {
             this.inLove = 0;
-            return super.hurt(pSource, pAmount);
+            return super.hurt(source, amount);
         }
     }
 
-    public int getExperienceReward() {
+    public int getBaseExperienceReward() {
         return 1 + this.level().random.nextInt(3);
     }
 
-    protected void usePlayerItem(Player pPlayer, InteractionHand pHand, ItemStack pStack) {
-        if (!pPlayer.getAbilities().instabuild) {
-            pStack.shrink(1);
+    protected void usePlayerItem(Player player, InteractionHand hand, ItemStack stack) {
+        if (!player.getAbilities().instabuild) {
+            stack.shrink(1);
         }
 
     }
@@ -319,17 +320,17 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         return this.inLove <= 0;
     }
 
-    public void setInLove(@Nullable Player pPlayer) {
+    public void setInLove(@Nullable Player player) {
         this.inLove = 600;
-        if (pPlayer != null) {
-            this.loveCause = pPlayer.getUUID();
+        if (player != null) {
+            this.loveCause = player.getUUID();
         }
 
         this.level().broadcastEntityEvent(this, (byte)18);
     }
 
-    public void setInLoveTime(int pInLove) {
-        this.inLove = pInLove;
+    public void setInLoveTime(int inLove) {
+        this.inLove = inLove;
     }
 
     public int getInLoveTime() {
@@ -354,96 +355,96 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         this.inLove = 0;
     }
 
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        if (pOtherAnimal == this) {
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        if (otherAnimal == this) {
             return false;
-        } else if (pOtherAnimal.getClass() != this.getClass()) {
+        } else if (otherAnimal.getClass() != this.getClass()) {
             return false;
         } else {
-            return this.isInLove() && pOtherAnimal.isInLove();
+            return this.isInLove() && otherAnimal.isInLove();
         }
     }
 
-    public void spawnChildFromBreeding(ServerLevel pLevel, BreedableWaterAnimal pMate) {
-        BreedableWaterAnimal ageablemob = this.getBreedOffspring(pLevel, pMate);
+    public void spawnChildFromBreeding(ServerLevel level, BreedableWaterAnimal mate) {
+        BreedableWaterAnimal ageablemob = this.getBreedOffspring(level, mate);
         BreedableWaterAnimal ageableMob2 = null;
         BreedableWaterAnimal ageableMob3 = null;
         BreedableWaterAnimal ageableMob4 = null;
         BreedableWaterAnimal ageableMob5 = null;
 
-        int lowerQuality = Math.min(this.getFeedQuality(), pMate.getFeedQuality());
+        int lowerQuality = Math.min(this.getFeedQuality(), mate.getFeedQuality());
 
-        final BreedableWaterAnimal.BabyFishSpawnEvent event = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageablemob);
+        final BreedableWaterAnimal.BabyFishSpawnEvent event = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageablemob);
         ageablemob = event.getChild();
 
         if ((lowerQuality > 0 && this.random.nextBoolean()) || lowerQuality > 2){
-            ageableMob2 = this.getBreedOffspring(pLevel, pMate);
-            final BreedableWaterAnimal.BabyFishSpawnEvent event2 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageableMob2);
+            ageableMob2 = this.getBreedOffspring(level, mate);
+            final BreedableWaterAnimal.BabyFishSpawnEvent event2 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageableMob2);
             ageableMob2 = event2.getChild();
 
             if ((lowerQuality > 1 && this.random.nextInt(4)==0) || (lowerQuality > 2 && this.random.nextBoolean())){
-                ageableMob3 = this.getBreedOffspring(pLevel, pMate);
-                final BreedableWaterAnimal.BabyFishSpawnEvent event3 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageableMob3);
+                ageableMob3 = this.getBreedOffspring(level, mate);
+                final BreedableWaterAnimal.BabyFishSpawnEvent event3 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageableMob3);
                 ageableMob3 = event3.getChild();
 
                 if (lowerQuality > 2 && this.random.nextBoolean()){
 
-                    ageableMob4 = this.getBreedOffspring(pLevel, pMate);
-                    final BreedableWaterAnimal.BabyFishSpawnEvent event4 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageableMob4);
+                    ageableMob4 = this.getBreedOffspring(level, mate);
+                    final BreedableWaterAnimal.BabyFishSpawnEvent event4 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageableMob4);
                     ageableMob4 = event4.getChild();
 
                     if (this.random.nextBoolean()){
-                        ageableMob5 = this.getBreedOffspring(pLevel, pMate);
-                        final BreedableWaterAnimal.BabyFishSpawnEvent event5 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageableMob5);
+                        ageableMob5 = this.getBreedOffspring(level, mate);
+                        final BreedableWaterAnimal.BabyFishSpawnEvent event5 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageableMob5);
                         ageableMob5 = event5.getChild();
                     }
                 }
             }
         }
 
-        final boolean cancelled = net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event);
+        final boolean cancelled = NeoForge.EVENT_BUS.post(event).isCanceled();
         if (cancelled) {
             //Reset the "inLove" state for the animals
             this.setAge(6000);
-            pMate.setAge(6000);
+            mate.setAge(6000);
             this.resetLove();
-            pMate.resetLove();
+            mate.resetLove();
             return;
         }
         if (ageablemob != null) {
 
             ageablemob.setBaby(true);
             ageablemob.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-            this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageablemob);
-            pLevel.addFreshEntityWithPassengers(ageablemob);
+            this.finalizeSpawnChildFromBreeding(level, mate, ageablemob);
+            level.addFreshEntityWithPassengers(ageablemob);
 
             if (ageableMob2 != null){
 
                 ageableMob2.setBaby(true);
                 ageableMob2.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-                this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageableMob2);
-                pLevel.addFreshEntityWithPassengers(ageableMob2);
+                this.finalizeSpawnChildFromBreeding(level, mate, ageableMob2);
+                level.addFreshEntityWithPassengers(ageableMob2);
 
                 if (ageableMob3 != null){
 
                     ageableMob3.setBaby(true);
                     ageableMob3.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-                    this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageableMob3);
-                    pLevel.addFreshEntityWithPassengers(ageableMob3);
+                    this.finalizeSpawnChildFromBreeding(level, mate, ageableMob3);
+                    level.addFreshEntityWithPassengers(ageableMob3);
 
                     if (ageableMob4 != null){
 
                         ageableMob4.setBaby(true);
                         ageableMob4.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-                        this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageableMob4);
-                        pLevel.addFreshEntityWithPassengers(ageableMob4);
+                        this.finalizeSpawnChildFromBreeding(level, mate, ageableMob4);
+                        level.addFreshEntityWithPassengers(ageableMob4);
 
                         if (ageableMob5 != null){
 
                             ageableMob5.setBaby(true);
                             ageableMob5.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-                            this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageableMob5);
-                            pLevel.addFreshEntityWithPassengers(ageableMob5);
+                            this.finalizeSpawnChildFromBreeding(level, mate, ageableMob5);
+                            level.addFreshEntityWithPassengers(ageableMob5);
                         }
                     }
                 }
@@ -451,15 +452,14 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         }
     }
 
-    @Cancelable
-    public class BabyFishSpawnEvent extends net.minecraftforge.eventbus.api.Event
+    public class BabyFishSpawnEvent extends Event implements ICancellableEvent
     {
         private final Mob parentA;
         private final Mob parentB;
         private final Player causedByPlayer;
         private BreedableWaterAnimal child;
 
-        public BabyFishSpawnEvent(Mob parentA, Mob parentB, @org.jetbrains.annotations.Nullable BreedableWaterAnimal proposedChild)
+        public BabyFishSpawnEvent(Mob parentA, Mob parentB, @Nullable BreedableWaterAnimal proposedChild)
         {
             //causedByPlayer calculated here to simplify the patch.
             Player causedByPlayer = null;
@@ -488,13 +488,13 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             return parentB;
         }
 
-        @org.jetbrains.annotations.Nullable
+        @Nullable
         public Player getCausedByPlayer()
         {
             return causedByPlayer;
         }
 
-        @org.jetbrains.annotations.Nullable
+        @Nullable
         public BreedableWaterAnimal getChild()
         {
             return child;
@@ -506,31 +506,30 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         }
     }
 
-    public void finalizeSpawnChildFromBreeding(ServerLevel pLevel, BreedableWaterAnimal pAnimal, @Nullable BreedableWaterAnimal pBaby) {
-        Optional.ofNullable(this.getLoveCause()).or(() -> {
-            return Optional.ofNullable(pAnimal.getLoveCause());
-        }).ifPresent((p_277486_) -> {
-            p_277486_.awardStat(Stats.ANIMALS_BRED);
+    public void finalizeSpawnChildFromBreeding(ServerLevel level, BreedableWaterAnimal animal, @Nullable BreedableWaterAnimal baby) {
+        Optional.ofNullable(this.getLoveCause()).or(() -> Optional.ofNullable(animal.getLoveCause())).ifPresent((player) -> {
+            player.awardStat(Stats.ANIMALS_BRED);
             //CriteriaTriggers.BRED_ANIMALS.trigger(p_277486_, this, pAnimal, pBaby);
 
-            LootContext $$4 = EntityPredicate.createContext(p_277486_, this);
-            LootContext $$5 = EntityPredicate.createContext(p_277486_, pAnimal);
-            LootContext $$6 = pBaby != null ? EntityPredicate.createContext(p_277486_, pBaby) : null;
-            CriteriaTriggers.BRED_ANIMALS.trigger(p_277486_, (p_18653_) -> p_18653_.matches($$4, $$5, $$6));
+            LootContext $$4 = EntityPredicate.createContext(player, this);
+            LootContext $$5 = EntityPredicate.createContext(player, animal);
+            LootContext $$6 = baby != null ? EntityPredicate.createContext(player, baby) : null;
+            ((SimpleCriterionTriggerInvoker<BredAnimalsTrigger.TriggerInstance>) CriteriaTriggers.BRED_ANIMALS)
+                    .fintastic$trigger(player, (triggerInstance) -> triggerInstance.matches($$4, $$5, $$6));
         });
         this.setAge(6000);
-        pAnimal.setAge(6000);
+        animal.setAge(6000);
         this.resetLove();
-        pAnimal.resetLove();
-        pLevel.broadcastEntityEvent(this, (byte)18);
-        if (pLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
-            pLevel.addFreshEntity(new ExperienceOrb(pLevel, this.getX(), this.getY(), this.getZ(), this.getRandom().nextInt(7) + 1));
+        animal.resetLove();
+        level.broadcastEntityEvent(this, (byte)18);
+        if (level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+            level.addFreshEntity(new ExperienceOrb(level, this.getX(), this.getY(), this.getZ(), this.getRandom().nextInt(7) + 1));
         }
 
     }
 
-    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+    public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
 
         if (itemstack.is(FintyItems.REGULAR_FEED.get())){
             this.setFeedQuality(0);
@@ -545,11 +544,11 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             this.setFeedQuality(3);
         }
 
-        return super.mobInteract(pPlayer, pHand);
+        return super.mobInteract(player, hand);
     }
 
-    public void handleEntityEvent(byte pId) {
-        if (pId == 18) {
+    public void handleEntityEvent(byte id) {
+        if (id == 18) {
             for(int i = 0; i < 7; ++i) {
                 double d0 = this.random.nextGaussian() * 0.02D;
                 double d1 = this.random.nextGaussian() * 0.02D;
@@ -557,7 +556,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
                 this.level().addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
             }
         } else {
-            super.handleEntityEvent(pId);
+            super.handleEntityEvent(id);
         }
 
     }
@@ -579,43 +578,43 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     private static final EntityDataAccessor<Integer> TICKS_OUTSIDE_WATER = SynchedEntityData.defineId(BreedableWaterAnimal.class, EntityDataSerializers.INT);
 
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(FEED_TYPE, 0);
-        this.entityData.define(CAN_GROW_UP, true);
-        this.entityData.define(DATA_BABY_ID, false);
-        this.entityData.define(TICKS_OUTSIDE_WATER, 0);
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FEED_TYPE, 0);
+        builder.define(CAN_GROW_UP, true);
+        builder.define(DATA_BABY_ID, false);
+        builder.define(TICKS_OUTSIDE_WATER, 0);
     }
 
-    public void addAdditionalSaveData(CompoundTag pCompound) {
-        super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("Age", this.getAge());
-        pCompound.putInt("ForcedAge", this.forcedAge);
-        pCompound.putBoolean("CanGrowUp", this.getCanGrowUp());
+    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("Age", this.getAge());
+        compound.putInt("ForcedAge", this.forcedAge);
+        compound.putBoolean("CanGrowUp", this.getCanGrowUp());
 
-        pCompound.putInt("FeedQuality", this.getFeedQuality());
+        compound.putInt("FeedQuality", this.getFeedQuality());
 
-        pCompound.putInt("InLove", this.inLove);
+        compound.putInt("InLove", this.inLove);
         if (this.loveCause != null) {
-            pCompound.putUUID("LoveCause", this.loveCause);
+            compound.putUUID("LoveCause", this.loveCause);
         }
     }
 
-    public void readAdditionalSaveData(CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
-        this.setAge(pCompound.getInt("Age"));
-        this.forcedAge = pCompound.getInt("ForcedAge");
-        this.setCanGrowUp(pCompound.getBoolean("CanGrowUp"));
+    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setAge(compound.getInt("Age"));
+        this.forcedAge = compound.getInt("ForcedAge");
+        this.setCanGrowUp(compound.getBoolean("CanGrowUp"));
 
-        this.setFeedQuality(pCompound.getInt("FeedQuality"));
+        this.setFeedQuality(compound.getInt("FeedQuality"));
 
-        this.inLove = pCompound.getInt("InLove");
-        this.loveCause = pCompound.hasUUID("LoveCause") ? pCompound.getUUID("LoveCause") : null;
+        this.inLove = compound.getInt("InLove");
+        this.loveCause = compound.hasUUID("LoveCause") ? compound.getUUID("LoveCause") : null;
     }
 
     @Override
-    protected PathNavigation createNavigation(Level pLevel) {
-        return new WaterBoundPathNavigation(this, pLevel);
+    protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
+        return new WaterBoundPathNavigation(this, level);
     }
 
     public int getFeedQuality() {
@@ -646,7 +645,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     public void aiStep() {
 
         if (!this.isInWater() && this.onGround() && this.verticalCollision && this.canFlop()) {
-            this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F), (double)0.4F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F)));
+            this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.random.nextFloat() * 2.0F - 1.0F) * 0.05F));
             this.setOnGround(false);
             this.hasImpulse = true;
             this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
@@ -727,7 +726,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         }
 
         float prevRoll =  this.currentRoll;
-        float targetRoll = Math.max(-0.45F, Math.min(0.45F, (this.getYRot() - this.yRotO) * 0.1F));
+        float targetRoll = Math.clamp((this.getYRot() - this.yRotO) * 0.1F, -0.45F, 0.45F);
         targetRoll = -targetRoll;
         this.currentRoll = prevRoll + (targetRoll - prevRoll) * 0.05F;
 
@@ -740,9 +739,9 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     }
 
     @Override
-    public InteractionResult interactAt(Player pPlayer, Vec3 pVec, InteractionHand pHand) {
+    public @NotNull InteractionResult interactAt(Player player, @NotNull Vec3 vec, @NotNull InteractionHand hand) {
 
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        ItemStack itemstack = player.getItemInHand(hand);
 
         int i = this.getAge();
 
@@ -796,13 +795,13 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             }
 
             if (!this.level().isClientSide && i == 0 && this.canFallInLove()) {
-                this.usePlayerItem(pPlayer, pHand, itemstack);
-                this.setInLove(pPlayer);
+                this.usePlayerItem(player, hand, itemstack);
+                this.setInLove(player);
                 return InteractionResult.SUCCESS;
             }
 
             if (this.isBaby()) {
-                this.usePlayerItem(pPlayer, pHand, itemstack);
+                this.usePlayerItem(player, hand, itemstack);
                 this.ageUp(getSpeedUpSecondsWhenFeeding(-i), true);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
@@ -812,15 +811,15 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             }
         }
 
-        return super.interactAt(pPlayer, pVec, pHand);
+        return super.interactAt(player, vec, hand);
     }
 
-    public static int getSpeedUpSecondsWhenFeedingFish(int pTicksUntilAdult, int multiplier) {
-        return (int)((float)(pTicksUntilAdult / 20) * 0.1F * (multiplier+1));
+    public static int getSpeedUpSecondsWhenFeedingFish(int ticksUntilAdult, int multiplier) {
+        return (int)((float)(ticksUntilAdult / 20) * 0.1F * (multiplier+1));
     }
 
-    public boolean isFood(ItemStack pStack) {
-        return FOOD_ITEMS.test(pStack);
+    public boolean isFood(ItemStack stack) {
+        return FOOD_ITEMS.test(stack);
     }
 
     protected SoundEvent getFlopSound() {

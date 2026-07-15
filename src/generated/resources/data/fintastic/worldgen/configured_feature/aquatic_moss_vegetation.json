@@ -1,0 +1,31 @@
+{
+  "type": "fintastic:simple_waterloggable_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "fintastic:aquatic_moss_carpet",
+            "Properties": {
+              "waterlogged": "false"
+            }
+          },
+          "weight": 25
+        },
+        {
+          "data": {
+            "Name": "fintastic:aquatic_moss_phyllid"
+          },
+          "weight": 30
+        },
+        {
+          "data": {
+            "Name": "minecraft:seagrass"
+          },
+          "weight": 25
+        }
+      ]
+    }
+  }
+}

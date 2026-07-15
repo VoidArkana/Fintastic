@@ -1,9 +1,9 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
@@ -26,14 +26,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.PartEntity;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishFollowParentGoal;
@@ -53,15 +55,15 @@ public class Arapaima extends BucketableFishEntity {
     public int ringBufferIndex = -1;
     public final float[][] ringBuffer = new float[64][3];
 
-    public Arapaima(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Arapaima(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
 
         this.head = new ArapaimaPart(this, 1.2F,0.9F );
         this.tail = new ArapaimaPart(this, 1.2F, 0.9F);
         this.allParts = new ArapaimaPart[]{this.head, this.tail};
 
-        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-        this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0F);
+        this.setPathfindingMalus(PathType.WATER, 0.0F);
+        this.setPathfindingMalus(PathType.WATER_BORDER, 0.0F);
         switchNavigator(true);
     }
 
@@ -170,7 +172,7 @@ public class Arapaima extends BucketableFishEntity {
     }
 
     @Override
-    public net.minecraftforge.entity.PartEntity<?>[] getParts() {
+    public PartEntity<?>[] getParts() {
         return this.allParts;
     }
 
@@ -193,8 +195,8 @@ public class Arapaima extends BucketableFishEntity {
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Arapaima baby = FintyEntities.ARAPAIMA.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        Arapaima baby = FintyEntities.ARAPAIMA.get().create(level);
         if (baby != null){
             baby.setFromBucket(true);
         }
@@ -202,57 +204,53 @@ public class Arapaima extends BucketableFishEntity {
     }
 
     @Override
-    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
-        ItemStack item = pPlayer.getItemInHand(pHand);
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack item = player.getItemInHand(hand);
 
         if (!this.isBaby() && item.is(Items.BUCKET)) {
-            pPlayer.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
-            ItemStack itemstack1 = ItemUtils.createFilledResult(item, pPlayer, Items.MILK_BUCKET.getDefaultInstance());
-            pPlayer.setItemInHand(pHand, itemstack1);
+            player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
+            ItemStack itemstack1 = ItemUtils.createFilledResult(item, player, Items.MILK_BUCKET.getDefaultInstance());
+            player.setItemInHand(hand, itemstack1);
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
 
-        return super.mobInteract(pPlayer, pHand);
+        return super.mobInteract(player, hand);
     }
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Age", this.getAge());
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Age", this.getAge());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
 
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));
+        }
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
         }
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Age", 3)) {
-
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));
-            }
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-            this.setAirSupply(this.getMaxAirSupply());
-
-        }else if (pReason == MobSpawnType.BUCKET && pDataTag == null){
+        if (reason == MobSpawnType.BUCKET){
             this.setAge(-24000);
             this.setAirSupply(this.getMaxAirSupply());
         }
 
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     @Override
@@ -263,11 +261,6 @@ public class Arapaima extends BucketableFishEntity {
     @Override
     public ItemStack getBucketItemStack() {
         return new ItemStack(FintyItems.ARAPAIMA_BUCKET.get());
-    }
-
-    @Override
-    public SoundEvent getPickupSound() {
-        return SoundEvents.BUCKET_FILL_FISH;
     }
 
     @Override
@@ -284,9 +277,9 @@ public class Arapaima extends BucketableFishEntity {
 
         private final Arapaima turtle;
 
-        MoveToWaterGoal(Arapaima pTurtle, double pSpeedModifier) {
-            super(pTurtle, pSpeedModifier, 24);
-            this.turtle = pTurtle;
+        MoveToWaterGoal(Arapaima turtle, double speedModifier) {
+            super(turtle, speedModifier, 24);
+            this.turtle = turtle;
             this.verticalSearchStart = -1;
         }
 
@@ -312,8 +305,8 @@ public class Arapaima extends BucketableFishEntity {
         /**
          * Return {@code true} to set given position as destination
          */
-        protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
-            return pLevel.getBlockState(pPos).is(Blocks.WATER);
+        protected boolean isValidTarget(LevelReader level, BlockPos pos) {
+            return level.getBlockState(pos).is(Blocks.WATER);
         }
     }
 

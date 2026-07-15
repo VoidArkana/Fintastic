@@ -11,7 +11,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -30,113 +31,112 @@ import net.minecraft.world.level.lighting.LightEngine;
 import net.minecraft.world.phys.BlockHitResult;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.worldgen.FintyConfiguredFeatures;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
 public class AlgaeLiveRockBlock extends CoralBlock implements BonemealableBlock {
 
-    public AlgaeLiveRockBlock(Block pDeadBlock, Properties pProperties) {
-        super(pDeadBlock, pProperties);
+    public AlgaeLiveRockBlock(Block deadBlock, Properties properties) {
+        super(deadBlock, properties);
     }
 
-    private static boolean canHaveAlgae(BlockState pState, LevelReader pReader, BlockPos pPos) {
-        BlockPos blockpos = pPos.above();
-        BlockState blockstate = pReader.getBlockState(blockpos);
-        int i = LightEngine.getLightBlockInto(pReader, pState, pPos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(pReader, blockpos));
-        return i < pReader.getMaxLightLevel();
+    private static boolean canHaveAlgae(BlockState state, LevelReader reader, BlockPos pos) {
+        BlockPos blockpos = pos.above();
+        BlockState blockstate = reader.getBlockState(blockpos);
+        int i = LightEngine.getLightBlockInto(reader, state, pos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(reader, blockpos));
+        return i >= reader.getMaxLightLevel();
     }
 
-    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (!canHaveAlgae(pState, pLevel, pPos)) {
-            pLevel.setBlockAndUpdate(pPos, pLevel.getBlockState(pPos).is(FintyBlocks.GREEN_ALGAE_LIVE_ROCK.get())
+    public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        if (canHaveAlgae(state, level, pos)) {
+            level.setBlockAndUpdate(pos, level.getBlockState(pos).is(FintyBlocks.GREEN_ALGAE_LIVE_ROCK.get())
                     ? FintyBlocks.LIVE_ROCK.get().defaultBlockState() : FintyBlocks.POROUS_LIVE_ROCK.get().defaultBlockState() );
         }
-        super.tick(pState, pLevel, pPos, pRandom);
+        super.tick(state, level, pos, random);
     }
 
     @Override
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        if (!canHaveAlgae(pState, pLevel, pCurrentPos)) {
-            pLevel.scheduleTick(pCurrentPos, this, 60 + pLevel.getRandom().nextInt(40));
+    public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
+        if (canHaveAlgae(state, level, currentPos)) {
+            level.scheduleTick(currentPos, this, 60 + level.getRandom().nextInt(40));
         }
 
-        return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 
     @Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        if (!canHaveAlgae(pContext.getLevel().getBlockState(pContext.getClickedPos()),
-                pContext.getLevel(), pContext.getClickedPos())) {
-            pContext.getLevel().scheduleTick(pContext.getClickedPos(), this, 60 + pContext.getLevel().getRandom().nextInt(40));
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        if (canHaveAlgae(context.getLevel().getBlockState(context.getClickedPos()),
+                context.getLevel(), context.getClickedPos())) {
+            context.getLevel().scheduleTick(context.getClickedPos(), this, 60 + context.getLevel().getRandom().nextInt(40));
         }
 
         return this.defaultBlockState();
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
-        return pLevel.getBlockState(pPos.above()).is(Blocks.WATER);
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, @NotNull BlockState state) {
+        return level.getBlockState(pos.above()).is(Blocks.WATER);
     }
 
     @Override
-    public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
         return true;
     }
 
-    public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
-        BlockState blockstate = pLevel.getBlockState(pPos);
-        BlockPos blockpos = pPos.above();
-        ChunkGenerator chunkgenerator = pLevel.getChunkSource().getGenerator();
-        Registry<ConfiguredFeature<?, ?>> registry = pLevel.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE);
+    public void performBonemeal(ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
+        BlockState blockstate = level.getBlockState(pos);
+        BlockPos blockpos = pos.above();
+        ChunkGenerator chunkgenerator = level.getChunkSource().getGenerator();
+        Registry<ConfiguredFeature<?, ?>> registry = level.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE);
         if (blockstate.is(FintyBlocks.RED_ALGAE_LIVE_ROCK.get())) {
-            this.place(registry, FintyConfiguredFeatures.RED_ALGAE_VEGETATION_BONEMEAL, pLevel, chunkgenerator, pRandom, blockpos);
+            this.place(registry, FintyConfiguredFeatures.RED_ALGAE_VEGETATION_BONEMEAL, level, chunkgenerator, random, blockpos);
 
         } else if (blockstate.is(FintyBlocks.GREEN_ALGAE_LIVE_ROCK.get())) {
-            this.place(registry, FintyConfiguredFeatures.GREEN_ALGAE_VEGETATION_BONEMEAL, pLevel, chunkgenerator, pRandom, blockpos);
+            this.place(registry, FintyConfiguredFeatures.GREEN_ALGAE_VEGETATION_BONEMEAL, level, chunkgenerator, random, blockpos);
         }
     }
 
-    private void place(Registry<ConfiguredFeature<?, ?>> pFeatureRegistry, ResourceKey<ConfiguredFeature<?, ?>> pFeatureKey,
-                       ServerLevel pLevel, ChunkGenerator pChunkGenerator, RandomSource pRandom, BlockPos pPos) {
-        pFeatureRegistry.getHolder(pFeatureKey).ifPresent((holder) -> {
-            holder.value().place(pLevel, pChunkGenerator, pRandom, pPos);
-        });
+    private void place(Registry<ConfiguredFeature<?, ?>> featureRegistry, ResourceKey<ConfiguredFeature<?, ?>> featureKey,
+                       ServerLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos pos) {
+        featureRegistry.getHolder(featureKey).ifPresent((holder) -> holder.value().place(level, chunkGenerator, random, pos));
     }
 
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        ItemStack stack = pPlayer.getItemInHand(pHand);
+    @Override
+    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (stack.is(Items.SHEARS)) {
-            if(pState.is(FintyBlocks.RED_ALGAE_LIVE_ROCK.get())){
+            if(state.is(FintyBlocks.RED_ALGAE_LIVE_ROCK.get())){
 
-                if (!pPlayer.isCreative() && pPlayer instanceof ServerPlayer player){
-                    stack.hurt(1, pPlayer.getRandom(), player);
+                if (!player.isCreative() && player instanceof ServerPlayer serverPlayer){
+                    stack.hurtAndBreak(1, serverPlayer, LivingEntity.getSlotForHand(hand));
                 }
 
-                popResource(pLevel, pPos, new ItemStack(FintyBlocks.RED_ALGAE_CARPET.get(), 1));
+                popResource(level, pos, new ItemStack(FintyBlocks.RED_ALGAE_CARPET.get(), 1));
 
-                pLevel.playSound(null, pPos, SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 0.8F + pLevel.random.nextFloat() * 0.4F);
+                level.playSound(null, pos, SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
 
-                pLevel.setBlockAndUpdate(pPos, FintyBlocks.POROUS_LIVE_ROCK.get().defaultBlockState());
+                level.setBlockAndUpdate(pos, FintyBlocks.POROUS_LIVE_ROCK.get().defaultBlockState());
 
-                return InteractionResult.sidedSuccess(pLevel.isClientSide);
+                return ItemInteractionResult.sidedSuccess(level.isClientSide);
             }
 
-            if(pState.is(FintyBlocks.GREEN_ALGAE_LIVE_ROCK.get())){
+            if(state.is(FintyBlocks.GREEN_ALGAE_LIVE_ROCK.get())){
 
-                if (!pPlayer.isCreative() && pPlayer instanceof ServerPlayer player){
-                    stack.hurt(1, pPlayer.getRandom(), player);
+                if (!player.isCreative() && player instanceof ServerPlayer serverPlayer){
+                    stack.hurtAndBreak(1, serverPlayer, LivingEntity.getSlotForHand(hand));
                 }
 
-                popResource(pLevel, pPos, new ItemStack(FintyBlocks.GREEN_ALGAE_CARPET.get(), 1));
+                popResource(level, pos, new ItemStack(FintyBlocks.GREEN_ALGAE_CARPET.get(), 1));
 
-                pLevel.playSound(null, pPos, SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 0.8F + pLevel.random.nextFloat() * 0.4F);
+                level.playSound(null, pos, SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
 
-                pLevel.setBlockAndUpdate(pPos, FintyBlocks.LIVE_ROCK.get().defaultBlockState());
+                level.setBlockAndUpdate(pos, FintyBlocks.LIVE_ROCK.get().defaultBlockState());
 
-                return InteractionResult.sidedSuccess(pLevel.isClientSide);
+                return ItemInteractionResult.sidedSuccess(level.isClientSide);
             }
         }
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+        return super.useItemOn(stack, state, level, pos, player, hand, hit);
     }
 
 }

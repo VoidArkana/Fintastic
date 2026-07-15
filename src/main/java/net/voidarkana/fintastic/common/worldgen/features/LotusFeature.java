@@ -18,15 +18,15 @@ import net.voidarkana.fintastic.common.block.custom.*;
 
 public class LotusFeature extends Feature<NoneFeatureConfiguration> {
 
-    public LotusFeature(Codec<NoneFeatureConfiguration> p_66754_) {
-        super(p_66754_);
+    public LotusFeature(Codec<NoneFeatureConfiguration> codec) {
+        super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> pContext) {
+    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         boolean flag = false;
-        RandomSource randomsource = pContext.random();
-        WorldGenLevel worldgenlevel = pContext.level();
-        BlockPos blockpos = pContext.origin();
+        RandomSource randomsource = context.random();
+        WorldGenLevel worldgenlevel = context.level();
+        BlockPos blockpos = context.origin();
         int i = randomsource.nextInt(8) - randomsource.nextInt(8);
         int j = randomsource.nextInt(8) - randomsource.nextInt(8);
         int k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + i, blockpos.getZ() + j);
@@ -43,7 +43,7 @@ public class LotusFeature extends Feature<NoneFeatureConfiguration> {
             int amount = randomsource.nextInt(5) + 1;
             int maxFlowers = LotusPlantBlock.getMaxFlowers(amount);
             int flowers = randomsource.nextInt(maxFlowers+1);
-            int actualFlowers = Math.max(0, Math.min(maxFlowers, flowers));
+            int actualFlowers = Math.clamp(maxFlowers, 0, flowers);
 
             Boolean bottomFluidstate = worldgenlevel.getBlockState(blockpos1).getFluidState().is(Fluids.WATER);
 
@@ -74,41 +74,41 @@ public class LotusFeature extends Feature<NoneFeatureConfiguration> {
         return flag;
     }
 
-    protected void placePatchAround(WorldGenLevel pLevel, RandomSource pRandom, BlockPos pPos, int pXRadius, int pZRadius) {
-        BlockPos.MutableBlockPos blockpos$mutableblockpos = pPos.mutable();
-        for(int x = -pXRadius; x <= pXRadius; ++x) {
-            for(int z = -pZRadius; z <= pZRadius; ++z) {
+    protected void placePatchAround(WorldGenLevel level, RandomSource random, BlockPos pos, int xRadius, int zRadius) {
+        BlockPos.MutableBlockPos blockpos$mutableblockpos = pos.mutable();
+        for(int x = -xRadius; x <= xRadius; ++x) {
+            for(int z = -zRadius; z <= zRadius; ++z) {
 
                 int currentRadius = Math.toIntExact(Math.round(Math.sqrt(Math.pow(z, 2) + Math.pow(x, 2))));
 
-                if (currentRadius <= pXRadius || currentRadius <= pZRadius && pRandom.nextInt(6)==0) {
-                    blockpos$mutableblockpos.setWithOffset(pPos, x, 0, z);
+                if (currentRadius <= xRadius || currentRadius <= zRadius && random.nextInt(6)==0) {
+                    blockpos$mutableblockpos.setWithOffset(pos, x, 0, z);
 
                     BlockState blockState;
                     BlockPos blockpos = blockpos$mutableblockpos.immutable();
 
 
-                    if (pRandom.nextInt(3)==0){
-                        blockState = FintyBlocks.LOTUS_FLOWER.get().defaultBlockState().setValue(LotusFlowerBlock.FLOWERS, pRandom.nextInt(1,4));
+                    if (random.nextInt(3)==0){
+                        blockState = FintyBlocks.LOTUS_FLOWER.get().defaultBlockState().setValue(LotusFlowerBlock.FLOWERS, random.nextInt(1,4));
                     }else {
-                        blockState = FintyBlocks.LOTUS_PAD.get().defaultBlockState().setValue(LotusPadBlock.FLOWER, pRandom.nextInt(3)==0);
+                        blockState = FintyBlocks.LOTUS_PAD.get().defaultBlockState().setValue(LotusPadBlock.FLOWER, random.nextInt(3)==0);
                     }
 
-                    BlockState existingBlock = pLevel.getBlockState(blockpos$mutableblockpos);
+                    BlockState existingBlock = level.getBlockState(blockpos$mutableblockpos);
                     if (existingBlock.is(Blocks.AIR)){
-                        if (pRandom.nextInt(4)==0){
+                        if (random.nextInt(4)==0){
 
-                            Direction direction = switch (pRandom.nextInt(0, 4)) {
+                            Direction direction = switch (random.nextInt(0, 4)) {
                                 case 1 -> Direction.EAST;
                                 case 2 -> Direction.WEST;
                                 case 3 -> Direction.NORTH;
                                 default -> Direction.SOUTH;};
-                            int amount = pRandom.nextInt(5) + 1;
+                            int amount = random.nextInt(5) + 1;
                             int maxFlowers = LotusPlantBlock.getMaxFlowers(amount);
-                            int flowers = pRandom.nextInt(maxFlowers+1);
-                            int actualFlowers = Math.max(0, Math.min(maxFlowers, flowers));
+                            int flowers = random.nextInt(maxFlowers+1);
+                            int actualFlowers = Math.clamp(maxFlowers, 0, flowers);
 
-                            boolean fluidstate = pLevel.getBlockState(pPos.below()).getFluidState().is(Fluids.WATER);
+                            boolean fluidstate = level.getBlockState(pos.below()).getFluidState().is(Fluids.WATER);
 
                             blockState = FintyBlocks.LOTUS.get().defaultBlockState()
                                     .setValue(LotusPlantBlock.AMOUNT, amount)
@@ -123,29 +123,29 @@ public class LotusFeature extends Feature<NoneFeatureConfiguration> {
                                     .setValue(LotusPlantBlock.HALF, DoubleBlockHalf.UPPER)
                                     .setValue(LotusPlantBlock.FLOWERS, actualFlowers);
 
-                            if (pLevel.getBlockState(pPos.below()).isFaceSturdy(pLevel, pPos.below(), Direction.UP)
-                                    && blockState.canSurvive(pLevel, pPos.below())) {
-                                pLevel.setBlock(pPos.below(), blockState, 2);
-                                pLevel.setBlock(pPos, blockstate2, 2);
-                            }else if (pLevel.getBlockState(pPos).isFaceSturdy(pLevel, pPos, Direction.UP)
-                                    && blockState.canSurvive(pLevel, pPos)) {
-                                pLevel.setBlock(pPos, blockState, 2);
-                                pLevel.setBlock(pPos.above(), blockstate2, 2);
+                            if (level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP)
+                                    && blockState.canSurvive(level, pos.below())) {
+                                level.setBlock(pos.below(), blockState, 2);
+                                level.setBlock(pos, blockstate2, 2);
+                            }else if (level.getBlockState(pos).isFaceSturdy(level, pos, Direction.UP)
+                                    && blockState.canSurvive(level, pos)) {
+                                level.setBlock(pos, blockState, 2);
+                                level.setBlock(pos.above(), blockstate2, 2);
                             }else {
-                                if (pRandom.nextInt(3)==0){
-                                    blockState = FintyBlocks.LOTUS_FLOWER.get().defaultBlockState().setValue(LotusFlowerBlock.FLOWERS, pRandom.nextInt(1,4));
+                                if (random.nextInt(3)==0){
+                                    blockState = FintyBlocks.LOTUS_FLOWER.get().defaultBlockState().setValue(LotusFlowerBlock.FLOWERS, random.nextInt(1,4));
                                 }else {
-                                    blockState = FintyBlocks.LOTUS_PAD.get().defaultBlockState().setValue(LotusPadBlock.FLOWER, pRandom.nextInt(3)==0);
+                                    blockState = FintyBlocks.LOTUS_PAD.get().defaultBlockState().setValue(LotusPadBlock.FLOWER, random.nextInt(3)==0);
                                 }
 
-                                if (blockState.canSurvive(pLevel, blockpos$mutableblockpos)) {
-                                    pLevel.setBlock(blockpos, blockState, 3);
+                                if (blockState.canSurvive(level, blockpos$mutableblockpos)) {
+                                    level.setBlock(blockpos, blockState, 3);
                                 }
                             }
 
                         }else {
-                            if (blockState.canSurvive(pLevel, blockpos$mutableblockpos)) {
-                                pLevel.setBlock(blockpos, blockState, 3);
+                            if (blockState.canSurvive(level, blockpos$mutableblockpos)) {
+                                level.setBlock(blockpos, blockState, 3);
                             }
                         }
                     }

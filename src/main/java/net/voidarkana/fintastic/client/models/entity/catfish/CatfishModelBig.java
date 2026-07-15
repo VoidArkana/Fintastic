@@ -94,22 +94,22 @@ public class CatfishModelBig<T extends Catfish> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		if (this.young)
-			pLimbSwing /= 2;
-		this.animateIdle(pEntity.idleAnimationState, CatfishAnims.POSE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f));
-		this.animateIdle(pEntity.idleAnimationState, CatfishAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, CatfishAnims.FLOP, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
+			limbSwing /= 2;
+		this.animateIdle(entity.idleAnimationState, CatfishAnims.POSE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f));
+		this.animateIdle(entity.idleAnimationState, CatfishAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount)));
+		this.animateIdle(entity.idleAnimationState, CatfishAnims.FLOP, ageInTicks, 1.0f, entity.getTicksOutsideWater()/3f);
 
-		this.animateWalk(CatfishAnims.SWIM, pLimbSwing*3, pLimbSwingAmount*5f, 2f, 3f*(1-(pEntity.getTicksOutsideWater()/3f)));
+		this.animateWalk(CatfishAnims.SWIM, limbSwing*3, limbSwingAmount*5f, 2f, 3f*(1-(entity.getTicksOutsideWater()/3f)));
 
-		this.swim_control.xRot = Mth.lerp( pEntity.getTicksOutsideWater()/5f, headPitch * ((float)Math.PI / 180F), 0);
+		this.swim_control.xRot = Mth.lerp( entity.getTicksOutsideWater()/5f, headPitch * ((float)Math.PI / 180F), 0);
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+		super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 	}
 
 	@Override

@@ -2,23 +2,15 @@ package net.voidarkana.fintastic.common.worldgen;
 
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Cod;
-import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.voidarkana.fintastic.Fintastic;
-import net.voidarkana.fintastic.common.entity.FintyEntities;
-import net.voidarkana.fintastic.util.FintyCommonConfig;
 import net.voidarkana.fintastic.util.FintyTags;
-
-import java.util.List;
 
 public class FintyBiomeModifiers {
 
@@ -36,75 +28,75 @@ public class FintyBiomeModifiers {
     public static final ResourceKey<BiomeModifier> REMOVE_VANILLA_COD = registerKey(   "remove_vanilla_cod");
     public static final ResourceKey<BiomeModifier> REMOVE_VANILLA_SALMON = registerKey("remove_vanilla_salmon");
 
-    public static void bootstrap(BootstapContext<BiomeModifier> context) {
+    public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         var biomes = context.lookup(Registries.BIOME);
         var entities = context.lookup(Registries.ENTITY_TYPE);
 
-        context.register(ADD_HORNWORT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_HORNWORT, new BiomeModifiers.AddFeaturesBiomeModifier(
            biomes.getOrThrow(FintyTags.Biomes.HORNWORT_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.HORNWORT_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_LIVE_ROCK, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_LIVE_ROCK, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(FintyTags.Biomes.LIVEROCK_BOULDER_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.LIVE_ROCK_PLACED_KEY)),
                 GenerationStep.Decoration.LOCAL_MODIFICATIONS));
 
-        context.register(ADD_STROMATOLITE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_STROMATOLITE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(FintyTags.Biomes.STROMATOLITE_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.STROMATOLITE_PLACED_KEY)),
                 GenerationStep.Decoration.LOCAL_MODIFICATIONS));
 
-        context.register(ADD_FOSSIL_STROMATOLITE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_FOSSIL_STROMATOLITE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.FOSSIL_STROMATOLITE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_ANUBIAS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_ANUBIAS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(FintyTags.Biomes.ANUBIAS_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.ANUBIAS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_AQUATIC_MOSS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_AQUATIC_MOSS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(FintyTags.Biomes.AQUATIC_MOSS_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.AQUATIC_MOSS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_AMAZON_SWORDS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_AMAZON_SWORDS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(FintyTags.Biomes.AMAZON_SWORD_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.AMAZON_SWORD_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_LOTUS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_LOTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(FintyTags.Biomes.LOTUS_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.LOTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_DUCKWEED, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_DUCKWEED, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(FintyTags.Biomes.DUCKWEED_BIOMES),
                 HolderSet.direct(placedFeatures.getOrThrow(FintyPlacedFeatures.DUCKWEED_PLACED_KEY)),
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION));
 
-//        context.register(ADD_FINTASTIC_COD, new ForgeBiomeModifiers.AddSpawnsBiomeModifier(
+//        context.register(ADD_FINTASTIC_COD, new BiomeModifiers.AddSpawnsBiomeModifier(
 //                biomes.getOrThrow(FintyTags.Biomes.COD_BIOMES),
 //                List.of(new MobSpawnSettings.SpawnerData(FintyEntities.COD.get(), 10, 4, 8))));
 
-//        context.register(REMOVE_VANILLA_SALMON, new ForgeBiomeModifiers.RemoveSpawnsBiomeModifier(
+//        context.register(REMOVE_VANILLA_SALMON, new BiomeModifiers.RemoveSpawnsBiomeModifier(
 //                biomes.getOrThrow(FintyTags.Biomes.SALMON_BIOMES),
 //                entities.getOrThrow(
-//                    FintyTags.EntityType.VANILLA_SALMON
+//                    FintyTags.EntityTypes.VANILLA_SALMON
 //                )));
 //
-//        context.register(REMOVE_VANILLA_COD, new ForgeBiomeModifiers.RemoveSpawnsBiomeModifier(
+//        context.register(REMOVE_VANILLA_COD, new BiomeModifiers.RemoveSpawnsBiomeModifier(
 //                biomes.getOrThrow(FintyTags.Biomes.COD_BIOMES),
 //                entities.getOrThrow(
-//                    FintyTags.EntityType.VANILLA_COD
+//                    FintyTags.EntityTypes.VANILLA_COD
 //                )));
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {
-        return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(Fintastic.MOD_ID, name));
+        return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Fintastic.location(name));
     }
 
 }

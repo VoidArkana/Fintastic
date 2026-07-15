@@ -5,9 +5,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.util.FintyTags;
@@ -22,7 +22,7 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider pProvider) {
+    protected void addTags(HolderLookup.Provider provider) {
 
         this.tag(BlockTags.WALLS).add(FintyBlocks.STROMATOLITE_BRICKS_WALL.get());
 
@@ -124,7 +124,7 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(BlockTags.IMPERMEABLE).addTag(FintyTags.Blocks.AQUARIUM_GLASS);
 
-        this.tag(Tags.Blocks.GLASS).addTag(FintyTags.Blocks.AQUARIUM_GLASS);
+        this.tag(Tags.Blocks.GLASS_BLOCKS).addTag(FintyTags.Blocks.AQUARIUM_GLASS);
 
         this.tag(Tags.Blocks.GLASS_PANES).addTag(FintyTags.Blocks.AQUARIUM_GLASS_PANES);
 
@@ -141,7 +141,7 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(FintyTags.Blocks.ALGAE_REPLACEABLE)
                 .addTag(BlockTags.MOSS_REPLACEABLE)
-                .addTag(Tags.Blocks.SAND)
+                .addTag(Tags.Blocks.SANDS)
                 .addTag(FintyTags.Blocks.GREEN_ALGAE)
                 .addTag(FintyTags.Blocks.RED_ALGAE)
                 .add(FintyBlocks.AQUATIC_MOSS_BLOCK.get());
@@ -151,7 +151,7 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
                 .addTag(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
 
         this.tag(FintyTags.Blocks.FOSSIL_STROMATOLITE_REPLACEABLE)
-                .addTag(Tags.Blocks.STONE).addTag(Tags.Blocks.SAND)
+                .addTag(Tags.Blocks.STONES).addTag(Tags.Blocks.SANDS)
                 .addTag(BlockTags.MOSS_REPLACEABLE);
 
         this.tag(FintyTags.Blocks.AQUATIC_PLANTS)
@@ -187,6 +187,6 @@ public class FintyBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(FintyTags.Blocks.HOUNEN_FAIRY_SHRIMP_GROWABLE)
                 .add(FintyBlocks.LOTUS.get())
-                .addOptional(new ResourceLocation("farmersdelight:rice"));
+                .addOptional(ResourceLocation.parse("farmersdelight:rice"));
     }
 }

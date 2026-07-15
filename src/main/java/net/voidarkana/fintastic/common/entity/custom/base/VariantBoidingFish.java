@@ -20,8 +20,8 @@ public abstract class VariantBoidingFish extends BucketableFishEntity{
 
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(VariantBoidingFish.class, EntityDataSerializers.INT);
 
-    protected VariantBoidingFish(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    protected VariantBoidingFish(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
     }
 
     protected void registerGoals() {
@@ -29,9 +29,9 @@ public abstract class VariantBoidingFish extends BucketableFishEntity{
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(VARIANT, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -61,15 +61,15 @@ public abstract class VariantBoidingFish extends BucketableFishEntity{
 
 
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-        super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
-        if (pSpawnData == null) {
-            pSpawnData = new VariantBoidingFish.SchoolSpawnGroupData(this);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+        super.finalizeSpawn(level, difficulty, reason, spawnData);
+        if (spawnData == null) {
+            spawnData = new VariantBoidingFish.SchoolSpawnGroupData(this);
         } else {
-            this.startFollowing(((VariantBoidingFish.SchoolSpawnGroupData)pSpawnData).leader);
+            this.startFollowing(((VariantBoidingFish.SchoolSpawnGroupData)spawnData).leader);
         }
 
-        return pSpawnData;
+        return spawnData;
     }
 
     public int getMaxSpawnClusterSize() {
@@ -95,13 +95,14 @@ public abstract class VariantBoidingFish extends BucketableFishEntity{
         }
     }
 
-    public VariantBoidingFish startFollowing(VariantBoidingFish pLeader) {
-        this.leader = pLeader;
-        pLeader.addFollower();
-        return pLeader;
+    public VariantBoidingFish startFollowing(VariantBoidingFish leader) {
+        this.leader = leader;
+        leader.addFollower();
+        return leader;
     }
 
     public void stopFollowing() {
+        assert this.leader != null;
         this.leader.removeFollower();
         this.leader = null;
     }
@@ -137,20 +138,20 @@ public abstract class VariantBoidingFish extends BucketableFishEntity{
     }
 
     public boolean inRangeOfLeader() {
+        assert this.leader != null;
         return this.distanceToSqr(this.leader) <= 121.0D;
     }
 
     public void pathToLeader() {
         if (this.isFollower()) {
+            assert this.leader != null;
             this.getNavigation().moveTo(this.leader, 1.2D);
         }
 
     }
 
-    public void addFollowers(Stream<? extends VariantBoidingFish> pFollowers) {
-        pFollowers.limit((long)(this.getMaxSchoolSize() - this.schoolSize)).filter((p_27538_) -> {
-            return p_27538_ != this;
-        }).forEach((fish) -> {
+    public void addFollowers(Stream<? extends VariantBoidingFish> followers) {
+        followers.limit(this.getMaxSchoolSize() - this.schoolSize).filter((fish) -> fish != this).forEach((fish) -> {
             if (this.getVariant()==fish.getVariant()){
                 if (this.canBabiesSchoolWithAdults()){
                     fish.startFollowing(this);
@@ -164,9 +165,9 @@ public abstract class VariantBoidingFish extends BucketableFishEntity{
     public static class SchoolSpawnGroupData extends AgeableFishGroupData{
         public final VariantBoidingFish leader;
 
-        public SchoolSpawnGroupData(VariantBoidingFish pLeader) {
+        public SchoolSpawnGroupData(VariantBoidingFish leader) {
             super(true);
-            this.leader = pLeader;
+            this.leader = leader;
         }
     }
 

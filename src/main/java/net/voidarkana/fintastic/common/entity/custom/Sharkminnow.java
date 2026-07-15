@@ -1,5 +1,6 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -31,21 +33,21 @@ public class Sharkminnow extends VariantSchoolingFish {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
-    public Sharkminnow(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Sharkminnow(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
         this.refreshDimensions();
     }
 
-    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         this.refreshDimensions();
-        super.onSyncedDataUpdated(pKey);
+        super.onSyncedDataUpdated(key);
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pPose) {
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
         return switch (this.getVariant()){
-            case 2, 3, 4 -> super.getDimensions(pPose).scale(0.75F, 0.75F);
-            default -> super.getDimensions(pPose).scale(1.5F, 1F);
+            case 2, 3, 4 -> super.getDefaultDimensions(pose).scale(0.75F, 0.75F);
+            default -> super.getDefaultDimensions(pose).scale(1.5F, 1F);
         };
     }
 
@@ -64,54 +66,51 @@ public class Sharkminnow extends VariantSchoolingFish {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Variant", this.getVariant());
-        compoundnbt.putInt("Age", this.getAge());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Variant", this.getVariant());
+            compoundnbt.putInt("Age", this.getAge());
 
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
 
-        if (pTag.contains("Variant")) {
-            this.setVariant(pTag.getInt("Variant"));
+        if (tag.contains("Variant")) {
+            this.setVariant(tag.getInt("Variant"));
         }
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));
+        }
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
         }
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        super.finalizeSpawn(level, difficulty, reason, spawnData);
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
-            this.setVariant(pDataTag.getInt("Variant"));
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));
-            }
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-        }else if (pReason != MobSpawnType.STRUCTURE && pReason != MobSpawnType.SPAWN_EGG && !(pReason == MobSpawnType.BUCKET && pDataTag == null)){
+        if (reason != MobSpawnType.STRUCTURE && reason != MobSpawnType.SPAWN_EGG && reason != MobSpawnType.BUCKET){
 
             int model;
 
-            if (pSpawnData instanceof FishGroupData){
-                FishGroupData fish$fishgroupdata = (FishGroupData)pSpawnData;
+            if (spawnData instanceof FishGroupData fish$fishgroupdata){
                 model = fish$fishgroupdata.variantModel;
 
-                this.startFollowing(((FishGroupData)pSpawnData).leader);
+                this.startFollowing(fish$fishgroupdata.leader);
             }else {
 
-                if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
+                if (level.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
                     int chance = this.random.nextInt(3);
                     model = switch (chance){
                         case 1 -> SharkminnowVariant.BLACK_LABEO.getVariant();
@@ -127,7 +126,7 @@ public class Sharkminnow extends VariantSchoolingFish {
                     };
                 }
 
-                pSpawnData = new FishGroupData(this, model);
+                spawnData = new FishGroupData(this, model);
             }
 
             this.setVariant(model);
@@ -137,13 +136,13 @@ public class Sharkminnow extends VariantSchoolingFish {
 
         }
 
-        return pSpawnData;
+        return spawnData;
     }
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Sharkminnow baby = FintyEntities.SHARKMINNOW.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        Sharkminnow baby = FintyEntities.SHARKMINNOW.get().create(level);
         if (baby != null){
             baby.setVariant(this.getVariant());
             baby.setFromBucket(true);
@@ -162,17 +161,17 @@ public class Sharkminnow extends VariantSchoolingFish {
 
 
     @Override
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        Sharkminnow mate = (Sharkminnow) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && this.getVariant() == mate.getVariant();
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        Sharkminnow mate = (Sharkminnow) otherAnimal;
+        return super.canMate(otherAnimal) && this.getVariant() == mate.getVariant();
     }
 
     static class FishGroupData extends SchoolSpawnGroupData {
         final int variantModel;
 
-        FishGroupData(Sharkminnow pLeader, int pVariantModel) {
-            super(pLeader);
-            this.variantModel = pVariantModel;
+        FishGroupData(Sharkminnow leader, int variantModel) {
+            super(leader);
+            this.variantModel = variantModel;
         }
     }
 
@@ -207,12 +206,12 @@ public class Sharkminnow extends VariantSchoolingFish {
         public static final StringRepresentable.EnumCodec<SharkminnowVariant> CODEC
                 = StringRepresentable.fromEnum(SharkminnowVariant::values);
 
-        public static SharkminnowVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static SharkminnowVariant byId(int id) {
+            return BY_ID.apply(id);
         }
 
-        public static SharkminnowVariant byName(String pName) {
-            return CODEC.byName(pName, BALA_SHARK);
+        public static SharkminnowVariant byName(String name) {
+            return CODEC.byName(name, BALA_SHARK);
         }
     }
 

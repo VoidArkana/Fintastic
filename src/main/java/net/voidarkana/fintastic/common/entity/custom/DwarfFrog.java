@@ -2,6 +2,7 @@ package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -13,11 +14,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ByIdMap;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,15 +24,12 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Bucketable;
-import net.minecraft.world.entity.animal.Chicken;
-import net.minecraft.world.entity.animal.Rabbit;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.MagmaCube;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -54,7 +50,6 @@ import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.IntFunction;
-import java.util.function.Predicate;
 
 public class DwarfFrog extends BucketableFishEntity {
 
@@ -65,12 +60,12 @@ public class DwarfFrog extends BucketableFishEntity {
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
     private static final Ingredient FOOD_ITEMS2 = Ingredient.of(Items.SLIME_BALL);
 
-    public boolean isFood(ItemStack pStack) {
-        return FOOD_ITEMS.test(pStack) || pStack.is(Items.SLIME_BALL);
+    public boolean isFood(ItemStack stack) {
+        return FOOD_ITEMS.test(stack) || stack.is(Items.SLIME_BALL);
     }
 
-    public DwarfFrog(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public DwarfFrog(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
     }
 
     @Override
@@ -98,10 +93,10 @@ public class DwarfFrog extends BucketableFishEntity {
     }
 
     @Override
-    public boolean canAttack(LivingEntity pLivingentity, TargetingConditions pCondition) {
+    public boolean canAttack(LivingEntity livingentity, TargetingConditions condition) {
         if (this.isBaby())
             return false;
-        return super.canAttack(pLivingentity, pCondition);
+        return super.canAttack(livingentity, condition);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -125,11 +120,11 @@ public class DwarfFrog extends BucketableFishEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(VARIANT, 0);
-        this.entityData.define(TICKS_ON_GROUND, 3);
-        this.entityData.define(IS_PREGNANT, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT, 0);
+        builder.define(TICKS_ON_GROUND, 3);
+        builder.define(IS_PREGNANT, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -191,52 +186,48 @@ public class DwarfFrog extends BucketableFishEntity {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Variant", this.getVariant());
-        compoundnbt.putInt("Age", this.getAge());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Variant", this.getVariant());
+            compoundnbt.putInt("Age", this.getAge());
 
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
 
-        if (pTag.contains("Variant"))
-            this.setVariant(pTag.getInt("Variant"));
+        if (tag.contains("Variant"))
+            this.setVariant(tag.getInt("Variant"));
 
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));
+        }
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
         }
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
-            this.setVariant(pDataTag.getInt("Variant"));
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));
-            }
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-        }else{
-            this.setVariant(Util.getRandom(FrogVariant.values(), this.random).getJoinedVariant());
-        }
+        this.setVariant(Util.getRandom(FrogVariant.values(), this.random).getJoinedVariant());
 
-        pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        DwarfFrog baby = FintyEntities.DWARF_FROG.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        DwarfFrog baby = FintyEntities.DWARF_FROG.get().create(level);
         if (baby != null){
             baby.setVariant(this.getVariant());
             baby.setFromBucket(true);
@@ -271,9 +262,9 @@ public class DwarfFrog extends BucketableFishEntity {
 
     public static class FrogGetAirGoal extends BreathAirGoal {
         DwarfFrog frog;
-        public FrogGetAirGoal(DwarfFrog pMob) {
-            super(pMob);
-            this.frog = pMob;
+        public FrogGetAirGoal(DwarfFrog mob) {
+            super(mob);
+            this.frog = mob;
         }
 
         @Override
@@ -290,9 +281,9 @@ public class DwarfFrog extends BucketableFishEntity {
     public static class FrogBreedGoal extends FishBreedGoal {
         private final DwarfFrog animal;
 
-        public FrogBreedGoal(DwarfFrog pAnimal, double pSpeedModifier) {
-            super(pAnimal, pSpeedModifier);
-            this.animal = pAnimal;
+        public FrogBreedGoal(DwarfFrog animal, double speedModifier) {
+            super(animal, speedModifier);
+            this.animal = animal;
         }
 
         public boolean canUse() {
@@ -301,8 +292,11 @@ public class DwarfFrog extends BucketableFishEntity {
 
         protected void breed() {
             ServerPlayer serverplayer = this.animal.getLoveCause();
-            if (serverplayer == null && this.partner.getLoveCause() != null) {
-                serverplayer = this.partner.getLoveCause();
+            if (serverplayer == null) {
+                assert this.partner != null;
+                if (this.partner.getLoveCause() != null) {
+                    serverplayer = this.partner.getLoveCause();
+                }
             }
 
             if (serverplayer != null) {
@@ -312,6 +306,7 @@ public class DwarfFrog extends BucketableFishEntity {
 
             this.animal.setPregnant(true);
             this.animal.setAge(6000);
+            assert this.partner != null;
             this.partner.setAge(6000);
             this.animal.resetLove();
             this.partner.resetLove();
@@ -325,9 +320,9 @@ public class DwarfFrog extends BucketableFishEntity {
     public static class FrogLaySpawnGoal extends MoveToBlockGoal{
 
         DwarfFrog animal;
-        public FrogLaySpawnGoal(DwarfFrog pMob, double pSpeedModifier) {
-            super(pMob, pSpeedModifier, 10, 10);
-            this.animal = pMob;
+        public FrogLaySpawnGoal(DwarfFrog mob, double speedModifier) {
+            super(mob, speedModifier, 10, 10);
+            this.animal = mob;
         }
 
         @Override
@@ -365,21 +360,21 @@ public class DwarfFrog extends BucketableFishEntity {
         }
 
         @Override
-        protected int nextStartTick(PathfinderMob pCreature) {
-            return 80 + pCreature.getRandom().nextInt(100);
+        protected int nextStartTick(PathfinderMob creature) {
+            return 80 + creature.getRandom().nextInt(100);
         }
 
         @Override
-        protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
-            return pLevel.getBlockState(pPos.below()).getFluidState().is(Fluids.WATER) && pLevel.getBlockState(pPos).isAir();
+        protected boolean isValidTarget(LevelReader level, BlockPos pos) {
+            return level.getBlockState(pos.below()).getFluidState().is(Fluids.WATER) && level.getBlockState(pos).isAir();
         }
     }
 
     public static class FrogEatTargetGoal extends MeleeAttackGoal{
         DwarfFrog frog;
-        public FrogEatTargetGoal(DwarfFrog pMob, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
-            super(pMob, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
-            this.frog = pMob;
+        public FrogEatTargetGoal(DwarfFrog mob, double speedModifier, boolean followingTargetEvenIfNotSeen) {
+            super(mob, speedModifier, followingTargetEvenIfNotSeen);
+            this.frog = mob;
         }
 
         @Override
@@ -393,11 +388,10 @@ public class DwarfFrog extends BucketableFishEntity {
         }
 
         @Override
-        protected void checkAndPerformAttack(LivingEntity pEnemy, double pDistToEnemySqr) {
-            double d0 = this.getAttackReachSqr(pEnemy);
-            if (pDistToEnemySqr <= d0) {
-                pEnemy.discard();
-                if (pEnemy instanceof GlowSquid || pEnemy instanceof MagmaCube && !this.frog.level().isClientSide()){
+        protected void checkAndPerformAttack(LivingEntity enemy) {
+            if (this.mob.isWithinMeleeAttackRange(enemy)) {
+                enemy.discard();
+                if (enemy instanceof GlowSquid || enemy instanceof MagmaCube && !this.frog.level().isClientSide()){
                     FrogVariant variant = FrogVariant.byId(this.frog.getVariant());
                     this.frog.spawnAtLocation(variant.getFroglight());
                 }
@@ -446,12 +440,12 @@ public class DwarfFrog extends BucketableFishEntity {
         public static final EnumCodec<FrogVariant> CODEC
                 = StringRepresentable.fromEnum(FrogVariant::values);
 
-        public static FrogVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static FrogVariant byId(int id) {
+            return BY_ID.apply(id);
         }
 
-        public static FrogVariant byName(String pName) {
-            return CODEC.byName(pName, PEACH);
+        public static FrogVariant byName(String name) {
+            return CODEC.byName(name, PEACH);
         }
     }
 

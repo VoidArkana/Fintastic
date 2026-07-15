@@ -14,25 +14,25 @@ import net.voidarkana.fintastic.common.entity.custom.Pleco;
 public class PlecoRenderer<T extends Pleco> extends MobRenderer<T, PlecoModel<T>> {
 
 
-    public PlecoRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new PlecoModel<>(pContext.bakeLayer(FintasticLayers.PLECO)), 0.35f);
+    public PlecoRenderer(EntityRendererProvider.Context context) {
+        super(context, new PlecoModel<>(context.bakeLayer(FintasticLayers.PLECO)), 0.35f);
     }
 
 
     @Override
-    public ResourceLocation getTextureLocation(T pEntity) {
+    public ResourceLocation getTextureLocation(T entity) {
 
-        Pleco.PlecoVariant variant = Pleco.PlecoVariant.byId(pEntity.getVariant());
+        Pleco.PlecoVariant variant = Pleco.PlecoVariant.byId(entity.getVariant());
 
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/pleco/pleco_"+variant.getSerializedName()+".png");
+        return Fintastic.location("textures/entity/pleco/pleco_"+variant.getSerializedName()+".png");
     }
 
     @Override
-    protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+    protected void setupRotations(T entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
 
-        if (pEntityLiving.isAttached()){
-            pPoseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(Math.max(0, pEntityLiving.getTicksOutsideWater()/3-pEntityLiving.getTicksOnGround()/3), pEntityLiving.currentRoll*360/4, 0)));
+        if (entityLiving.isAttached()){
+            poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(Math.max(0, entityLiving.getTicksOutsideWater()/3-entityLiving.getTicksOnGround()/3), entityLiving.currentRoll*360/4, 0)));
         }
     }
 }

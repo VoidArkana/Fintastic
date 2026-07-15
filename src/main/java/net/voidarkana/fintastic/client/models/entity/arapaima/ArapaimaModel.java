@@ -82,38 +82,38 @@ public class ArapaimaModel<T extends Arapaima> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(Arapaima pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(Arapaima entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.IDLE_SWIM, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount*5f)));
-		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.GROUND_IDLE, pAgeInTicks, 1.0F,  (pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount*5f));
+		this.animateIdle(entity.idleAnimationState, ArapaimaAnims.IDLE_SWIM, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount*5f)));
+		this.animateIdle(entity.idleAnimationState, ArapaimaAnims.GROUND_IDLE, ageInTicks, 1.0F,  (entity.getTicksOutsideWater()/3f)-Math.abs(limbSwingAmount*5f));
 
 
-		if (pEntity.isInWaterOrBubble()){
+		if (entity.isInWaterOrBubble()){
 			this.head.xRot += (((headPitch * ((float) Math.PI / 180F))/8));
 			this.body.xRot += (((headPitch * ((float) Math.PI / 180F))/8));
 			this.torsoend.xRot += (-((headPitch * ((float) Math.PI / 180F))/4));
 
-			this.head.yRot += (pEntity.currentRoll);
-			this.body.yRot += (pEntity.currentRoll/2);
-			this.torsoend.yRot -= (-pEntity.currentRoll);
+			this.head.yRot += (entity.currentRoll);
+			this.body.yRot += (entity.currentRoll/2);
+			this.torsoend.yRot -= (-entity.currentRoll);
 
 			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/2f;
 			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2f);
 
-			this.animateWalk(ArapaimaAnims.SWIM, pLimbSwing*2f, pLimbSwingAmount, 2f, 25f);
+			this.animateWalk(ArapaimaAnims.SWIM, limbSwing*2f, limbSwingAmount, 2f, 25f);
 		}
 		else {
-			this.animateWalk(ArapaimaAnims.CRAWL, pLimbSwing*5, pLimbSwingAmount*5f, 2f, 25f);
+			this.animateWalk(ArapaimaAnims.CRAWL, limbSwing*5, limbSwingAmount*5f, 2f, 25f);
 		}
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		pPoseStack.pushPose();
-			pPoseStack.translate(0.0F, 0, 0.0F);
-			this.root().render(pPoseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		pPoseStack.popPose();
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+		poseStack.pushPose();
+			poseStack.translate(0.0F, 0, 0.0F);
+			this.root().render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+		poseStack.popPose();
 	}
 
 	@Override

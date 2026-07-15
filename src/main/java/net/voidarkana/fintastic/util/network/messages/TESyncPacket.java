@@ -1,58 +1,39 @@
 package net.voidarkana.fintastic.util.network.messages;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.voidarkana.fintastic.Fintastic;
 
-import java.util.function.Supplier;
+public record TESyncPacket(BlockPos pos, CompoundTag tag) implements CustomPacketPayload {
 
-public class TESyncPacket {
-    final BlockPos pos;
-    final CompoundTag tag;
+    public static final CustomPacketPayload.Type<TESyncPacket> TYPE =
+            new CustomPacketPayload.Type<>(Fintastic.location("te_sync"));
 
-    public TESyncPacket(BlockPos pos, CompoundTag tag) {
-        this.pos = pos;
-        this.tag = tag;
+    public static final StreamCodec<FriendlyByteBuf, TESyncPacket> STREAM_CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC, TESyncPacket::pos,
+            ByteBufCodecs.COMPOUND_TAG, TESyncPacket::tag,
+            TESyncPacket::new);
+
+    @Override
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public static void encode(TESyncPacket object, FriendlyByteBuf buffer) {
-        buffer.writeBlockPos(object.pos);
-        buffer.writeNbt(object.tag);
-    }
-
-    public static TESyncPacket decode(FriendlyByteBuf buffer) {
-        return new TESyncPacket(buffer.readBlockPos(), buffer.readNbt());
-    }
-
-    public static void consume(TESyncPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Level world;
-            ServerPlayer sender = ctx.get().getSender();
-            if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT)
-                world = Fintastic.PROXY.getWorld();
-            else {
-                if (sender == null) world = Minecraft.getInstance().getSingleplayerServer().overworld();
-                else world = sender.level();
-            }
-
-            if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER) {
-                System.out.printf("TESyncPacket received from client %s. This is not supposed to happen and has been suppressed.", sender == null ? "" : sender.getUUID());
-                return;
-            }
-
-            BlockEntity t = world.getBlockEntity(packet.pos);
+    public static void handle(final TESyncPacket packet, final IPayloadContext context) {
+        context.enqueueWork(() -> {
+            Level world = context.player().level();
+            BlockEntity t = world.getBlockEntity(packet.pos());
             if (t != null) {
-                t.load(packet.tag);
+                t.loadWithComponents(packet.tag(), world.registryAccess());
                 t.setChanged();
             }
         });
-        ctx.get().setPacketHandled(true);
     }
 }
