@@ -4,11 +4,7 @@ import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
-/**
- * Made with Blockbench 4.12.5
- * Exported for Minecraft version 1.19 or later with Mojang mappings
- * @author Author
- */
+
 public class GouramiAnims {
 	public static final AnimationDefinition SWIM = AnimationDefinition.Builder.withLength(4.0F).looping()
 		.addAnimation("root", new AnimationChannel(AnimationChannel.Targets.POSITION, 

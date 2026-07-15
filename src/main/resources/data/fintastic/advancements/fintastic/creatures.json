@@ -1,0 +1,30 @@
+{
+  "parent": "fintastic:fintastic/root",
+  "criteria": {
+    "consumed_item": {
+      "conditions": {},
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "requirements": [
+    [
+      "consumed_item"
+    ]
+  ],
+  "sends_telemetry_event": true,
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.fintastic.creatures.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "fintastic:featherback_spawn_egg"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.fintastic.creatures.title"
+    }
+  }
+}

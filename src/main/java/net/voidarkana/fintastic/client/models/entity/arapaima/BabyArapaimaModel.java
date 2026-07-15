@@ -7,12 +7,11 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.voidarkana.fintastic.client.animation.ArapaimaAnims;
 import net.voidarkana.fintastic.client.animation.BabyArapaimaAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
-import net.voidarkana.fintastic.common.entity.custom.ArapaimaEntity;
+import net.voidarkana.fintastic.common.entity.custom.Arapaima;
 
-public class BabyArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<T> {
+public class BabyArapaimaModel<T extends Arapaima> extends FintasticModel<T> {
 
 	private final ModelPart root;
 	private final ModelPart swim_rot;
@@ -67,11 +66,11 @@ public class BabyArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<
 	}
 
 	@Override
-	public void setupAnim(ArapaimaEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(Arapaima pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		this.animateIdle(pEntity.idleAnimationState, BabyArapaimaAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, BabyArapaimaAnims.CRAWL_IDLE, pAgeInTicks, 1.0F,  (pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount));
+		this.animateIdle(pEntity.idleAnimationState, BabyArapaimaAnims.CRAWL_IDLE, pAgeInTicks, 1.0F,  (pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount*2));
 
 		if (pEntity.isInWaterOrBubble()){
 			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F);
@@ -83,13 +82,16 @@ public class BabyArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<
 		else {
 			this.swim_rot.resetPose();
 
-			this.animateWalk(BabyArapaimaAnims.CRAWL_WALK, pLimbSwing/2, pLimbSwingAmount/2, 2f, 3f);
+			this.animateWalk(BabyArapaimaAnims.CRAWL_WALK, pLimbSwing*2, pLimbSwingAmount*2, 2f, 3f);
 		}
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		pPoseStack.pushPose();
+			pPoseStack.translate(0.0F, 0, 0.0F);
+			this.root().render(pPoseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		pPoseStack.popPose();
 	}
 
 	@Override

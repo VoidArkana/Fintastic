@@ -3,7 +3,6 @@ package net.voidarkana.fintastic.client.renderers.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +13,6 @@ import net.voidarkana.fintastic.client.models.entity.moonies.MoonyMidModel;
 import net.voidarkana.fintastic.client.models.entity.moonies.MoonySmallModel;
 import net.voidarkana.fintastic.client.models.entity.moonies.MoonyTallModel;
 import net.voidarkana.fintastic.common.entity.custom.Moony;
-import org.jetbrains.annotations.Nullable;
 
 public class MoonyRenderer extends MobRenderer<Moony, FintasticModel<Moony>> {
 
@@ -33,15 +31,16 @@ public class MoonyRenderer extends MobRenderer<Moony, FintasticModel<Moony>> {
     @Override
     public void render(Moony entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
 
-        switch (entity.getVariantModel()){
+        Moony.MoonyVariant variant = Moony.MoonyVariant.byId(entity.getVariant());
+        switch (variant.getModel()){
             case 1:
-                this.model = moonySmallModel;
-                break;
-            case 2:
                 this.model = moonyTallModel;
                 break;
-            default:
+            case 2:
                 this.model = moonyMidModel;
+                break;
+            default:
+                this.model = moonySmallModel;
         }
 
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
@@ -49,17 +48,13 @@ public class MoonyRenderer extends MobRenderer<Moony, FintasticModel<Moony>> {
 
     @Override
     public ResourceLocation getTextureLocation(Moony pEntity) {
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/moony/"+pEntity.getVariantName()+".png");
-    }
-
-    @Override
-    protected @Nullable RenderType getRenderType(Moony pEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
-        return RenderType.entityCutout(new ResourceLocation(Fintastic.MOD_ID,"textures/entity/moony/"+pEntity.getVariantName()+".png"));
+        Moony.MoonyVariant variant = Moony.MoonyVariant.byId(pEntity.getVariant());
+        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/moony/"+variant.getSerializedName()+".png");
     }
 
     @Override
     protected void setupRotations(Moony pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees((pEntityLiving.currentRoll*360)/4));
     }
 }

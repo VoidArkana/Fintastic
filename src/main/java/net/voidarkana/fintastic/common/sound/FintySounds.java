@@ -1,0 +1,38 @@
+package net.voidarkana.fintastic.common.sound;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import net.voidarkana.fintastic.Fintastic;
+
+public class FintySounds {
+    public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
+            DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Fintastic.MOD_ID);
+
+    public static final RegistryObject<SoundEvent> SALTY = registerSoundEvents("salty");
+    public static final RegistryObject<SoundEvent> FRESH = registerSoundEvents("fresh");
+
+    public static final RegistryObject<SoundEvent> AXOLOTL = registerSoundEvents("axolotl");
+    public static final RegistryObject<SoundEvent> DRAGONFISH = registerSoundEvents("dragonfish");
+    public static final RegistryObject<SoundEvent> SHUNJI = registerSoundEvents("shunji");
+
+    public static final RegistryObject<SoundEvent> GOURAMI_CROAK = registerSoundEvents("gourami_croak");
+    public static final RegistryObject<SoundEvent> DWARF_FROG_IDLE = registerSoundEvents("dwarf_frog_idle");
+
+    public static final RegistryObject<SoundEvent> LOTUS_WATER = registerSoundEvents("lotus_water");
+    public static final RegistryObject<SoundEvent> LOTUS_BUG = registerSoundEvents("lotus_bug");
+    public static final RegistryObject<SoundEvent> LOTUS_FROG = registerSoundEvents("lotus_frog");
+    public static final RegistryObject<SoundEvent> LOTUS_BUG_NIGHT = registerSoundEvents("lotus_bug_night");
+    public static final RegistryObject<SoundEvent> LOTUS_FROG_NIGHT = registerSoundEvents("lotus_frog_night");
+
+    private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
+        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Fintastic.MOD_ID, name)));
+    }
+
+    public static void register(IEventBus eventBus) {
+        SOUND_EVENTS.register(eventBus);
+    }
+}

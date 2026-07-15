@@ -3,7 +3,6 @@ package net.voidarkana.fintastic.client.renderers.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -11,18 +10,17 @@ import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.client.FintasticLayers;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.client.models.entity.minnows.*;
-import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
-import org.jetbrains.annotations.Nullable;
+import net.voidarkana.fintastic.common.entity.custom.Minnow;
 
-public class MinnowRenderer extends MobRenderer<MinnowEntity, FintasticModel<MinnowEntity>> {
+public class MinnowRenderer extends MobRenderer<Minnow, FintasticModel<Minnow>> {
 
 
-    private final MinnowBigModel<MinnowEntity> minnowBigModel;
-    private final MinnowHatchetModel<MinnowEntity> minnowHatchetModel;
-    private final MinnowRoundModel<MinnowEntity> minnowRoundModel;
-    private final MinnowSlimModel<MinnowEntity> minnowSlimModel;
-    private final MinnowSmallModel<MinnowEntity> minnowSmallModel;
-    private final MinnowThinModel<MinnowEntity> minnowThinModel;
+    private final MinnowBigModel<Minnow> minnowBigModel;
+    private final MinnowHatchetModel<Minnow> minnowHatchetModel;
+    private final MinnowRoundModel<Minnow> minnowRoundModel;
+    private final MinnowSlimModel<Minnow> minnowSlimModel;
+    private final MinnowSmallModel<Minnow> minnowSmallModel;
+    private final MinnowThinModel<Minnow> minnowThinModel;
 
     public MinnowRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new MinnowBigModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_BIG_LAYER)), 0.25f);
@@ -36,9 +34,10 @@ public class MinnowRenderer extends MobRenderer<MinnowEntity, FintasticModel<Min
     }
 
     @Override
-    public void render(MinnowEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(Minnow entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(entity.getVariant());
 
-        switch (entity.getVariantModel()){
+        switch (minnowVariant.getModel()){
             case 1:
                 this.model = minnowHatchetModel;
                 break;
@@ -62,25 +61,13 @@ public class MinnowRenderer extends MobRenderer<MinnowEntity, FintasticModel<Min
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MinnowEntity pEntity) {
-
-        int joinedVariantID = Integer.decode(String.valueOf(pEntity.getVariantModel()));
-        MinnowEntity.MinnowVariant minnowVariant = MinnowEntity.MinnowVariant.byId(joinedVariantID);
-
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/minnow/"+minnowVariant.getModelName()+"/"+minnowVariant.getName()+".png");
+    public ResourceLocation getTextureLocation(Minnow pEntity) {
+        Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(pEntity.getVariant());
+        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/minnow/"+Minnow.getModelName(minnowVariant.getModel())+"/"+minnowVariant.getSerializedName()+".png");
     }
 
     @Override
-    protected @Nullable RenderType getRenderType(MinnowEntity pEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
-
-        int joinedVariantID = Integer.decode(String.valueOf(pEntity.getVariantModel()) + pEntity.getVariantSkin());
-        MinnowEntity.MinnowVariant minnowVariant = MinnowEntity.MinnowVariant.byId(joinedVariantID);
-
-        return RenderType.entityCutout(new ResourceLocation(Fintastic.MOD_ID,"textures/entity/minnow/"+minnowVariant.getModelName()+"/"+minnowVariant.getName()+".png"));
-    }
-
-    @Override
-    protected void setupRotations(MinnowEntity pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+    protected void setupRotations(Minnow pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
         pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));
     }

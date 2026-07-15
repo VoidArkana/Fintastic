@@ -1,0 +1,44 @@
+{
+  "parent": "fintastic:fintastic/creatures",
+  "display": {
+    "icon": {
+      "item": "fintastic:small_catfish"
+    },
+    "title": {
+      "translate": "advancements.fintastic.small_catfish.title"
+    },
+    "description": {
+      "translate": "advancements.fintastic.small_catfish.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "witness_entity": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type_specific": {
+                "type": "player",
+                "looking_at": {
+                  "type": "fintastic:small_catfish"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "witness_entity"
+    ]
+  ]
+}

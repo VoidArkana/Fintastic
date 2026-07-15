@@ -1,0 +1,31 @@
+{
+  "loader": "forge:separate_transforms",
+  "gui_light": "front",
+  "base": {
+    "parent": "fintastic:item/large_handheld",
+    "textures": {
+      "particle": "fintastic:item/arapaima_handheld",
+      "layer0": "fintastic:item/arapaima_handheld"
+    }
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "fintastic:item/arapaima"
+      }
+    },
+    "ground": {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "fintastic:item/arapaima"
+      }
+    },
+    "fixed": {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "fintastic:item/arapaima"
+      }
+    }
+  }
+}

@@ -5,22 +5,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -30,21 +23,17 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
-import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
-import net.voidarkana.fintastic.common.entity.custom.ai.FishFollowParentGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
 public class Coelacanth extends BucketableFishEntity {
 
-    public final AnimationState idleAnimationState = new AnimationState();
-    public final AnimationState flopAnimationState = new AnimationState();
-
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
     public boolean isFood(ItemStack pStack) {
         return FOOD_ITEMS.test(pStack);
@@ -68,7 +57,7 @@ public class Coelacanth extends BucketableFishEntity {
 
     @Override
     public @Nullable BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Coelacanth baby = YAFMEntities.COELACANTH.get().create(pLevel);
+        Coelacanth baby = FintyEntities.COELACANTH.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
         }
@@ -76,22 +65,8 @@ public class Coelacanth extends BucketableFishEntity {
     }
 
     @Override
-    public void tick() {
-        if (this.level().isClientSide()){
-            this.setupAnimationStates();
-        }
-
-        super.tick();
-    }
-
-    private void setupAnimationStates() {
-        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
-        this.flopAnimationState.animateWhen(this.isAlive(), this.tickCount);
-    }
-
-    @Override
     public ItemStack getPickedResult(HitResult target) {
-        return new ItemStack(YAFMItems.COELACANTH_SPAWN_EGG.get());
+        return new ItemStack(FintyItems.COELACANTH_SPAWN_EGG.get());
     }
 
     public BlockPos getLightPosition() {
@@ -125,6 +100,10 @@ public class Coelacanth extends BucketableFishEntity {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+
+        if (pTag.contains("Age")) {
+            this.setAge(pTag.getInt("Age"));
+        }
     }
 
     @Override
@@ -148,7 +127,7 @@ public class Coelacanth extends BucketableFishEntity {
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(YAFMItems.COELACANTH_BUCKET.get());
+        return new ItemStack(FintyItems.COELACANTH_BUCKET.get());
     }
 
     @Override

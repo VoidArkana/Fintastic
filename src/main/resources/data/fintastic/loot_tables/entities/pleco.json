@@ -41,34 +41,12 @@
               "count": {
                 "type": "minecraft:uniform",
                 "max": 1.0,
-                "min": 0.0
-              },
-              "function": "minecraft:set_count"
-            },
-            {
-              "conditions": [
-                {
-                  "condition": "minecraft:entity_properties",
-                  "entity": "this",
-                  "predicate": {
-                    "flags": {
-                      "is_on_fire": true
-                    }
-                  }
-                }
-              ],
-              "function": "minecraft:furnace_smelt"
-            },
-            {
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 1.0,
                 "min": 1.0
               },
-              "function": "minecraft:looting_enchant"
+              "function": "minecraft:set_count"
             }
           ],
-          "name": "fintastic:raw_fish"
+          "name": "fintastic:pleco"
         }
       ],
       "rolls": 1.0

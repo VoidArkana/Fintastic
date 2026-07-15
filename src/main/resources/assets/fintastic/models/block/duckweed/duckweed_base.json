@@ -1,0 +1,25 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"render_type": "minecraft:cutout",
+	"textures": {
+		"texture": "#texture",
+		"particle": "fintastic:block/duckweed/duckweed_full_center_1"
+	},
+	"elements": [
+		{
+			"name": "full",
+			"from": [0, -1, 0],
+			"to": [16, -1, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -1, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 0], "texture": "#texture", "tintindex": 0},
+				"east": {"uv": [0, 0, 16, 0], "texture": "#texture", "tintindex": 0},
+				"south": {"uv": [0, 0, 16, 0], "texture": "#texture", "tintindex": 0},
+				"west": {"uv": [0, 0, 16, 0], "texture": "#texture", "tintindex": 0},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture", "tintindex": 0},
+				"down": {"uv": [0, 16, 16, 0], "texture": "#texture", "tintindex": 0}
+			}
+		}
+	]
+}

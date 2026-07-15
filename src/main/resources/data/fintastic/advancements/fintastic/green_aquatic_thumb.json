@@ -1,0 +1,42 @@
+{
+  "parent": "fintastic:fintastic/items",
+  "display": {
+    "icon": {
+      "item": "fintastic:lotus_pad"
+    },
+    "title": {
+      "translate": "advancements.fintastic.green_aquatic_thumb.title"
+    },
+    "description": {
+      "translate": "advancements.fintastic.green_aquatic_thumb.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "requirements": [
+    ["plants"]
+  ],
+  "criteria": {
+    "plants": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {"items": ["fintastic:lotus"]},
+          {"items": ["fintastic:duckweed"]},
+          {"items": ["fintastic:hornwort"]},
+          {"items": ["fintastic:caulerpa"]},
+          {"items": ["fintastic:blue_hypnea"]},
+          {"items": ["fintastic:dragons_breath_algae"]},
+          {"items": ["fintastic:red_algae"]},
+          {"items": ["fintastic:amazon_swords"]},
+          {"items": ["fintastic:sea_grapes"]},
+          {"items": ["fintastic:aquatic_moss_phyllid"]},
+          {"items": ["fintastic:mermaid_fan"]},
+          {"items": ["fintastic:red_algae_fan"]}
+        ]
+      }
+    }
+  }
+}

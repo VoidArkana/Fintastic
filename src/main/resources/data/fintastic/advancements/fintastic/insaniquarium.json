@@ -1,0 +1,45 @@
+{
+  "parent": "fintastic:fintastic/creatures",
+  "display": {
+    "icon": {
+      "item": "fintastic:arapaima_fishnet"
+    },
+    "title": {
+      "translate": "advancements.fintastic.insaniquarium.title"
+    },
+    "description": {
+      "translate": "advancements.fintastic.insaniquarium.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "requirements": [
+    ["fish_buckets"]
+  ],
+  "criteria": {
+    "fish_buckets": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {"items": ["fintastic:arapaima_bucket"]},
+          {"items": ["fintastic:catfish_bucket"]},
+          {"items": ["fintastic:coelacanth_bucket"]},
+          {"items": ["fintastic:copepod_bucket"]},
+          {"items": ["fintastic:daphnia_bucket"]},
+          {"items": ["fintastic:artemia_bucket"]},
+          {"items": ["fintastic:featherback_bucket"]},
+          {"items": ["fintastic:gourami_bucket"]},
+          {"items": ["fintastic:guppy_bucket"]},
+          {"items": ["fintastic:minnow_bucket"]},
+          {"items": ["fintastic:moony_bucket"]},
+          {"items": ["fintastic:pleco_bucket"]},
+          {"items": ["fintastic:freshwater_shark_bucket"]},
+          {"items": ["fintastic:dwarf_frog_bucket"]},
+          {"items": ["fintastic:small_catfish_bucket"]}
+        ]
+      }
+    }
+  }
+}

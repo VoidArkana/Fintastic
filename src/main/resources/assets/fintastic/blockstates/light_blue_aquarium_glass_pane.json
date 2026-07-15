@@ -1,0 +1,274 @@
+{
+  "variants": {
+    "facing=north,up=false,down=false,east=false,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_full"
+    },
+    "facing=south,up=false,down=false,east=false,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_full",
+      "y": 180
+    },
+    "facing=east,up=false,down=false,north=false,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_full",
+      "y": 90
+    },
+    "facing=west,up=false,down=false,north=false,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_full",
+      "y": 270
+    },
+
+
+    "facing=north,up=false,down=false,east=true,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_right"
+    },
+    "facing=south,up=false,down=false,east=false,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_right",
+      "y": 180
+    },
+    "facing=east,up=false,down=false,north=false,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_right",
+      "y": 90
+    },
+    "facing=west,up=false,down=false,north=true,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_right",
+      "y": 270
+    },
+
+
+    "facing=north,up=false,down=false,east=false,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_left"
+    },
+    "facing=south,up=false,down=false,east=true,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_left",
+      "y": 180
+    },
+    "facing=east,up=false,down=false,north=true,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_left",
+      "y": 90
+    },
+    "facing=west,up=false,down=false,north=false,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_left",
+      "y": 270
+    },
+
+
+    "facing=north,up=false,down=false,east=true,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_horizontal"
+    },
+    "facing=south,up=false,down=false,east=true,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_horizontal",
+      "y": 180
+    },
+    "facing=east,up=false,down=false,north=true,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_horizontal",
+      "y": 90
+    },
+    "facing=west,up=false,down=false,north=true,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_horizontal",
+      "y": 270
+    },
+
+
+    "facing=north,up=true,down=true,east=true,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_none"
+    },
+    "facing=south,up=true,down=true,east=true,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_none",
+      "y": 180
+    },
+    "facing=east,up=true,down=true,north=true,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_none",
+      "y": 90
+    },
+    "facing=west,up=true,down=true,north=true,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_none",
+      "y": 270
+    },
+
+
+    "facing=north,up=true,down=true,east=false,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_vertical"
+    },
+    "facing=south,up=true,down=true,east=false,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_vertical",
+      "y": 180
+    },
+    "facing=east,up=true,down=true,north=false,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_vertical",
+      "y": 90
+    },
+    "facing=west,up=true,down=true,north=false,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_vertical",
+      "y": 270
+    },
+
+
+    "facing=north,up=true,down=false,east=false,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_top"
+    },
+    "facing=south,up=true,down=false,east=false,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_top",
+      "y": 180
+    },
+    "facing=east,up=true,down=false,north=false,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_top",
+      "y": 90
+    },
+    "facing=west,up=true,down=false,north=false,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_top",
+      "y": 270
+    },
+
+
+    "facing=north,up=false,down=true,east=false,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_bottom"
+    },
+    "facing=south,up=false,down=true,east=false,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_bottom",
+      "y": 180
+    },
+    "facing=east,up=false,down=true,north=false,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_bottom",
+      "y": 90
+    },
+    "facing=west,up=false,down=true,north=false,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_bottom",
+      "y": 270
+    },
+
+
+    "facing=north,up=true,down=true,east=false,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlyright"
+    },
+    "facing=south,up=true,down=true,east=true,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlyright",
+      "y": 180
+    },
+    "facing=east,up=true,down=true,north=true,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlyright",
+      "y": 90
+    },
+    "facing=west,up=true,down=true,north=false,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlyright",
+      "y": 270
+    },
+
+
+    "facing=north,up=true,down=true,east=true,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlyleft"
+    },
+    "facing=south,up=true,down=true,east=false,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlyleft",
+      "y": 180
+    },
+    "facing=east,up=true,down=true,north=false,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlyleft",
+      "y": 90
+    },
+    "facing=west,up=true,down=true,north=true,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlyleft",
+      "y": 270
+    },
+
+
+    "facing=north,up=true,down=false,east=true,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlybottom"
+    },
+    "facing=south,up=true,down=false,east=true,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlybottom",
+      "y": 180
+    },
+    "facing=east,up=true,down=false,north=true,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlybottom",
+      "y": 90
+    },
+    "facing=west,up=true,down=false,north=true,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlybottom",
+      "y": 270
+    },
+
+
+    "facing=north,up=false,down=true,east=true,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlytop"
+    },
+    "facing=south,up=false,down=true,east=true,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlytop",
+      "y": 180
+    },
+    "facing=east,up=false,down=true,north=true,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlytop",
+      "y": 90
+    },
+    "facing=west,up=false,down=true,north=true,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_onlytop",
+      "y": 270
+    },
+
+
+    "facing=north,up=false,down=true,east=true,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_rightbottom"
+    },
+    "facing=south,up=false,down=true,east=false,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_rightbottom",
+      "y": 180
+    },
+    "facing=east,up=false,down=true,north=false,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_rightbottom",
+      "y": 90
+    },
+    "facing=west,up=false,down=true,north=true,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_rightbottom",
+      "y": 270
+    },
+
+
+    "facing=north,up=true,down=false,east=true,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_topright"
+    },
+    "facing=south,up=true,down=false,east=false,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_topright",
+      "y": 180
+    },
+    "facing=east,up=true,down=false,north=false,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_topright",
+      "y": 90
+    },
+    "facing=west,up=true,down=false,north=true,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_topright",
+      "y": 270
+    },
+
+
+    "facing=north,up=true,down=false,east=false,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_topleft"
+    },
+    "facing=south,up=true,down=false,east=true,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_topleft",
+      "y": 180
+    },
+    "facing=east,up=true,down=false,north=true,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_topleft",
+      "y": 90
+    },
+    "facing=west,up=true,down=false,north=false,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_topleft",
+      "y": 270
+    },
+
+
+    "facing=north,up=false,down=true,east=false,west=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_bottomleft"
+    },
+    "facing=south,up=false,down=true,east=true,west=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_bottomleft",
+      "y": 180
+    },
+    "facing=east,up=false,down=true,north=true,south=false": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_bottomleft",
+      "y": 90
+    },
+    "facing=west,up=false,down=true,north=false,south=true": {
+      "model": "fintastic:block/aquarium_glass_pane/aquarium_glass_pane_bottomleft",
+      "y": 270
+    }
+  }
+}

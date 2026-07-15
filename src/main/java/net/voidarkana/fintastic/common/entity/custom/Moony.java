@@ -1,8 +1,11 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.util.ByIdMap;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -15,8 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraftforge.common.Tags;
-import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.boids.BoidGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.boids.LimitSpeedAndLookInVelocityDirectionGoal;
@@ -25,22 +27,20 @@ import net.voidarkana.fintastic.common.entity.custom.ai.boids.StayInWaterGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
 import net.voidarkana.fintastic.common.entity.custom.base.VariantBoidingFish;
-import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.IntFunction;
 
 
 public class Moony extends VariantBoidingFish {
-
-    public final AnimationState idleAnimationState = new AnimationState();
-    public final AnimationState flopAnimationState = new AnimationState();
 
     public Moony(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
     @Override
     protected void registerGoals() {
@@ -53,7 +53,7 @@ public class Moony extends VariantBoidingFish {
 
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
             if (entity instanceof Player player){
-                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(YAFMItems.FISHING_HAT.get());
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(FintyItems.FISHING_HAT.get());
             }
             return false;}));
 
@@ -71,12 +71,6 @@ public class Moony extends VariantBoidingFish {
                 .add(Attributes.MOVEMENT_SPEED, 0.8F);
     }
 
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        this.setVariantModel(compound.getInt("VariantModel"));
-        this.setVariantSkin(compound.getInt("VariantSkin"));
-    }
-
     @Override
     public void saveToBucketTag(ItemStack bucket) {
         CompoundTag compoundnbt = bucket.getOrCreateTag();
@@ -84,8 +78,7 @@ public class Moony extends VariantBoidingFish {
         compoundnbt.putFloat("Health", this.getHealth());
         compoundnbt.putInt("Age", this.getAge());
         compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
-        compoundnbt.putInt("VariantModel", this.getVariantModel());
-        compoundnbt.putInt("VariantSkin", this.getVariantSkin());
+        compoundnbt.putInt("Variant", this.getVariant());
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
         }
@@ -94,20 +87,10 @@ public class Moony extends VariantBoidingFish {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
-    }
-
-
-    @Override
-    public void tick() {
-        if (this.level().isClientSide()){
-            this.setupAnimationStates();
-        }
-        super.tick();
-    }
-
-    private void setupAnimationStates() {
-        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
-        this.flopAnimationState.animateWhen(this.isAlive(), this.tickCount);
+        if (pTag.contains("Age")) {
+            this.setAge(pTag.getInt("Age"));}
+        if (pTag.contains("Variant")) {
+            this.setAge(pTag.getInt("Variant"));}
     }
 
     @Nullable
@@ -117,45 +100,46 @@ public class Moony extends VariantBoidingFish {
         if (pSpawnData == null)
             pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("VariantModel", 3)) {
-            this.setVariantModel(pDataTag.getInt("VariantModel"));
-            this.setVariantSkin(pDataTag.getInt("VariantSkin"));
+        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
+            this.setVariant(pDataTag.getInt("Variant"));
             if (pDataTag.contains("Age")) {
                 this.setAge(pDataTag.getInt("Age"));}
             this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
         }else{
 
-            int skin = this.random.nextInt(2);
-
             if(pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
-                this.setVariantModel(this.random.nextInt(3));
+                this.setVariant(Util.getRandom(MoonyVariant.values(), this.random).getJoinedVariant());
             }else {
-                int model;
+                int variant;
 
-                if (pSpawnData instanceof MinnowGroupData groupData){
+                if (pSpawnData instanceof MoonyGroupData groupData){
 
-                    model = groupData.getVariantModel();
-                    skin = groupData.getVariantSkin();
+                    variant = groupData.getVariant();
                     this.startFollowing(groupData.leader);
 
                 }else {
-                    if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
-                        model = this.random.nextInt(3);
-                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
-                        model = 0;
+
+                    if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
+                        variant = switch (this.getRandom().nextInt(0, 4)) {
+                            case 1 -> MoonyVariant.AFRICAN_MOONY_1.getJoinedVariant();
+                            case 2 -> MoonyVariant.DWARF_MOONY_1.getJoinedVariant();
+                            case 3 -> MoonyVariant.DWARF_MOONY_2.getJoinedVariant();
+                            default -> MoonyVariant.AFRICAN_MOONY_2.getJoinedVariant();
+                        };
                     }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_OCEAN)){
-                        model = this.random.nextInt(1, 3);
+                        if (this.getRandom().nextBoolean())
+                            variant = MoonyVariant.SILVER_MOONY.getJoinedVariant();
+                        else
+                            variant = MoonyVariant.FULL_MOONY.getJoinedVariant();
                     }else {
-                        model = this.random.nextInt(3);
+                        variant = Util.getRandom(MoonyVariant.values(), this.random).getJoinedVariant();
                     }
 
-                    pSpawnData = new MinnowGroupData(this, model, skin);
+                    pSpawnData = new MoonyGroupData(this, variant);
                 }
 
-                this.setVariantModel(model);
+                this.setVariant(variant);
             }
-
-            this.setVariantSkin(skin);
         }
 
         return pSpawnData;
@@ -164,11 +148,10 @@ public class Moony extends VariantBoidingFish {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Moony baby = YAFMEntities.MOONY.get().create(pLevel);
+        Moony baby = FintyEntities.MOONY.get().create(pLevel);
         if (baby != null){
             baby.setFromBucket(true);
-            baby.setVariantModel(this.getVariantModel());
-            baby.setVariantSkin(this.getVariantSkin());
+            baby.setVariant(this.getVariant());
         }
         return baby;
     }
@@ -176,78 +159,75 @@ public class Moony extends VariantBoidingFish {
     @Override
     public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
         Moony mate = (Moony) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && mate.getVariantModel() == this.getVariantModel() && mate.getVariantSkin() == this.getVariantSkin();
+        return super.canMate(pOtherAnimal) && mate.getVariant() == this.getVariant();
     }
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(YAFMItems.MOONY_BUCKET.get());
+        return new ItemStack(FintyItems.MOONY_BUCKET.get());
     }
 
+    static class MoonyGroupData extends SchoolSpawnGroupData {
+        final int variant;
 
-    static class MinnowGroupData extends SchoolSpawnGroupData {
-        final int variantModel;
-        final int variantSkin;
-
-        MinnowGroupData(Moony pLeader, int pVariantModel, int pVariantSkin) {
+        MoonyGroupData(Moony pLeader, int pVariant) {
             super(pLeader);
-            this.variantModel = pVariantModel;
-            this.variantSkin = pVariantSkin;
+            this.variant = pVariant;
         }
 
-        public int getVariantModel(){
-            return variantModel;
-        }
-
-        public int getVariantSkin(){
-            return variantSkin;
+        public int getVariant(){
+            return variant;
         }
     }
 
-    public String getVariantName(){
-        String variant;
+    public enum MoonyVariant implements StringRepresentable {
+        DWARF_MOONY_1(0, "dwarf_moony_1"),
+        DWARF_MOONY_2(1, "dwarf_moony_2"),
 
-        switch (this.getVariantModel()){
-            case 1:
-                variant = "moonysmall";
-                break;
-            case 2:
-                variant = "moonytall";
-                break;
-            default:
-                variant = "moony";
+        AFRICAN_MOONY_1(10, "african_moony_1"),
+        AFRICAN_MOONY_2(11, "african_moony_2"),
+
+        SILVER_MOONY(20, "silver_moony"),
+        FULL_MOONY(21, "full_moony");
+
+        private final int joinedVariant;
+        private final String name;
+
+        MoonyVariant(int variant, String name){
+            this.joinedVariant = variant;
+            this.name = name;
         }
 
-        if (this.getVariantSkin() == 0){
-            variant = variant + "_0";
-        }else {
-            variant = variant + "_1";
+        public int getJoinedVariant(){
+            return this.joinedVariant;
         }
 
-        return variant;
-    }
-
-    public static String getVariantName(int variantModel, int variantSkin){
-        String variant;
-
-        switch (variantModel){
-            case 1:
-                variant = "moonysmall";
-                break;
-            case 2:
-                variant = "moonytall";
-                break;
-            default:
-                variant = "moony";
+        public int getModel(){
+            return this.joinedVariant/10;
         }
 
-        if (variantSkin == 0){
-            variant = variant + "_0";
-        }else {
-            variant = variant + "_1";
+        public int getSkin(){
+            return this.joinedVariant%10;
         }
 
-        return variant;
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
+
+        public static final IntFunction<MoonyVariant> BY_ID
+                = ByIdMap.sparse(MoonyVariant::getJoinedVariant, values(), DWARF_MOONY_1);
+
+        public static final StringRepresentable.EnumCodec<MoonyVariant> CODEC
+                = StringRepresentable.fromEnum(MoonyVariant::values);
+
+        public static MoonyVariant byId(int pId) {
+            return BY_ID.apply(pId);
+        }
+
+        public static MoonyVariant byName(String pName) {
+            return CODEC.byName(pName, DWARF_MOONY_1);
+        }
     }
 
     @Override

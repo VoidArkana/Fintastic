@@ -1,0 +1,32 @@
+{
+  "parent": "fintastic:fintastic/dwarf_frog",
+  "display": {
+    "icon": {
+      "item": "fintastic:green_dwarf_froglight"
+    },
+    "title": {
+      "translate": "advancements.fintastic.deltarune.title"
+    },
+    "description": {
+      "translate": "advancements.fintastic.deltarune.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "requirements": [
+    ["friend_inside_me"]
+  ],
+  "criteria": {
+    "friend_inside_me": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {"items": ["fintastic:yellow_dwarf_froglight"]},
+          {"items": ["fintastic:pink_dwarf_froglight"]}
+        ]
+      }
+    }
+  }
+}

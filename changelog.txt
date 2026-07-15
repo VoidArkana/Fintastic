@@ -493,7 +493,7 @@
  - 43.0.11 Filter name spaces to directories only. Closes #8413
  - 43.0.10 Fix a corner case where the UMLB can not extract a version from a library. (#8967)
  - 43.0.9  Fix worlds with removed dimension types unable to load. (#8959) Closes #8800
- - 43.0.8  Fix issue where unknown chunk generators would cause DFU to fail. (#8957)
+ - 43.0.8  Fix issue where net.voidarkana.fintastic.client.models.entity.unknown chunk generators would cause DFU to fail. (#8957)
  - 43.0.7  Fix comments and documentation that were missed during the review of #8712 (#8945)
  - 43.0.6  Make AnvilUpdateEvent fire even if the second input is empty, which means it fires even if only changing the item name. (#8905)
  - 43.0.5  Fix `LivingEntity#isBlocking` to use `ToolActions#SHIELD_BLOCK` instead of `UseAnim#BLOCK` (#8933)

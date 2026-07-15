@@ -5,21 +5,17 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.BaseCoralWallFanBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.voidarkana.fintastic.common.block.custom.AlgaeCarpetBlock;
 import net.voidarkana.fintastic.common.block.custom.HornwortBlock;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.util.FintyTags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -46,7 +42,7 @@ public class BoneMealItemMixin extends Item{
                 BlockPos blockpos = pPos;
                 Holder<Biome> holder = pLevel.getBiome(blockpos);
 
-                if (!holder.is(YAFMTags.Biomes.FRESHWATER_PLANT_BIOME_BLACKLIST)){
+                if (!holder.is(FintyTags.Biomes.FRESHWATER_PLANT_BIOME_BLACKLIST)){
 
                     RandomSource randomsource = pLevel.getRandom();
 
@@ -62,7 +58,7 @@ public class BoneMealItemMixin extends Item{
                         }
 
                         if (randomsource.nextInt(3) == 0) {
-                            blockstate = BuiltInRegistries.BLOCK.getTag(YAFMTags.Blocks.FRESHWATER_PLANTS).flatMap((holders) -> {
+                            blockstate = BuiltInRegistries.BLOCK.getTag(FintyTags.Blocks.FRESHWATER_PLANTS).flatMap((holders) -> {
                                 return holders.getRandomElement(pLevel.random);
                             }).map((blockHolder) -> {
                                 return blockHolder.get() instanceof HornwortBlock ?

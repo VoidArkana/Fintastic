@@ -8,11 +8,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.voidarkana.fintastic.client.animation.ArapaimaAnims;
-import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
-import net.voidarkana.fintastic.common.entity.custom.ArapaimaEntity;
+import net.voidarkana.fintastic.common.entity.custom.Arapaima;
 
-public class ArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<T> {
+public class ArapaimaModel<T extends Arapaima> extends FintasticModel<T> {
 
 	private final ModelPart root;
 	private final ModelPart swim_rot;
@@ -53,7 +52,7 @@ public class ArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<T> {
 
 		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition swim_rot = root.addOrReplaceChild("swim_rot", CubeListBuilder.create(), PartPose.offset(-0.5F, -9.0F, -25.0F));
+		PartDefinition swim_rot = root.addOrReplaceChild("swim_rot", CubeListBuilder.create(), PartPose.offset(-2.0F, -5.0F, -21.0F));
 
 		PartDefinition body = swim_rot.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -83,39 +82,38 @@ public class ArapaimaModel<T extends ArapaimaEntity> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(ArapaimaEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(Arapaima pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.IDLE_SWIM, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.GROUND_IDLE, pAgeInTicks, 1.0F,  (pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount));
+		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.IDLE_SWIM, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount*5f)));
+		this.animateIdle(pEntity.idleAnimationState, ArapaimaAnims.GROUND_IDLE, pAgeInTicks, 1.0F,  (pEntity.getTicksOutsideWater()/3f)-Math.abs(pLimbSwingAmount*5f));
+
 
 		if (pEntity.isInWaterOrBubble()){
-			this.head.xRot = (((headPitch * ((float) Math.PI / 180F))/8));
-			this.body.xRot = (((headPitch * ((float) Math.PI / 180F))/8));
-			this.torsoend.xRot = (-((headPitch * ((float) Math.PI / 180F))/4));
+			this.head.xRot += (((headPitch * ((float) Math.PI / 180F))/8));
+			this.body.xRot += (((headPitch * ((float) Math.PI / 180F))/8));
+			this.torsoend.xRot += (-((headPitch * ((float) Math.PI / 180F))/4));
 
-			this.head.yRot = (pEntity.currentRoll);
-			this.body.yRot = (pEntity.currentRoll/2);
-			this.torsoend.yRot = (-pEntity.currentRoll);
+			this.head.yRot += (pEntity.currentRoll);
+			this.body.yRot += (pEntity.currentRoll/2);
+			this.torsoend.yRot -= (-pEntity.currentRoll);
 
-			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/2;
-			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2);
+			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/2f;
+			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2f);
 
-			this.animateWalk(ArapaimaAnims.SWIM, pLimbSwing, pLimbSwingAmount*5f, 2f, 3f);
+			this.animateWalk(ArapaimaAnims.SWIM, pLimbSwing*2f, pLimbSwingAmount, 2f, 25f);
 		}
 		else {
-			this.swim_rot.resetPose();
-			this.head.resetPose();
-			this.torsoend.resetPose();
-			this.body.resetPose();
-
-			this.animateWalk(ArapaimaAnims.CRAWL, pLimbSwing, pLimbSwingAmount*5f, 2f, 3f);
+			this.animateWalk(ArapaimaAnims.CRAWL, pLimbSwing*5, pLimbSwingAmount*5f, 2f, 25f);
 		}
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack pPoseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		pPoseStack.pushPose();
+			pPoseStack.translate(0.0F, 0, 0.0F);
+			this.root().render(pPoseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		pPoseStack.popPose();
 	}
 
 	@Override

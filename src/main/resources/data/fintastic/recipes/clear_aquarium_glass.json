@@ -1,22 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "building",
-  "key": {
-    "L": {
-      "item": "minecraft:glass"
-    },
-    "G": {
-      "item": "fintastic:aquarium_glass"
-    }
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "fintastic:aquarium_glass"
   },
-  "pattern": [
-    " L ",
-    "LGL",
-    " L "
-  ],
-  "result": {
-    "item": "fintastic:clear_aquarium_glass",
-    "count": 6
-  },
-  "show_notification": true
+  "result": "fintastic:clear_aquarium_glass",
+  "experience": 0.35,
+  "cookingtime": 200
 }

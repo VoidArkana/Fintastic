@@ -1,0 +1,1409 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_full"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "false",
+        "west": "false",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_full",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "false",
+        "south": "false",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_full",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "false",
+        "west": "false",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_full",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "false",
+        "south": "false",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_full",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_full",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "false"
+      }
+    },
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_left"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "false",
+        "west": "true",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_left",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "true",
+        "south": "false",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_left",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "true",
+        "west": "false",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_left",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "false",
+        "south": "true",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_left",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_left",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "true"
+      }
+    },
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_right"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "true",
+        "west": "false",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_right",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "false",
+        "south": "true",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_right",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "false",
+        "west": "true",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_right",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "true",
+        "south": "false",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_right",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "false",
+        "south": "false",
+        "east": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_right",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "false",
+        "south": "false",
+        "east": "true",
+        "west": "false"
+      }
+    },
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_top"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "false",
+        "west": "false",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_top",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "false",
+        "south": "false",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_top",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "false",
+        "west": "false",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_top",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "false",
+        "south": "false",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_top",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "false",
+        "south": "true",
+        "east": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_top",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "true",
+        "south": "false",
+        "east": "false",
+        "west": "false"
+      }
+    },
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottom"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "false",
+        "west": "false",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottom",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "false",
+        "south": "false",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottom",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "false",
+        "west": "false",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottom",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "false",
+        "south": "false",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottom",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "true",
+        "south": "false",
+        "east": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottom",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "false",
+        "south": "true",
+        "east": "false",
+        "west": "false"
+      }
+    },
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_horizontal"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "true",
+        "west": "true",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_horizontal",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "true",
+        "south": "true",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_horizontal",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "true",
+        "west": "true",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_horizontal",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "true",
+        "south": "true",
+        "up": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_horizontal",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "false",
+        "south": "false",
+        "east": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_horizontal",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "false",
+        "south": "false",
+        "east": "true",
+        "west": "true"
+      }
+    },
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_vertical"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "false",
+        "west": "false",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_vertical",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "false",
+        "south": "false",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_vertical",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "false",
+        "west": "false",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_vertical",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "false",
+        "south": "false",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_vertical",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "true",
+        "south": "true",
+        "east": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_vertical",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "true",
+        "south": "true",
+        "east": "false",
+        "west": "false"
+      }
+    },
+
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_none"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "true",
+        "west": "true",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_none",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "true",
+        "south": "true",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_none",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "true",
+        "west": "true",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_none",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "true",
+        "south": "true",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_none",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "true",
+        "south": "true",
+        "east": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_none",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "true",
+        "south": "true",
+        "east": "true",
+        "west": "true"
+      }
+    },
+
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_rightbottom"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "true",
+        "west": "false",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_rightbottom",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "false",
+        "south": "true",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_rightbottom",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "false",
+        "west": "true",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_rightbottom",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "true",
+        "south": "false",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_rightbottom",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "true",
+        "south": "false",
+        "east": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_rightbottom",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "false",
+        "south": "true",
+        "east": "true",
+        "west": "false"
+      }
+    },
+
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topright"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "true",
+        "west": "false",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topright",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "false",
+        "south": "true",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topright",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "false",
+        "west": "true",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topright",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "true",
+        "south": "false",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topright",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "false",
+        "south": "true",
+        "east": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topright",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "true",
+        "south": "false",
+        "east": "true",
+        "west": "false"
+      }
+    },
+
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottomleft"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "false",
+        "west": "true",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottomleft",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "true",
+        "south": "false",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottomleft",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "true",
+        "west": "false",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottomleft",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "false",
+        "south": "true",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottomleft",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "true",
+        "south": "false",
+        "east": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_bottomleft",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "false",
+        "south": "true",
+        "east": "false",
+        "west": "true"
+      }
+    },
+
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topleft"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "false",
+        "west": "true",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topleft",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "true",
+        "south": "false",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topleft",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "true",
+        "west": "false",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topleft",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "false",
+        "south": "true",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topleft",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "false",
+        "south": "true",
+        "east": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_topleft",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "true",
+        "south": "false",
+        "east": "false",
+        "west": "true"
+      }
+    },
+
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyleft"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "true",
+        "west": "false",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyleft",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "false",
+        "south": "true",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyleft",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "false",
+        "west": "true",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyleft",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "true",
+        "south": "false",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyleft",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "true",
+        "south": "true",
+        "east": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyleft",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "true",
+        "south": "true",
+        "east": "true",
+        "west": "false"
+      }
+    },
+
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyright"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "false",
+        "west": "true",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyright",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "true",
+        "south": "false",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyright",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "true",
+        "west": "false",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyright",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "false",
+        "south": "true",
+        "up": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyright",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "true",
+        "south": "true",
+        "east": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlyright",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "true",
+        "south": "true",
+        "east": "false",
+        "west": "true"
+      }
+    },
+
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlytop"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "true",
+        "west": "true",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlytop",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "true",
+        "south": "true",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlytop",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "true",
+        "west": "true",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlytop",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "true",
+        "south": "true",
+        "up": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlytop",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "true",
+        "south": "false",
+        "east": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlytop",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "false",
+        "south": "true",
+        "east": "true",
+        "west": "true"
+      }
+    },
+
+
+
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlybottom"
+      },
+      "when": {
+        "north": "false",
+
+        "east": "true",
+        "west": "true",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlybottom",
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+
+        "north": "true",
+        "south": "true",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlybottom",
+        "y": 180
+      },
+      "when": {
+        "south": "false",
+
+        "east": "true",
+        "west": "true",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlybottom",
+        "y": -90
+      },
+      "when": {
+        "west": "false",
+
+        "north": "true",
+        "south": "true",
+        "up": "true",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlybottom",
+        "x": -90
+      },
+      "when": {
+        "up": "false",
+
+        "north": "false",
+        "south": "true",
+        "east": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/aquarium_glass/aquarium_glass_onlybottom",
+        "x": 90
+      },
+      "when": {
+        "down": "false",
+
+        "north": "true",
+        "south": "false",
+        "east": "true",
+        "west": "true"
+      }
+    }
+  ]
+}

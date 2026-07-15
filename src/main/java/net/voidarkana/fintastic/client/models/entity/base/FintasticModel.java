@@ -17,8 +17,8 @@ public abstract class FintasticModel <E extends Entity> extends HierarchicalMode
 
     private static final Vector3f ANIMATION_VECTOR_CACHE = new Vector3f();
 
-    private final float youngScaleFactor;
-    private final float bodyYOffset;
+    public final float youngScaleFactor;
+    public final float bodyYOffset;
 
     public FintasticModel(float pYoungScaleFactor, float pBodyYOffset) {
         this(pYoungScaleFactor, pBodyYOffset, RenderType::entityCutoutNoCull);

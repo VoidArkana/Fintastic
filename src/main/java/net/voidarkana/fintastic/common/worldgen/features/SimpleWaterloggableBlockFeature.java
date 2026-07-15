@@ -11,6 +11,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.voidarkana.fintastic.common.block.custom.AlgaeCarpetBlock;
 import net.voidarkana.fintastic.common.block.custom.StromatoliteBlock;
 
 public class SimpleWaterloggableBlockFeature extends Feature<SimpleBlockConfiguration> {
@@ -45,6 +46,10 @@ public class SimpleWaterloggableBlockFeature extends Feature<SimpleBlockConfigur
 
                         }else if (blockstate.getBlock() instanceof BaseCoralPlantBlock){
                             worldgenlevel.setBlock(blockpos, blockstate.setValue(BaseCoralPlantBlock.WATERLOGGED,
+                                    fluidstate.getType() == Fluids.WATER), 2);
+
+                        }else if (blockstate.getBlock() instanceof AlgaeCarpetBlock){
+                            worldgenlevel.setBlock(blockpos, blockstate.setValue(AlgaeCarpetBlock.WATERLOGGED,
                                     fluidstate.getType() == Fluids.WATER), 2);
 
                         }else {

@@ -3,7 +3,6 @@ package net.voidarkana.fintastic.common.entity.custom;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -11,9 +10,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ByIdMap;
-import net.minecraft.util.Mth;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -30,15 +28,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.Tags;
-import net.voidarkana.fintastic.common.block.YAFMBlocks;
-import net.voidarkana.fintastic.common.entity.YAFMEntities;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
+import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.common.sound.YAFMSounds;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.common.sound.FintySounds;
+import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -46,11 +43,9 @@ import java.util.function.IntFunction;
 
 public class Gourami extends BucketableFishEntity {
 
-    public final AnimationState idleAnimationState = new AnimationState();
-    public final AnimationState flopAnimationState = new AnimationState();
     public final AnimationState investigatingAnimationState = new AnimationState();
 
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
     private static final EntityDataAccessor<Integer> VARIANT_MODEL = SynchedEntityData.defineId(Gourami.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> VARIANT_SKIN = SynchedEntityData.defineId(Gourami.class, EntityDataSerializers.INT);
@@ -162,7 +157,7 @@ public class Gourami extends BucketableFishEntity {
     @Nullable
     @Override
     public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Gourami baby = YAFMEntities.GOURAMI.get().create(pLevel);
+        Gourami baby = FintyEntities.GOURAMI.get().create(pLevel);
         Gourami otherParent = (Gourami) pOtherParent;
         if (baby != null) {
             baby.setFromBucket(true);
@@ -174,9 +169,6 @@ public class Gourami extends BucketableFishEntity {
 
     @Override
     public void tick() {
-        if (this.level().isClientSide()) {
-            this.setupAnimationStates();
-        }
 
         super.tick();
 
@@ -201,10 +193,8 @@ public class Gourami extends BucketableFishEntity {
         }
     }
 
-    private void setupAnimationStates() {
-        this.idleAnimationState.animateWhen(this.isAlive(), this.tickCount);
-        this.flopAnimationState.animateWhen(this.isAlive(), this.tickCount);
-
+    public void setupAnimationStates() {
+        super.setupAnimationStates();
         this.investigatingAnimationState.animateWhen(this.isInvestigating(), this.tickCount);
     }
 
@@ -225,6 +215,17 @@ public class Gourami extends BucketableFishEntity {
     @Override
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+
+        if (pTag.contains("Age")) {
+            this.setAge(pTag.getInt("Age"));
+        }
+
+        if (pTag.contains("VariantModel")) {
+            this.setVariantModel(pTag.getInt("VariantModel"));
+        }
+        if (pTag.contains("VariantSkin")) {
+            this.setVariantSkin(pTag.getInt("VariantSkin"));
+        }
     }
 
     @Override
@@ -255,7 +256,7 @@ public class Gourami extends BucketableFishEntity {
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(YAFMItems.GOURAMI_BUCKET.get());
+        return new ItemStack(FintyItems.GOURAMI_BUCKET.get());
     }
 
     @Override
@@ -366,9 +367,9 @@ public class Gourami extends BucketableFishEntity {
         @Override
         protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
             BlockState blockstate = pLevel.getBlockState(pPos);
-            return blockstate.is(YAFMTags.Blocks.GOURAMI_INVESTIGATION_TARGETS) &&
+            return blockstate.is(FintyTags.Blocks.GOURAMI_INVESTIGATION_TARGETS) &&
                     !(blockstate.is(Blocks.SEAGRASS) || blockstate.is(Blocks.TALL_SEAGRASS)
-                            || blockstate.is(Blocks.LILY_PAD) || blockstate.is(YAFMBlocks.DUCKWEED.get()));
+                            || blockstate.is(Blocks.LILY_PAD) || blockstate.is(FintyBlocks.DUCKWEED.get()));
         }
     }
 
@@ -396,7 +397,7 @@ public class Gourami extends BucketableFishEntity {
         Gourami.GouramiVariant gouramiVariant = Gourami.GouramiVariant.byId(joinedVariantID);
 
         if (gouramiVariant == Gourami.GouramiVariant.CROAKING_GOURAMI){
-            return YAFMSounds.GOURAMI_CROAK.get();
+            return FintySounds.GOURAMI_CROAK.get();
         }
 
         return super.getAmbientSound();
@@ -415,7 +416,7 @@ public class Gourami extends BucketableFishEntity {
         }
     }
     
-    public enum GouramiVariant{
+    public enum GouramiVariant implements StringRepresentable {
         OSPHRONEMUS_GORAMI(0, "osphronemus_gorami"),
         REDTAIL_GIANT_GOURAMI(1, "redtail_giant_gourami"),
         RUBY_RED_GIANT_GOURAMI(2, "ruby_red_giant_gourami"),
@@ -453,7 +454,7 @@ public class Gourami extends BucketableFishEntity {
             return this.joinedVariant%10;
         }
 
-        public String getName(){
+        public String getSerializedName(){
             return this.name;
         }
 
@@ -469,9 +470,15 @@ public class Gourami extends BucketableFishEntity {
                 = ByIdMap.sparse(Gourami.GouramiVariant::getJoinedVariant,
                 values(), OSPHRONEMUS_GORAMI);
 
+        public static final StringRepresentable.EnumCodec<Gourami.GouramiVariant> CODEC
+                = StringRepresentable.fromEnum(Gourami.GouramiVariant::values);
 
         public static Gourami.GouramiVariant byId(int pId) {
             return BY_ID.apply(pId);
+        }
+
+        public static Gourami.GouramiVariant byName(String pName) {
+            return CODEC.byName(pName, OSPHRONEMUS_GORAMI);
         }
     }
 }

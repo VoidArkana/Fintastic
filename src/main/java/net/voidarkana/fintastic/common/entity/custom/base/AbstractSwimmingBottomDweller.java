@@ -8,48 +8,84 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.control.JumpControl;
+import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
+import net.voidarkana.fintastic.common.entity.custom.Pleco;
+import net.voidarkana.fintastic.common.entity.custom.SmallCatfish;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity{
 
     public int swimmingTicks = 0;
     public int prevSwimTick = 0;
+    int prevTicksOnGround;
     private static final EntityDataAccessor<Boolean> WANTS_TO_SWIM = SynchedEntityData.defineId(AbstractSwimmingBottomDweller.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> TICKS_ON_GROUND = SynchedEntityData.defineId(AbstractSwimmingBottomDweller.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(AbstractSwimmingBottomDweller.class, EntityDataSerializers.INT);
 
     protected AbstractSwimmingBottomDweller(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setMaxUpStep(1);
         this.jumpControl = new FishJumpControl(this);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 1, 1, 0.02F, 0.1F, true);
-
-//        moveControl = new SwimmingBottomDwellerMovement(this, 85, 10, 0.02F, 0.1F, true);
+        if (this instanceof SmallCatfish){
+            this.moveControl = new SmoothSwimmingMoveControl(this, 1, 20, 0.02F, 0.1F, true);
+        }else {
+            this.moveControl = new SmoothSwimmingMoveControl(this, 1, 1, 0.02F, 0.1F, true);
+        }
     }
 
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(WANTS_TO_SWIM, false);
+        this.entityData.define(TICKS_ON_GROUND, 0);
+        this.entityData.define(VARIANT, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putBoolean("WantsToSwim", this.fromBucket());
+        pCompound.putInt("Variant", this.getVariant());
     }
 
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        this.setFromBucket(pCompound.getBoolean("WantsToSwim"));
+        this.setVariant(pCompound.getInt("Variant"));
     }
 
+    //variants
+    public int getVariant() {
+        return this.entityData.get(VARIANT);
+    }
+
+    public void setVariant(int variant) {
+        this.entityData.set(VARIANT, variant);
+    }
+
+    public int getTicksOnGround() {
+        return this.entityData.get(TICKS_ON_GROUND);
+    }
+
+    public void setTicksOnGround(int ticks) {
+        this.entityData.set(TICKS_ON_GROUND, ticks);
+    }
 
     public boolean getWantsToSwim() {
         return this.entityData.get(WANTS_TO_SWIM);
     }
 
     public void setWantsToSwim(boolean pFromBucket) {
+        if (pFromBucket){
+            this.lookControl = new SmoothSwimmingLookControl(this, 10);
+        }else {
+            this.lookControl = new LookControl(this);
+        }
         this.entityData.set(WANTS_TO_SWIM, pFromBucket);
     }
 
@@ -58,7 +94,12 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
         super.tick();
 
         if (this.onGround() && this.isInWater() && this.random.nextInt(1000)==0 && !this.getWantsToSwim()){
-            this.setWantsToSwim(true);
+            if (this instanceof Pleco pleco){
+                if (!pleco.isStrafing())
+                    this.setWantsToSwim(true);
+            }else {
+                this.setWantsToSwim(true);
+            }
         }
 
         if (this.isInWater() && !this.onGround() && (this.random.nextInt(1000)==0 || swimmingTicks == 2400) && this.getWantsToSwim()){
@@ -92,6 +133,19 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
             }else if (this.isInWater() && block.getFluidState().is(Fluids.WATER)){
                 this.setMaxUpStep(1);
             }
+            if (!this.level().isClientSide()){
+                if (this.isInWaterOrBubble() && !this.onGround()){
+                    if (this.getTicksOnGround() > 0){
+                        this.prevTicksOnGround = this.getTicksOnGround();
+                        this.setTicksOnGround(this.prevTicksOnGround-1);
+                    }
+                }else {
+                    if (this.getTicksOnGround() < 3){
+                        this.prevTicksOnGround = this.getTicksOnGround();
+                        this.setTicksOnGround(this.prevTicksOnGround+1);
+                    }
+                }
+            }
         }
         super.aiStep();
     }
@@ -100,13 +154,16 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
 
         if (this.isEffectiveAi() && this.isInWater() && !this.getWantsToSwim()) {
             if (this.getTarget() == null) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.025D, 0.0D));
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             }
         }
 
         if (this.isEffectiveAi() && this.isInWater() && this.getWantsToSwim()) {
-            if (this.getTarget() == null && this.random.nextInt(500)==0) {
-                this.setWantsToSwim(false);
+            if (this.getTarget() == null && this.random.nextInt(100)==0) {
+                if (this instanceof Pleco pleco)
+                    this.setWantsToSwim(pleco.wantsToAttach());
+                else
+                    this.setWantsToSwim(false);
             }
         }
 
@@ -139,6 +196,50 @@ public abstract class AbstractSwimmingBottomDweller extends BucketableFishEntity
             if (!mob.isInWater()){
                 super.jump();
             }
+        }
+    }
+
+
+    public static class BottomDwellerSwimGoal extends RandomSwimmingGoal {
+        AbstractSwimmingBottomDweller pleco;
+
+        public BottomDwellerSwimGoal(AbstractSwimmingBottomDweller mob) {
+            super(mob, 1.0D, 50);
+            this.pleco = mob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return this.pleco.getWantsToSwim() && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return this.pleco.getWantsToSwim() && super.canContinueToUse();
+        }
+    }
+
+    public static class BottomMoveGoal extends RandomStrollGoal {
+        AbstractSwimmingBottomDweller fish;
+        public BottomMoveGoal(AbstractSwimmingBottomDweller pMob, double pSpeedModifier, int interval) {
+            super(pMob, pSpeedModifier, interval);
+            this.fish = pMob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return !this.fish.getWantsToSwim() && this.fish.onGround() && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return !this.fish.getWantsToSwim() && super.canContinueToUse();
+        }
+
+        @Nullable
+        @Override
+        protected Vec3 getPosition() {
+            return DefaultRandomPos.getPos(this.fish, 10, 1);
         }
     }
 }

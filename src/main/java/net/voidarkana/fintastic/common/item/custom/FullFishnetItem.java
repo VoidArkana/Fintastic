@@ -8,7 +8,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.voidarkana.fintastic.common.item.YAFMItems;
+import net.voidarkana.fintastic.common.item.FintyItems;
 
 import java.util.function.Supplier;
 
@@ -21,7 +21,7 @@ public class FullFishnetItem extends ForgeSpawnEggItem {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.AMBIENT, 1, 1);
-        context.getPlayer().setItemInHand(context.getHand(), new ItemStack(YAFMItems.FISHNET.get()));
+        context.getPlayer().setItemInHand(context.getHand(), new ItemStack(FintyItems.FISHNET.get()));
 
         return super.useOn(context);
     }

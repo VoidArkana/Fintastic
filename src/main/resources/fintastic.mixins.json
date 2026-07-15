@@ -6,7 +6,8 @@
   "refmap": "fintastic.refmap.json",
   "mixins": [
     "common.BoneMealItemMixin",
-    "common.DrownedMixin"
+    "common.DrownedMixin",
+    "common.VanillaFishMixin"
   ],
   "client": [
     "client.LiquidBlockRendererMixin"

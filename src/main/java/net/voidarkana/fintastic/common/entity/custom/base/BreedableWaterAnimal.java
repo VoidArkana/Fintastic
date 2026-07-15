@@ -22,10 +22,10 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -35,8 +35,8 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.Cancelable;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -44,6 +44,7 @@ import java.util.UUID;
 
 public abstract class BreedableWaterAnimal extends WaterAnimal {
 
+    public final AnimationState idleAnimationState = new AnimationState();
     public float currentRoll = 0.0F;
     int prevTicksOutsideWater;
     @Nullable
@@ -57,6 +58,11 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
         }
     }
 
+    public void calculateEntityAnimation(boolean pIncludeHeight) {
+        float f = (float)Mth.length(this.getX() - this.xo, this.floatsDown()  ? 0 : this.getY() - this.yo , this.getZ() - this.zo);
+        this.updateWalkAnimation(f);
+    }
+
     @Override
     protected void registerGoals() {
         super.registerGoals();
@@ -64,7 +70,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
             if (entity instanceof Player player){
-                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(YAFMItems.FISHING_HAT.get());
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(FintyItems.FISHING_HAT.get());
             }
             return false;}));
 
@@ -91,8 +97,13 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
 
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+
         if (pSpawnData == null) {
             pSpawnData = new BreedableWaterAnimal.AgeableFishGroupData(true);
+        }
+
+        if (pReason == MobSpawnType.STRUCTURE && this instanceof Bucketable bucketable){
+            bucketable.setFromBucket(true);
         }
 
         BreedableWaterAnimal.AgeableFishGroupData ageablemob$ageablemobgroupdata = (BreedableWaterAnimal.AgeableFishGroupData)pSpawnData;
@@ -243,8 +254,11 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
             this.moveRelative(this.getSpeed(), pTravelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-            if (this.getTarget() == null && this.canFloat()) {
+            if (this.getTarget() == null && this.floatsUp()) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+            }
+            if (this.getTarget() == null && this.floatsDown()) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.009D, 0.0D));
             }
         } else {
             super.travel(pTravelVector);
@@ -252,8 +266,13 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     }
 
-    public boolean canFloat(){
+    public boolean floatsUp(){
         return true;
+    }
+
+
+    public boolean floatsDown(){
+        return false;
     }
 
     protected SoundEvent getHurtSound(DamageSource pDamageSource) {
@@ -513,16 +532,16 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
     public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
 
-        if (itemstack.is(YAFMItems.REGULAR_FEED.get())){
+        if (itemstack.is(FintyItems.REGULAR_FEED.get())){
             this.setFeedQuality(0);
         }
-        if (itemstack.is(YAFMItems.QUALITY_FEED.get())){
+        if (itemstack.is(FintyItems.QUALITY_FEED.get())){
             this.setFeedQuality(1);
         }
-        if (itemstack.is(YAFMItems.GREAT_FEED.get())){
+        if (itemstack.is(FintyItems.GREAT_FEED.get())){
             this.setFeedQuality(2);
         }
-        if (itemstack.is(YAFMItems.PREMIUM_FEED.get())){
+        if (itemstack.is(FintyItems.PREMIUM_FEED.get())){
             this.setFeedQuality(3);
         }
 
@@ -550,7 +569,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
 
 
-    private static final Ingredient FOOD_ITEMS = Ingredient.of(YAFMTags.Items.FISH_FEED);
+    private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
     public float prevTilt;
     public float tilt;
@@ -727,7 +746,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
         int i = this.getAge();
 
-        if (this.isBaby() && itemstack.is(YAFMItems.BAD_FEED.get()) && this.getCanGrowUp()){
+        if (this.isBaby() && itemstack.is(FintyItems.BAD_FEED.get()) && this.getCanGrowUp()){
             this.setCanGrowUp(false);
 
             this.setAge(-12000);
@@ -744,16 +763,16 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
         if (isFood(itemstack)){
 
-            if (itemstack.is(YAFMItems.REGULAR_FEED.get())){
+            if (itemstack.is(FintyItems.REGULAR_FEED.get())){
                 this.setFeedQuality(0);
             }
-            if (itemstack.is(YAFMItems.QUALITY_FEED.get())){
+            if (itemstack.is(FintyItems.QUALITY_FEED.get())){
                 this.setFeedQuality(1);
             }
-            if (itemstack.is(YAFMItems.GREAT_FEED.get())){
+            if (itemstack.is(FintyItems.GREAT_FEED.get())){
                 this.setFeedQuality(2);
             }
-            if (itemstack.is(YAFMItems.PREMIUM_FEED.get())){
+            if (itemstack.is(FintyItems.PREMIUM_FEED.get())){
                 this.setFeedQuality(3);
             }
 
@@ -761,7 +780,7 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
                 this.ageUp(getSpeedUpSecondsWhenFeedingFish(-i, this.getFeedQuality()), true);
                 return InteractionResult.SUCCESS;
             }else if (this.isBaby()){
-                if (itemstack.is(YAFMItems.PREMIUM_FEED.get())){
+                if (itemstack.is(FintyItems.PREMIUM_FEED.get())){
                     this.setCanGrowUp(true);
 
                     for(int j = 0; j < 7; ++j) {
@@ -806,5 +825,19 @@ public abstract class BreedableWaterAnimal extends WaterAnimal {
 
     protected SoundEvent getFlopSound() {
         return SoundEvents.COD_FLOP;
+    }
+
+
+    @Override
+    public void tick() {
+        if (this.level().isClientSide()) {
+            this.setupAnimationStates();
+        }
+
+        super.tick();
+    }
+
+    public void setupAnimationStates() {
+        this.idleAnimationState.animateWhen(true, this.tickCount);
     }
 }

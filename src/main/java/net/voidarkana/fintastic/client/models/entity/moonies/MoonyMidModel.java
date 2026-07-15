@@ -8,14 +8,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.RenderType;
 import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.animation.MoonyAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Moony;
 
 public class MoonyMidModel<T extends Moony> extends FintasticModel<T> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	//public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "moony"), "main");
 
 	private final ModelPart root;
 	private final ModelPart swim_rot;
@@ -28,7 +27,7 @@ public class MoonyMidModel<T extends Moony> extends FintasticModel<T> {
 	private final ModelPart PectoralFinR;
 
 	public MoonyMidModel(ModelPart root) {
-        super(1, 1);
+		super(0.6f, 1, RenderType::entityCutout);
         this.root = root.getChild("root");
 		this.swim_rot = this.root.getChild("swim_rot");
 		this.body = this.swim_rot.getChild("body");
@@ -78,10 +77,11 @@ public class MoonyMidModel<T extends Moony> extends FintasticModel<T> {
 	@Override
 	public void setupAnim(Moony pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-
+		if (this.young)
+			pLimbSwing /= 2;
 
 		this.animateIdle(pEntity.idleAnimationState, MoonyAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.flopAnimationState, MoonyAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(pEntity.idleAnimationState, MoonyAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
 
 		if (pEntity.isInWaterOrBubble()){
 			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);

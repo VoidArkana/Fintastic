@@ -1,0 +1,186 @@
+package net.voidarkana.fintastic.util.data;
+
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.voidarkana.fintastic.Fintastic;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
+
+public class FintyItemTagGenerator extends ItemTagsProvider {
+
+    public FintyItemTagGenerator(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pLookupProvider, CompletableFuture<TagLookup<Block>> pBlockTags, @Nullable ExistingFileHelper existingFileHelper) {
+        super(pOutput, pLookupProvider, pBlockTags, Fintastic.MOD_ID, existingFileHelper);
+    }
+
+    @Override
+    protected void addTags(HolderLookup.Provider pProvider) {
+
+        this.tag(Tags.Items.GLASS)
+                .add(FintyBlocks.AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.CLEAR_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.RADON_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.TINTED_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.TINTED_INFERNAL_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.TINTED_RADON_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.TINTED_SUGAR_AQUARIUM_GLASS.get().asItem())
+
+                .add(FintyBlocks.RED_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.WHITE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.GRAY_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.BLACK_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.BROWN_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.LIME_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.GREEN_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.YELLOW_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.ORANGE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.BLUE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.PURPLE_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.PINK_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.MAGENTA_AQUARIUM_GLASS.get().asItem())
+                .add(FintyBlocks.CYAN_AQUARIUM_GLASS.get().asItem());
+        ;
+
+        this.tag(Tags.Items.GLASS_PANES)
+                .add(FintyBlocks.AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.CLEAR_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.RADON_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.SUGAR_AQUARIUM_GLASS_PANE.get().asItem())
+
+                .add(FintyBlocks.RED_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.WHITE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.GRAY_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.LIGHT_GRAY_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.BLACK_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.BROWN_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.LIME_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.GREEN_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.YELLOW_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.ORANGE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.BLUE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.LIGHT_BLUE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.PURPLE_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.PINK_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.MAGENTA_AQUARIUM_GLASS_PANE.get().asItem())
+                .add(FintyBlocks.CYAN_AQUARIUM_GLASS_PANE.get().asItem());
+
+        this.tag(FintyTags.Items.FISH_FEED)
+                .add(FintyItems.REGULAR_FEED.get())
+                .add(FintyItems.GREAT_FEED.get())
+                .add(FintyItems.QUALITY_FEED.get())
+                .add(FintyItems.PREMIUM_FEED.get())
+                .add(FintyItems.ARTEMIA_BUCKET.get());
+
+        this.tag(ItemTags.FISHES)
+                .add(FintyItems.RAW_FISH.get())
+                .add(FintyItems.COOKED_FISH.get())
+                .add(FintyItems.SHARKMINNOW.get())
+                .add(FintyItems.MINNOW.get())
+                .add(FintyItems.GUPPY.get())
+                .add(FintyItems.GOURAMI.get())
+                .add(FintyItems.ARAPAIMA.get())
+                .add(FintyItems.COELACANTH.get())
+                .add(FintyItems.FEATHERBACK.get())
+                .add(FintyItems.PLECO.get())
+                .add(FintyItems.CATFISH.get())
+                .add(FintyItems.SMALL_CATFISH.get())
+                .add(FintyItems.MOONY_BUCKET.get());
+
+        this.tag(ItemTags.AXOLOTL_TEMPT_ITEMS)
+                .add(FintyItems.MINNOW_BUCKET.get())
+                .add(FintyItems.FRESHWATER_SHARK_BUCKET.get())
+                .add(FintyItems.GUPPY_BUCKET.get())
+                .add(FintyItems.FEATHERBACK_BUCKET.get())
+                .add(FintyItems.PLECO_BUCKET.get())
+                .add(FintyItems.ARAPAIMA_BUCKET.get())
+                .add(FintyItems.CATFISH_BUCKET.get())
+                .add(FintyItems.ARTEMIA_BUCKET.get())
+                .add(FintyItems.COELACANTH_BUCKET.get())
+                .add(FintyItems.MOONY_BUCKET.get())
+                .add(FintyItems.COPEPOD_BUCKET.get())
+                .add(FintyItems.DAPHNIA_BUCKET.get())
+                .add(FintyItems.COD_BUCKET.get())
+                .add(FintyItems.SALMON_BUCKET.get())
+                .add(FintyItems.SMALL_CATFISH_BUCKET.get())
+                .add(FintyItems.GOURAMI_BUCKET.get());
+
+        this.tag(ItemTags.PIGLIN_LOVED)
+                .add(FintyItems.PREMIUM_FEED.get());
+
+        this.tag(ItemTags.MUSIC_DISCS).add(FintyItems.SALTY_MUSIC_DISC.get()).add(FintyItems.AXOLOTL_MUSIC_DISC.get())
+                .add(FintyItems.DRAGONFISH_MUSIC_DISC.get()).add(FintyItems.SHUNJI_MUSIC_DISC.get()).add(FintyItems.FRESH_MUSIC_DISC.get());
+
+        this.tag(ItemTags.CREEPER_DROP_MUSIC_DISCS).add(FintyItems.SALTY_MUSIC_DISC.get()).add(FintyItems.AXOLOTL_MUSIC_DISC.get())
+                .add(FintyItems.DRAGONFISH_MUSIC_DISC.get()).add(FintyItems.SHUNJI_MUSIC_DISC.get()).add(FintyItems.FRESH_MUSIC_DISC.get());
+
+        this.tag(FintyTags.Items.URANIUM).addOptional(new ResourceLocation( "alexscaves:radon_bottle"));
+
+        this.tag(FintyTags.Items.SUGAR_GLASS).addOptional(new ResourceLocation( "alexscaves:peppermint_powder"));
+
+        this.tag(FintyTags.Items.QUALITY_FISH_FEED_INGREDIENT)
+                .add(FintyItems.DAPHNIA.get())
+                .add(FintyItems.COPEPOD.get());
+
+        this.tag(FintyTags.Items.FISHBOWL_PLANTS)
+                .add(FintyBlocks.ANUBIAS.get().asItem(),
+                        FintyBlocks.HORNWORT.get().asItem(),
+                        Items.BRAIN_CORAL,
+                        Items.BRAIN_CORAL_FAN,
+                        Items.DEAD_BRAIN_CORAL,
+                        Items.DEAD_BRAIN_CORAL_FAN,
+
+                        Items.BUBBLE_CORAL,
+                        Items.BUBBLE_CORAL_FAN,
+                        Items.DEAD_BUBBLE_CORAL,
+                        Items.DEAD_BUBBLE_CORAL_FAN,
+
+                        Items.TUBE_CORAL,
+                        Items.TUBE_CORAL_FAN,
+                        Items.DEAD_TUBE_CORAL,
+                        Items.DEAD_TUBE_CORAL_FAN,
+
+                        Items.FIRE_CORAL,
+                        Items.FIRE_CORAL_FAN,
+                        Items.DEAD_FIRE_CORAL,
+                        Items.DEAD_FIRE_CORAL_FAN,
+
+                        Items.HORN_CORAL,
+                        Items.HORN_CORAL_FAN,
+                        Items.DEAD_HORN_CORAL,
+                        Items.DEAD_HORN_CORAL_FAN,
+
+                        Items.KELP,
+                        Items.SEAGRASS,
+                        Items.SEA_PICKLE,
+                        FintyBlocks.SEA_GRAPES.get().asItem(),
+                        FintyBlocks.DRAGONS_BREATH_ALGAE.get().asItem(),
+                        FintyBlocks.AQUATIC_MOSS_PHYLLID.get().asItem(),
+                        FintyBlocks.AMAZON_SWORD.get().asItem(),
+                        FintyBlocks.MERMAID_FAN.get().asItem(),
+                        FintyBlocks.BLUE_HYPNEA.get().asItem(),
+                        FintyBlocks.CAULERPA.get().asItem(),
+                        FintyBlocks.RED_ALGAE.get().asItem(),
+                        FintyBlocks.RED_ALGAE_FAN.get().asItem(),
+                        FintyBlocks.STROMATOLITE_GROWTHS.get().asItem(),
+                        FintyBlocks.FOSSIL_STROMATOLITE_GROWTHS.get().asItem())
+                .addOptional(new ResourceLocation("marvelous_menagerie:charnia"))
+                .addOptional(new ResourceLocation("marvelous_menagerie:wiwaxia"))
+                .addOptional(new ResourceLocation("marvelous_menagerie:dickinsonia"))
+                .addOptional(new ResourceLocation("marvelous_menagerie:herpetogaster"));
+    }
+}

@@ -13,9 +13,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.voidarkana.fintastic.common.block.YAFMBlocks;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.block.custom.AnubiasBlock;
-import net.voidarkana.fintastic.common.block.custom.HornwortBlock;
 
 public class AnubiasLogFeature extends Feature<NoneFeatureConfiguration> {
 
@@ -45,7 +44,7 @@ public class AnubiasLogFeature extends Feature<NoneFeatureConfiguration> {
 
             worldgenlevel.setBlock(blockpos1, logState, 2);
 
-            BlockState blockstate = YAFMBlocks.ANUBIAS.get().defaultBlockState()
+            BlockState blockstate = FintyBlocks.ANUBIAS.get().defaultBlockState()
                     .setValue(AnubiasBlock.FACING, direction)
                     .setValue(AnubiasBlock.FACE, AttachFace.FLOOR);
 
@@ -61,7 +60,7 @@ public class AnubiasLogFeature extends Feature<NoneFeatureConfiguration> {
                 if (randomsource.nextInt(0, 3) > 0){
                     Direction clockwise = randomsource.nextBoolean() ? direction.getClockWise() : direction.getCounterClockWise();
 
-                    BlockState blockstate2 = YAFMBlocks.ANUBIAS.get().defaultBlockState()
+                    BlockState blockstate2 = FintyBlocks.ANUBIAS.get().defaultBlockState()
                             .setValue(AnubiasBlock.FACING, clockwise)
                             .setValue(AnubiasBlock.FACE, AttachFace.WALL);
 
@@ -77,7 +76,7 @@ public class AnubiasLogFeature extends Feature<NoneFeatureConfiguration> {
                 if (randomsource.nextInt(0, 3) > 0){
                     Direction clockwise = randomsource.nextBoolean() ? direction.getClockWise() : direction.getCounterClockWise();
 
-                    BlockState blockstate2 = YAFMBlocks.ANUBIAS.get().defaultBlockState()
+                    BlockState blockstate2 = FintyBlocks.ANUBIAS.get().defaultBlockState()
                             .setValue(AnubiasBlock.FACING, clockwise)
                             .setValue(AnubiasBlock.FACE, AttachFace.WALL);
 

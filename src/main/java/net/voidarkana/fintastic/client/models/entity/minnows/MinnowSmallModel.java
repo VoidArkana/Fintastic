@@ -7,11 +7,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.RenderType;
 import net.voidarkana.fintastic.client.animation.MinnowAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
-import net.voidarkana.fintastic.common.entity.custom.MinnowEntity;
+import net.voidarkana.fintastic.common.entity.custom.Minnow;
 
-public class MinnowSmallModel<T extends MinnowEntity> extends FintasticModel<T> {
+public class MinnowSmallModel<T extends Minnow> extends FintasticModel<T> {
 
 	private final ModelPart root;
 	private final ModelPart swim_rot;
@@ -22,8 +23,8 @@ public class MinnowSmallModel<T extends MinnowEntity> extends FintasticModel<T> 
 	private final ModelPart tailfin;
 
 	public MinnowSmallModel(ModelPart root) {
-        super(1, 1);
-        this.root = root.getChild("root");
+		super(0.6f, 1, RenderType::entityCutout);
+		this.root = root.getChild("root");
 		this.swim_rot = this.root.getChild("swim_rot");
 		this.body = this.swim_rot.getChild("body");
 		this.dorsalfin = this.body.getChild("dorsalfin");
@@ -55,11 +56,12 @@ public class MinnowSmallModel<T extends MinnowEntity> extends FintasticModel<T> 
 
 
 	@Override
-	public void setupAnim(MinnowEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+	public void setupAnim(Minnow pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-
+		if (this.young)
+			pLimbSwing /= 2;
 		this.animateIdle(pEntity.idleAnimationState, MinnowAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.flopAnimationState, MinnowAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(pEntity.idleAnimationState, MinnowAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
 
 		if (pEntity.isInWater()){
 			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);

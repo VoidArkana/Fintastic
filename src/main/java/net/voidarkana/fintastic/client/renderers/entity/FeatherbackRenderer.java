@@ -4,45 +4,59 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.voidarkana.fintastic.Fintastic;
-import net.voidarkana.fintastic.client.models.entity.FeatherbackModel;
-import net.voidarkana.fintastic.common.entity.custom.FeatherbackEntity;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import net.voidarkana.fintastic.client.FintasticLayers;
+import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
+import net.voidarkana.fintastic.client.models.entity.featherback.*;
+import net.voidarkana.fintastic.common.entity.custom.Featherback;
 
-public class FeatherbackRenderer extends GeoEntityRenderer<FeatherbackEntity> {
-    public FeatherbackRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new FeatherbackModel());
+public class FeatherbackRenderer<T extends Featherback> extends MobRenderer<T, FintasticModel<T>> {
+
+    private final FeatherbackModelBig<T> modelBig;
+    private final FeatherbackModelMed<T> modelMed;
+    private final FeatherbackModelSmall<T> modelSmall;
+
+    public FeatherbackRenderer(EntityRendererProvider.Context pContext) {
+        super(pContext, new FeatherbackModelBig<>(pContext.bakeLayer(FintasticLayers.FEATHERBACK_BIG)), 0.25f);
+
+        this.modelBig = new FeatherbackModelBig<>(pContext.bakeLayer(FintasticLayers.FEATHERBACK_BIG));
+        this.modelMed = new FeatherbackModelMed<>(pContext.bakeLayer(FintasticLayers.FEATHERBACK_MED));
+        this.modelSmall = new FeatherbackModelSmall<>(pContext.bakeLayer(FintasticLayers.FEATHERBACK_SMALL));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(FeatherbackEntity featherbackEntity) {
-        return switch (featherbackEntity.getVariant()){
-            case 1 -> new ResourceLocation(Fintastic.MOD_ID, "textures/entity/featherback/featherback_1.png");
-            case 2-> new ResourceLocation(Fintastic.MOD_ID, "textures/entity/featherback/featherback_2.png");
-            case 3 -> new ResourceLocation(Fintastic.MOD_ID, "textures/entity/featherback/featherback_3.png");
-            default -> new ResourceLocation(Fintastic.MOD_ID, "textures/entity/featherback/featherback_0.png");
-        };
+    public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        poseStack.pushPose();
+            poseStack.translate(0, 0, 0);
+
+            Featherback.FeatherbackVariant variant = Featherback.FeatherbackVariant.byId(entity.getVariant());
+            switch (variant.getModel()){
+                case 1:
+                    this.model = modelMed;
+                    break;
+                case 2:
+                    this.model = modelBig;
+                    break;
+                default:
+                    this.model = modelSmall;
+            }
+            super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        poseStack.popPose();
     }
 
     @Override
-    public void render(FeatherbackEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
-                       MultiBufferSource bufferSource, int packedLightIn) {
-        if(entity.isBaby()) {
-            poseStack.scale(0.6F, 0.6F, 0.6F);
-        }
-        else {
-            poseStack.scale(1.0F, 1.0F, 1.0F);
-        }
-        super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, packedLightIn);
+    public ResourceLocation getTextureLocation(T pEntity) {
+
+        Featherback.FeatherbackVariant variant = Featherback.FeatherbackVariant.byId(pEntity.getVariant());
+
+        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/featherback/featherback_"+variant.getSerializedName()+".png");
     }
 
     @Override
-    protected void applyRotations(FeatherbackEntity animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
-        super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
-        if (animatable.isInWater()){
-            poseStack.mulPose(Axis.ZP.rotationDegrees(animatable.currentRoll*360/4));
-            //poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, -animatable.prevTilt, -animatable.tilt)));
-        }
+    protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/2));
     }
 }

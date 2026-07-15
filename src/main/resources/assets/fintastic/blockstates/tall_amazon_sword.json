@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "fintastic:block/tall_amazon_sword_bottom"
+    },
+    "half=upper": {
+      "model": "fintastic:block/tall_amazon_sword_top"
+    }
+  }
+}

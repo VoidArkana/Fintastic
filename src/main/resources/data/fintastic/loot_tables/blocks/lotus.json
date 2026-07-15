@@ -1,0 +1,122 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "fintastic:lotus",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower",
+                "amount": "1"
+              }
+            }
+          ],
+          "name": "fintastic:lotus",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1.0,
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "fintastic:lotus",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower",
+                "amount": "2"
+              }
+            }
+          ],
+          "name": "fintastic:lotus",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2.0,
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "fintastic:lotus",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower",
+                "amount": "3"
+              }
+            }
+          ],
+          "name": "fintastic:lotus",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 3.0,
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "fintastic:lotus",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower",
+                "amount": "4"
+              }
+            }
+          ],
+          "name": "fintastic:lotus",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 4.0,
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "fintastic:lotus",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower",
+                "amount": "5"
+              }
+            }
+          ],
+          "name": "fintastic:lotus",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 5.0,
+              "add": false
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "fintastic:blocks/lotus"
+}

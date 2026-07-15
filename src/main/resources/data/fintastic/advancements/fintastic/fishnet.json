@@ -1,0 +1,33 @@
+{
+  "parent": "fintastic:fintastic/items",
+  "display": {
+    "icon": {
+      "item": "fintastic:fishnet"
+    },
+    "title": {
+      "translate": "advancements.fintastic.fishnet.title"
+    },
+    "description": {
+      "translate": "advancements.fintastic.fishnet.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "requirements": [
+    ["picked_up_item"]
+  ],
+  "criteria": {
+    "picked_up_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{
+          "items": [
+            "fintastic:fishnet"
+          ]
+        }]
+      }
+    }
+  }
+}

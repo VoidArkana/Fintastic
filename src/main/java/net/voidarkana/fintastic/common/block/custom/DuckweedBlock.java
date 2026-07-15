@@ -1,5 +1,7 @@
 package net.voidarkana.fintastic.common.block.custom;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,7 +22,9 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -30,30 +34,34 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
-import net.voidarkana.fintastic.common.block.YAFMBlocks;
+import net.voidarkana.fintastic.common.block.FintyBlocks;
 
 import java.util.Map;
 
 public class DuckweedBlock extends Block implements IPlantable, BonemealableBlock {
     protected static final VoxelShape AABB = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 1.5D, 15.0D);
 
-    public static final BooleanProperty NORTH = PipeBlock.NORTH;
-    public static final BooleanProperty EAST = PipeBlock.EAST;
-    public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
-    public static final BooleanProperty WEST = PipeBlock.WEST;
+    public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
+    public static final BooleanProperty EAST = BlockStateProperties.EAST;
+    public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
+    public static final BooleanProperty WEST = BlockStateProperties.WEST;
 
-    protected static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = PipeBlock.PROPERTY_BY_DIRECTION.entrySet().stream().filter((p_52346_) -> {
-        return p_52346_.getKey().getAxis().isHorizontal();
-    }).collect(Util.toMap());
+    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (p_55164_) -> {
+        p_55164_.put(Direction.NORTH, NORTH);
+        p_55164_.put(Direction.EAST, EAST);
+        p_55164_.put(Direction.SOUTH, SOUTH);
+        p_55164_.put(Direction.WEST, WEST);
+    }));
 
-    public static final IntegerProperty GROWTH_STAGE = IntegerProperty.create("growth_stage", 0, 2);
+    public static final IntegerProperty AMOUNT = IntegerProperty.create("duckweed_amount", 1, 5);
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public DuckweedBlock(Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.valueOf(false))
                 .setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false))
                 .setValue(WEST, Boolean.valueOf(false))
-                .setValue(GROWTH_STAGE, Integer.valueOf(0)));
+                .setValue(FACING, Direction.NORTH).setValue(AMOUNT, Integer.valueOf(1)));
     }
 
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
@@ -62,25 +70,25 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
 
         BlockState blockstate = pLevel.getBlockState(pPos);
 
-        if (itemstack.is(YAFMBlocks.DUCKWEED.get().asItem()) && blockstate.getValue(GROWTH_STAGE) < 2) {
-            this.usePlayerItem(pPlayer, pHand, itemstack);
-            pLevel.playSound((Player)null, pPos, SoundEvents.LILY_PAD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            int prev = blockstate.getValue(GROWTH_STAGE);
-            pLevel.setBlock(pPos, pState.setValue(GROWTH_STAGE, Integer.valueOf(prev + 1)), 2);
+        if (itemstack.is(FintyBlocks.DUCKWEED.get().asItem()) && blockstate.getValue(AMOUNT) < 5) {
+            this.usePlayerItem(pPlayer, itemstack);
+            pLevel.playSound(null, pPos, SoundEvents.LILY_PAD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            int prev = blockstate.getValue(AMOUNT);
+            pLevel.setBlock(pPos, pState.setValue(AMOUNT, Integer.valueOf(prev + 1)), 2);
             return InteractionResult.SUCCESS;
         }
 
         return InteractionResult.PASS;
     }
 
-    protected void usePlayerItem(Player pPlayer, InteractionHand pHand, ItemStack pStack) {
+    protected void usePlayerItem(Player pPlayer, ItemStack pStack) {
         if (!pPlayer.getAbilities().instabuild) {
             pStack.shrink(1);
         }
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(NORTH, EAST, WEST, SOUTH, GROWTH_STAGE);
+        pBuilder.add(NORTH, EAST, WEST, SOUTH, AMOUNT, FACING);
     }
 
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
@@ -98,24 +106,39 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
         BlockState blockstate3 = blockgetter.getBlockState(blockpos3);
         BlockState blockstate4 = blockgetter.getBlockState(blockpos4);
 
-        return super.getStateForPlacement(pContext)
-                .setValue(NORTH, Boolean.valueOf(this.connectsTo(blockstate1, blockstate, blockstate1.isFaceSturdy(blockgetter, blockpos1.below(), Direction.SOUTH))))
-                .setValue(EAST, Boolean.valueOf(this.connectsTo(blockstate2, blockstate, blockstate2.isFaceSturdy(blockgetter, blockpos2.below(), Direction.WEST))))
-                .setValue(SOUTH, Boolean.valueOf(this.connectsTo(blockstate3, blockstate, blockstate3.isFaceSturdy(blockgetter, blockpos3.below(), Direction.NORTH))))
-                .setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate4, blockstate, blockstate4.isFaceSturdy(blockgetter, blockpos4.below(), Direction.EAST))));
+        return blockstate.is(this) ?
+                super.getStateForPlacement(pContext)
+                    .setValue(NORTH, Boolean.valueOf(this.connectsTo(blockstate1, blockstate)))
+                    .setValue(EAST, Boolean.valueOf(this.connectsTo(blockstate2, blockstate)))
+                    .setValue(SOUTH, Boolean.valueOf(this.connectsTo(blockstate3, blockstate)))
+                    .setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate4, blockstate)))
+                :
+                super.getStateForPlacement(pContext)
+                    .setValue(NORTH, Boolean.valueOf(this.connectsTo(blockstate1, blockstate)))
+                    .setValue(EAST, Boolean.valueOf(this.connectsTo(blockstate2, blockstate)))
+                    .setValue(SOUTH, Boolean.valueOf(this.connectsTo(blockstate3, blockstate)))
+                    .setValue(WEST, Boolean.valueOf(this.connectsTo(blockstate4, blockstate)))
+                    .setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+    }
+
+    public BlockState mirror(BlockState p_272961_, Mirror p_273278_) {
+        return p_272961_.rotate(p_273278_.getRotation(p_272961_.getValue(FACING)));
     }
 
     public boolean propagatesSkylightDown(BlockState pState, BlockGetter pReader, BlockPos pPos) {
-        return pState.getValue(GROWTH_STAGE)<2;
+        return true;
     }
 
     public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
 
-
-        return !pState.canSurvive(pLevel, pCurrentPos) ? Blocks.AIR.defaultBlockState()
-                : pFacing.getAxis().getPlane() == Direction.Plane.HORIZONTAL
-                ? pState.setValue(PROPERTY_BY_DIRECTION.get(pFacing), Boolean.valueOf(this.connectsTo(pFacingState, pState, pFacingState.isFaceSturdy(pLevel, pFacingPos, pFacing.getOpposite()))))
-                : super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+        if (!pState.canSurvive(pLevel, pCurrentPos)) {
+            pLevel.scheduleTick(pCurrentPos, this, 1);
+            return Blocks.AIR.defaultBlockState();
+        } else if (pFacing.getAxis().getPlane() == Direction.Plane.HORIZONTAL){
+            boolean flag = connectsTo(pFacingState, pState);
+            return pState.setValue(PROPERTY_BY_DIRECTION.get(pFacing), flag);
+        }
+        return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
     }
 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
@@ -144,20 +167,12 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
 
     @Override
     public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
-        int i = pState.getValue(GROWTH_STAGE);
-        if (i < 2) {
-            pLevel.setBlock(pPos, pState.setValue(GROWTH_STAGE, Integer.valueOf(i + 1)), 2);
+        int i = pState.getValue(AMOUNT);
+        if (i < 5) {
+            pLevel.setBlock(pPos, pState.setValue(AMOUNT, Integer.valueOf(i + 1)), 2);
         } else {
             popResource(pLevel, pPos, new ItemStack(this));
         }
-
-    }
-
-    public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
-        super.entityInside(pState, pLevel, pPos, pEntity);
-//        if (pLevel instanceof ServerLevel && pEntity instanceof Boat) {
-//            pLevel.destroyBlock(new BlockPos(pPos), true, pEntity);
-//        }
 
     }
 
@@ -172,19 +187,34 @@ public class DuckweedBlock extends Block implements IPlantable, BonemealableBloc
         return state;
     }
 
-    public boolean connectsTo(BlockState pState, BlockState thisState, boolean pIsSideSolid) {
-        return !isExceptionForConnection(pState)
-                && (pIsSideSolid || isDuckweedConnectable(pState, thisState));
-    }
-
-    private boolean isDuckweedConnectable(BlockState pState, BlockState thisState) {
-
-        if (pState.is(YAFMBlocks.DUCKWEED.get()) && thisState.is(YAFMBlocks.DUCKWEED.get())){
-            return pState.getValue(GROWTH_STAGE).equals(thisState.getValue(GROWTH_STAGE));
+    public static boolean connectsTo(BlockState pOtherState, BlockState thisState) {
+        if (pOtherState.is(FintyBlocks.DUCKWEED.get()) && thisState.is(FintyBlocks.DUCKWEED.get())){
+            return pOtherState.getValue(AMOUNT)==5 && thisState.getValue(AMOUNT)==5;
         }else {
             return false;
         }
+    }
 
+    public void tick(BlockState pState, ServerLevel pLevel, BlockPos blockpos, RandomSource pRandom) {
+        if (pState.is(this))
+            if (pState.getValue(AMOUNT) == 5){
+
+                BlockPos blockpos1 = blockpos.north();
+                BlockPos blockpos2 = blockpos.east();
+                BlockPos blockpos3 = blockpos.south();
+                BlockPos blockpos4 = blockpos.west();
+                BlockState blockstate1 = pLevel.getBlockState(blockpos1);
+                BlockState blockstate2 = pLevel.getBlockState(blockpos2);
+                BlockState blockstate3 = pLevel.getBlockState(blockpos3);
+                BlockState blockstate4 = pLevel.getBlockState(blockpos4);
+
+                pLevel.setBlock(blockpos,
+                        pState.setValue(NORTH, connectsTo(blockstate1, pState))
+                              .setValue(EAST,  connectsTo(blockstate2, pState))
+                              .setValue(SOUTH, connectsTo(blockstate3, pState))
+                              .setValue(WEST,  connectsTo(blockstate4, pState)),
+                        2);
+            }
     }
 
     @Override

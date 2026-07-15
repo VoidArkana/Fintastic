@@ -1,0 +1,31 @@
+{
+  "loader": "forge:separate_transforms",
+  "gui_light": "front",
+  "base": {
+    "parent": "fintastic:item/large_handheld",
+    "textures": {
+      "particle": "fintastic:item/coelacanth_handheld",
+      "layer0": "fintastic:item/coelacanth_handheld"
+    }
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "fintastic:item/coelacanth"
+      }
+    },
+    "ground": {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "fintastic:item/coelacanth"
+      }
+    },
+    "fixed": {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "fintastic:item/coelacanth"
+      }
+    }
+  }
+}

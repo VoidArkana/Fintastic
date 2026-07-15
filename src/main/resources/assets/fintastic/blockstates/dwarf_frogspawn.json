@@ -1,0 +1,23 @@
+{
+  "multipart": [
+    {
+      "apply": [
+        {
+          "model": "fintastic:block/dwarf_frogspawn"
+        },
+        {
+          "model": "fintastic:block/dwarf_frogspawn",
+          "y": 90
+        },
+        {
+          "model": "fintastic:block/dwarf_frogspawn",
+          "y": 270
+        },
+        {
+          "model": "fintastic:block/dwarf_frogspawn",
+          "y": 180
+        }
+      ]
+    }
+  ]
+}

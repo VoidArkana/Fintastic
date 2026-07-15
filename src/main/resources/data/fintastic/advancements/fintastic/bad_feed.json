@@ -1,0 +1,33 @@
+{
+  "parent": "fintastic:fintastic/normal_feed",
+  "display": {
+    "icon": {
+      "item": "fintastic:bad_feed"
+    },
+    "title": {
+      "translate": "advancements.fintastic.bad_feed.title"
+    },
+    "description": {
+      "translate": "advancements.fintastic.bad_feed.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "requirements": [
+    ["picked_up_item"]
+  ],
+  "criteria": {
+    "picked_up_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{
+          "items": [
+            "fintastic:bad_feed"
+          ]
+        }]
+      }
+    }
+  }
+}

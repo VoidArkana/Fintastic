@@ -3,7 +3,7 @@
   "biomes": "#fintastic:daphnia_biomes",
   "spawners": {
     "type": "fintastic:daphnia",
-    "weight": 6,
+    "weight": 5,
     "minCount": 4,
     "maxCount": 10,
     "category": "water_creature"

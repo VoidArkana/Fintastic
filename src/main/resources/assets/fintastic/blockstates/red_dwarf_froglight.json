@@ -1,0 +1,195 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_up_center"
+      },
+      "when": {
+        "axis": "x",
+        "type": "up"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_mid_center"
+      },
+      "when": {
+        "axis": "x",
+        "type": "mid"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_down_center"
+      },
+      "when": {
+        "axis": "x",
+        "type": "down"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_up_front"
+      },
+      "when": {
+        "axis": "x",
+        "type": "up",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_mid_front"
+      },
+      "when": {
+        "axis": "x",
+        "type": "mid",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_down_front"
+      },
+      "when": {
+        "axis": "x",
+        "type": "down",
+        "north": "true"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_up_back"
+      },
+      "when": {
+        "axis": "x",
+        "type": "up",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_mid_back"
+      },
+      "when": {
+        "axis": "x",
+        "type": "mid",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_down_back"
+      },
+      "when": {
+        "axis": "x",
+        "type": "down",
+        "south": "true"
+      }
+    },
+
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_up_center",
+        "y": 90
+      },
+      "when": {
+        "axis": "z",
+        "type": "up"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_mid_center",
+        "y": 90
+      },
+      "when": {
+        "axis": "z",
+        "type": "mid"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_down_center",
+        "y": 90
+      },
+      "when": {
+        "axis": "z",
+        "type": "down"
+      }
+    },
+
+
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_up_front",
+        "y": 90
+      },
+      "when": {
+        "axis": "z",
+        "type": "up",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_mid_front",
+        "y": 90
+      },
+      "when": {
+        "axis": "z",
+        "type": "mid",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_down_front",
+        "y": 90
+      },
+      "when": {
+        "axis": "z",
+        "type": "down",
+        "east": "true"
+      }
+    },
+
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_up_back",
+        "y": 90
+      },
+      "when": {
+        "axis": "z",
+        "type": "up",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_mid_back",
+        "y": 90
+      },
+      "when": {
+        "axis": "z",
+        "type": "mid",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "fintastic:block/dwarf_froglight/red_dwarf_froglight_down_back",
+        "y": 90
+      },
+      "when": {
+        "axis": "z",
+        "type": "down",
+        "west": "true"
+      }
+    }
+  ]
+}

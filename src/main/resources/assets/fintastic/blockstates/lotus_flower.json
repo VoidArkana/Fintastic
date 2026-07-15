@@ -1,0 +1,42 @@
+{
+  "variants": {
+    "flowers=1": {
+        "model": "fintastic:block/lotus_flower_placed_1"
+    },
+    "flowers=2": [
+      {
+        "model": "fintastic:block/lotus_flower_placed_2"
+      },
+      {
+        "model": "fintastic:block/lotus_flower_placed_2",
+        "y": 90
+      },
+      {
+        "model": "fintastic:block/lotus_flower_placed_2",
+        "y": 180
+      },
+      {
+        "model": "fintastic:block/lotus_flower_placed_2",
+        "y": 270
+      }
+    ],
+    "flowers=3": [
+      {
+        "model": "fintastic:block/lotus_flower_placed_3"
+      },
+      {
+        "model": "fintastic:block/lotus_flower_placed_3",
+        "y": 90
+      },
+      {
+        "model": "fintastic:block/lotus_flower_placed_3",
+        "y": 180
+      },
+      {
+        "model": "fintastic:block/lotus_flower_placed_3",
+        "y": 270
+      }
+    ]
+
+  }
+}

@@ -47,14 +47,14 @@ public class UnderwaterVegetationPatchFeature extends Feature<VegetationPatchCon
         Set<BlockPos> set = new HashSet<>();
 
         for(int i = -pXRadius; i <= pXRadius; ++i) {
-            boolean flag = i == -pXRadius || i == pXRadius;
+            boolean isXEdge = i == -pXRadius || i == pXRadius;
 
             for(int j = -pZRadius; j <= pZRadius; ++j) {
-                boolean flag1 = j == -pZRadius || j == pZRadius;
-                boolean flag2 = flag || flag1;
-                boolean flag3 = flag && flag1;
-                boolean flag4 = flag2 && !flag3;
-                if (!flag3 && (!flag4 || pConfig.extraEdgeColumnChance != 0.0F && !(pRandom.nextFloat() > pConfig.extraEdgeColumnChance))) {
+                boolean isZEdge = j == -pZRadius || j == pZRadius;
+                boolean isAnyEdge = isXEdge || isZEdge;
+                boolean isBothEdge = isXEdge && isZEdge;
+                boolean isOneEdge = isAnyEdge && !isBothEdge;
+                if (!isBothEdge && (!isOneEdge || pConfig.extraEdgeColumnChance != 0.0F && !(pRandom.nextFloat() > pConfig.extraEdgeColumnChance))) {
                     blockpos$mutableblockpos.setWithOffset(pPos, i, 0, j);
 
                     for(int k = 0; pLevel.isStateAtPosition(blockpos$mutableblockpos, (blockState) -> {

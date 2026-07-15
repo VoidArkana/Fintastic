@@ -1,0 +1,6 @@
+{
+  "parent" : "fintastic:block/duckweed/duckweed_base",
+  "textures": {
+    "texture": "fintastic:block/duckweed/duckweed_sparce_3"
+  }
+}

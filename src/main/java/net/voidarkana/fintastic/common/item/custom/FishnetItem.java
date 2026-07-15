@@ -21,7 +21,6 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
@@ -31,8 +30,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.voidarkana.fintastic.common.item.YAFMItems;
-import net.voidarkana.fintastic.util.YAFMTags;
+import net.voidarkana.fintastic.common.item.FintyItems;
+import net.voidarkana.fintastic.util.FintyTags;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -56,12 +55,12 @@ public class FishnetItem extends Item {
 
         if (!target.getPassengers().isEmpty()) target.ejectPassengers();
 
-        if ((!target.getType().is(YAFMTags.EntityType.FISHNET_BLACKLIST) && target instanceof WaterAnimal)
-                || target.getType().is(YAFMTags.EntityType.FISHNET_ADDITIONS)) {
+        if ((!target.getType().is(FintyTags.EntityType.FISHNET_BLACKLIST) && target instanceof WaterAnimal)
+                || target.getType().is(FintyTags.EntityType.FISHNET_ADDITIONS)) {
 
             if (!level.isClientSide) {
 
-                ItemStack stack1 = new ItemStack(YAFMItems.FISHNET.get());
+                ItemStack stack1 = new ItemStack(FintyItems.FISHNET.get());
 
                 CompoundTag targetTag = target.serializeNBT();
                 targetTag.putString("OwnerName", player.getName().getString());
@@ -251,7 +250,7 @@ public class FishnetItem extends Item {
                 itemstack.shrink(1);
             }
             context.getLevel().playSound(null, entity.blockPosition(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.AMBIENT, 1, 1);
-            context.getPlayer().setItemInHand(context.getHand(), new ItemStack(YAFMItems.FISHNET.get()));
+            context.getPlayer().setItemInHand(context.getHand(), new ItemStack(FintyItems.FISHNET.get()));
 
             return InteractionResult.CONSUME;
         }

@@ -3,9 +3,9 @@
   "biomes": "#fintastic:pleco_biomes",
   "spawners": {
     "type": "fintastic:pleco",
-    "weight": 5,
-    "minCount": 1,
-    "maxCount": 2,
+    "weight": 7,
+    "minCount": 2,
+    "maxCount": 3,
     "category": "water_creature"
   }
 }
