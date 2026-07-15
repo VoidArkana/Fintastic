@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "fintastic:lotus_root"
+  },
+  "result": {
+    "id": "fintastic:baked_lotus_root"
+  },
+  "experience": 0.35,
+  "cookingtime": 200
+}

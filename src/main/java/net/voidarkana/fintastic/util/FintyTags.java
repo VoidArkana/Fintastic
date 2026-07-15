@@ -1,9 +1,10 @@
 package net.voidarkana.fintastic.util;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.*;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.voidarkana.fintastic.Fintastic;
@@ -46,8 +47,8 @@ public class FintyTags {
         public static final TagKey<Biome> LOTUS_BIOMES = tag("lotus_biomes");
 
 
-        private static TagKey<Biome> tag(String pName) {
-            return TagKey.create(Registries.BIOME, new ResourceLocation(Fintastic.MOD_ID, pName));
+        private static TagKey<Biome> tag(String name) {
+            return TagKey.create(Registries.BIOME, Fintastic.location(name));
         }
 
     }
@@ -62,7 +63,7 @@ public class FintyTags {
         public static final TagKey<Item> FISHBOWL_PLANTS = tag("fishbowl_plants");
 
         private static TagKey<Item> tag(String name){
-            return ItemTags.create(new ResourceLocation(Fintastic.MOD_ID, name));
+            return ItemTags.create(Fintastic.location(name));
         }
     }
 
@@ -91,32 +92,32 @@ public class FintyTags {
         public static final TagKey<Block> HOUNEN_FAIRY_SHRIMP_GROWABLE = tag("hounen_fairy_shrimp_growable");
 
         private static TagKey<Block> tag(String name){
-            return BlockTags.create(new ResourceLocation(Fintastic.MOD_ID, name));
+            return BlockTags.create(Fintastic.location(name));
         }
     }
 
-    public static class Fluid {
-        public static final TagKey<net.minecraft.world.level.material.Fluid> AC_ACID
+    public static class Fluids {
+        public static final TagKey<Fluid> AC_ACID
                 = tag("ac_acid");
 
-        public static final TagKey<net.minecraft.world.level.material.Fluid> AC_SODA
+        public static final TagKey<Fluid> AC_SODA
                 = tag("ac_soda");
 
-        private static TagKey<net.minecraft.world.level.material.Fluid> tag(String name){
-            return FluidTags.create(new ResourceLocation(Fintastic.MOD_ID, name));
+        private static TagKey<Fluid> tag(String name){
+            return FluidTags.create(Fintastic.location(name));
         }
     }
 
-    public static class EntityType {
+    public static class EntityTypes {
 
-        public static final TagKey<net.minecraft.world.entity.EntityType<?>> FISHNET_ADDITIONS = tag("fishnet_additions");
-        public static final TagKey<net.minecraft.world.entity.EntityType<?>> FISHNET_BLACKLIST = tag("fishnet_blacklist");
+        public static final TagKey<EntityType<?>> FISHNET_ADDITIONS = tag("fishnet_additions");
+        public static final TagKey<EntityType<?>> FISHNET_BLACKLIST = tag("fishnet_blacklist");
 
-        public static final TagKey<net.minecraft.world.entity.EntityType<?>> PREDATOR_FISH = tag("predator_fish");
-        public static final TagKey<net.minecraft.world.entity.EntityType<?>> FISH_PREY = tag("fish_prey");
+        public static final TagKey<EntityType<?>> PREDATOR_FISH = tag("predator_fish");
+        public static final TagKey<EntityType<?>> FISH_PREY = tag("fish_prey");
 
-        private static TagKey<net.minecraft.world.entity.EntityType<?>> tag(String name){
-            return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Fintastic.MOD_ID, name));
+        private static TagKey<EntityType<?>> tag(String name){
+            return TagKey.create(Registries.ENTITY_TYPE, Fintastic.location(name));
         }
     }
 

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "G": {
+      "item": "fintastic:cyan_aquarium_glass"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GGG"
+  ],
+  "result": {
+    "count": 16,
+    "id": "fintastic:cyan_aquarium_glass_pane"
+  }
+}

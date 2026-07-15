@@ -14,11 +14,11 @@ public class DuckweedFeature extends Feature<RandomPatchConfiguration> {
         super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<RandomPatchConfiguration> pContext) {
-        RandomPatchConfiguration randompatchconfiguration = pContext.config();
-        RandomSource randomsource = pContext.random();
-        BlockPos blockpos = pContext.origin();
-        WorldGenLevel worldgenlevel = pContext.level();
+    public boolean place(FeaturePlaceContext<RandomPatchConfiguration> context) {
+        RandomPatchConfiguration randompatchconfiguration = context.config();
+        RandomSource randomsource = context.random();
+        BlockPos blockpos = context.origin();
+        WorldGenLevel worldgenlevel = context.level();
         int i = 0;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         int j = randompatchconfiguration.xzSpread() + 1;
@@ -26,7 +26,7 @@ public class DuckweedFeature extends Feature<RandomPatchConfiguration> {
 
         for(int l = 0; l < randompatchconfiguration.tries(); ++l) {
             blockpos$mutableblockpos.setWithOffset(blockpos, randomsource.nextInt(j) - randomsource.nextInt(j), randomsource.nextInt(k) - randomsource.nextInt(k), randomsource.nextInt(j) - randomsource.nextInt(j));
-            if (randompatchconfiguration.feature().value().place(worldgenlevel, pContext.chunkGenerator(), randomsource, blockpos$mutableblockpos)) {
+            if (randompatchconfiguration.feature().value().place(worldgenlevel, context.chunkGenerator(), randomsource, blockpos$mutableblockpos)) {
                 ++i;
             }
         }

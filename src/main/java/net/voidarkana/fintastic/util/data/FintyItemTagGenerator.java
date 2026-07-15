@@ -7,8 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.item.FintyItems;
@@ -19,14 +19,14 @@ import java.util.concurrent.CompletableFuture;
 
 public class FintyItemTagGenerator extends ItemTagsProvider {
 
-    public FintyItemTagGenerator(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pLookupProvider, CompletableFuture<TagLookup<Block>> pBlockTags, @Nullable ExistingFileHelper existingFileHelper) {
-        super(pOutput, pLookupProvider, pBlockTags, Fintastic.MOD_ID, existingFileHelper);
+    public FintyItemTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTags, @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, lookupProvider, blockTags, Fintastic.MOD_ID, existingFileHelper);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider pProvider) {
+    protected void addTags(HolderLookup.Provider provider) {
 
-        this.tag(Tags.Items.GLASS)
+        this.tag(Tags.Items.GLASS_BLOCKS)
                 .add(FintyBlocks.AQUARIUM_GLASS.get().asItem())
                 .add(FintyBlocks.INFERNAL_AQUARIUM_GLASS.get().asItem())
                 .add(FintyBlocks.CLEAR_AQUARIUM_GLASS.get().asItem())
@@ -53,7 +53,6 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
                 .add(FintyBlocks.PINK_AQUARIUM_GLASS.get().asItem())
                 .add(FintyBlocks.MAGENTA_AQUARIUM_GLASS.get().asItem())
                 .add(FintyBlocks.CYAN_AQUARIUM_GLASS.get().asItem());
-        ;
 
         this.tag(Tags.Items.GLASS_PANES)
                 .add(FintyBlocks.AQUARIUM_GLASS_PANE.get().asItem())
@@ -101,7 +100,7 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
                 .add(FintyItems.SMALL_CATFISH.get())
                 .add(FintyItems.MOONY_BUCKET.get());
 
-        this.tag(ItemTags.AXOLOTL_TEMPT_ITEMS)
+        this.tag(ItemTags.AXOLOTL_FOOD)
                 .add(FintyItems.MINNOW_BUCKET.get())
                 .add(FintyItems.FRESHWATER_SHARK_BUCKET.get())
                 .add(FintyItems.GUPPY_BUCKET.get())
@@ -122,15 +121,15 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
         this.tag(ItemTags.PIGLIN_LOVED)
                 .add(FintyItems.PREMIUM_FEED.get());
 
-        this.tag(ItemTags.MUSIC_DISCS).add(FintyItems.SALTY_MUSIC_DISC.get()).add(FintyItems.AXOLOTL_MUSIC_DISC.get())
+        this.tag(Tags.Items.MUSIC_DISCS).add(FintyItems.SALTY_MUSIC_DISC.get()).add(FintyItems.AXOLOTL_MUSIC_DISC.get())
                 .add(FintyItems.DRAGONFISH_MUSIC_DISC.get()).add(FintyItems.SHUNJI_MUSIC_DISC.get()).add(FintyItems.FRESH_MUSIC_DISC.get());
 
         this.tag(ItemTags.CREEPER_DROP_MUSIC_DISCS).add(FintyItems.SALTY_MUSIC_DISC.get()).add(FintyItems.AXOLOTL_MUSIC_DISC.get())
                 .add(FintyItems.DRAGONFISH_MUSIC_DISC.get()).add(FintyItems.SHUNJI_MUSIC_DISC.get()).add(FintyItems.FRESH_MUSIC_DISC.get());
 
-        this.tag(FintyTags.Items.URANIUM).addOptional(new ResourceLocation( "alexscaves:radon_bottle"));
+        this.tag(FintyTags.Items.URANIUM).addOptional(ResourceLocation.parse( "alexscaves:radon_bottle"));
 
-        this.tag(FintyTags.Items.SUGAR_GLASS).addOptional(new ResourceLocation( "alexscaves:peppermint_powder"));
+        this.tag(FintyTags.Items.SUGAR_GLASS).addOptional(ResourceLocation.parse( "alexscaves:peppermint_powder"));
 
         this.tag(FintyTags.Items.QUALITY_FISH_FEED_INGREDIENT)
                 .add(FintyItems.DAPHNIA.get())
@@ -178,9 +177,9 @@ public class FintyItemTagGenerator extends ItemTagsProvider {
                         FintyBlocks.RED_ALGAE_FAN.get().asItem(),
                         FintyBlocks.STROMATOLITE_GROWTHS.get().asItem(),
                         FintyBlocks.FOSSIL_STROMATOLITE_GROWTHS.get().asItem())
-                .addOptional(new ResourceLocation("marvelous_menagerie:charnia"))
-                .addOptional(new ResourceLocation("marvelous_menagerie:wiwaxia"))
-                .addOptional(new ResourceLocation("marvelous_menagerie:dickinsonia"))
-                .addOptional(new ResourceLocation("marvelous_menagerie:herpetogaster"));
+                .addOptional(ResourceLocation.parse("marvelous_menagerie:charnia"))
+                .addOptional(ResourceLocation.parse("marvelous_menagerie:wiwaxia"))
+                .addOptional(ResourceLocation.parse("marvelous_menagerie:dickinsonia"))
+                .addOptional(ResourceLocation.parse("marvelous_menagerie:herpetogaster"));
     }
 }

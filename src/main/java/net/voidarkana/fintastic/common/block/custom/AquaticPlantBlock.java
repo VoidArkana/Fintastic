@@ -1,10 +1,12 @@
 package net.voidarkana.fintastic.common.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -20,11 +22,14 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.IShearable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class AquaticPlantBlock extends BushBlock implements BonemealableBlock, LiquidBlockContainer, net.minecraftforge.common.IForgeShearable {
-    protected static final float AABB_OFFSET = 6.0F;
+public class AquaticPlantBlock extends BushBlock implements BonemealableBlock, LiquidBlockContainer, IShearable {
+    public static final MapCodec<AquaticPlantBlock> CODEC = simpleCodec(AquaticPlantBlock::new);
+
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
     Block tallBlock;
     boolean growsOnBonemeal;
@@ -39,65 +44,70 @@ public class AquaticPlantBlock extends BushBlock implements BonemealableBlock, L
         this(properties, false, Blocks.WATER);
     }
 
-    public VoxelShape getShape(BlockState p_154525_, BlockGetter p_154526_, BlockPos p_154527_, CollisionContext p_154528_) {
+    @Override
+    protected @NotNull MapCodec<? extends AquaticPlantBlock> codec() {
+        return CODEC;
+    }
+
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
-    protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return pState.isFaceSturdy(pLevel, pPos, Direction.UP) && !pState.is(Blocks.MAGMA_BLOCK) && pLevel.getBlockState(pPos.above()).getFluidState().is(Fluids.WATER);
+    protected boolean mayPlaceOn(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+        return state.isFaceSturdy(level, pos, Direction.UP) && !state.is(Blocks.MAGMA_BLOCK) && level.getBlockState(pos.above()).getFluidState().is(Fluids.WATER);
     }
 
     @Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext p_154503_) {
-        FluidState fluidstate = p_154503_.getLevel().getFluidState(p_154503_.getClickedPos());
-        return fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 ? super.getStateForPlacement(p_154503_) : null;
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        return fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 ? super.getStateForPlacement(context) : null;
     }
 
-    public BlockState updateShape(BlockState p_154530_, Direction p_154531_, BlockState p_154532_, LevelAccessor p_154533_, BlockPos p_154534_, BlockPos p_154535_) {
-        BlockState blockstate = super.updateShape(p_154530_, p_154531_, p_154532_, p_154533_, p_154534_, p_154535_);
+    public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockPos neighborPos) {
+        BlockState blockstate = super.updateShape(state, direction, neighborState, level, pos, neighborPos);
         if (!blockstate.isAir()) {
-            p_154533_.scheduleTick(p_154534_, Fluids.WATER, Fluids.WATER.getTickDelay(p_154533_));
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
         return blockstate;
     }
 
-    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean p_154513_) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
         if (this.growsOnBonemeal){
-            BlockPos blockpos = pPos.above();
-            return pLevel.getBlockState(blockpos).is(Blocks.WATER);
+            BlockPos blockpos = pos.above();
+            return level.getBlockState(blockpos).is(Blocks.WATER);
         }else {
             return true;
         }
     }
 
-    public boolean isBonemealSuccess(Level p_222428_, RandomSource p_222429_, BlockPos p_222430_, BlockState p_222431_) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
         return true;
     }
 
-    public FluidState getFluidState(BlockState p_154537_) {
+    public @NotNull FluidState getFluidState(@NotNull BlockState state) {
         return Fluids.WATER.getSource(false);
     }
 
-    public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
         if (this.growsOnBonemeal){
             BlockState blockstate = this.tallBlock.defaultBlockState();
             BlockState blockstate1 = blockstate.setValue(TallAquaticPlantBlock.HALF, DoubleBlockHalf.UPPER);
-            BlockPos blockpos = pPos.above();
-            if (pLevel.getBlockState(blockpos).is(Blocks.WATER)) {
-                pLevel.setBlock(pPos, blockstate, 2);
-                pLevel.setBlock(blockpos, blockstate1, 2);
+            BlockPos blockpos = pos.above();
+            if (level.getBlockState(blockpos).is(Blocks.WATER)) {
+                level.setBlock(pos, blockstate, 2);
+                level.setBlock(blockpos, blockstate1, 2);
             }
         }else {
-            popResource(pLevel, pPos, new ItemStack(this));
+            popResource(level, pos, new ItemStack(this));
         }
     }
 
-    public boolean canPlaceLiquid(BlockGetter p_154505_, BlockPos p_154506_, BlockState p_154507_, Fluid p_154508_) {
+    public boolean canPlaceLiquid(@Nullable Player player, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Fluid fluid) {
         return false;
     }
 
-    public boolean placeLiquid(LevelAccessor p_154520_, BlockPos p_154521_, BlockState p_154522_, FluidState p_154523_) {
+    public boolean placeLiquid(@NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull FluidState fluidState) {
         return false;
     }
 

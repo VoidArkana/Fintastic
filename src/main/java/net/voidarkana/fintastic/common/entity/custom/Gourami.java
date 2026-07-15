@@ -2,6 +2,7 @@ package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -53,25 +55,25 @@ public class Gourami extends BucketableFishEntity {
     private static final EntityDataAccessor<Boolean> WANTS_TO_INVESTIGATE = SynchedEntityData.defineId(Gourami.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> WANTS_TO_BREATHE = SynchedEntityData.defineId(Gourami.class, EntityDataSerializers.BOOLEAN);
 
-    public boolean isFood(ItemStack pStack) {
-        return FOOD_ITEMS.test(pStack);
+    public boolean isFood(ItemStack stack) {
+        return FOOD_ITEMS.test(stack);
     }
 
-    public Gourami(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Gourami(EntityType<? extends BucketableFishEntity> entityType, Level level) {
+        super(entityType, level);
         this.refreshDimensions();
     }
 
-    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         this.refreshDimensions();
-        super.onSyncedDataUpdated(pKey);
+        super.onSyncedDataUpdated(key);
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pPose) {
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
         return switch (this.getVariantModel()) {
-            case 1, 2 -> super.getDimensions(pPose);
-            default -> super.getDimensions(pPose).scale(2F, 3.5F);
+            case 1, 2 -> super.getDefaultDimensions(pose);
+            default -> super.getDefaultDimensions(pose).scale(2F, 3.5F);
         };
     }
 
@@ -89,49 +91,49 @@ public class Gourami extends BucketableFishEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.6F);
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(VARIANT_MODEL, 0);
-        this.entityData.define(VARIANT_SKIN, 0);
-        this.entityData.define(INVESTIGATING_TIME, 0);
-        this.entityData.define(WANTS_TO_INVESTIGATE, false);
-        this.entityData.define(WANTS_TO_BREATHE, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT_MODEL, 0);
+        builder.define(VARIANT_SKIN, 0);
+        builder.define(INVESTIGATING_TIME, 0);
+        builder.define(WANTS_TO_INVESTIGATE, false);
+        builder.define(WANTS_TO_BREATHE, false);
     }
 
-    public void addAdditionalSaveData(CompoundTag pCompound) {
-        super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("VariantModel", this.getVariantModel());
-        pCompound.putInt("VariantSkin", this.getVariantSkin());
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("VariantModel", this.getVariantModel());
+        compound.putInt("VariantSkin", this.getVariantSkin());
     }
 
-    public void readAdditionalSaveData(CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
-        this.setVariantModel(pCompound.getInt("VariantModel"));
-        this.setVariantSkin(pCompound.getInt("VariantSkin"));
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setVariantModel(compound.getInt("VariantModel"));
+        this.setVariantSkin(compound.getInt("VariantSkin"));
     }
 
     public int getVariantModel() {
         return this.entityData.get(VARIANT_MODEL);
     }
 
-    public void setVariantModel(int pVariant) {
-        this.entityData.set(VARIANT_MODEL, pVariant);
+    public void setVariantModel(int variant) {
+        this.entityData.set(VARIANT_MODEL, variant);
     }
 
     public int getVariantSkin() {
         return this.entityData.get(VARIANT_SKIN);
     }
 
-    public void setVariantSkin(int pVariant) {
-        this.entityData.set(VARIANT_SKIN, pVariant);
+    public void setVariantSkin(int variant) {
+        this.entityData.set(VARIANT_SKIN, variant);
     }
 
     public int getInvestigatingTime() {
         return this.entityData.get(INVESTIGATING_TIME);
     }
 
-    public void setInvestigatingTime(int pTime) {
-        this.entityData.set(INVESTIGATING_TIME, pTime);
+    public void setInvestigatingTime(int time) {
+        this.entityData.set(INVESTIGATING_TIME, time);
     }
 
     public boolean isInvestigating() {
@@ -156,9 +158,9 @@ public class Gourami extends BucketableFishEntity {
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Gourami baby = FintyEntities.GOURAMI.get().create(pLevel);
-        Gourami otherParent = (Gourami) pOtherParent;
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal mate) {
+        Gourami baby = FintyEntities.GOURAMI.get().create(level);
+        Gourami otherParent = (Gourami) mate;
         if (baby != null) {
             baby.setFromBucket(true);
             baby.setVariantModel(this.random.nextBoolean() ? this.getVariantModel() : otherParent.getVariantModel());
@@ -200,58 +202,52 @@ public class Gourami extends BucketableFishEntity {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Age", this.getAge());
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
-        compoundnbt.putInt("VariantModel", this.getVariantModel());
-        compoundnbt.putInt("VariantSkin", this.getVariantSkin());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Age", this.getAge());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+            compoundnbt.putInt("VariantModel", this.getVariantModel());
+            compoundnbt.putInt("VariantSkin", this.getVariantSkin());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
 
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));
         }
 
-        if (pTag.contains("VariantModel")) {
-            this.setVariantModel(pTag.getInt("VariantModel"));
+        if (tag.contains("VariantModel")) {
+            this.setVariantModel(tag.getInt("VariantModel"));
         }
-        if (pTag.contains("VariantSkin")) {
-            this.setVariantSkin(pTag.getInt("VariantSkin"));
+        if (tag.contains("VariantSkin")) {
+            this.setVariantSkin(tag.getInt("VariantSkin"));
+        }
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
         }
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Age", 3)) {
+        GouramiVariant variant = Util.getRandom(GouramiVariant.values(), this.random);
 
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));
-            }
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-            this.setVariantModel(pDataTag.getInt("VariantModel"));
-            this.setVariantSkin(pDataTag.getInt("VariantSkin"));
-        } else {
+        this.setVariantModel(variant.getModel());
+        this.setVariantSkin(variant.getSkin());
 
-            GouramiVariant variant = Util.getRandom(GouramiVariant.values(), this.random);
+        if (this.getVariantModel() == 0 && reason == MobSpawnType.BUCKET)
+            this.setAge(-24000);
 
-            this.setVariantModel(variant.getModel());
-            this.setVariantSkin(variant.getSkin());
-
-            if (this.getVariantModel() == 0 && pReason == MobSpawnType.BUCKET)
-                this.setAge(-24000);
-        }
         this.setAirSupply(this.getMaxAirSupply());
 
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     @Override
@@ -265,10 +261,10 @@ public class Gourami extends BucketableFishEntity {
     }
 
     @Override
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        Gourami mate = (Gourami) pOtherAnimal;
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        Gourami mate = (Gourami) otherAnimal;
 
-        return super.canMate(pOtherAnimal) && (areBothSpottedGouramies(mate) || (mate.getVariantModel() == this.getVariantModel() && mate.getVariantSkin() == this.getVariantSkin()));
+        return super.canMate(otherAnimal) && (areBothSpottedGouramies(mate) || (mate.getVariantModel() == this.getVariantModel() && mate.getVariantSkin() == this.getVariantSkin()));
     }
 
     private boolean areBothSpottedGouramies(Gourami otherGourami) {
@@ -294,9 +290,9 @@ public class Gourami extends BucketableFishEntity {
         int duration;
         int currentDuration;
 
-        public GouramiInvestigateGoal(Gourami pMob, int duration) {
-            super(pMob, 0.9, 16, 16);
-            this.fish = pMob;
+        public GouramiInvestigateGoal(Gourami mob, int duration) {
+            super(mob, 0.9, 16, 16);
+            this.fish = mob;
             this.duration = duration;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
         }
@@ -365,8 +361,8 @@ public class Gourami extends BucketableFishEntity {
         }
 
         @Override
-        protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
-            BlockState blockstate = pLevel.getBlockState(pPos);
+        protected boolean isValidTarget(LevelReader level, BlockPos pos) {
+            BlockState blockstate = level.getBlockState(pos);
             return blockstate.is(FintyTags.Blocks.GOURAMI_INVESTIGATION_TARGETS) &&
                     !(blockstate.is(Blocks.SEAGRASS) || blockstate.is(Blocks.TALL_SEAGRASS)
                             || blockstate.is(Blocks.LILY_PAD) || blockstate.is(FintyBlocks.DUCKWEED.get()));
@@ -376,9 +372,9 @@ public class Gourami extends BucketableFishEntity {
     public static class GouramiBreatheGoal extends BreathAirGoal {
         private final Gourami fish;
 
-        public GouramiBreatheGoal(Gourami pMob) {
-            super(pMob);
-            this.fish = pMob;
+        public GouramiBreatheGoal(Gourami mob) {
+            super(mob);
+            this.fish = mob;
         }
 
         @Override
@@ -407,12 +403,12 @@ public class Gourami extends BucketableFishEntity {
         return 180;
     }
 
-    protected void addParticlesAroundSelf(ParticleOptions pParticleOption) {
+    protected void addParticlesAroundSelf(ParticleOptions particleOption) {
         for(int i = 0; i < 5; ++i) {
             double d0 = this.random.nextGaussian() * 0.02D;
             double d1 = this.random.nextGaussian() * 0.02D;
             double d2 = this.random.nextGaussian() * 0.02D;
-            this.level().addParticle(pParticleOption, this.getRandomX(0.5D), this.getY() + 0.5D, this.getRandomZ(0.5D), d0, d1, d2);
+            this.level().addParticle(particleOption, this.getRandomX(0.5D), this.getY() + 0.5D, this.getRandomZ(0.5D), d0, d1, d2);
         }
     }
     
@@ -473,12 +469,12 @@ public class Gourami extends BucketableFishEntity {
         public static final StringRepresentable.EnumCodec<Gourami.GouramiVariant> CODEC
                 = StringRepresentable.fromEnum(Gourami.GouramiVariant::values);
 
-        public static Gourami.GouramiVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static Gourami.GouramiVariant byId(int id) {
+            return BY_ID.apply(id);
         }
 
-        public static Gourami.GouramiVariant byName(String pName) {
-            return CODEC.byName(pName, OSPHRONEMUS_GORAMI);
+        public static Gourami.GouramiVariant byName(String name) {
+            return CODEC.byName(name, OSPHRONEMUS_GORAMI);
         }
     }
 }

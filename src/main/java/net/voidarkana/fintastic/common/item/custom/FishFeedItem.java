@@ -7,23 +7,21 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class FishFeedItem extends Item {
 
-    private int quality;
+    private final int quality;
 
-    public FishFeedItem(Properties pProperties, int pQuality) {
-        super(pProperties);
-        this.quality = pQuality;
+    public FishFeedItem(Properties properties, int quality) {
+        super(properties);
+        this.quality = quality;
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+        super.appendHoverText(stack, context, tooltipComponents, isAdvanced);
 
         ChatFormatting[] achatformatting = new ChatFormatting[]{ChatFormatting.ITALIC, ChatFormatting.AQUA};
         ChatFormatting[] bchatformatting = new ChatFormatting[]{ChatFormatting.ITALIC, ChatFormatting.GRAY};
@@ -35,9 +33,9 @@ public class FishFeedItem extends Item {
         fishfeedDesc.withStyle(bchatformatting);
 
         if (!Screen.hasShiftDown()){
-            pTooltipComponents.add(translatable);
+            tooltipComponents.add(translatable);
         }else {
-            pTooltipComponents.add(fishfeedDesc);
+            tooltipComponents.add(fishfeedDesc);
         }
 
     }

@@ -1,0 +1,8 @@
+{
+  "sound_event": "fintastic:shunji",
+  "description": {
+    "translate": "item.fintastic.shunji_music_disc.desc"
+  },
+  "length_in_seconds": 248,
+  "comparator_output": 9
+}

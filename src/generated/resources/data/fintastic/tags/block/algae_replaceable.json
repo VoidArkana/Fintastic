@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#minecraft:moss_replaceable",
+    "#c:sands",
+    "#fintastic:propagates_green_algae",
+    "#fintastic:propagates_red_algae",
+    "fintastic:aquatic_moss_block"
+  ]
+}

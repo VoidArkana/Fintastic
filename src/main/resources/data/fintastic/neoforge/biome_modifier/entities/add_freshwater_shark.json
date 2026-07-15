@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#fintastic:fwshark_biomes",
+  "spawners": {
+    "type": "fintastic:freshwater_shark",
+    "weight": 7,
+    "minCount": 2,
+    "maxCount": 5,
+    "category": "water_creature"
+  }
+}

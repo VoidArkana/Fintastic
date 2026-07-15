@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#minecraft:is_jungle",
+    "#c:is_swamp",
+    {
+      "id": "atmospheric:rainforest",
+      "required": false
+    }
+  ]
+}

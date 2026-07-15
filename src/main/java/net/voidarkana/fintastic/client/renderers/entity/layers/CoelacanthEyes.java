@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.EyesLayer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LightLayer;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.client.models.entity.CoelacanthModel;
@@ -16,10 +15,10 @@ import net.voidarkana.fintastic.common.entity.custom.Coelacanth;
 
 public class CoelacanthEyes<T extends Coelacanth> extends EyesLayer<T, CoelacanthModel<T>> {
 
-    private static final RenderType COELACANTH_EYES = RenderType.eyes(new ResourceLocation(Fintastic.MOD_ID,"textures/entity/coelacanth/coelacanth_eyes.png"));
+    private static final RenderType COELACANTH_EYES = RenderType.eyes(Fintastic.location("textures/entity/coelacanth/coelacanth_eyes.png"));
 
-    public CoelacanthEyes(RenderLayerParent<T, CoelacanthModel<T>> pRenderer) {
-        super(pRenderer);
+    public CoelacanthEyes(RenderLayerParent<T, CoelacanthModel<T>> renderer) {
+        super(renderer);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class CoelacanthEyes<T extends Coelacanth> extends EyesLayer<T, Coelacant
         }
         if (brightness < 7) {
             VertexConsumer ivertexbuilder = bufferIn.getBuffer(COELACANTH_EYES);
-            this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, LivingEntityRenderer.getOverlayCoords(fish, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+            this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, LivingEntityRenderer.getOverlayCoords(fish, 0.0F), -1);
         }
 
     }

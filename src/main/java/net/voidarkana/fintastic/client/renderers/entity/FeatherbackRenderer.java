@@ -18,12 +18,12 @@ public class FeatherbackRenderer<T extends Featherback> extends MobRenderer<T, F
     private final FeatherbackModelMed<T> modelMed;
     private final FeatherbackModelSmall<T> modelSmall;
 
-    public FeatherbackRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new FeatherbackModelBig<>(pContext.bakeLayer(FintasticLayers.FEATHERBACK_BIG)), 0.25f);
+    public FeatherbackRenderer(EntityRendererProvider.Context context) {
+        super(context, new FeatherbackModelBig<>(context.bakeLayer(FintasticLayers.FEATHERBACK_BIG)), 0.25f);
 
-        this.modelBig = new FeatherbackModelBig<>(pContext.bakeLayer(FintasticLayers.FEATHERBACK_BIG));
-        this.modelMed = new FeatherbackModelMed<>(pContext.bakeLayer(FintasticLayers.FEATHERBACK_MED));
-        this.modelSmall = new FeatherbackModelSmall<>(pContext.bakeLayer(FintasticLayers.FEATHERBACK_SMALL));
+        this.modelBig = new FeatherbackModelBig<>(context.bakeLayer(FintasticLayers.FEATHERBACK_BIG));
+        this.modelMed = new FeatherbackModelMed<>(context.bakeLayer(FintasticLayers.FEATHERBACK_MED));
+        this.modelSmall = new FeatherbackModelSmall<>(context.bakeLayer(FintasticLayers.FEATHERBACK_SMALL));
     }
 
     @Override
@@ -47,16 +47,16 @@ public class FeatherbackRenderer<T extends Featherback> extends MobRenderer<T, F
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T pEntity) {
+    public ResourceLocation getTextureLocation(T entity) {
 
-        Featherback.FeatherbackVariant variant = Featherback.FeatherbackVariant.byId(pEntity.getVariant());
+        Featherback.FeatherbackVariant variant = Featherback.FeatherbackVariant.byId(entity.getVariant());
 
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/featherback/featherback_"+variant.getSerializedName()+".png");
+        return Fintastic.location("textures/entity/featherback/featherback_"+variant.getSerializedName()+".png");
     }
 
     @Override
-    protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/2));
+    protected void setupRotations(T entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(entityLiving.currentRoll*360/2));
     }
 }

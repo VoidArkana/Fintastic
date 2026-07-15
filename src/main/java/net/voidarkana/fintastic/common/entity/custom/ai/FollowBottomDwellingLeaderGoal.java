@@ -8,18 +8,17 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class FollowBottomDwellingLeaderGoal extends Goal {
-    private static final int INTERVAL_TICKS = 200;
     private final AbstractBottomSchooler mob;
     private int timeToRecalcPath;
     private int nextStartTick;
 
-    public FollowBottomDwellingLeaderGoal(AbstractBottomSchooler pFish) {
-        this.mob = pFish;
-        this.nextStartTick = this.nextStartTick(pFish);
+    public FollowBottomDwellingLeaderGoal(AbstractBottomSchooler fish) {
+        this.mob = fish;
+        this.nextStartTick = this.nextStartTick(fish);
     }
 
-    protected int nextStartTick(AbstractBottomSchooler pTaskOwner) {
-        return reducedTickDelay(200 + pTaskOwner.getRandom().nextInt(200) % 20);
+    protected int nextStartTick(AbstractBottomSchooler taskOwner) {
+        return reducedTickDelay(200 + taskOwner.getRandom().nextInt(200) % 20);
     }
 
     public boolean canUse() {
@@ -32,14 +31,10 @@ public class FollowBottomDwellingLeaderGoal extends Goal {
             return false;
         } else {
             this.nextStartTick = this.nextStartTick(this.mob);
-            Predicate<AbstractBottomSchooler> predicate = (fish) -> {
-                return fish.canBeFollowed() || !fish.isFollower();
-            };
+            Predicate<AbstractBottomSchooler> predicate = (fish) -> fish.canBeFollowed() || !fish.isFollower();
             List<? extends AbstractBottomSchooler> list = this.mob.level().getEntitiesOfClass(this.mob.getClass(), this.mob.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
             AbstractBottomSchooler abstractschoolingfish = DataFixUtils.orElse(list.stream().filter(AbstractBottomSchooler::canBeFollowed).findAny(), this.mob);
-            abstractschoolingfish.addFollowers(list.stream().filter((fish) -> {
-                return !fish.isFollower();
-            }));
+            abstractschoolingfish.addFollowers(list.stream().filter((fish) -> !fish.isFollower()));
             return this.mob.isFollower();
         }
     }

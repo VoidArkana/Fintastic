@@ -66,15 +66,15 @@ public class BoidGoal extends Goal {
 
     }
 
-    public static List<? extends VariantBoidingFish> getNearbyEntitiesOfSameSchool(VariantBoidingFish pMob) {
+    public static List<? extends VariantBoidingFish> getNearbyEntitiesOfSameSchool(VariantBoidingFish mob) {
         Predicate<VariantBoidingFish> predicate =
-                (pVariantBoidingFish) -> {
-                    if (pVariantBoidingFish.isFollower() && pMob.isFollower()) {
-                        return pVariantBoidingFish.leader == pMob.leader;
-                    }else if (pVariantBoidingFish.isFollower() && pMob.canBeFollowed()){
-                        return pVariantBoidingFish.leader == pMob;
-                    }else if (pVariantBoidingFish.canBeFollowed() && pMob.isFollower()){
-                        return pMob.leader == pVariantBoidingFish;
+                (variantBoidingFish) -> {
+                    if (variantBoidingFish.isFollower() && mob.isFollower()) {
+                        return variantBoidingFish.leader == mob.leader;
+                    }else if (variantBoidingFish.isFollower() && mob.canBeFollowed()){
+                        return variantBoidingFish.leader == mob;
+                    }else if (variantBoidingFish.canBeFollowed() && mob.isFollower()){
+                        return mob.leader == variantBoidingFish;
                     }
                     return false;
                 };
@@ -83,7 +83,7 @@ public class BoidGoal extends Goal {
 //                || (mob.isFollower() && ((pVariantBoidingFish.leader == mob.leader && mob.isFollower() && Objects.requireNonNull(pVariantBoidingFish.leader).canBeFollowed())
 //                                || (mob.leader == pVariantBoidingFish && pVariantBoidingFish.canBeFollowed()) ));
 
-        return pMob.level().getEntitiesOfClass(pMob.getClass(), pMob.getBoundingBox().inflate(4.0, 4.0, 4.0), predicate);
+        return mob.level().getEntitiesOfClass(mob.getClass(), mob.getBoundingBox().inflate(4.0, 4.0, 4.0), predicate);
     }
 
     public Vec3 random() {

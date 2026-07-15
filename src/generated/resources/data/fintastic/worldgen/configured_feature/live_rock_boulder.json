@@ -1,0 +1,26 @@
+{
+  "type": "fintastic:live_rock_boulder_feature",
+  "config": {
+    "grass_state_1": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "fintastic:red_algae_live_rock"
+      }
+    },
+    "grass_state_2": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "fintastic:green_algae_live_rock"
+      }
+    },
+    "vegetation_chance": 0.6,
+    "vegetation_feature1": {
+      "feature": "fintastic:red_algae_vegetation",
+      "placement": []
+    },
+    "vegetation_feature2": {
+      "feature": "fintastic:green_algae_vegetation",
+      "placement": []
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "minecraft:sea_pickle",
+            "Properties": {
+              "pickles": "2",
+              "waterlogged": "true"
+            }
+          },
+          "weight": 4
+        },
+        {
+          "data": {
+            "Name": "fintastic:green_algae_carpet",
+            "Properties": {
+              "waterlogged": "true"
+            }
+          },
+          "weight": 25
+        },
+        {
+          "data": {
+            "Name": "fintastic:caulerpa"
+          },
+          "weight": 45
+        },
+        {
+          "data": {
+            "Name": "fintastic:mermaid_fan"
+          },
+          "weight": 25
+        },
+        {
+          "data": {
+            "Name": "fintastic:sea_grapes",
+            "Properties": {
+              "age": "0"
+            }
+          },
+          "weight": 15
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "fintastic:item/fintastic_salmon_spawn_egg"
+  }
+}

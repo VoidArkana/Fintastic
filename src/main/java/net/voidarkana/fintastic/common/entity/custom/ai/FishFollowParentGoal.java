@@ -1,7 +1,6 @@
 package net.voidarkana.fintastic.common.entity.custom.ai;
 
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.animal.Animal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 
 import javax.annotation.Nullable;
@@ -15,9 +14,9 @@ public class FishFollowParentGoal extends Goal {
     private final double speedModifier;
     private int timeToRecalcPath;
 
-    public FishFollowParentGoal(BreedableWaterAnimal pAnimal, double pSpeedModifier) {
-        this.animal = pAnimal;
-        this.speedModifier = pSpeedModifier;
+    public FishFollowParentGoal(BreedableWaterAnimal animal, double speedModifier) {
+        this.animal = animal;
+        this.speedModifier = speedModifier;
     }
 
     /**
@@ -59,11 +58,14 @@ public class FishFollowParentGoal extends Goal {
     public boolean canContinueToUse() {
         if (this.animal.getAge() >= 0) {
             return false;
-        } else if (!this.parent.isAlive()) {
-            return false;
         } else {
-            double d0 = this.animal.distanceToSqr(this.parent);
-            return !(d0 < 10.0D) && !(d0 > 256.0D);
+            assert this.parent != null;
+            if (!this.parent.isAlive()) {
+                return false;
+            } else {
+                double d0 = this.animal.distanceToSqr(this.parent);
+                return !(d0 < 10.0D) && !(d0 > 256.0D);
+            }
         }
     }
 
@@ -87,6 +89,7 @@ public class FishFollowParentGoal extends Goal {
     public void tick() {
         if (--this.timeToRecalcPath <= 0) {
             this.timeToRecalcPath = this.adjustedTickDelay(10);
+            assert this.parent != null;
             this.animal.getNavigation().moveTo(this.parent, this.speedModifier);
         }
     }

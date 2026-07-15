@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -34,12 +36,12 @@ public class Featherback extends BucketableFishEntity {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
-    public boolean isFood(ItemStack pStack) {
-        return FOOD_ITEMS.test(pStack);
+    public boolean isFood(ItemStack stack) {
+        return FOOD_ITEMS.test(stack);
     }
 
-    public Featherback(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Featherback(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
         this.refreshDimensions();
     }
 
@@ -50,16 +52,16 @@ public class Featherback extends BucketableFishEntity {
         this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
     }
 
-    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         this.refreshDimensions();
-        super.onSyncedDataUpdated(pKey);
+        super.onSyncedDataUpdated(key);
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pPose) {
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
         return switch (FeatherbackVariant.byId(this.getVariant()).getModel()){
-            case 2 ->super.getDimensions(pPose);
-            default -> super.getDimensions(pPose).scale(1F, 0.6F);
+            case 2 ->super.getDefaultDimensions(pose);
+            default -> super.getDefaultDimensions(pose).scale(1F, 0.6F);
         };
     }
 
@@ -69,9 +71,9 @@ public class Featherback extends BucketableFishEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(VARIANT, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -95,52 +97,48 @@ public class Featherback extends BucketableFishEntity {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Variant", this.getVariant());
-        compoundnbt.putInt("Age", this.getAge());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Variant", this.getVariant());
+            compoundnbt.putInt("Age", this.getAge());
 
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
 
-        if (pTag.contains("Variant"))
-            this.setVariant(pTag.getInt("Variant"));
+        if (tag.contains("Variant"))
+            this.setVariant(tag.getInt("Variant"));
 
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));
+        }
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
         }
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
-            this.setVariant(pDataTag.getInt("Variant"));
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));
-            }
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-        }else{
-            this.setVariant(Util.getRandom(FeatherbackVariant.values(), this.random).getJoinedVariant());
-        }
+        this.setVariant(Util.getRandom(FeatherbackVariant.values(), this.random).getJoinedVariant());
 
-        pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Featherback baby = FintyEntities.FEATHERBACK.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        Featherback baby = FintyEntities.FEATHERBACK.get().create(level);
         if (baby != null){
             baby.setVariant(this.getVariant());
             baby.setFromBucket(true);
@@ -154,9 +152,9 @@ public class Featherback extends BucketableFishEntity {
     }
 
     @Override
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        Featherback mate = (Featherback) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && this.getVariant() == mate.getVariant();
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        Featherback mate = (Featherback) otherAnimal;
+        return super.canMate(otherAnimal) && this.getVariant() == mate.getVariant();
     }
 
     public enum FeatherbackVariant implements StringRepresentable {
@@ -194,12 +192,12 @@ public class Featherback extends BucketableFishEntity {
         public static final StringRepresentable.EnumCodec<FeatherbackVariant> CODEC
                 = StringRepresentable.fromEnum(FeatherbackVariant::values);
 
-        public static FeatherbackVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static FeatherbackVariant byId(int id) {
+            return BY_ID.apply(id);
         }
 
-        public static FeatherbackVariant byName(String pName) {
-            return CODEC.byName(pName, AFRICAN_BROWN_KNIFEFISH);
+        public static FeatherbackVariant byName(String name) {
+            return CODEC.byName(name, AFRICAN_BROWN_KNIFEFISH);
         }
     }
 }

@@ -16,22 +16,21 @@ public class GuppyTail <T extends Guppy> extends RenderLayer<T, FintasticModel<T
 
     private final GuppyModel<T> guppyModel;
 
-    public GuppyTail(RenderLayerParent<T, FintasticModel<T>> pRenderer, EntityRendererProvider.Context pContext) {
-        super(pRenderer);
-        this.guppyModel = new GuppyModel<>(pContext.bakeLayer(FintasticLayers.GUPPY));
+    public GuppyTail(RenderLayerParent<T, FintasticModel<T>> renderer, EntityRendererProvider.Context context) {
+        super(renderer);
+        this.guppyModel = new GuppyModel<>(context.bakeLayer(FintasticLayers.GUPPY));
     }
 
     @Override
-    public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, T entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 
         if (!entity.isInvisible() && !entity.isBaby()) {
-            ResourceLocation texture = new ResourceLocation(Fintastic.MOD_ID,
-                    "textures/entity/guppy/tail/"+entity.getTailName(entity.getTailModel())
+            ResourceLocation texture = Fintastic.location("textures/entity/guppy/tail/"+entity.getTailName(entity.getTailModel())
                             +"/guppy_tail_"+entity.getTailName(entity.getTailModel())+"_"+entity.getTailColor()+".png");
 
-            coloredCutoutModelCopyLayerRender(this.getParentModel(), guppyModel, texture, pPoseStack, pBuffer, pPackedLight,
-                    entity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch,
-                    pPartialTick, 1, 1, 1);
+            coloredCutoutModelCopyLayerRender(this.getParentModel(), guppyModel, texture, poseStack, buffer, packedLight,
+                    entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch,
+                    partialTick, -1);
         }
     }
 }

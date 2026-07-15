@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:random_patch",
+  "config": {
+    "feature": {
+      "feature": {
+        "type": "fintastic:amazon_swords_feature",
+        "config": {
+          "probability": 0.4
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air"
+          }
+        }
+      ]
+    },
+    "tries": 5,
+    "xz_spread": 5,
+    "y_spread": 0
+  }
+}

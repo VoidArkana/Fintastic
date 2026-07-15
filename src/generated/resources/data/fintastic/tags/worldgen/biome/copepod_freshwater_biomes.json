@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#minecraft:is_jungle",
+    "#minecraft:is_forest",
+    "#minecraft:is_mountain",
+    "#minecraft:is_badlands",
+    "#minecraft:is_savanna",
+    "#c:is_plains",
+    "#c:is_lush"
+  ]
+}

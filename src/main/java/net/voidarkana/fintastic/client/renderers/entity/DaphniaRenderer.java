@@ -8,24 +8,22 @@ import net.minecraft.resources.ResourceLocation;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.client.FintasticLayers;
 import net.voidarkana.fintastic.client.models.entity.DaphniaModel;
-import net.voidarkana.fintastic.client.models.entity.FairyShrimpModel;
 import net.voidarkana.fintastic.common.entity.custom.Daphnia;
-import net.voidarkana.fintastic.common.entity.custom.FairyShrimp;
 
 public class DaphniaRenderer<T extends Daphnia> extends MobRenderer<T, DaphniaModel<T>> {
 
-    public DaphniaRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new DaphniaModel<>(pContext.bakeLayer(FintasticLayers.DAPHNIA)), 0.25f);
+    public DaphniaRenderer(EntityRendererProvider.Context context) {
+        super(context, new DaphniaModel<>(context.bakeLayer(FintasticLayers.DAPHNIA)), 0.25f);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T pEntity) {
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/daphnia.png");
+    public ResourceLocation getTextureLocation(T entity) {
+        return Fintastic.location("textures/entity/daphnia.png");
     }
 
     @Override
-    protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/3));
+    protected void setupRotations(T entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(entityLiving.currentRoll*360/3));
     }
 }

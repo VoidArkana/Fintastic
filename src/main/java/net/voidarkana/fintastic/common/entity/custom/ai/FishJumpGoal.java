@@ -16,9 +16,9 @@ public class FishJumpGoal extends JumpGoal {
     private final int interval;
     private boolean breached;
 
-    public FishJumpGoal(BucketableFishEntity pDolphin, int pInterval) {
-        this.dolphin = pDolphin;
-        this.interval = reducedTickDelay(pInterval);
+    public FishJumpGoal(BucketableFishEntity dolphin, int interval) {
+        this.dolphin = dolphin;
+        this.interval = reducedTickDelay(interval);
     }
 
     public boolean canUse() {
@@ -40,13 +40,13 @@ public class FishJumpGoal extends JumpGoal {
         }
     }
 
-    private boolean waterIsClear(BlockPos pPos, int pDx, int pDz, int pScale) {
-        BlockPos blockpos = pPos.offset(pDx * pScale, 0, pDz * pScale);
+    private boolean waterIsClear(BlockPos pos, int dx, int dz, int scale) {
+        BlockPos blockpos = pos.offset(dx * scale, 0, dz * scale);
         return this.dolphin.level().getFluidState(blockpos).is(FluidTags.WATER) && !this.dolphin.level().getBlockState(blockpos).blocksMotion();
     }
 
-    private boolean surfaceIsClear(BlockPos pPos, int pDx, int pDz, int pScale) {
-        return this.dolphin.level().getBlockState(pPos.offset(pDx * pScale, 1, pDz * pScale)).isAir() && this.dolphin.level().getBlockState(pPos.offset(pDx * pScale, 2, pDz * pScale)).isAir();
+    private boolean surfaceIsClear(BlockPos pos, int dx, int dz, int scale) {
+        return this.dolphin.level().getBlockState(pos.offset(dx * scale, 1, dz * scale)).isAir() && this.dolphin.level().getBlockState(pos.offset(dx * scale, 2, dz * scale)).isAir();
     }
 
     public boolean canContinueToUse() {

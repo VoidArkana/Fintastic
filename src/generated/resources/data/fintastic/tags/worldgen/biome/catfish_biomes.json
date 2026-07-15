@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#minecraft:is_river",
+    "#minecraft:is_jungle",
+    "#c:is_swamp",
+    "minecraft:warm_ocean",
+    "minecraft:lukewarm_ocean",
+    "minecraft:deep_lukewarm_ocean"
+  ]
+}

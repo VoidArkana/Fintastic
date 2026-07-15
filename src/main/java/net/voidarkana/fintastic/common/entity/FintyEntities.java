@@ -1,7 +1,6 @@
 package net.voidarkana.fintastic.common.entity;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
@@ -19,55 +18,55 @@ public class FintyEntities {
             ENTITY_TYPES.register("featherback",
                     () -> EntityType.Builder.of(Featherback::new, MobCategory.WATER_CREATURE)
                             .sized(0.7f, 0.9f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "featherback").toString()));
+                            .build(Fintastic.location("featherback").toString()));
 
     public static final Supplier<EntityType<Minnow>> MINNOW =
             ENTITY_TYPES.register("minnow",
                     () -> EntityType.Builder.of(Minnow::new, MobCategory.WATER_AMBIENT)
                             .sized(0.4f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "minnow").toString()));
+                            .build(Fintastic.location("minnow").toString()));
 
     public static final Supplier<EntityType<Catfish>> CATFISH =
             ENTITY_TYPES.register("catfish",
                     () -> EntityType.Builder.of(Catfish::new, MobCategory.WATER_CREATURE)
                             .sized(1f, 0.9f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "catfish").toString()));
+                            .build(Fintastic.location("catfish").toString()));
 
     public static final Supplier<EntityType<Guppy>> GUPPY =
             ENTITY_TYPES.register("guppy",
                     () -> EntityType.Builder.of(Guppy::new, MobCategory.WATER_AMBIENT)
                             .sized(0.3f, 0.3f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "guppy").toString()));
+                            .build(Fintastic.location("guppy").toString()));
 
     public static final Supplier<EntityType<Sharkminnow>> SHARKMINNOW =
             ENTITY_TYPES.register("freshwater_shark",
                     () -> EntityType.Builder.of(Sharkminnow::new, MobCategory.WATER_CREATURE)
                             .sized(0.6f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "freshwater_shark").toString()));
+                            .build(Fintastic.location("freshwater_shark").toString()));
 
     public static final Supplier<EntityType<Pleco>> PLECO =
             ENTITY_TYPES.register("pleco",
                     () -> EntityType.Builder.of(Pleco::new, MobCategory.WATER_CREATURE)
                             .sized(1f, 0.5f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "pleco").toString()));
+                            .build(Fintastic.location("pleco").toString()));
 
     public static final Supplier<EntityType<Arapaima>> ARAPAIMA =
             ENTITY_TYPES.register("arapaima",
                     () -> EntityType.Builder.of(Arapaima::new, MobCategory.WATER_CREATURE)
                             .sized(1.5f, 0.8f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "arapaima").toString()));
+                            .build(Fintastic.location("arapaima").toString()));
 
     public static final Supplier<EntityType<FairyShrimp>> FAIRY_SHRIMP =
             ENTITY_TYPES.register("artemia",
                     () -> EntityType.Builder.of(FairyShrimp::new, MobCategory.WATER_AMBIENT)
                             .sized(0.8f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "artemia").toString()));
+                            .build(Fintastic.location("artemia").toString()));
 
     public static final Supplier<EntityType<Daphnia>> DAPHNIA =
             ENTITY_TYPES.register("daphnia",
                     () -> EntityType.Builder.of(Daphnia::new, MobCategory.WATER_CREATURE)
                             .sized(0.8f, 0.8f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "daphnia").toString()));
+                            .build(Fintastic.location("daphnia").toString()));
 
 
     //update 2.0
@@ -75,50 +74,50 @@ public class FintyEntities {
             ENTITY_TYPES.register("moony",
                     () -> EntityType.Builder.of(Moony::new, MobCategory.WATER_AMBIENT)
                             .sized(0.3f, 0.5f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "moony").toString()));
+                            .build(Fintastic.location("moony").toString()));
 
     public static final Supplier<EntityType<Coelacanth>> COELACANTH =
             ENTITY_TYPES.register("coelacanth",
                     () -> EntityType.Builder.of(Coelacanth::new, MobCategory.WATER_CREATURE)
                             .sized(1.5f, 1f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "coelacanth").toString()));
+                            .build(Fintastic.location("coelacanth").toString()));
 
     public static final Supplier<EntityType<Gourami>> GOURAMI =
             ENTITY_TYPES.register("gourami",
                     () -> EntityType.Builder.of(Gourami::new, MobCategory.WATER_AMBIENT)
                             .sized(0.6f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "gourami").toString()));
+                            .build(Fintastic.location("gourami").toString()));
 
     //update 3.0
     public static final Supplier<EntityType<Copepod>> COPEPOD =
             ENTITY_TYPES.register("copepod",
                     () -> EntityType.Builder.of(Copepod::new, MobCategory.WATER_CREATURE)
                             .sized(0.8f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "copepod").toString()));
+                            .build(Fintastic.location("copepod").toString()));
 
     public static final Supplier<EntityType<FintasticCod>> COD =
             ENTITY_TYPES.register("fintastic_cod",
                     () -> EntityType.Builder.of(FintasticCod::new, MobCategory.WATER_AMBIENT)
                             .sized(0.6f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "fintastic_cod").toString()));
+                            .build(Fintastic.location("fintastic_cod").toString()));
 
     public static final Supplier<EntityType<FintasticSalmon>> SALMON =
             ENTITY_TYPES.register("fintastic_salmon",
                     () -> EntityType.Builder.of(FintasticSalmon::new, MobCategory.WATER_AMBIENT)
                             .sized(0.6f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "fintastic_salmon").toString()));
+                            .build(Fintastic.location("fintastic_salmon").toString()));
 
     public static final Supplier<EntityType<DwarfFrog>> DWARF_FROG =
             ENTITY_TYPES.register("dwarf_frog",
                     () -> EntityType.Builder.of(DwarfFrog::new, MobCategory.WATER_CREATURE)
                             .sized(0.4f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "dwarf_frog").toString()));
+                            .build(Fintastic.location("dwarf_frog").toString()));
 
     public static final Supplier<EntityType<SmallCatfish>> SMALL_CATFISH =
             ENTITY_TYPES.register("small_catfish",
                     () -> EntityType.Builder.of(SmallCatfish::new, MobCategory.WATER_AMBIENT)
                             .sized(0.4f, 0.4f)
-                            .build(ResourceLocation.fromNamespaceAndPath(Fintastic.MOD_ID, "small_catfish").toString()));
+                            .build(Fintastic.location("small_catfish").toString()));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

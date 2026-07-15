@@ -26,8 +26,8 @@ import javax.annotation.Nullable;
 @Mixin(BoneMealItem.class)
 public class BoneMealItemMixin extends Item{
 
-    public BoneMealItemMixin(Properties pProperties) {
-        super(pProperties);
+    public BoneMealItemMixin(Properties properties) {
+        super(properties);
     }
 
     @Inject(
@@ -35,16 +35,16 @@ public class BoneMealItemMixin extends Item{
             cancellable = true,
             at = @At(value = "HEAD")
     )
-    private static void growWaterPlant(ItemStack pStack, Level pLevel, BlockPos pPos, @Nullable Direction pClickedSide, CallbackInfoReturnable<Boolean> cir) {
-        if (pLevel.getBlockState(pPos).is(Blocks.WATER) && pLevel.getFluidState(pPos).getAmount() == 8) {
-            if (pLevel instanceof ServerLevel) {
+    private static void growWaterPlant(ItemStack stack, Level level, BlockPos pos, @Nullable Direction clickedSide, CallbackInfoReturnable<Boolean> cir) {
+        if (level.getBlockState(pos).is(Blocks.WATER) && level.getFluidState(pos).getAmount() == 8) {
+            if (level instanceof ServerLevel) {
 
-                BlockPos blockpos = pPos;
-                Holder<Biome> holder = pLevel.getBiome(blockpos);
+                BlockPos blockpos = pos;
+                Holder<Biome> holder = level.getBiome(blockpos);
 
                 if (!holder.is(FintyTags.Biomes.FRESHWATER_PLANT_BIOME_BLACKLIST)){
 
-                    RandomSource randomsource = pLevel.getRandom();
+                    RandomSource randomsource = level.getRandom();
 
                     label78:
                     for(int i = 0; i < 196; ++i) {
@@ -52,34 +52,30 @@ public class BoneMealItemMixin extends Item{
 
                         for(int j = 0; j < i / 16; ++j) {
                             blockpos = blockpos.offset(randomsource.nextInt(3) - 1, (randomsource.nextInt(3) - 1) * randomsource.nextInt(3) / 2, randomsource.nextInt(3) - 1);
-                            if (pLevel.getBlockState(blockpos).isCollisionShapeFullBlock(pLevel, blockpos)) {
+                            if (level.getBlockState(blockpos).isCollisionShapeFullBlock(level, blockpos)) {
                                 continue label78;
                             }
                         }
 
                         if (randomsource.nextInt(3) == 0) {
-                            blockstate = BuiltInRegistries.BLOCK.getTag(FintyTags.Blocks.FRESHWATER_PLANTS).flatMap((holders) -> {
-                                return holders.getRandomElement(pLevel.random);
-                            }).map((blockHolder) -> {
-                                return blockHolder.get() instanceof HornwortBlock ?
-                                        blockHolder.value().defaultBlockState()
-                                                .setValue(HornwortBlock.FACING, randomsource.nextInt(4) == 0 ? Direction.NORTH : randomsource.nextInt(3) == 0 ? Direction.WEST : randomsource.nextBoolean() ? Direction.EAST : Direction.SOUTH)
-                                                .setValue(HornwortBlock.AMOUNT, randomsource.nextInt(1, 5))
-                                        : blockHolder.value().defaultBlockState();
-                            }).orElse(blockstate);
+                            blockstate = BuiltInRegistries.BLOCK.getTag(FintyTags.Blocks.FRESHWATER_PLANTS).flatMap((holders) -> holders.getRandomElement(level.random)).map((blockHolder) -> blockHolder.value() instanceof HornwortBlock ?
+                                    blockHolder.value().defaultBlockState()
+                                            .setValue(HornwortBlock.FACING, randomsource.nextInt(4) == 0 ? Direction.NORTH : randomsource.nextInt(3) == 0 ? Direction.WEST : randomsource.nextBoolean() ? Direction.EAST : Direction.SOUTH)
+                                            .setValue(HornwortBlock.AMOUNT, randomsource.nextInt(1, 5))
+                                    : blockHolder.value().defaultBlockState()).orElse(blockstate);
                         }
 
-                        if (blockstate.canSurvive(pLevel, blockpos)) {
-                            BlockState blockstate1 = pLevel.getBlockState(blockpos);
-                            if (blockstate1.is(Blocks.WATER) && pLevel.getFluidState(blockpos).getAmount() == 8) {
-                                pLevel.setBlock(blockpos, blockstate, 3);
+                        if (blockstate.canSurvive(level, blockpos)) {
+                            BlockState blockstate1 = level.getBlockState(blockpos);
+                            if (blockstate1.is(Blocks.WATER) && level.getFluidState(blockpos).getAmount() == 8) {
+                                level.setBlock(blockpos, blockstate, 3);
                             } else if (blockstate1.is(Blocks.SEAGRASS) && randomsource.nextInt(10) == 0) {
-                                ((BonemealableBlock)Blocks.SEAGRASS).performBonemeal((ServerLevel)pLevel, randomsource, blockpos, blockstate1);
+                                ((BonemealableBlock)Blocks.SEAGRASS).performBonemeal((ServerLevel)level, randomsource, blockpos, blockstate1);
                             }
                         }
                     }
 
-                    pStack.shrink(1);
+                    stack.shrink(1);
                     cir.setReturnValue(true);
                 }
             }

@@ -60,23 +60,23 @@ public class DaphniaModel<T extends Daphnia> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		if (this.young){
 			this.applyStatic(DaphniaAnims.BABY);
-			pLimbSwing /= 2;
+			limbSwing /= 2;
 		}
 
-		this.animateIdle(pEntity.idleAnimationState, DaphniaAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.jumpAnimationState, DaphniaAnims.JUMP, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
+		this.animateIdle(entity.idleAnimationState, DaphniaAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount)));
+		this.animateIdle(entity.jumpAnimationState, DaphniaAnims.JUMP, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount)));
 
-		this.animateIdle(pEntity.idleAnimationState, DaphniaAnims.FLOP, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(entity.idleAnimationState, DaphniaAnims.FLOP, ageInTicks, 1.0f, entity.getTicksOutsideWater()/3f);
 
-		this.animateWalk(DaphniaAnims.SWIM, pLimbSwing, pLimbSwingAmount*5f, 2f, (1-(pEntity.getTicksOutsideWater()/3f)));
+		this.animateWalk(DaphniaAnims.SWIM, limbSwing, limbSwingAmount*5f, 2f, (1-(entity.getTicksOutsideWater()/3f)));
 
-		this.swim_control.xRot = Mth.lerp( pEntity.getTicksOutsideWater()/5f, headPitch * ((float)Math.PI / 180F)/1.5f, 0);
+		this.swim_control.xRot = Mth.lerp( entity.getTicksOutsideWater()/5f, headPitch * ((float)Math.PI / 180F)/1.5f, 0);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,10 +20,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
@@ -39,29 +41,29 @@ public class Catfish extends BucketableFishEntity {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
-    public boolean isFood(ItemStack pStack) {
-        return FOOD_ITEMS.test(pStack);
+    public boolean isFood(ItemStack stack) {
+        return FOOD_ITEMS.test(stack);
     }
 
-    public void onSyncedDataUpdated(EntityDataAccessor<?> pKey) {
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         this.refreshDimensions();
-        super.onSyncedDataUpdated(pKey);
+        super.onSyncedDataUpdated(key);
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pPose) {
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
         CatfishVariant variant = CatfishVariant.byId(this.getVariant());
         return switch (variant.getModel()){
-            case 0 ->super.getDimensions(pPose).scale(1F, 1.1F);
-            case 1, 2 ->super.getDimensions(pPose).scale(0.8F, 0.8F);
-            case 4 ->super.getDimensions(pPose).scale(2F, 1.5F);
-            case 5 ->super.getDimensions(pPose).scale(1.75F, 0.8F);
-            default ->super.getDimensions(pPose);
+            case 0 ->super.getDefaultDimensions(pose).scale(1F, 1.1F);
+            case 1, 2 ->super.getDefaultDimensions(pose).scale(0.8F, 0.8F);
+            case 4 ->super.getDefaultDimensions(pose).scale(2F, 1.5F);
+            case 5 ->super.getDefaultDimensions(pose).scale(1.75F, 0.8F);
+            default ->super.getDefaultDimensions(pose);
         };
     }
 
-    public Catfish(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Catfish(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
         this.refreshDimensions();
     }
 
@@ -78,9 +80,9 @@ public class Catfish extends BucketableFishEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(VARIANT, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -109,133 +111,129 @@ public class Catfish extends BucketableFishEntity {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Variant", this.getVariant());
-        compoundnbt.putInt("Age", this.getAge());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Variant", this.getVariant());
+            compoundnbt.putInt("Age", this.getAge());
 
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
 
-        if (pTag.contains("Variant"))
-            this.setVariant(pTag.getInt("Variant"));
+        if (tag.contains("Variant"))
+            this.setVariant(tag.getInt("Variant"));
 
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));
+        }
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
         }
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
-            this.setVariant(pDataTag.getInt("Variant"));
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));
-            }
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-        }else{
-            if (pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
-                CatfishVariant variant = Util.getRandom(CatfishVariant.values(), this.random);
-                this.setVariant(variant.getJoinedVariant());
+        if (reason == MobSpawnType.SPAWN_EGG || reason == MobSpawnType.BUCKET){
+            CatfishVariant variant = Util.getRandom(CatfishVariant.values(), this.random);
+            this.setVariant(variant.getJoinedVariant());
 
-                if (variant == CatfishVariant.PIRAIBA || variant == CatfishVariant.DEVIL_GOONCH){
-                    this.setAge(-24000);
-                }
+            if (variant == CatfishVariant.PIRAIBA || variant == CatfishVariant.DEVIL_GOONCH){
+                this.setAge(-24000);
             }
-            else {
-                if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
-                    switch (this.random.nextInt(9)){
-                        case 1:
-                            this.setVariant(CatfishVariant.SUTCHI_PANGASIUS.getJoinedVariant());
-                            break;
-                        case 2:
-                            this.setVariant(CatfishVariant.BLACK_EARED_PANGASIUS.getJoinedVariant());
-                            break;
-                        case 3:
-                            this.setVariant(CatfishVariant.BLUE.getJoinedVariant());
-                            break;
-                        case 4:
-                            this.setVariant(CatfishVariant.BULLHEAD.getJoinedVariant());
-                            break;
-                        case 5:
-                            this.setVariant(CatfishVariant.CHANNEL.getJoinedVariant());
-                            break;
-                        case 6:
-                            this.setVariant(CatfishVariant.ASIAN_REDTAIL.getJoinedVariant());
-                            break;
-                        case 7:
-                            this.setVariant(CatfishVariant.SPOTTED_YELLOW_PIMELODUS.getJoinedVariant());
-                            break;
-                        case 8:
-                            this.setVariant(CatfishVariant.FLATHEAD.getJoinedVariant());
-                            break;
-                        default:
-                            this.setVariant(CatfishVariant.DEVIL_GOONCH.getJoinedVariant());
-                    }
-                } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
-                    switch (this.random.nextInt(5)){
-                        case 1:
-                            this.setVariant(CatfishVariant.BLUE.getJoinedVariant());
-                            break;
-                        case 2:
-                            this.setVariant(CatfishVariant.BULLHEAD.getJoinedVariant());
-                            break;
-                        case 3:
-                            this.setVariant(CatfishVariant.CHANNEL.getJoinedVariant());
-                            break;
-                        case 4:
-                            this.setVariant(CatfishVariant.SPOTTED_YELLOW_PIMELODUS.getJoinedVariant());
-                            break;
-                        default:
-                            this.setVariant(CatfishVariant.FLATHEAD.getJoinedVariant());
-                    }
-                } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
-                    switch (this.random.nextInt(6)){
-                        case 1:
-                            this.setVariant(CatfishVariant.REDTAIL.getJoinedVariant());
-                            break;
-                        case 2:
-                            this.setVariant(CatfishVariant.ZUNGARO.getJoinedVariant());
-                            break;
-                        case 3:
-                            this.setVariant(CatfishVariant.TIGERSTRIPED.getJoinedVariant());
-                            break;
-                        case 4:
-                            this.setVariant(CatfishVariant.ASIAN_REDTAIL.getJoinedVariant());
-                            break;
-                        case 5:
-                            this.setVariant(CatfishVariant.SPOTTED_YELLOW_PIMELODUS.getJoinedVariant());
-                            break;
-                        default:
-                            this.setVariant(CatfishVariant.PIRAIBA.getJoinedVariant());
-                    }
-                }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.HAS_OCEAN_RUIN_WARM)){
-                    if (this.getRandom().nextBoolean())
-                        this.setVariant(CatfishVariant.GAFFTOPSAIL.getJoinedVariant());
-                    else
-                        this.setVariant(CatfishVariant.COLUMBIAN_SHARK.getJoinedVariant());
+        }
+        else {
+            if (level.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
+                switch (this.random.nextInt(9)){
+                    case 1:
+                        this.setVariant(CatfishVariant.SUTCHI_PANGASIUS.getJoinedVariant());
+                        break;
+                    case 2:
+                        this.setVariant(CatfishVariant.BLACK_EARED_PANGASIUS.getJoinedVariant());
+                        break;
+                    case 3:
+                        this.setVariant(CatfishVariant.BLUE.getJoinedVariant());
+                        break;
+                    case 4:
+                        this.setVariant(CatfishVariant.BULLHEAD.getJoinedVariant());
+                        break;
+                    case 5:
+                        this.setVariant(CatfishVariant.CHANNEL.getJoinedVariant());
+                        break;
+                    case 6:
+                        this.setVariant(CatfishVariant.ASIAN_REDTAIL.getJoinedVariant());
+                        break;
+                    case 7:
+                        this.setVariant(CatfishVariant.SPOTTED_YELLOW_PIMELODUS.getJoinedVariant());
+                        break;
+                    case 8:
+                        this.setVariant(CatfishVariant.FLATHEAD.getJoinedVariant());
+                        break;
+                    default:
+                        this.setVariant(CatfishVariant.DEVIL_GOONCH.getJoinedVariant());
                 }
+            } else if (level.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
+                switch (this.random.nextInt(5)){
+                    case 1:
+                        this.setVariant(CatfishVariant.BLUE.getJoinedVariant());
+                        break;
+                    case 2:
+                        this.setVariant(CatfishVariant.BULLHEAD.getJoinedVariant());
+                        break;
+                    case 3:
+                        this.setVariant(CatfishVariant.CHANNEL.getJoinedVariant());
+                        break;
+                    case 4:
+                        this.setVariant(CatfishVariant.SPOTTED_YELLOW_PIMELODUS.getJoinedVariant());
+                        break;
+                    default:
+                        this.setVariant(CatfishVariant.FLATHEAD.getJoinedVariant());
+                }
+            } else if (level.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
+                switch (this.random.nextInt(6)){
+                    case 1:
+                        this.setVariant(CatfishVariant.REDTAIL.getJoinedVariant());
+                        break;
+                    case 2:
+                        this.setVariant(CatfishVariant.ZUNGARO.getJoinedVariant());
+                        break;
+                    case 3:
+                        this.setVariant(CatfishVariant.TIGERSTRIPED.getJoinedVariant());
+                        break;
+                    case 4:
+                        this.setVariant(CatfishVariant.ASIAN_REDTAIL.getJoinedVariant());
+                        break;
+                    case 5:
+                        this.setVariant(CatfishVariant.SPOTTED_YELLOW_PIMELODUS.getJoinedVariant());
+                        break;
+                    default:
+                        this.setVariant(CatfishVariant.PIRAIBA.getJoinedVariant());
+                }
+            }else if (level.getBiome(this.blockPosition()).is(BiomeTags.HAS_OCEAN_RUIN_WARM)){
+                if (this.getRandom().nextBoolean())
+                    this.setVariant(CatfishVariant.GAFFTOPSAIL.getJoinedVariant());
+                else
+                    this.setVariant(CatfishVariant.COLUMBIAN_SHARK.getJoinedVariant());
             }
         }
 
-        pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Catfish baby = FintyEntities.CATFISH.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        Catfish baby = FintyEntities.CATFISH.get().create(level);
         if (baby != null){
             baby.setVariant(this.getVariant());
             baby.setFromBucket(true);
@@ -248,25 +246,25 @@ public class Catfish extends BucketableFishEntity {
         return new ItemStack(FintyItems.CATFISH_BUCKET.get());
     }
 
-    public boolean hurt(DamageSource pSource, float pAmount) {
+    public boolean hurt(DamageSource source, float amount) {
         if (this.level().isClientSide) {
             return false;
         } else {
-            if (!pSource.is(DamageTypeTags.AVOIDS_GUARDIAN_THORNS) && !pSource.is(DamageTypes.THORNS)) {
-                Entity entity = pSource.getDirectEntity();
+            if (!source.is(DamageTypeTags.AVOIDS_GUARDIAN_THORNS) && !source.is(DamageTypes.THORNS)) {
+                Entity entity = source.getDirectEntity();
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingentity = (LivingEntity)entity;
                     livingentity.hurt(this.damageSources().thorns(this), 2.0F);
                 }
             }
-            return super.hurt(pSource, pAmount);
+            return super.hurt(source, amount);
         }
     }
 
     @Override
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        Catfish mate = (Catfish) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && this.getVariant() == mate.getVariant();
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        Catfish mate = (Catfish) otherAnimal;
+        return super.canMate(otherAnimal) && this.getVariant() == mate.getVariant();
     }
 
     public enum CatfishVariant implements StringRepresentable{
@@ -322,12 +320,12 @@ public class Catfish extends BucketableFishEntity {
         public static final StringRepresentable.EnumCodec<Catfish.CatfishVariant> CODEC
                 = StringRepresentable.fromEnum(Catfish.CatfishVariant::values);
 
-        public static Catfish.CatfishVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static Catfish.CatfishVariant byId(int id) {
+            return BY_ID.apply(id);
         }
 
-        public static Catfish.CatfishVariant byName(String pName) {
-            return CODEC.byName(pName, REDTAIL);
+        public static Catfish.CatfishVariant byName(String name) {
+            return CODEC.byName(name, REDTAIL);
         }
     }
 }

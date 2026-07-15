@@ -1,0 +1,13 @@
+{
+  "values": [
+    "#minecraft:is_river",
+    "#minecraft:is_jungle",
+    "#c:is_swamp",
+    "#minecraft:is_beach",
+    "#minecraft:is_ocean",
+    {
+      "id": "atmospheric:rainforest",
+      "required": false
+    }
+  ]
+}

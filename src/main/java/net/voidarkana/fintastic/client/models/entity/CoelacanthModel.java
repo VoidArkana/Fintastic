@@ -82,30 +82,30 @@ public class CoelacanthModel<T extends Coelacanth> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(Coelacanth pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(Coelacanth entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		if (this.young){
 			this.applyStatic(CoelacanthAnims.BABY);
-			pLimbSwing /= 2;
+			limbSwing /= 2;
 		}
 
-		this.animateIdle(pEntity.idleAnimationState, CoelacanthAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, CoelacanthAnims.FLOP, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(entity.idleAnimationState, CoelacanthAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount)));
+		this.animateIdle(entity.idleAnimationState, CoelacanthAnims.FLOP, ageInTicks, 1.0f, entity.getTicksOutsideWater()/3f);
 
-		if (pEntity.isInWaterOrBubble()){
+		if (entity.isInWaterOrBubble()){
 			this.head.xRot = (((headPitch * ((float) Math.PI / 180F))/32));
 			this.body.xRot = -(((headPitch * ((float) Math.PI / 180F))/32));
 			this.backbody.xRot = (-((headPitch * ((float) Math.PI / 180F))/16));
 
-			this.head.yRot = (pEntity.currentRoll)/2;
-			this.body.yRot = (pEntity.currentRoll/4);
-			this.backbody.yRot = (-pEntity.currentRoll)/2;
+			this.head.yRot = (entity.currentRoll)/2;
+			this.body.yRot = (entity.currentRoll/4);
+			this.backbody.yRot = (-entity.currentRoll)/2;
 
 			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F)/2;
 			this.swim_rot.zRot = -netHeadYaw * (((float)Math.PI / 180F)/2);
 
-			this.animateWalk(CoelacanthAnims.SWIM, pLimbSwing*3, pLimbSwingAmount*5f, 2f, 3f);
+			this.animateWalk(CoelacanthAnims.SWIM, limbSwing*3, limbSwingAmount*5f, 2f, 3f);
 		}
 		else {
 			this.swim_rot.resetPose();
@@ -116,8 +116,8 @@ public class CoelacanthModel<T extends Coelacanth> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 	}
 
 	@Override

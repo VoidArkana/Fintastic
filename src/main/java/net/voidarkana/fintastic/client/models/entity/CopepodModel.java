@@ -4,7 +4,6 @@ package net.voidarkana.fintastic.client.models.entity;// Made with Blockbench 5.
 
 
 import net.voidarkana.fintastic.client.animation.CopepodAnims;
-import net.voidarkana.fintastic.client.animation.FairyShrimpAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Copepod;
 import net.minecraft.client.model.geom.ModelPart;
@@ -76,21 +75,21 @@ public class CopepodModel<T extends Copepod> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		if (this.young){
 			this.applyStatic(CopepodAnims.BABY);
-			pLimbSwing /= 2;
+			limbSwing /= 2;
 		}
-		this.animateIdle(pEntity.idleAnimationState, CopepodAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, CopepodAnims.FLOP, pAgeInTicks, 1.0f, pEntity.getTicksOutsideWater()/3f);
+		this.animateIdle(entity.idleAnimationState, CopepodAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount)));
+		this.animateIdle(entity.idleAnimationState, CopepodAnims.FLOP, ageInTicks, 1.0f, entity.getTicksOutsideWater()/3f);
 
-		this.animateIdle(pEntity.legsAnimationState, CopepodAnims.IDLE_LEGS, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f));
+		this.animateIdle(entity.legsAnimationState, CopepodAnims.IDLE_LEGS, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f));
 
-		this.animateWalk(CopepodAnims.SWIM, pLimbSwing, pLimbSwingAmount*5f, 2f, Math.max(0,(1-(pEntity.getTicksOutsideWater()/3f))));
+		this.animateWalk(CopepodAnims.SWIM, limbSwing, limbSwingAmount*5f, 2f, Math.max(0,(1-(entity.getTicksOutsideWater()/3f))));
 
-		this.swim_rot.xRot = Mth.lerp( pEntity.getTicksOutsideWater()/5f, headPitch * ((float)Math.PI / 180F)/1.5f, 0);
+		this.swim_rot.xRot = Mth.lerp( entity.getTicksOutsideWater()/5f, headPitch * ((float)Math.PI / 180F)/1.5f, 0);
 	}
 
 	@Override

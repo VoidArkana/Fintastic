@@ -1,10 +1,9 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -15,6 +14,7 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -35,12 +35,12 @@ public class Coelacanth extends BucketableFishEntity {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
 
-    public boolean isFood(ItemStack pStack) {
-        return FOOD_ITEMS.test(pStack);
+    public boolean isFood(ItemStack stack) {
+        return FOOD_ITEMS.test(stack);
     }
 
-    public Coelacanth(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Coelacanth(EntityType<? extends BucketableFishEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class Coelacanth extends BucketableFishEntity {
     }
 
     @Override
-    public @Nullable BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Coelacanth baby = FintyEntities.COELACANTH.get().create(pLevel);
+    public @Nullable BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        Coelacanth baby = FintyEntities.COELACANTH.get().create(level);
         if (baby != null){
             baby.setFromBucket(true);
         }
@@ -78,51 +78,47 @@ public class Coelacanth extends BucketableFishEntity {
     }
 
 
-    public static boolean checkCoelacanthSpawnRules(EntityType<? extends WaterAnimal> pWaterAnimal, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
-        int i = pLevel.getSeaLevel();
+    public static boolean checkCoelacanthSpawnRules(EntityType<? extends WaterAnimal> waterAnimal, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        int i = level.getSeaLevel();
         int j = i - 13;
-        return (pLevel.getBiome(pPos).is(Biomes.WARM_OCEAN) && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
-                || (pPos.getY() <= pLevel.getSeaLevel() - 20 && pPos.getY() > -10 && pLevel.getBlockState(pPos).is(Blocks.WATER));
+        return (level.getBiome(pos).is(Biomes.WARM_OCEAN) && pos.getY() >= j && pos.getY() <= i && level.getFluidState(pos.below()).is(FluidTags.WATER) && level.getBlockState(pos.above()).is(Blocks.WATER))
+                || (pos.getY() <= level.getSeaLevel() - 20 && pos.getY() > -10 && level.getBlockState(pos).is(Blocks.WATER));
     }
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Age", this.getAge());
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Age", this.getAge());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
 
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));
+        }
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
         }
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Age", 3)) {
-
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));
-            }
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-            this.setAirSupply(this.getMaxAirSupply());
-
-        }else if (pReason == MobSpawnType.BUCKET && pDataTag == null){
+        if (reason == MobSpawnType.BUCKET){
             this.setAge(-24000);
             this.setAirSupply(this.getMaxAirSupply());
         }
 
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     @Override
@@ -136,13 +132,8 @@ public class Coelacanth extends BucketableFishEntity {
     }
 
     @Override
-    public SoundEvent getPickupSound() {
-        return SoundEvents.BUCKET_FILL_FISH;
-    }
-
-    @Override
-    public float getWalkTargetValue(BlockPos pPos, LevelReader pLevel) {
-        return this.getDepthPathfindingFavor(pPos, pLevel);
+    public float getWalkTargetValue(BlockPos pos, LevelReader level) {
+        return this.getDepthPathfindingFavor(pos, level);
     }
 
     float getDepthPathfindingFavor(BlockPos pos, LevelReader world) {

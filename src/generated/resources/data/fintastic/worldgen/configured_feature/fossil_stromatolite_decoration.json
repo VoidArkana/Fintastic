@@ -1,0 +1,28 @@
+{
+  "type": "fintastic:simple_waterloggable_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "fintastic:fossil_stromatolite_growths",
+            "Properties": {
+              "waterlogged": "false"
+            }
+          },
+          "weight": 10
+        },
+        {
+          "data": {
+            "Name": "fintastic:fossil_stromatolite",
+            "Properties": {
+              "waterlogged": "true"
+            }
+          },
+          "weight": 4
+        }
+      ]
+    }
+  }
+}

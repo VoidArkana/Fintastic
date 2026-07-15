@@ -1,0 +1,100 @@
+{
+  "values": [
+    "minecraft:guardian",
+    "minecraft:axolotl",
+    "minecraft:frog",
+    "minecraft:turtle",
+    {
+      "id": "alexsmobs:alligator_snapping_turtle",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:terrapin",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:alligator_snapping_turtle",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:skelewag",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:caiman",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:cosmaw",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:cosmic_cod",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:skelewag",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:endergrade",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:skelewag",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:mantis_shrimp",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:mimic_octopus",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:mudskipper",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:platypus",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:rain_frog",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:sea_bear",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:stradpole",
+      "required": false
+    },
+    {
+      "id": "babyfat:ranchu",
+      "required": false
+    },
+    {
+      "id": "spawn:tuna",
+      "required": false
+    },
+    {
+      "id": "spawn:sea_cow",
+      "required": false
+    },
+    {
+      "id": "spawn:octopus",
+      "required": false
+    },
+    {
+      "id": "alexscaves:mineguardians",
+      "required": false
+    },
+    {
+      "id": "upgrade_aquatic:thrasher",
+      "required": false
+    }
+  ]
+}

@@ -1,17 +1,18 @@
 package net.voidarkana.fintastic.common.item.custom.spawneggs;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.component.CustomData;
 import net.voidarkana.fintastic.common.entity.custom.DwarfFrog;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -23,10 +24,11 @@ public class DwarfFrogSpawnEgg extends FishVariantSpawnEggItem {
 
     @Override
     public void applyEntityVariant(ItemStack itemstack, Entity entity) {
-        if (entity instanceof DwarfFrog fish && itemstack.hasTag())
-            if (itemstack.getTag().contains(DATA_CREATURE))
-                if (itemstack.getTag().getInt(DATA_CREATURE)!=-1){
-                    int i = itemstack.getTag().getInt(DATA_CREATURE);
+        CompoundTag tag = getCreatureData(itemstack);
+        if (entity instanceof DwarfFrog fish)
+            if (tag.contains(DATA_CREATURE))
+                if (tag.getInt(DATA_CREATURE)!=-1){
+                    int i = tag.getInt(DATA_CREATURE);
                     DwarfFrog.FrogVariant variant = DwarfFrog.FrogVariant.values()[i];
                     if (variant != null){
                         fish.setVariant(variant.getJoinedVariant());
@@ -39,40 +41,33 @@ public class DwarfFrogSpawnEgg extends FishVariantSpawnEggItem {
         int currentIndex = -1;
         int newIndex;
 
-        if (stack.hasTag())
-            if (stack.getTag().contains(DATA_CREATURE))
-                currentIndex = stack.getTag().getInt(DATA_CREATURE);
+        CompoundTag tag = getCreatureData(stack);
+        if (tag.contains(DATA_CREATURE))
+            currentIndex = tag.getInt(DATA_CREATURE);
 
         if (currentIndex == -1){
             newIndex = length;
         }else {
             newIndex = currentIndex-1;
         }
-        CompoundTag tag = stack.getOrCreateTag();
-        tag.putInt(DATA_CREATURE, newIndex);
-        stack.setTag(tag);
+        CustomData.update(DataComponents.CUSTOM_DATA, stack, t -> t.putInt(DATA_CREATURE, newIndex));
     }
 
     @Override
-    public void appendHoverText(ItemStack itemstack, @Nullable Level world, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack itemstack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         ChatFormatting[] achatformatting = new ChatFormatting[]{ChatFormatting.ITALIC, ChatFormatting.BLUE};
         ChatFormatting[] bchatformatting = new ChatFormatting[]{ChatFormatting.ITALIC, ChatFormatting.GRAY};
 
         tooltip.add(Component.translatable("fintastic.translatable.spawn_egg_instructions").withStyle(bchatformatting));
 
-        if (itemstack.hasTag()){
-            if (itemstack.getTag().contains(DATA_CREATURE)){
-                if (itemstack.getTag().getInt(DATA_CREATURE)!=-1){
-                    int i = itemstack.getTag().getInt(DATA_CREATURE);
-                    DwarfFrog.FrogVariant variant = DwarfFrog.FrogVariant.values()[i];
-                    if (variant != null) {
-                        String common = "fintastic.dwarf_frog_common." + variant.getSerializedName();
+        CompoundTag tag = getCreatureData(itemstack);
+        if (tag.contains(DATA_CREATURE) && tag.getInt(DATA_CREATURE)!=-1){
+            int i = tag.getInt(DATA_CREATURE);
+            DwarfFrog.FrogVariant variant = DwarfFrog.FrogVariant.values()[i];
+            if (variant != null) {
+                String common = "fintastic.dwarf_frog_common." + variant.getSerializedName();
 
-                        tooltip.add(Component.translatable(common).withStyle(achatformatting));
-                    }
-                }else {
-                    tooltip.add(Component.translatable("fintastic.translatable.random_variant").withStyle(achatformatting));
-                }
+                tooltip.add(Component.translatable(common).withStyle(achatformatting));
             }
         }
         else

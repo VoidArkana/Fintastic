@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "fintastic:block/fossil_stromatolite_block_top",
+    "side": "fintastic:block/fossil_stromatolite_block_side",
+    "top": "fintastic:block/fossil_stromatolite_block_top"
+  }
+}

@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.blockentity.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
@@ -11,27 +12,29 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.voidarkana.fintastic.common.blockentity.FintyBlockEntities;
 import net.voidarkana.fintastic.util.FintyTags;
 import org.jetbrains.annotations.NotNull;
 
 public class FishbowlBlockEntity extends BlockEntityBase {
 
-    public FishbowlBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        this(FintyBlockEntities.FISHBOWL_ENTITY.get(), pPos, pBlockState);
+    public FishbowlBlockEntity(BlockPos pos, BlockState blockState) {
+        this(FintyBlockEntities.FISHBOWL_ENTITY.get(), pos, blockState);
     }
 
-    public FishbowlBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
-        super(pType, pPos, pBlockState);
+    public FishbowlBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+        super(type, pos, blockState);
     }
 
     public ItemStack stack = ItemStack.EMPTY;
 
     @Override
     public void onDestroyed(BlockState state, BlockPos pos) {
-        if (!stack.isEmpty())
+        if (!stack.isEmpty()) {
+            assert level != null;
             Containers.dropItemStack(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack);
+        }
     }
 
     @Override
@@ -68,13 +71,14 @@ public class FishbowlBlockEntity extends BlockEntityBase {
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
-        super.load(tag);
-        stack = ItemStack.of(tag.getCompound("stack"));
+    protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
+        super.loadAdditional(tag, registries);
+        stack = ItemStack.parseOptional(registries, tag.getCompound("stack"));
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag) {
-        tag.put("stack", stack.save(new CompoundTag()));
+    protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.put("stack", stack.saveOptional(registries));
     }
 }

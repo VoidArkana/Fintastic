@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "L": {
+      "tag": "fintastic:uranium"
+    },
+    "G": {
+      "tag": "c:glass_blocks/colorless"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GLG",
+    "GGG"
+  ],
+  "result": {
+    "id": "fintastic:radon_aquarium_glass",
+    "count": 8
+  },
+  "show_notification": true
+}

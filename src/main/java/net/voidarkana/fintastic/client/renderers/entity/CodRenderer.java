@@ -12,19 +12,19 @@ import net.voidarkana.fintastic.common.entity.custom.FintasticCod;
 
 public class CodRenderer<T extends FintasticCod> extends MobRenderer<T, FintyCodModel<T>> {
 
-    public CodRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new FintyCodModel<>(pContext.bakeLayer(FintasticLayers.COD)), 0.35f);
+    public CodRenderer(EntityRendererProvider.Context context) {
+        super(context, new FintyCodModel<>(context.bakeLayer(FintasticLayers.COD)), 0.35f);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T pEntity) {
-        FintasticCod.CodVariant variant = FintasticCod.CodVariant.byId(pEntity.getVariant());
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/cod/cod_"+variant.getSerializedName()+".png");
+    public ResourceLocation getTextureLocation(T entity) {
+        FintasticCod.CodVariant variant = FintasticCod.CodVariant.byId(entity.getVariant());
+        return Fintastic.location("textures/entity/cod/cod_"+variant.getSerializedName()+".png");
     }
 
     @Override
-    protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));
+    protected void setupRotations(T entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(entityLiving.currentRoll*360/4));
     }
 }

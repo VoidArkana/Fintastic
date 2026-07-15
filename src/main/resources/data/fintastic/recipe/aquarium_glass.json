@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "G": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "L": {
+      "tag": "c:glass_blocks/colorless"
+    }
+  },
+  "pattern": [
+    "LLL",
+    "LGL",
+    "LLL"
+  ],
+  "result": {
+    "id": "fintastic:aquarium_glass",
+    "count": 8
+  },
+  "show_notification": true
+}

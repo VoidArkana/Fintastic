@@ -8,7 +8,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -21,8 +20,10 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class AquariumGlassPane extends Block implements SimpleWaterloggedBlock {
 
@@ -40,37 +41,37 @@ public class AquariumGlassPane extends Block implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (p_55164_) -> {
-        p_55164_.put(Direction.NORTH, NORTH);
-        p_55164_.put(Direction.EAST, EAST);
-        p_55164_.put(Direction.SOUTH, SOUTH);
-        p_55164_.put(Direction.WEST, WEST);
-        p_55164_.put(Direction.UP, UP);
-        p_55164_.put(Direction.DOWN, DOWN);
+    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (map) -> {
+        map.put(Direction.NORTH, NORTH);
+        map.put(Direction.EAST, EAST);
+        map.put(Direction.SOUTH, SOUTH);
+        map.put(Direction.WEST, WEST);
+        map.put(Direction.UP, UP);
+        map.put(Direction.DOWN, DOWN);
     }));
 
-    public AquariumGlassPane(Properties pProperties) {
-        super(pProperties);
+    public AquariumGlassPane(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any()
-                .setValue(NORTH, Boolean.valueOf(false))
-                .setValue(EAST, Boolean.valueOf(false))
-                .setValue(SOUTH, Boolean.valueOf(false))
-                .setValue(WEST, Boolean.valueOf(false))
-                .setValue(UP, Boolean.valueOf(false))
-                .setValue(DOWN, Boolean.valueOf(false))
-                .setValue(WATERLOGGED, Boolean.valueOf(false))
+                .setValue(NORTH, Boolean.FALSE)
+                .setValue(EAST, Boolean.FALSE)
+                .setValue(SOUTH, Boolean.FALSE)
+                .setValue(WEST, Boolean.FALSE)
+                .setValue(UP, Boolean.FALSE)
+                .setValue(DOWN, Boolean.FALSE)
+                .setValue(WATERLOGGED, Boolean.FALSE)
                 .setValue(FACING, Direction.NORTH));
     }
 
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        if (pState.getValue(FACING) == Direction.NORTH){
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        if (state.getValue(FACING) == Direction.NORTH){
             return NORTH_SHAPE;
 
-        }else if (pState.getValue(FACING) == Direction.WEST){
+        }else if (state.getValue(FACING) == Direction.WEST){
             return WEST_SHAPE;
 
-        }else if (pState.getValue(FACING) == Direction.SOUTH){
+        }else if (state.getValue(FACING) == Direction.SOUTH){
             return SOUTH_SHAPE;
 
         }else{
@@ -78,43 +79,39 @@ public class AquariumGlassPane extends Block implements SimpleWaterloggedBlock {
         }
     }
 
-    public float getShadeBrightness(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+    public float getShadeBrightness(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return 1.0F;
     }
 
-    public boolean propagatesSkylightDown(BlockState pState, BlockGetter pReader, BlockPos pPos) {
+    public boolean propagatesSkylightDown(@NotNull BlockState state, @NotNull BlockGetter reader, @NotNull BlockPos pos) {
         return true;
     }
 
-    public BlockState rotate(BlockState pState, Rotation pRotation) {
-        switch (pRotation) {
-            case CLOCKWISE_180:
-                return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING))).setValue(NORTH, pState.getValue(SOUTH)).setValue(EAST, pState.getValue(WEST)).setValue(SOUTH, pState.getValue(NORTH)).setValue(WEST, pState.getValue(EAST));
-            case COUNTERCLOCKWISE_90:
-                return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING))).setValue(NORTH, pState.getValue(EAST)).setValue(EAST, pState.getValue(SOUTH)).setValue(SOUTH, pState.getValue(WEST)).setValue(WEST, pState.getValue(NORTH));
-            case CLOCKWISE_90:
-                return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING))).setValue(NORTH, pState.getValue(WEST)).setValue(EAST, pState.getValue(NORTH)).setValue(SOUTH, pState.getValue(EAST)).setValue(WEST, pState.getValue(SOUTH));
-            default:
-                return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
-        }
+    public @NotNull BlockState rotate(@NotNull BlockState state, Rotation rotation) {
+        return switch (rotation) {
+            case CLOCKWISE_180 ->
+                    state.setValue(FACING, rotation.rotate(state.getValue(FACING))).setValue(NORTH, state.getValue(SOUTH)).setValue(EAST, state.getValue(WEST)).setValue(SOUTH, state.getValue(NORTH)).setValue(WEST, state.getValue(EAST));
+            case COUNTERCLOCKWISE_90 ->
+                    state.setValue(FACING, rotation.rotate(state.getValue(FACING))).setValue(NORTH, state.getValue(EAST)).setValue(EAST, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(WEST)).setValue(WEST, state.getValue(NORTH));
+            case CLOCKWISE_90 ->
+                    state.setValue(FACING, rotation.rotate(state.getValue(FACING))).setValue(NORTH, state.getValue(WEST)).setValue(EAST, state.getValue(NORTH)).setValue(SOUTH, state.getValue(EAST)).setValue(WEST, state.getValue(SOUTH));
+            default -> state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+        };
     }
 
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        switch (pMirror) {
-            case LEFT_RIGHT:
-                return pState.setValue(FACING, pMirror.mirror(pState.getValue(FACING)))
-                        .setValue(NORTH, pState.getValue(SOUTH)).setValue(SOUTH, pState.getValue(NORTH));
-            case FRONT_BACK:
-                return pState.setValue(FACING, pMirror.mirror(pState.getValue(FACING)))
-                        .setValue(EAST, pState.getValue(WEST)).setValue(WEST, pState.getValue(EAST));
-            default:
-                return super.mirror(pState, pMirror);
-        }
+    public @NotNull BlockState mirror(@NotNull BlockState state, Mirror mirror) {
+        return switch (mirror) {
+            case LEFT_RIGHT -> state.setValue(FACING, mirror.mirror(state.getValue(FACING)))
+                    .setValue(NORTH, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(NORTH));
+            case FRONT_BACK -> state.setValue(FACING, mirror.mirror(state.getValue(FACING)))
+                    .setValue(EAST, state.getValue(WEST)).setValue(WEST, state.getValue(EAST));
+            default -> super.mirror(state, mirror);
+        };
     }
 
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        BlockGetter blockgetter = pContext.getLevel();
-        BlockPos blockpos = pContext.getClickedPos();
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockGetter blockgetter = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
 
         BlockPos blockpos1 = blockpos.north();
         BlockPos blockpos2 = blockpos.east();
@@ -123,7 +120,7 @@ public class AquariumGlassPane extends Block implements SimpleWaterloggedBlock {
         BlockPos blockpos5 = blockpos.above();
         BlockPos blockpos6 = blockpos.below();
 
-        FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
+        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
 
         BlockState blockstate = blockgetter.getBlockState(blockpos1);
         BlockState blockstate1 = blockgetter.getBlockState(blockpos2);
@@ -132,9 +129,9 @@ public class AquariumGlassPane extends Block implements SimpleWaterloggedBlock {
         BlockState blockstate4 = blockgetter.getBlockState(blockpos5);
         BlockState blockstate5 = blockgetter.getBlockState(blockpos6);
 
-        Direction direction = pContext.getHorizontalDirection().getOpposite();
+        Direction direction = context.getHorizontalDirection().getOpposite();
 
-        return super.getStateForPlacement(pContext)
+        return Objects.requireNonNull(super.getStateForPlacement(context))
                 .setValue(NORTH, this.connectsTo(blockstate, direction))
                 .setValue(EAST, this.connectsTo(blockstate1, direction))
                 .setValue(SOUTH, this.connectsTo(blockstate2, direction))
@@ -142,41 +139,41 @@ public class AquariumGlassPane extends Block implements SimpleWaterloggedBlock {
                 .setValue(UP, this.connectsTo(blockstate4, direction))
                 .setValue(DOWN, this.connectsTo(blockstate5, direction))
                 .setValue(FACING, direction)
-                .setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+                .setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
 
-    private boolean connectsTo(BlockState pState, Direction direction) {
-        if (pState.is(this)){
-            return pState.getValue(FACING) == direction;
+    private boolean connectsTo(BlockState state, Direction direction) {
+        if (state.is(this)){
+            return state.getValue(FACING) == direction;
         }else {
             return false;
         }
     }
 
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        if (pState.getValue(WATERLOGGED)) {
-            pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
+        if (state.getValue(WATERLOGGED)) {
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        if (!pState.canSurvive(pLevel, pCurrentPos)) {
-            pLevel.scheduleTick(pCurrentPos, this, 1);
-            return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+        if (!state.canSurvive(level, currentPos)) {
+            level.scheduleTick(currentPos, this, 1);
+            return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
         } else {
-            boolean flag = pFacingState.is(this) && pFacingState.getValue(FACING) == pState.getValue(FACING);
-            return pState.setValue(PROPERTY_BY_DIRECTION.get(pFacing), flag);
+            boolean flag = facingState.is(this) && facingState.getValue(FACING) == state.getValue(FACING);
+            return state.setValue(PROPERTY_BY_DIRECTION.get(facing), flag);
         }
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN, FACING, WATERLOGGED);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN, FACING, WATERLOGGED);
     }
 
-    public VoxelShape getVisualShape(BlockState pState, BlockGetter pReader, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getVisualShape(@NotNull BlockState state, @NotNull BlockGetter reader, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Shapes.empty();
     }
 
-    public FluidState getFluidState(BlockState pState) {
-        return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+    public @NotNull FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     public Direction getDirection(BlockState state) {
@@ -184,7 +181,7 @@ public class AquariumGlassPane extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+    public boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType type) {
         return false;
     }
 }

@@ -1,0 +1,56 @@
+{
+  "values": [
+    "fintastic:anubias",
+    "fintastic:hornwort",
+    "minecraft:brain_coral",
+    "minecraft:brain_coral_fan",
+    "minecraft:dead_brain_coral",
+    "minecraft:dead_brain_coral_fan",
+    "minecraft:bubble_coral",
+    "minecraft:bubble_coral_fan",
+    "minecraft:dead_bubble_coral",
+    "minecraft:dead_bubble_coral_fan",
+    "minecraft:tube_coral",
+    "minecraft:tube_coral_fan",
+    "minecraft:dead_tube_coral",
+    "minecraft:dead_tube_coral_fan",
+    "minecraft:fire_coral",
+    "minecraft:fire_coral_fan",
+    "minecraft:dead_fire_coral",
+    "minecraft:dead_fire_coral_fan",
+    "minecraft:horn_coral",
+    "minecraft:horn_coral_fan",
+    "minecraft:dead_horn_coral",
+    "minecraft:dead_horn_coral_fan",
+    "minecraft:kelp",
+    "minecraft:seagrass",
+    "minecraft:sea_pickle",
+    "fintastic:sea_grapes",
+    "fintastic:dragons_breath_algae",
+    "fintastic:aquatic_moss_phyllid",
+    "fintastic:amazon_sword",
+    "fintastic:mermaid_fan",
+    "fintastic:blue_hypnea",
+    "fintastic:caulerpa",
+    "fintastic:red_algae",
+    "fintastic:red_algae_fan",
+    "fintastic:stromatolite_growths",
+    "fintastic:fossil_stromatolite_growths",
+    {
+      "id": "marvelous_menagerie:charnia",
+      "required": false
+    },
+    {
+      "id": "marvelous_menagerie:wiwaxia",
+      "required": false
+    },
+    {
+      "id": "marvelous_menagerie:dickinsonia",
+      "required": false
+    },
+    {
+      "id": "marvelous_menagerie:herpetogaster",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "D": {
+      "item": "minecraft:magenta_dye"
+    },
+    "G": {
+      "item": "fintastic:aquarium_glass_pane"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GDG",
+    "GGG"
+  ],
+  "result": {
+    "count": 8,
+    "id": "fintastic:magenta_aquarium_glass_pane"
+  }
+}

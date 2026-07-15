@@ -1,14 +1,14 @@
 package net.voidarkana.fintastic.util.data;
 
+import java.util.function.Supplier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 import net.voidarkana.fintastic.common.item.FintyItems;
@@ -109,7 +109,7 @@ public class FintyItemModelProvider extends ItemModelProvider {
 
         simpleItem(FintyItems.SEA_GRAPE_SALAD);
 
-        simpleBlockItem(FintyBlocks.SEA_GRAPES);
+        simpleBlockItem();
 
         simpleItem(FintyItems.DWARF_FROG_BUCKET);
         simpleItem(FintyItems.DWARF_FROG_TADPOLE_BUCKET);
@@ -125,31 +125,34 @@ public class FintyItemModelProvider extends ItemModelProvider {
         simpleItem(FintyItems.BAKED_LOTUS_ROOT);
     }
 
-    private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {
-        return withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Fintastic.MOD_ID,"block/" + item.getId().getPath()));
+    private ItemModelBuilder simpleBlockItemBlockTexture(Supplier<Block> item) {
+        String name = BuiltInRegistries.BLOCK.getKey(item.get()).getPath();
+        return withExistingParent(name,
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                Fintastic.location("block/" + name));
     }
 
-    private ItemModelBuilder simpleItem(RegistryObject<Item> item){
-        return withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Fintastic.MOD_ID, "item/" + item.getId().getPath()));
+    private ItemModelBuilder simpleItem(Supplier<Item> item){
+        String name = BuiltInRegistries.ITEM.getKey(item.get()).getPath();
+        return withExistingParent(name,
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                Fintastic.location("item/" + name));
     }
 
-    public void evenSimplerBlockItem(RegistryObject<Block> block) {
-        this.withExistingParent(Fintastic.MOD_ID + ":" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
-                modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath()));
+    public void evenSimplerBlockItem(Supplier<Block> block) {
+        this.withExistingParent(Fintastic.MOD_ID + ":" + BuiltInRegistries.BLOCK.getKey(block.get()).getPath(),
+                modLoc("block/" + BuiltInRegistries.BLOCK.getKey(block.get()).getPath()));
     }
     
-    public void wallItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
-        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/wall_inventory"))
-                .texture("wall", new ResourceLocation(Fintastic.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+    public void wallItem(Supplier<Block> block, Supplier<Block> baseBlock) {
+        this.withExistingParent(BuiltInRegistries.BLOCK.getKey(block.get()).getPath(), mcLoc("block/wall_inventory"))
+                .texture("wall", Fintastic.location("block/" + BuiltInRegistries.BLOCK.getKey(baseBlock.get()).getPath()));
     }
 
-    private ItemModelBuilder simpleBlockItem(RegistryObject<Block> item) {
-        return withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Fintastic.MOD_ID,"item/" + item.getId().getPath()));
+    private ItemModelBuilder simpleBlockItem() {
+        String name = BuiltInRegistries.BLOCK.getKey(((Supplier<Block>) FintyBlocks.SEA_GRAPES).get()).getPath();
+        return withExistingParent(name,
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                Fintastic.location("item/" + name));
     }
 }

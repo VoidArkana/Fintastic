@@ -1,27 +1,28 @@
 package net.voidarkana.fintastic.common.blockentity.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.PacketDistributor;
 import net.voidarkana.fintastic.util.network.FintyMessages;
 import net.voidarkana.fintastic.util.network.messages.TESyncPacket;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockEntityBase extends BlockEntity {
-    public BlockEntityBase(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
-        super(pType, pPos, pBlockState);
+    public BlockEntityBase(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+        super(type, pos, blockState);
     }
 
     public void onDestroyed(BlockState state, BlockPos pos) {
-        invalidateCaps();
+        if (level != null) level.invalidateCapabilities(pos);
     }
 
     public InteractionResult onActivated(BlockState state, BlockPos pos, Player player, InteractionHand hand) {
@@ -30,29 +31,29 @@ public class BlockEntityBase extends BlockEntity {
 
     public void sync() {
         setChanged();
-        CompoundTag tag = new CompoundTag();
-        saveAdditional(tag);
         if (level == null) return;
-        if (!level.isClientSide()) {
-            FintyMessages.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new TESyncPacket(worldPosition, tag));
+        if (level instanceof ServerLevel serverLevel) {
+            CompoundTag tag = new CompoundTag();
+            saveAdditional(tag, level.registryAccess());
+            FintyMessages.sendToPlayersTrackingChunk(serverLevel, worldPosition, new TESyncPacket(worldPosition, tag));
         }
     }
 
     @Override
-    public @NotNull CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries) {
         CompoundTag tag = new CompoundTag();
-        this.saveAdditional(tag);
+        this.saveAdditional(tag, registries);
         return tag;
     }
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag); // (this.worldPosition, 3, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
-        if (pkt.getTag() != null) handleUpdateTag(pkt.getTag());
+    public void onDataPacket(@NotNull Connection net, @NotNull ClientboundBlockEntityDataPacket pkt, HolderLookup.@NotNull Provider registries) {
+        super.onDataPacket(net, pkt, registries);
+        handleUpdateTag(pkt.getTag(), registries);
     }
 }

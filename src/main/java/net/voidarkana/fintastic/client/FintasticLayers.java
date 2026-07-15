@@ -1,110 +1,109 @@
 package net.voidarkana.fintastic.client;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.resources.ResourceLocation;
 import net.voidarkana.fintastic.Fintastic;
 
 public class FintasticLayers {
 
     public static final ModelLayerLocation MOONYMID_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "moony_mid"), "main");
+            new ModelLayerLocation(Fintastic.location("moony_mid"), "main");
     public static final ModelLayerLocation MOONYTALL_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "moony_tall"), "main");
+            new ModelLayerLocation(Fintastic.location("moony_tall"), "main");
     public static final ModelLayerLocation MOONYSMALL_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "moony_small"), "main");
+            new ModelLayerLocation(Fintastic.location("moony_small"), "main");
 
     public static final ModelLayerLocation MINNOW_BIG_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_big"), "main");
+            new ModelLayerLocation(Fintastic.location("minnow_big"), "main");
     public static final ModelLayerLocation MINNOW_HATCHET_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_hatchet"), "main");
+            new ModelLayerLocation(Fintastic.location("minnow_hatchet"), "main");
     public static final ModelLayerLocation MINNOW_ROUND_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_round"), "main");
+            new ModelLayerLocation(Fintastic.location("minnow_round"), "main");
     public static final ModelLayerLocation MINNOW_SLIM_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_slim"), "main");
+            new ModelLayerLocation(Fintastic.location("minnow_slim"), "main");
     public static final ModelLayerLocation MINNOW_SMALL_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_small"), "main");
+            new ModelLayerLocation(Fintastic.location("minnow_small"), "main");
     public static final ModelLayerLocation MINNOW_THIN_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "minnow_thin"), "main");
+            new ModelLayerLocation(Fintastic.location("minnow_thin"), "main");
 
     public static final ModelLayerLocation ARAPAIMA_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "arapaima_layer"), "main");
+            new ModelLayerLocation(Fintastic.location("arapaima_layer"), "main");
     public static final ModelLayerLocation BABY_ARAPAIMA_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "baby_arapaima_layer"), "main");
+            new ModelLayerLocation(Fintastic.location("baby_arapaima_layer"), "main");
 
     public static final ModelLayerLocation COELACANTH_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "coelacanth_layer"), "main");
+            new ModelLayerLocation(Fintastic.location("coelacanth_layer"), "main");
 
     public static final ModelLayerLocation GOURAMI_HUGE_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "gourami_huge"), "main");
+            new ModelLayerLocation(Fintastic.location("gourami_huge"), "main");
     public static final ModelLayerLocation GOURAMI_MED_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "gourami_med"), "main");
+            new ModelLayerLocation(Fintastic.location("gourami_med"), "main");
     public static final ModelLayerLocation GOURAMI_SMALL_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "gourami_small"), "main");
+            new ModelLayerLocation(Fintastic.location("gourami_small"), "main");
 
     public static final ModelLayerLocation BALA_SHARK_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "bala_shark_layer"), "main");
+            new ModelLayerLocation(Fintastic.location("bala_shark_layer"), "main");
     public static final ModelLayerLocation BABY_BALA_SHARK_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "baby_bala_shark_layer"), "main");
+            new ModelLayerLocation(Fintastic.location("baby_bala_shark_layer"), "main");
     public static final ModelLayerLocation HIGHFIN_SHARK_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "highfin_shark_layer"), "main");
+            new ModelLayerLocation(Fintastic.location("highfin_shark_layer"), "main");
     public static final ModelLayerLocation BABY_HIGHFIN_SHARK_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "baby_highfin_shark_layer"), "main");
+            new ModelLayerLocation(Fintastic.location("baby_highfin_shark_layer"), "main");
     public static final ModelLayerLocation RAINBOW_SHARK_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "rainbow_shark_layer"), "main");
+            new ModelLayerLocation(Fintastic.location("rainbow_shark_layer"), "main");
 
     public static final ModelLayerLocation CATFISH_BIG =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_big"), "main");
+            new ModelLayerLocation(Fintastic.location("catfish_big"), "main");
     public static final ModelLayerLocation CATFISH_CHANNEL =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_channel"), "main");
+            new ModelLayerLocation(Fintastic.location("catfish_channel"), "main");
     public static final ModelLayerLocation CATFISH_FLAT =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_flat"), "main");
+            new ModelLayerLocation(Fintastic.location("catfish_flat"), "main");
     public static final ModelLayerLocation CATFISH_PANGASIUS =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_pangasius"), "main");
+            new ModelLayerLocation(Fintastic.location("catfish_pangasius"), "main");
     public static final ModelLayerLocation CATFISH_PIRAIBA =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_piraiba"), "main");
+            new ModelLayerLocation(Fintastic.location("catfish_piraiba"), "main");
     public static final ModelLayerLocation CATFISH_SLENDER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "catfish_slender"), "main");
+            new ModelLayerLocation(Fintastic.location("catfish_slender"), "main");
 
     public static final ModelLayerLocation FEATHERBACK_BIG =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "featherback_big"), "main");
+            new ModelLayerLocation(Fintastic.location("featherback_big"), "main");
     public static final ModelLayerLocation FEATHERBACK_MED =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "featherback_med"), "main");
+            new ModelLayerLocation(Fintastic.location("featherback_med"), "main");
     public static final ModelLayerLocation FEATHERBACK_SMALL =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "featherback_small"), "main");
+            new ModelLayerLocation(Fintastic.location("featherback_small"), "main");
 
     public static final ModelLayerLocation FAIRY_SHRIMP =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fairy_shrimp"), "main");
+            new ModelLayerLocation(Fintastic.location("fairy_shrimp"), "main");
     public static final ModelLayerLocation DAPHNIA =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "daphnia"), "main");
+            new ModelLayerLocation(Fintastic.location("daphnia"), "main");
     public static final ModelLayerLocation PLECO =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "pleco"), "main");
+            new ModelLayerLocation(Fintastic.location("pleco"), "main");
 
     public static final ModelLayerLocation GUPPY =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "guppy"), "main");
+            new ModelLayerLocation(Fintastic.location("guppy"), "main");
     public static final ModelLayerLocation BABY_GUPPY =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "baby_guppy"), "main");
+            new ModelLayerLocation(Fintastic.location("baby_guppy"), "main");
 
     public static final ModelLayerLocation COPEPOD =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "copepod"), "main");
+            new ModelLayerLocation(Fintastic.location("copepod"), "main");
     public static final ModelLayerLocation COD =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "cod"), "main");
+            new ModelLayerLocation(Fintastic.location("cod"), "main");
     public static final ModelLayerLocation SALMON =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "salmon"), "main");
+            new ModelLayerLocation(Fintastic.location("salmon"), "main");
 
     public static final ModelLayerLocation DWARF_FROG =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "dwarf_frog"), "main");
+            new ModelLayerLocation(Fintastic.location("dwarf_frog"), "main");
     public static final ModelLayerLocation DWARF_FROG_TADPOLE =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "dwarf_frog_tadpole"), "main");
+            new ModelLayerLocation(Fintastic.location("dwarf_frog_tadpole"), "main");
 
     public static final ModelLayerLocation SMALL_CATFISH_BANJO =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "small_catfish_banjo"), "main");
+            new ModelLayerLocation(Fintastic.location("small_catfish_banjo"), "main");
     public static final ModelLayerLocation SMALL_CATFISH_CORY =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "small_catfish_cory"), "main");
+            new ModelLayerLocation(Fintastic.location("small_catfish_cory"), "main");
     public static final ModelLayerLocation SMALL_CATFISH_THORNY =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "small_catfish_thorny"), "main");
+            new ModelLayerLocation(Fintastic.location("small_catfish_thorny"), "main");
     public static final ModelLayerLocation SMALL_CATFISH_TINY_CORY =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "small_catfish_tiny_cory"), "main");
+            new ModelLayerLocation(Fintastic.location("small_catfish_tiny_cory"), "main");
 
     public static final ModelLayerLocation HAT_LAYER =
-            new ModelLayerLocation(new ResourceLocation(Fintastic.MOD_ID, "fishing_hat"), "main");
+            new ModelLayerLocation(Fintastic.location("fishing_hat"), "main");
 }

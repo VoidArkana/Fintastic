@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_featherback": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fintastic:featherback"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fintastic:raw_fish_from_featherback"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_featherback"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fintastic:raw_fish_from_featherback"
+    ]
+  }
+}

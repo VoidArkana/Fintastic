@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "D": {
+      "item": "minecraft:black_dye"
+    },
+    "G": {
+      "item": "fintastic:aquarium_glass"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GDG",
+    "GGG"
+  ],
+  "result": {
+    "count": 8,
+    "id": "fintastic:black_aquarium_glass"
+  }
+}

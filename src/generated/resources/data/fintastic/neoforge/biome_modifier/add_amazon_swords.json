@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#fintastic:amazon_sword_biomes",
+  "features": "fintastic:amazon_sword_placed",
+  "step": "vegetal_decoration"
+}

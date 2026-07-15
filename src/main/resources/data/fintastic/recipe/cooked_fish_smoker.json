@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "fintastic:raw_fish"
+  },
+  "result": {
+    "id": "fintastic:cooked_fish"
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}

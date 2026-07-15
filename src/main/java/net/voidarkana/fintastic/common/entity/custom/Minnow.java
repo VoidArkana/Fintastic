@@ -2,6 +2,7 @@ package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
@@ -17,13 +18,14 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
@@ -38,8 +40,8 @@ import java.util.function.IntFunction;
 public class Minnow extends VariantSchoolingFish {
 
 
-    public Minnow(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Minnow(EntityType<? extends BucketableFishEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
@@ -63,195 +65,192 @@ public class Minnow extends VariantSchoolingFish {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Age", this.getAge());
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
-        compoundnbt.putInt("Variant", this.getVariant());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Age", this.getAge());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+            compoundnbt.putInt("Variant", this.getVariant());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
 
-        if (pTag.contains("Variant"))
-            this.setVariant(pTag.getInt("Variant"));
+        if (tag.contains("Variant"))
+            this.setVariant(tag.getInt("Variant"));
 
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));
+        }
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));
         }
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        if (pSpawnData == null)
-            pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        if (spawnData == null)
+            spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData);
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
-            this.setVariant(pDataTag.getInt("Variant"));
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));}
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-        }else{
-            MinnowVariant variant;
+        MinnowVariant variant;
 
-            int pVariant;
+        int variantId;
 
-            if(pReason == MobSpawnType.STRUCTURE || pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
+        if(reason == MobSpawnType.STRUCTURE || reason == MobSpawnType.SPAWN_EGG || reason == MobSpawnType.BUCKET){
 
-                variant = Util.getRandom(MinnowVariant.values(), this.random);
+            variant = Util.getRandom(MinnowVariant.values(), this.random);
 
-                this.setVariant(variant.getVariant());
+            this.setVariant(variant.getVariant());
+
+        }else {
+
+            if (spawnData instanceof MinnowGroupData groupData){
+
+                variantId = groupData.getVariant();
+                this.startFollowing(groupData.leader);
 
             }else {
+                if (this.blockPosition().getY() <= level.getSeaLevel() - 33
+                        && level.getBlockState(this.blockPosition()).is(Blocks.WATER)){
 
-                if (pSpawnData instanceof MinnowGroupData groupData){
-
-                    pVariant = groupData.getVariant();
-                    this.startFollowing(groupData.leader);
-
-                }else {
-                    if (this.blockPosition().getY() <= pLevel.getSeaLevel() - 33
-                            && pLevel.getBlockState(this.blockPosition()).is(Blocks.WATER)){
-
-                        if (this.getRandom().nextBoolean()){
-                            pVariant = MinnowVariant.MEXICAN_CAVE_TETRA.getVariant();
-                        }else {
-                            pVariant = MinnowVariant.SOUTHERN_CAVE_FISH.getVariant();
-                        }
-
-                    } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_OCEAN)){
-
-                        pVariant = MinnowVariant.ATLANTIC_HERRING.getVariant();
-
-                        if (pLevel.getBiome(this.blockPosition()).is(Biomes.WARM_OCEAN)){
-                            if (this.getRandom().nextBoolean()){
-                                pVariant = MinnowVariant.STRIPED_MOJARRA.getVariant();
-                            }
-                        }
-
-                    } else if (pLevel.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
-
-                        int var = this.getRandom().nextInt(16);
-
-
-                        pVariant = switch (var){
-                            case 1 -> MinnowVariant.NEON_GREEN_RASBORA.getVariant();
-                            case 2 -> MinnowVariant.CHILI_RASBORA.getVariant();
-                            case 3 ->MinnowVariant.NEON_TETRA.getVariant();
-                            case 4 -> MinnowVariant.CARDINAL_TETRA.getVariant();
-                            case 5 -> MinnowVariant.DRAGONFIN_TETRA.getVariant();
-                            case 6 -> MinnowVariant.MARBLED_HATCHETFISH.getVariant();
-                            case 7 -> MinnowVariant.SILVER_HATCHETFISH.getVariant();
-                            case 8 -> MinnowVariant.COPELLA_TETRA.getVariant();
-                            case 9 -> MinnowVariant.PIABUCO.getVariant();
-                            case 10 -> MinnowVariant.GIANT_DANIO.getVariant();
-                            case 11 -> MinnowVariant.BUENOS_AIRES_TETRA.getVariant();
-                            case 12 -> MinnowVariant.RED_TAIL_ASTYANAX.getVariant();
-                            case 13 -> MinnowVariant.MASKED_BARB.getVariant();
-                            case 14 -> MinnowVariant.BANDED_ASTYANAX.getVariant();
-                            case 15 -> MinnowVariant.STREAKED_PROCHILODUS.getVariant();
-                            default -> MinnowVariant.FLAGTAIL_PROCHILODUS.getVariant();
-                        };
-
-                        if (pLevel.getBiome(this.blockPosition()).is(Biomes.MANGROVE_SWAMP) && this.random.nextFloat() < 0.06) {
-                            pVariant = MinnowVariant.STRIPED_MOJARRA.getVariant();
-                        }
-
-
-                    } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
-
-                        int var = this.getRandom().nextInt(22);
-
-                        pVariant = switch (var){
-                            case 1 -> MinnowVariant.FLAGTAIL_PROCHILODUS.getVariant();
-                            case 2 -> MinnowVariant.COPELLA_TETRA.getVariant();
-                            case 3 -> MinnowVariant.PIABUCO.getVariant();
-                            case 4 -> MinnowVariant.HARLEQUIN_RASBORA.getVariant();
-                            case 5 -> MinnowVariant.ODESSA_BARB.getVariant();
-                            case 6 -> MinnowVariant.RUBY_BARB.getVariant();
-                            case 7 -> MinnowVariant.BANDED_ASTYANAX.getVariant();
-                            case 8 -> MinnowVariant.TETRAZONA_BARB.getVariant();
-                            case 9 -> MinnowVariant.MASKED_BARB.getVariant();
-                            case 10 -> MinnowVariant.NEON_TETRA.getVariant();
-                            case 11 -> MinnowVariant.BLUE_NEON_RASBORA.getVariant();
-                            case 12 -> MinnowVariant.SCISSORTAIL_RASBORA.getVariant();
-                            case 13 -> MinnowVariant.MOSQUITO_RASABORA.getVariant();
-                            case 14 -> MinnowVariant.MARBLED_HATCHETFISH.getVariant();
-                            case 15 -> MinnowVariant.SILVER_HATCHETFISH.getVariant();
-                            case 16 -> MinnowVariant.DRAGONFIN_TETRA.getVariant();
-                            case 17 -> MinnowVariant.CHERRY_BARB.getVariant();
-                            case 18 -> MinnowVariant.GOLDEN_BARB.getVariant();
-                            case 19 -> MinnowVariant.TORPEDO_BARB.getVariant();
-                            case 20 -> MinnowVariant.ALESTES_TETRA.getVariant();
-                            case 21 -> MinnowVariant.BLACKLINETAIL_TETRA.getVariant();
-                            default -> MinnowVariant.SIXBAR_DISTICHODUS.getVariant();
-                        };
-                    } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
-
-                        int var = this.getRandom().nextInt(10);
-
-                        pVariant = switch (var){
-                            case 1 -> MinnowVariant.GALAXIAS.getVariant();
-                            case 2 -> MinnowVariant.SAILFIN_SHINER.getVariant();
-                            case 3 ->MinnowVariant.FAT_HEAD_MINNOW.getVariant();
-                            case 4 -> MinnowVariant.RED_TAIL_ASTYANAX.getVariant();
-                            case 5 -> MinnowVariant.BITTERLING.getVariant();
-                            case 6 -> MinnowVariant.BANDED_ASTYANAX.getVariant();
-                            case 7 -> MinnowVariant.STREAKED_PROCHILODUS.getVariant();
-                            case 8 -> MinnowVariant.TINFOIL_BARB.getVariant();
-                            case 9 -> MinnowVariant.SICKLEFIN_BARB.getVariant();
-                            default -> MinnowVariant.DELTA_SMELT.getVariant();
-                        };
-
-                    } else if (pLevel.getBiome(this.blockPosition()).is(Biomes.MANGROVE_SWAMP)){
-
-                        int var = this.getRandom().nextInt(3);
-
-                        pVariant = switch (var){
-                            case 1 -> MinnowVariant.GALAXIAS.getVariant();
-                            case 2 -> MinnowVariant.STRIPED_MOJARRA.getVariant();
-                            default -> MinnowVariant.DELTA_SMELT.getVariant();
-                        };
-
-                    } else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
-
-                        int var = this.getRandom().nextInt(4);
-
-                        pVariant = switch (var){
-                            case 1 -> MinnowVariant.ATLANTIC_HERRING.getVariant();
-                            case 2 -> MinnowVariant.GALAXIAS.getVariant();
-                            case 3 -> MinnowVariant.STRIPED_MOJARRA.getVariant();
-                            default -> MinnowVariant.DELTA_SMELT.getVariant();
-                        };
-
-                    } else {
-
-                        variant = Util.getRandom(MinnowVariant.values(), this.random);
-
-                        pVariant = variant.getVariant();
-
+                    if (this.getRandom().nextBoolean()){
+                        variantId = MinnowVariant.MEXICAN_CAVE_TETRA.getVariant();
+                    }else {
+                        variantId = MinnowVariant.SOUTHERN_CAVE_FISH.getVariant();
                     }
 
-                    pSpawnData = new MinnowGroupData(this, pVariant);
+                } else if (level.getBiome(this.blockPosition()).is(BiomeTags.IS_OCEAN)){
+
+                    variantId = MinnowVariant.ATLANTIC_HERRING.getVariant();
+
+                    if (level.getBiome(this.blockPosition()).is(Biomes.WARM_OCEAN)){
+                        if (this.getRandom().nextBoolean()){
+                            variantId = MinnowVariant.STRIPED_MOJARRA.getVariant();
+                        }
+                    }
+
+                } else if (level.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP)){
+
+                    int var = this.getRandom().nextInt(16);
+
+
+                    variantId = switch (var){
+                        case 1 -> MinnowVariant.NEON_GREEN_RASBORA.getVariant();
+                        case 2 -> MinnowVariant.CHILI_RASBORA.getVariant();
+                        case 3 ->MinnowVariant.NEON_TETRA.getVariant();
+                        case 4 -> MinnowVariant.CARDINAL_TETRA.getVariant();
+                        case 5 -> MinnowVariant.DRAGONFIN_TETRA.getVariant();
+                        case 6 -> MinnowVariant.MARBLED_HATCHETFISH.getVariant();
+                        case 7 -> MinnowVariant.SILVER_HATCHETFISH.getVariant();
+                        case 8 -> MinnowVariant.COPELLA_TETRA.getVariant();
+                        case 9 -> MinnowVariant.PIABUCO.getVariant();
+                        case 10 -> MinnowVariant.GIANT_DANIO.getVariant();
+                        case 11 -> MinnowVariant.BUENOS_AIRES_TETRA.getVariant();
+                        case 12 -> MinnowVariant.RED_TAIL_ASTYANAX.getVariant();
+                        case 13 -> MinnowVariant.MASKED_BARB.getVariant();
+                        case 14 -> MinnowVariant.BANDED_ASTYANAX.getVariant();
+                        case 15 -> MinnowVariant.STREAKED_PROCHILODUS.getVariant();
+                        default -> MinnowVariant.FLAGTAIL_PROCHILODUS.getVariant();
+                    };
+
+                    if (level.getBiome(this.blockPosition()).is(Biomes.MANGROVE_SWAMP) && this.random.nextFloat() < 0.06) {
+                        variantId = MinnowVariant.STRIPED_MOJARRA.getVariant();
+                    }
+
+
+                } else if (level.getBiome(this.blockPosition()).is(BiomeTags.IS_JUNGLE)){
+
+                    int var = this.getRandom().nextInt(22);
+
+                    variantId = switch (var){
+                        case 1 -> MinnowVariant.FLAGTAIL_PROCHILODUS.getVariant();
+                        case 2 -> MinnowVariant.COPELLA_TETRA.getVariant();
+                        case 3 -> MinnowVariant.PIABUCO.getVariant();
+                        case 4 -> MinnowVariant.HARLEQUIN_RASBORA.getVariant();
+                        case 5 -> MinnowVariant.ODESSA_BARB.getVariant();
+                        case 6 -> MinnowVariant.RUBY_BARB.getVariant();
+                        case 7 -> MinnowVariant.BANDED_ASTYANAX.getVariant();
+                        case 8 -> MinnowVariant.TETRAZONA_BARB.getVariant();
+                        case 9 -> MinnowVariant.MASKED_BARB.getVariant();
+                        case 10 -> MinnowVariant.NEON_TETRA.getVariant();
+                        case 11 -> MinnowVariant.BLUE_NEON_RASBORA.getVariant();
+                        case 12 -> MinnowVariant.SCISSORTAIL_RASBORA.getVariant();
+                        case 13 -> MinnowVariant.MOSQUITO_RASABORA.getVariant();
+                        case 14 -> MinnowVariant.MARBLED_HATCHETFISH.getVariant();
+                        case 15 -> MinnowVariant.SILVER_HATCHETFISH.getVariant();
+                        case 16 -> MinnowVariant.DRAGONFIN_TETRA.getVariant();
+                        case 17 -> MinnowVariant.CHERRY_BARB.getVariant();
+                        case 18 -> MinnowVariant.GOLDEN_BARB.getVariant();
+                        case 19 -> MinnowVariant.TORPEDO_BARB.getVariant();
+                        case 20 -> MinnowVariant.ALESTES_TETRA.getVariant();
+                        case 21 -> MinnowVariant.BLACKLINETAIL_TETRA.getVariant();
+                        default -> MinnowVariant.SIXBAR_DISTICHODUS.getVariant();
+                    };
+                } else if (level.getBiome(this.blockPosition()).is(BiomeTags.IS_RIVER)){
+
+                    int var = this.getRandom().nextInt(10);
+
+                    variantId = switch (var){
+                        case 1 -> MinnowVariant.GALAXIAS.getVariant();
+                        case 2 -> MinnowVariant.SAILFIN_SHINER.getVariant();
+                        case 3 ->MinnowVariant.FAT_HEAD_MINNOW.getVariant();
+                        case 4 -> MinnowVariant.RED_TAIL_ASTYANAX.getVariant();
+                        case 5 -> MinnowVariant.BITTERLING.getVariant();
+                        case 6 -> MinnowVariant.BANDED_ASTYANAX.getVariant();
+                        case 7 -> MinnowVariant.STREAKED_PROCHILODUS.getVariant();
+                        case 8 -> MinnowVariant.TINFOIL_BARB.getVariant();
+                        case 9 -> MinnowVariant.SICKLEFIN_BARB.getVariant();
+                        default -> MinnowVariant.DELTA_SMELT.getVariant();
+                    };
+
+                } else if (level.getBiome(this.blockPosition()).is(Biomes.MANGROVE_SWAMP)){
+
+                    int var = this.getRandom().nextInt(3);
+
+                    variantId = switch (var){
+                        case 1 -> MinnowVariant.GALAXIAS.getVariant();
+                        case 2 -> MinnowVariant.STRIPED_MOJARRA.getVariant();
+                        default -> MinnowVariant.DELTA_SMELT.getVariant();
+                    };
+
+                } else if (level.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
+
+                    int var = this.getRandom().nextInt(4);
+
+                    variantId = switch (var){
+                        case 1 -> MinnowVariant.ATLANTIC_HERRING.getVariant();
+                        case 2 -> MinnowVariant.GALAXIAS.getVariant();
+                        case 3 -> MinnowVariant.STRIPED_MOJARRA.getVariant();
+                        default -> MinnowVariant.DELTA_SMELT.getVariant();
+                    };
+
+                } else {
+
+                    variant = Util.getRandom(MinnowVariant.values(), this.random);
+
+                    variantId = variant.getVariant();
+
                 }
-                this.setVariant(pVariant);
+
+                spawnData = new MinnowGroupData(this, variantId);
             }
+            this.setVariant(variantId);
         }
 
-        return pSpawnData;
+        return spawnData;
     }
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Minnow baby = FintyEntities.MINNOW.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        Minnow baby = FintyEntities.MINNOW.get().create(level);
         if (baby != null){
             baby.setFromBucket(true);
             baby.setVariant(this.getVariant());
@@ -260,9 +259,9 @@ public class Minnow extends VariantSchoolingFish {
     }
 
     @Override
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        Minnow mate = (Minnow) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && mate.getVariant() == this.getVariant() && mate.getVariant() == this.getVariant();
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        Minnow mate = (Minnow) otherAnimal;
+        return super.canMate(otherAnimal) && mate.getVariant() == this.getVariant() && mate.getVariant() == this.getVariant();
     }
 
     @Override
@@ -274,9 +273,9 @@ public class Minnow extends VariantSchoolingFish {
     static class MinnowGroupData extends SchoolSpawnGroupData {
         final int variant;
 
-        MinnowGroupData(Minnow pLeader, int pVariantModel) {
-            super(pLeader);
-            this.variant = pVariantModel;
+        MinnowGroupData(Minnow leader, int variantModel) {
+            super(leader);
+            this.variant = variantModel;
         }
 
         public int getVariant(){
@@ -377,16 +376,16 @@ public class Minnow extends VariantSchoolingFish {
                 = ByIdMap.sparse(Minnow.MinnowVariant::getVariant, values(), TINFOIL_BARB);
 
 
-        public static MinnowVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static MinnowVariant byId(int id) {
+            return BY_ID.apply(id);
         }
     }
 
-    public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends WaterAnimal> pWaterAnimal, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
-        int i = pLevel.getSeaLevel();
+    public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends WaterAnimal> waterAnimal, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        int i = level.getSeaLevel();
         int j = i - 13;
-        return ((pLevel.getBiome(pPos).is(FintyTags.Biomes.MINNOW_SURFACE_BIOMES) && pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER))
-                || (!pLevel.getBiome(pPos).is(BiomeTags.IS_OCEAN) && pPos.getY() <= pLevel.getSeaLevel() - 33 && pLevel.getBlockState(pPos).is(Blocks.WATER) && (pLevel.getRawBrightness(pPos, 0) == 0 || pLevel.getBiome(pPos).is(Biomes.LUSH_CAVES))));
+        return ((level.getBiome(pos).is(FintyTags.Biomes.MINNOW_SURFACE_BIOMES) && pos.getY() >= j && pos.getY() <= i && level.getFluidState(pos.below()).is(FluidTags.WATER) && level.getBlockState(pos.above()).is(Blocks.WATER))
+                || (!level.getBiome(pos).is(BiomeTags.IS_OCEAN) && pos.getY() <= level.getSeaLevel() - 33 && level.getBlockState(pos).is(Blocks.WATER) && (level.getRawBrightness(pos, 0) == 0 || level.getBiome(pos).is(Biomes.LUSH_CAVES))));
     }
 
 }

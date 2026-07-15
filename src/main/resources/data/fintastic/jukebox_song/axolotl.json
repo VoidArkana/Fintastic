@@ -1,0 +1,8 @@
+{
+  "sound_event": "fintastic:axolotl",
+  "description": {
+    "translate": "item.fintastic.axolotl_music_disc.desc"
+  },
+  "length_in_seconds": 306,
+  "comparator_output": 7
+}

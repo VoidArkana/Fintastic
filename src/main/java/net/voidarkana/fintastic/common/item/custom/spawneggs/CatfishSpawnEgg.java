@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.item.custom.spawneggs;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,10 +20,11 @@ public class CatfishSpawnEgg extends FishVariantSpawnEggItem {
 
     @Override
     public void applyEntityVariant(ItemStack itemstack, Entity entity) {
-        if (entity instanceof Catfish catfish && itemstack.hasTag())
-            if (itemstack.getTag().contains(DATA_CREATURE))
-                if (itemstack.getTag().getInt(DATA_CREATURE)!=-1){
-                    int i = itemstack.getTag().getInt(DATA_CREATURE);
+        CompoundTag tag = getCreatureData(itemstack);
+        if (entity instanceof Catfish catfish)
+            if (tag.contains(DATA_CREATURE))
+                if (tag.getInt(DATA_CREATURE)!=-1){
+                    int i = tag.getInt(DATA_CREATURE);
                     Catfish.CatfishVariant variant = Catfish.CatfishVariant.values()[i];
                     if (variant != null)
                         catfish.setVariant(variant.getJoinedVariant());

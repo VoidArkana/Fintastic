@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "fintastic:minnow"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:bone_meal"
+  }
+}

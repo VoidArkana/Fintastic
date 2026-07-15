@@ -2,6 +2,7 @@ package net.voidarkana.fintastic.common.block.custom;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,10 +13,14 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Objects;
 
-public class AquariumGlassBlock extends AbstractGlassBlock {
+public class AquariumGlassBlock extends TransparentBlock {
+    public static final MapCodec<AquariumGlassBlock> CODEC = simpleCodec(AquariumGlassBlock::new);
+
     public static final BooleanProperty NORTH = PipeBlock.NORTH;
     public static final BooleanProperty EAST = PipeBlock.EAST;
     public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
@@ -23,53 +28,54 @@ public class AquariumGlassBlock extends AbstractGlassBlock {
     public static final BooleanProperty UP = PipeBlock.UP;
     public static final BooleanProperty DOWN = PipeBlock.DOWN;
 
-    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (p_55164_) -> {
-        p_55164_.put(Direction.NORTH, NORTH);
-        p_55164_.put(Direction.EAST, EAST);
-        p_55164_.put(Direction.SOUTH, SOUTH);
-        p_55164_.put(Direction.WEST, WEST);
-        p_55164_.put(Direction.UP, UP);
-        p_55164_.put(Direction.DOWN, DOWN);
+    public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (map) -> {
+        map.put(Direction.NORTH, NORTH);
+        map.put(Direction.EAST, EAST);
+        map.put(Direction.SOUTH, SOUTH);
+        map.put(Direction.WEST, WEST);
+        map.put(Direction.UP, UP);
+        map.put(Direction.DOWN, DOWN);
     }));
 
-    public AquariumGlassBlock(Properties pProperties) {
-        super(pProperties);
+    public AquariumGlassBlock(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any()
-                .setValue(NORTH, Boolean.valueOf(false))
-                .setValue(EAST, Boolean.valueOf(false))
-                .setValue(SOUTH, Boolean.valueOf(false))
-                .setValue(WEST, Boolean.valueOf(false))
-                .setValue(UP, Boolean.valueOf(false))
-                .setValue(DOWN, Boolean.valueOf(false)));
+                .setValue(NORTH, Boolean.FALSE)
+                .setValue(EAST, Boolean.FALSE)
+                .setValue(SOUTH, Boolean.FALSE)
+                .setValue(WEST, Boolean.FALSE)
+                .setValue(UP, Boolean.FALSE)
+                .setValue(DOWN, Boolean.FALSE));
     }
 
-    public BlockState rotate(BlockState pState, Rotation pRot) {
-        switch (pRot) {
-            case CLOCKWISE_180:
-                return pState.setValue(NORTH, pState.getValue(SOUTH)).setValue(EAST, pState.getValue(WEST)).setValue(SOUTH, pState.getValue(NORTH)).setValue(WEST, pState.getValue(EAST));
-            case COUNTERCLOCKWISE_90:
-                return pState.setValue(NORTH, pState.getValue(EAST)).setValue(EAST, pState.getValue(SOUTH)).setValue(SOUTH, pState.getValue(WEST)).setValue(WEST, pState.getValue(NORTH));
-            case CLOCKWISE_90:
-                return pState.setValue(NORTH, pState.getValue(WEST)).setValue(EAST, pState.getValue(NORTH)).setValue(SOUTH, pState.getValue(EAST)).setValue(WEST, pState.getValue(SOUTH));
-            default:
-                return pState;
-        }
+    @Override
+    protected @NotNull MapCodec<? extends AquariumGlassBlock> codec() {
+        return CODEC;
     }
 
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        switch (pMirror) {
-            case LEFT_RIGHT:
-                return pState.setValue(NORTH, pState.getValue(SOUTH)).setValue(SOUTH, pState.getValue(NORTH));
-            case FRONT_BACK:
-                return pState.setValue(EAST, pState.getValue(WEST)).setValue(WEST, pState.getValue(EAST));
-            default:
-                return super.mirror(pState, pMirror);
-        }
+    public @NotNull BlockState rotate(@NotNull BlockState state, Rotation rot) {
+        return switch (rot) {
+            case CLOCKWISE_180 ->
+                    state.setValue(NORTH, state.getValue(SOUTH)).setValue(EAST, state.getValue(WEST)).setValue(SOUTH, state.getValue(NORTH)).setValue(WEST, state.getValue(EAST));
+            case COUNTERCLOCKWISE_90 ->
+                    state.setValue(NORTH, state.getValue(EAST)).setValue(EAST, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(WEST)).setValue(WEST, state.getValue(NORTH));
+            case CLOCKWISE_90 ->
+                    state.setValue(NORTH, state.getValue(WEST)).setValue(EAST, state.getValue(NORTH)).setValue(SOUTH, state.getValue(EAST)).setValue(WEST, state.getValue(SOUTH));
+            default -> state;
+        };
     }
 
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        BlockGetter blockgetter = pContext.getLevel();
-        BlockPos blockpos = pContext.getClickedPos();
+    public @NotNull BlockState mirror(@NotNull BlockState state, Mirror mirror) {
+        return switch (mirror) {
+            case LEFT_RIGHT -> state.setValue(NORTH, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(NORTH));
+            case FRONT_BACK -> state.setValue(EAST, state.getValue(WEST)).setValue(WEST, state.getValue(EAST));
+            default -> super.mirror(state, mirror);
+        };
+    }
+
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockGetter blockgetter = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
 
         BlockPos blockpos1 = blockpos.north();
         BlockPos blockpos2 = blockpos.east();
@@ -85,7 +91,7 @@ public class AquariumGlassBlock extends AbstractGlassBlock {
         BlockState blockstate4 = blockgetter.getBlockState(blockpos5);
         BlockState blockstate5 = blockgetter.getBlockState(blockpos6);
 
-        return super.getStateForPlacement(pContext)
+        return Objects.requireNonNull(super.getStateForPlacement(context))
                 .setValue(NORTH, this.connectsTo(blockstate))
                 .setValue(EAST, this.connectsTo(blockstate1))
                 .setValue(SOUTH, this.connectsTo(blockstate2))
@@ -94,21 +100,21 @@ public class AquariumGlassBlock extends AbstractGlassBlock {
                 .setValue(DOWN, this.connectsTo(blockstate5));
     }
 
-    private boolean connectsTo(BlockState pState) {
-        return pState.is(this) && this.defaultBlockState().is(this);
+    private boolean connectsTo(BlockState state) {
+        return state.is(this) && this.defaultBlockState().is(this);
     }
 
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        if (!pState.canSurvive(pLevel, pCurrentPos)) {
-            pLevel.scheduleTick(pCurrentPos, this, 1);
-            return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
+        if (!state.canSurvive(level, currentPos)) {
+            level.scheduleTick(currentPos, this, 1);
+            return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
         } else {
-            boolean flag = pFacingState.is(this);
-            return pState.setValue(PROPERTY_BY_DIRECTION.get(pFacing), flag);
+            boolean flag = facingState.is(this);
+            return state.setValue(PROPERTY_BY_DIRECTION.get(facing), flag);
         }
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
     }
 }

@@ -1,5 +1,6 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,9 +16,11 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.neoforged.neoforge.common.NeoForge;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.FollowIndiscriminateSchoolLeaderGoal;
@@ -43,8 +46,8 @@ public class Guppy extends SchoolingFish {
     private static final EntityDataAccessor<Boolean> HAS_PATTERN_2 = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAS_DORSAL_FIN = SynchedEntityData.defineId(Guppy.class, EntityDataSerializers.BOOLEAN);
 
-    public Guppy(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Guppy(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -52,8 +55,8 @@ public class Guppy extends SchoolingFish {
                 .add(Attributes.MOVEMENT_SPEED, 0.65F);
     }
 
-    public boolean isFood(ItemStack pStack) {
-        return FOOD_ITEMS.test(pStack);
+    public boolean isFood(ItemStack stack) {
+        return FOOD_ITEMS.test(stack);
     }
 
     @Override
@@ -73,19 +76,19 @@ public class Guppy extends SchoolingFish {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(FIN_MODEL, 0);
-        this.entityData.define(FIN_COLOR, 0);
-        this.entityData.define(TAIL_MODEL, 0);
-        this.entityData.define(TAIL_COLOR, 0);
-        this.entityData.define(PATTERN_1, 0);
-        this.entityData.define(PATTERN_2, 0);
-        this.entityData.define(PATTERN_1_COLOR, 0);
-        this.entityData.define(PATTERN_2_COLOR, 0);
-        this.entityData.define(HAS_PATTERN_1, false);
-        this.entityData.define(HAS_PATTERN_2, false);
-        this.entityData.define(HAS_DORSAL_FIN, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FIN_MODEL, 0);
+        builder.define(FIN_COLOR, 0);
+        builder.define(TAIL_MODEL, 0);
+        builder.define(TAIL_COLOR, 0);
+        builder.define(PATTERN_1, 0);
+        builder.define(PATTERN_2, 0);
+        builder.define(PATTERN_1_COLOR, 0);
+        builder.define(PATTERN_2_COLOR, 0);
+        builder.define(HAS_PATTERN_1, false);
+        builder.define(HAS_PATTERN_2, false);
+        builder.define(HAS_DORSAL_FIN, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -221,31 +224,31 @@ public class Guppy extends SchoolingFish {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Variant", this.getVariant());
-        compoundnbt.putInt("FinModel", this.getFinModel());
-        compoundnbt.putInt("FinColor", this.getFinColor());
-        compoundnbt.putInt("TailModel", this.getTailModel());
-        compoundnbt.putInt("TailColor", this.getTailColor());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Variant", this.getVariant());
+            compoundnbt.putInt("FinModel", this.getFinModel());
+            compoundnbt.putInt("FinColor", this.getFinColor());
+            compoundnbt.putInt("TailModel", this.getTailModel());
+            compoundnbt.putInt("TailColor", this.getTailColor());
 
-        compoundnbt.putBoolean("HasMainPattern", this.getHasMainPattern());
-        compoundnbt.putInt("MainPattern", this.getMainPattern());
-        compoundnbt.putInt("MainPatternColor", this.getMainPatternColor());
+            compoundnbt.putBoolean("HasMainPattern", this.getHasMainPattern());
+            compoundnbt.putInt("MainPattern", this.getMainPattern());
+            compoundnbt.putInt("MainPatternColor", this.getMainPatternColor());
 
-        compoundnbt.putBoolean("HasSecondaryPattern", this.getHasSecondPattern());
-        compoundnbt.putInt("SecondaryPattern", this.getSecondPattern());
-        compoundnbt.putInt("SecondaryPatternColor", this.getSecondPatternColor());
+            compoundnbt.putBoolean("HasSecondaryPattern", this.getHasSecondPattern());
+            compoundnbt.putInt("SecondaryPattern", this.getSecondPattern());
+            compoundnbt.putInt("SecondaryPatternColor", this.getSecondPatternColor());
 
-        compoundnbt.putInt("Age", this.getAge());
+            compoundnbt.putInt("Age", this.getAge());
 
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
 
-        compoundnbt.putBoolean("HasDorsalFin", this.getHasDorsalFin());
-
+            compoundnbt.putBoolean("HasDorsalFin", this.getHasDorsalFin());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
@@ -280,81 +283,57 @@ public class Guppy extends SchoolingFish {
             this.setSecondPatternColor(compound.getInt("SecondaryPatternColor"));
         if (compound.contains("HasDorsalFin"))
             this.setHasDorsalFin(compound.getBoolean("HasDorsalFin"));
+        if (compound.contains("CanGrow"))
+            this.setCanGrowUp(compound.getBoolean("CanGrow"));
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
-
-            this.setVariant(pDataTag.getInt("Variant"));
-            this.setFinModel(pDataTag.getInt("FinModel"));
-            this.setFinColor(pDataTag.getInt("FinColor"));
-            this.setTailModel(pDataTag.getInt("TailModel"));
-            this.setTailColor(pDataTag.getInt("TailColor"));
-
-            this.setHasMainPattern(pDataTag.getBoolean("HasMainPattern"));
-            this.setMainPattern(pDataTag.getInt("MainPattern"));
-            this.setMainPatternColor(pDataTag.getInt("MainPatternColor"));
-
-            this.setHasSecondPattern(pDataTag.getBoolean("HasSecondaryPattern"));
-            this.setSecondPattern(pDataTag.getInt("SecondaryPattern"));
-            this.setSecondPatternColor(pDataTag.getInt("SecondaryPatternColor"));
-
-            this.setHasDorsalFin(pDataTag.getBoolean("HasDorsalFin"));
-
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));
-            }
-
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-
-        }else{
-
-            this.setVariant(this.random.nextInt(12));
-
-            this.setFinModel(this.random.nextInt(5)==0 ? 0 : 1);
-            this.setFinColor(this.random.nextInt(22));
-
-            //0 checkered_front (checkered1)
-            //1 checkered_back (checkered2)
-            //2 line_up (line1)
-            //3 line_down (line2)
-            //4 striped_forward (striped1)
-            //5 striped_backward (striped2)
-            //6 mask
-            //7 koi
-            //8 dipped
-            //9 belly
-
-            this.setTailModel(this.random.nextInt(19));
-            this.setTailColor(this.random.nextInt(22));
-
-            //10 fullbody
-
-            this.setHasMainPattern(this.random.nextInt(3)==0);
-            this.setMainPattern(this.random.nextInt(11));
-            this.setMainPatternColor(this.random.nextInt(22));
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
 
-            this.setHasSecondPattern(this.random.nextInt(3)==0);
-            this.setSecondPattern(this.random.nextInt(18));
-            this.setSecondPatternColor(this.random.nextInt(22));
+        this.setVariant(this.random.nextInt(12));
 
-            this.setHasDorsalFin(this.random.nextInt(5)>0);
+        this.setFinModel(this.random.nextInt(5)==0 ? 0 : 1);
+        this.setFinColor(this.random.nextInt(22));
 
-            //10 dot_tail (dot1)
-            //11 dot_mid_up (dot2)
-            //12 dot_mid_down (dot3)
-            //13 dot_back (dot4)
-            //14 dot_front (dot5)
-            //15 double_dot
-            //16 coat
-            //17 bar
-        }
+        //0 checkered_front (checkered1)
+        //1 checkered_back (checkered2)
+        //2 line_up (line1)
+        //3 line_down (line2)
+        //4 striped_forward (striped1)
+        //5 striped_backward (striped2)
+        //6 mask
+        //7 koi
+        //8 dipped
+        //9 belly
 
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        this.setTailModel(this.random.nextInt(19));
+        this.setTailColor(this.random.nextInt(22));
+
+        //10 fullbody
+
+        this.setHasMainPattern(this.random.nextInt(3)==0);
+        this.setMainPattern(this.random.nextInt(11));
+        this.setMainPatternColor(this.random.nextInt(22));
+
+
+        this.setHasSecondPattern(this.random.nextInt(3)==0);
+        this.setSecondPattern(this.random.nextInt(18));
+        this.setSecondPatternColor(this.random.nextInt(22));
+
+        this.setHasDorsalFin(this.random.nextInt(5)>0);
+
+        //10 dot_tail (dot1)
+        //11 dot_mid_up (dot2)
+        //12 dot_mid_down (dot3)
+        //13 dot_back (dot4)
+        //14 dot_front (dot5)
+        //15 double_dot
+        //16 coat
+        //17 bar
+
+        return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }
 
     public static String getFinsName(int fin){
@@ -433,8 +412,8 @@ public class Guppy extends SchoolingFish {
         return new ItemStack(FintyItems.GUPPY_BUCKET.get());
     }
 
-    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
 
         if (itemstack.is(FintyItems.REGULAR_FEED.get())){
             this.setFeedQuality(0);
@@ -449,14 +428,14 @@ public class Guppy extends SchoolingFish {
             this.setFeedQuality(3);
         }
 
-        return super.mobInteract(pPlayer, pHand);
+        return super.mobInteract(player, hand);
     }
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Guppy otherParent = (Guppy) pOtherParent;
-        Guppy baby = FintyEntities.GUPPY.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal mate) {
+        Guppy otherParent = (Guppy) mate;
+        Guppy baby = FintyEntities.GUPPY.get().create(level);
 
         if (baby != null){
 
@@ -600,84 +579,84 @@ public class Guppy extends SchoolingFish {
 
 
     @Override
-    public void spawnChildFromBreeding(ServerLevel pLevel, BreedableWaterAnimal pMate) {
-        BreedableWaterAnimal ageablemob = this.getBreedOffspring(pLevel, pMate);
+    public void spawnChildFromBreeding(ServerLevel level, BreedableWaterAnimal mate) {
+        BreedableWaterAnimal ageablemob = this.getBreedOffspring(level, mate);
         BreedableWaterAnimal ageableMob2 = null;
         BreedableWaterAnimal ageableMob3 = null;
         BreedableWaterAnimal ageableMob4 = null;
         BreedableWaterAnimal ageableMob5 = null;
 
-        final BreedableWaterAnimal.BabyFishSpawnEvent event = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageablemob);
+        final BreedableWaterAnimal.BabyFishSpawnEvent event = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageablemob);
         ageablemob = event.getChild();
 
         if (this.random.nextBoolean() || this.random.nextBoolean()){
-            ageableMob2 = this.getBreedOffspring(pLevel, pMate);
-            final BreedableWaterAnimal.BabyFishSpawnEvent event2 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageableMob2);
+            ageableMob2 = this.getBreedOffspring(level, mate);
+            final BreedableWaterAnimal.BabyFishSpawnEvent event2 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageableMob2);
             ageableMob2 = event2.getChild();
 
             if (this.random.nextBoolean()){
-                ageableMob3 = this.getBreedOffspring(pLevel, pMate);
-                final BreedableWaterAnimal.BabyFishSpawnEvent event3 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageableMob3);
+                ageableMob3 = this.getBreedOffspring(level, mate);
+                final BreedableWaterAnimal.BabyFishSpawnEvent event3 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageableMob3);
                 ageableMob3 = event3.getChild();
 
                 if (this.random.nextBoolean()){
 
-                    ageableMob4 = this.getBreedOffspring(pLevel, pMate);
-                    final BreedableWaterAnimal.BabyFishSpawnEvent event4 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageableMob4);
+                    ageableMob4 = this.getBreedOffspring(level, mate);
+                    final BreedableWaterAnimal.BabyFishSpawnEvent event4 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageableMob4);
                     ageableMob4 = event4.getChild();
 
                     if (this.random.nextBoolean()){
-                        ageableMob5 = this.getBreedOffspring(pLevel, pMate);
-                        final BreedableWaterAnimal.BabyFishSpawnEvent event5 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, pMate, ageableMob5);
+                        ageableMob5 = this.getBreedOffspring(level, mate);
+                        final BreedableWaterAnimal.BabyFishSpawnEvent event5 = new BreedableWaterAnimal.BabyFishSpawnEvent(this, mate, ageableMob5);
                         ageableMob5 = event5.getChild();
                     }
                 }
             }
         }
 
-        final boolean cancelled = net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event);
+        final boolean cancelled = NeoForge.EVENT_BUS.post(event).isCanceled();
         if (cancelled) {
             //Reset the "inLove" state for the animals
             this.setAge(6000);
-            pMate.setAge(6000);
+            mate.setAge(6000);
             this.resetLove();
-            pMate.resetLove();
+            mate.resetLove();
             return;
         }
         if (ageablemob != null) {
 
             ageablemob.setAge(-12000);
             ageablemob.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-            this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageablemob);
-            pLevel.addFreshEntityWithPassengers(ageablemob);
+            this.finalizeSpawnChildFromBreeding(level, mate, ageablemob);
+            level.addFreshEntityWithPassengers(ageablemob);
 
             if (ageableMob2 != null){
 
                 ageableMob2.setAge(-12000);
                 ageableMob2.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-                this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageableMob2);
-                pLevel.addFreshEntityWithPassengers(ageableMob2);
+                this.finalizeSpawnChildFromBreeding(level, mate, ageableMob2);
+                level.addFreshEntityWithPassengers(ageableMob2);
 
                 if (ageableMob3 != null){
 
                     ageableMob3.setAge(-12000);
                     ageableMob3.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-                    this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageableMob3);
-                    pLevel.addFreshEntityWithPassengers(ageableMob3);
+                    this.finalizeSpawnChildFromBreeding(level, mate, ageableMob3);
+                    level.addFreshEntityWithPassengers(ageableMob3);
 
                     if (ageableMob4 != null){
 
                         ageableMob4.setAge(-12000);
                         ageableMob4.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-                        this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageableMob4);
-                        pLevel.addFreshEntityWithPassengers(ageableMob4);
+                        this.finalizeSpawnChildFromBreeding(level, mate, ageableMob4);
+                        level.addFreshEntityWithPassengers(ageableMob4);
 
                         if (ageableMob5 != null){
 
                             ageableMob5.setAge(-12000);
                             ageableMob5.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-                            this.finalizeSpawnChildFromBreeding(pLevel, pMate, ageableMob5);
-                            pLevel.addFreshEntityWithPassengers(ageableMob5);
+                            this.finalizeSpawnChildFromBreeding(level, mate, ageableMob5);
+                            level.addFreshEntityWithPassengers(ageableMob5);
                         }
                     }
                 }

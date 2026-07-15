@@ -1,0 +1,23 @@
+{
+  "values": [
+    "fintastic:stromatolite_bricks",
+    "fintastic:stromatolite_bricks_wall",
+    "fintastic:stromatolite_bricks_slab",
+    "fintastic:stromatolite_bricks_stairs",
+    "fintastic:stromatolite_block",
+    "fintastic:cut_stromatolite_block",
+    "fintastic:fossil_stromatolite_block",
+    "fintastic:stromatolite",
+    "fintastic:fossil_stromatolite",
+    "fintastic:stromatolite_growths",
+    "fintastic:fossil_stromatolite_growths",
+    "fintastic:live_rock",
+    "fintastic:porous_live_rock",
+    "fintastic:dead_live_rock",
+    "fintastic:dead_porous_live_rock",
+    "fintastic:red_algae_live_rock",
+    "fintastic:green_algae_live_rock",
+    "#fintastic:aquarium_glass_panes",
+    "#fintastic:aquarium_glass_blocks"
+  ]
+}

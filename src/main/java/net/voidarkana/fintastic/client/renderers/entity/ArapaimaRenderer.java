@@ -19,10 +19,10 @@ public class ArapaimaRenderer extends MobRenderer<Arapaima, FintasticModel<Arapa
     private final ArapaimaModel<Arapaima> arapaimaModel;
     private final BabyArapaimaModel<Arapaima> babyArapaimaModel;
 
-    public ArapaimaRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new ArapaimaModel<>(pContext.bakeLayer(FintasticLayers.ARAPAIMA_LAYER)), 1f);
-        this.arapaimaModel = new ArapaimaModel<>(pContext.bakeLayer(FintasticLayers.ARAPAIMA_LAYER));
-        this.babyArapaimaModel = new BabyArapaimaModel<>(pContext.bakeLayer(FintasticLayers.BABY_ARAPAIMA_LAYER));
+    public ArapaimaRenderer(EntityRendererProvider.Context context) {
+        super(context, new ArapaimaModel<>(context.bakeLayer(FintasticLayers.ARAPAIMA_LAYER)), 1f);
+        this.arapaimaModel = new ArapaimaModel<>(context.bakeLayer(FintasticLayers.ARAPAIMA_LAYER));
+        this.babyArapaimaModel = new BabyArapaimaModel<>(context.bakeLayer(FintasticLayers.BABY_ARAPAIMA_LAYER));
     }
 
     @Override
@@ -43,13 +43,13 @@ public class ArapaimaRenderer extends MobRenderer<Arapaima, FintasticModel<Arapa
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Arapaima pEntity) {
-        return new ResourceLocation(Fintastic.MOD_ID, "textures/entity/arapaima/arapaima"+(pEntity.isBaby() ? "_baby":"")+".png");
+    public ResourceLocation getTextureLocation(Arapaima entity) {
+        return Fintastic.location("textures/entity/arapaima/arapaima"+(entity.isBaby() ? "_baby":"")+".png");
     }
 
     @Override
-    protected void setupRotations(Arapaima animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
-        super.setupRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
+    protected void setupRotations(Arapaima animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick, float scale) {
+        super.setupRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick, scale);
         if (animatable.isInWaterOrBubble()){
             poseStack.mulPose(Axis.ZP.rotationDegrees(animatable.currentRoll*360/4));
         }else {

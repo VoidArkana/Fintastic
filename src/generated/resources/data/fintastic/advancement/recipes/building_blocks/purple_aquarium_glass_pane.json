@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_aquarium_glass": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fintastic:aquarium_glass"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fintastic:purple_aquarium_glass_pane"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_aquarium_glass"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fintastic:purple_aquarium_glass_pane"
+    ]
+  }
+}

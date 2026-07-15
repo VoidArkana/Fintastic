@@ -7,8 +7,6 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.voidarkana.fintastic.client.animation.DwarfFrogTadpoleAnims;
-import net.voidarkana.fintastic.client.animation.SalmonAnims;
-import net.voidarkana.fintastic.client.animation.SharkminnowAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.DwarfFrog;
 

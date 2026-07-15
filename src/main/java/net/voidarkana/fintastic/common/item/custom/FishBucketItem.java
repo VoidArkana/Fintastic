@@ -1,5 +1,7 @@
 package net.voidarkana.fintastic.common.item.custom;
 
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -8,7 +10,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -23,66 +24,76 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.*;
 import net.voidarkana.fintastic.common.item.FintyItems;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class FishBucketItem extends MobBucketItem {
 
+    private final Supplier<? extends EntityType<?>> entityType;
+
     public FishBucketItem(Supplier<? extends EntityType<?>> entityType, Supplier<? extends Fluid> fluid, Item item, boolean hasTooltip, Item.Properties builder) {
-        super(entityType, fluid, () -> {
-            return SoundEvents.BUCKET_EMPTY_FISH;
-        }, builder);
-        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> {
-            return () -> {
-                return Fintastic.CALLBACKS.add(() -> {
-                    ItemProperties.register(this, new ResourceLocation(Fintastic.MOD_ID, "variant"), (stack, world, player, i) -> {
-                        return stack.hasTag() ? (float)stack.getTag().getInt("Variant") : 0.0F;
-                    });
-                });
-            };
-        });
+        super(entityType.get(), fluid.get(), SoundEvents.BUCKET_EMPTY_FISH, builder);
+        this.entityType = entityType;
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            Fintastic.CALLBACKS.add(() -> ItemProperties.register(this, Fintastic.location("variant"), (stack, world, player, i) -> {
+                CustomData data = stack.get(DataComponents.BUCKET_ENTITY_DATA);
+                return data != null ? (float) data.copyTag().getInt("Variant") : 0.0F;
+            }));
+        }
     }
 
     @Override
-    public void checkExtraContent(@Nullable Player pPlayer, Level pLevel, ItemStack pContainerStack, BlockPos pPos) {
-        if (pLevel instanceof ServerLevel) {
-            this.spawn((ServerLevel)pLevel, pContainerStack, pPos);
-            pLevel.gameEvent(pPlayer, GameEvent.ENTITY_PLACE, pPos);
+    public void checkExtraContent(@Nullable Player player, Level level, ItemStack containerStack, BlockPos pos) {
+        if (level instanceof ServerLevel) {
+            this.spawn((ServerLevel)level, containerStack, pos);
+            level.gameEvent(player, GameEvent.ENTITY_PLACE, pos);
         }
 
     }
 
-    private void spawn(ServerLevel pServerLevel, ItemStack pBucketedMobStack, BlockPos pPos) {
-        Entity entity = getFishType().spawn(pServerLevel, pBucketedMobStack, (Player)null, pPos, MobSpawnType.BUCKET, true, false);
+    public EntityType<?> getFishType() {
+        return this.entityType.get();
+    }
+
+    private static CompoundTag getBucketData(ItemStack stack) {
+        return stack.getOrDefault(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY).copyTag();
+    }
+
+
+    private void spawn(ServerLevel serverLevel, ItemStack bucketedMobStack, BlockPos pos) {
+        Entity entity = getFishType().spawn(serverLevel, bucketedMobStack, null, pos, MobSpawnType.BUCKET, true, false);
         if (entity instanceof DwarfFrog frog){
-            CompoundTag pTag = pBucketedMobStack.getOrCreateTag();
-            frog.loadFromBucketTag(pTag);
+            CompoundTag tag = getBucketData(bucketedMobStack);
+            frog.loadFromBucketTag(tag);
             frog.setFromBucket(true);
-            if (!pTag.contains("Age")){
-                if (frog.isBaby() && pBucketedMobStack.is(FintyItems.DWARF_FROG_BUCKET.get())){
+            if (!tag.contains("Age")){
+                if (frog.isBaby() && bucketedMobStack.is(FintyItems.DWARF_FROG_BUCKET.get())){
                     frog.setBaby(false);
-                }else if (!frog.isBaby() && pBucketedMobStack.is(FintyItems.DWARF_FROG_TADPOLE_BUCKET.get())){
+                }else if (!frog.isBaby() && bucketedMobStack.is(FintyItems.DWARF_FROG_TADPOLE_BUCKET.get())){
                     frog.setAge(-12000);
                 }
             }
         }else if (entity instanceof Bucketable bucketable) {
-            CompoundTag pTag = pBucketedMobStack.getOrCreateTag();
-            bucketable.loadFromBucketTag(pTag);
+            CompoundTag tag = getBucketData(bucketedMobStack);
+            bucketable.loadFromBucketTag(tag);
             bucketable.setFromBucket(true);
 
         }
 
     }
 
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+        List<Component> details = new ArrayList<>();
 
         ChatFormatting[] achatformatting = new ChatFormatting[]{ChatFormatting.ITALIC, ChatFormatting.GRAY};
         ChatFormatting[] bchatformatting = new ChatFormatting[]{ChatFormatting.ITALIC, ChatFormatting.AQUA};
@@ -91,13 +102,10 @@ public class FishBucketItem extends MobBucketItem {
         MutableComponent translatable = Component.translatable("fintastic.translatable.shift");
         translatable.withStyle(bchatformatting);
 
-        if (!Screen.hasShiftDown()){
-            pTooltipComponents.add(translatable);
-        }
 
         if (getFishType() == FintyEntities.COPEPOD.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
 
 
@@ -108,16 +116,14 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(scientific);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(mutablecomponent);
             }
         }
 
         if (getFishType() == FintyEntities.FEATHERBACK.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
 
 
@@ -128,16 +134,14 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(mutablecomponent);
             }
         }
 
         if (getFishType() == FintyEntities.GUPPY.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
 
                 int skin = compoundtag.getInt("Variant");
                 int fin_model = compoundtag.getInt("FinModel");
@@ -203,39 +207,37 @@ public class FishBucketItem extends MobBucketItem {
                 scientific_name.withStyle(bchatformatting);
 
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(base).withStyle(achatformatting));
-                    pTooltipComponents.add(finInfo);
-                    pTooltipComponents.add(tailInfo);
+                details.add(Component.translatable(base).withStyle(achatformatting));
+                details.add(finInfo);
+                details.add(tailInfo);
 
-                    if (compoundtag.contains("HasMainPattern")){
-                        boolean has_main_pattern = compoundtag.getBoolean("HasMainPattern");
-                        if (has_main_pattern){
-                            pTooltipComponents.add(mainPatternInfo);
-                        }
+                if (compoundtag.contains("HasMainPattern")){
+                    boolean has_main_pattern = compoundtag.getBoolean("HasMainPattern");
+                    if (has_main_pattern){
+                        details.add(mainPatternInfo);
                     }
-
-                    if (compoundtag.contains("HasSecondaryPattern")){
-                        boolean has_second_pattern = compoundtag.getBoolean("HasSecondaryPattern");
-                        if (has_second_pattern){
-                            pTooltipComponents.add(secondPatternInfo);
-                        }
-                    }
-
-                    if (compoundtag.contains("HasDorsalFin")){
-                        boolean hasDorsalFin = compoundtag.getBoolean("HasDorsalFin");
-                        if (hasDorsalFin){
-                            pTooltipComponents.add(dorsalFinInfo);
-                        }
-                    }
-                    pTooltipComponents.add(scientific_name);
                 }
+
+                if (compoundtag.contains("HasSecondaryPattern")){
+                    boolean has_second_pattern = compoundtag.getBoolean("HasSecondaryPattern");
+                    if (has_second_pattern){
+                        details.add(secondPatternInfo);
+                    }
+                }
+
+                if (compoundtag.contains("HasDorsalFin")){
+                    boolean hasDorsalFin = compoundtag.getBoolean("HasDorsalFin");
+                    if (hasDorsalFin){
+                        details.add(dorsalFinInfo);
+                    }
+                }
+                details.add(scientific_name);
             }
         }
 
         if (getFishType() == FintyEntities.PLECO.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
                 Pleco.PlecoVariant variant = Pleco.PlecoVariant.byId(i);
 
@@ -246,16 +248,14 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(mutablecomponent);
             }
         }
 
         if (getFishType() == FintyEntities.CATFISH.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
                 Catfish.CatfishVariant variant = Catfish.CatfishVariant.byId(i);
 
@@ -266,16 +266,14 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(mutablecomponent);
             }
         }
 
         if (getFishType() == FintyEntities.SHARKMINNOW.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
 
                 String featherback_sci = "fintastic.sharkminnow_sci." + Sharkminnow.SharkminnowVariant.byId(i).getSerializedName();
@@ -286,17 +284,15 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(commonName.withStyle(achatformatting));
+                details.add(commonName.withStyle(achatformatting));
 
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(mutablecomponent);
             }
         }
 
         if (getFishType() == FintyEntities.MINNOW.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
 
                 int joinedVariantID = Integer.decode(String.valueOf(compoundtag.getInt("Variant")));
                 Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(joinedVariantID);
@@ -307,17 +303,15 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(Component.translatable(common).withStyle(achatformatting));
 
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(mutablecomponent);
             }
         }
 
         if (getFishType() == FintyEntities.FAIRY_SHRIMP.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
                 int j = compoundtag.getInt("Variant");
 
                 String featherback_sci = "fintastic.fairy_shrimp_sci." + FairyShrimp.FairyShrimpVariant.byId(j).getSerializedName();
@@ -327,11 +321,9 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(Component.translatable(common).withStyle(achatformatting));
 
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(mutablecomponent);
             }
         }
 
@@ -343,16 +335,14 @@ public class FishBucketItem extends MobBucketItem {
             MutableComponent mutablecomponent = Component.translatable(featherback_sci);
             mutablecomponent.withStyle(bchatformatting);
 
-            if (Screen.hasShiftDown()){
-                pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+            details.add(Component.translatable(common).withStyle(achatformatting));
 
-                pTooltipComponents.add(mutablecomponent);
-            }
+            details.add(mutablecomponent);
         }
 
         if (getFishType() == FintyEntities.MOONY.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
 
                 int i = compoundtag.getInt("Variant");
 
@@ -362,10 +352,8 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(mutablecomponent);
             }
         }
 
@@ -377,11 +365,9 @@ public class FishBucketItem extends MobBucketItem {
             MutableComponent mutablecomponent = Component.translatable(featherback_sci);
             mutablecomponent.withStyle(bchatformatting);
 
-            if (Screen.hasShiftDown()){
-                pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+            details.add(Component.translatable(common).withStyle(achatformatting));
 
-                pTooltipComponents.add(mutablecomponent);
-            }
+            details.add(mutablecomponent);
         }
 
         if (getFishType() == FintyEntities.COELACANTH.get()) {
@@ -392,17 +378,15 @@ public class FishBucketItem extends MobBucketItem {
             MutableComponent mutablecomponent = Component.translatable(featherback_sci);
             mutablecomponent.withStyle(bchatformatting);
 
-            if (Screen.hasShiftDown()){
-                pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+            details.add(Component.translatable(common).withStyle(achatformatting));
 
-                pTooltipComponents.add(mutablecomponent);
-            }
+            details.add(mutablecomponent);
         }
 
 
         if (getFishType() == FintyEntities.GOURAMI.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("VariantModel", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("VariantModel", 3)) {
 
                 int joinedVariantID = Integer.decode(String.valueOf(compoundtag.getInt("VariantModel")) + compoundtag.getInt("VariantSkin"));
 
@@ -412,17 +396,15 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(Component.translatable(common).withStyle(achatformatting));
 
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(mutablecomponent);
             }
         }
 
         if (getFishType() == FintyEntities.COD.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
 
                 int i = compoundtag.getInt("Variant");
 
@@ -432,15 +414,13 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(scientific);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(mutablecomponent);
             }
         }
         if (getFishType() == FintyEntities.SALMON.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
 
                 int i = compoundtag.getInt("Variant");
                 String j = compoundtag.getString("Size");
@@ -457,18 +437,16 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(scientific);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
-                    pTooltipComponents.add(sizeInfo);
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(sizeInfo);
+                details.add(mutablecomponent);
             }
         }
 
 
         if (getFishType() == FintyEntities.DWARF_FROG.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
                 int age = compoundtag.getInt("Age");
 
@@ -481,16 +459,14 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(scientific);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(mutablecomponent);
             }
         }
 
         if (getFishType() == FintyEntities.SMALL_CATFISH.get()) {
-            CompoundTag compoundtag = pStack.getTag();
-            if (compoundtag != null && compoundtag.contains("Variant", 3)) {
+            CompoundTag compoundtag = getBucketData(stack);
+            if (compoundtag.contains("Variant", 3)) {
                 int i = compoundtag.getInt("Variant");
                 SmallCatfish.SmallCatfishVariant variant = SmallCatfish.SmallCatfishVariant.byId(i);
 
@@ -501,12 +477,17 @@ public class FishBucketItem extends MobBucketItem {
                 MutableComponent mutablecomponent = Component.translatable(featherback_sci);
                 mutablecomponent.withStyle(bchatformatting);
 
-                if (Screen.hasShiftDown()){
-                    pTooltipComponents.add(Component.translatable(common).withStyle(achatformatting));
-                    pTooltipComponents.add(mutablecomponent);
-                }
+                details.add(Component.translatable(common).withStyle(achatformatting));
+                details.add(mutablecomponent);
             }
         }
 
+        if (details.isEmpty()) return;
+
+        if (Screen.hasShiftDown()) {
+            tooltipComponents.addAll(details);
+        }else {
+            tooltipComponents.add(translatable);
+        }
     }
 }

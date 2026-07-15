@@ -1,6 +1,7 @@
 package net.voidarkana.fintastic.common.entity.custom;
 
 import net.minecraft.Util;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -36,8 +38,8 @@ import java.util.function.IntFunction;
 
 public class Moony extends VariantBoidingFish {
 
-    public Moony(EntityType<? extends BucketableFishEntity> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Moony(EntityType<? extends BucketableFishEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
@@ -73,82 +75,80 @@ public class Moony extends VariantBoidingFish {
 
     @Override
     public void saveToBucketTag(ItemStack bucket) {
-        CompoundTag compoundnbt = bucket.getOrCreateTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        compoundnbt.putFloat("Health", this.getHealth());
-        compoundnbt.putInt("Age", this.getAge());
-        compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
-        compoundnbt.putInt("Variant", this.getVariant());
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, compoundnbt -> {
+            compoundnbt.putFloat("Health", this.getHealth());
+            compoundnbt.putInt("Age", this.getAge());
+            compoundnbt.putBoolean("CanGrow", this.getCanGrowUp());
+            compoundnbt.putInt("Variant", this.getVariant());
+        });
         if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
+            bucket.set(DataComponents.CUSTOM_NAME, this.getCustomName());
         }
     }
 
     @Override
-    public void loadFromBucketTag(CompoundTag pTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, pTag);
-        if (pTag.contains("Age")) {
-            this.setAge(pTag.getInt("Age"));}
-        if (pTag.contains("Variant")) {
-            this.setAge(pTag.getInt("Variant"));}
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
+        if (tag.contains("Age")) {
+            this.setAge(tag.getInt("Age"));}
+        if (tag.contains("Variant")) {
+            this.setAge(tag.getInt("Variant"));}
+        if (tag.contains("Variant", 3)) {
+            this.setVariant(tag.getInt("Variant"));}
+        if (tag.contains("CanGrow")) {
+            this.setCanGrowUp(tag.getBoolean("CanGrow"));}
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
 
-        if (pSpawnData == null)
-            pSpawnData = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        if (spawnData == null)
+            spawnData = super.finalizeSpawn(level, difficulty, reason, spawnData);
 
-        if (pReason == MobSpawnType.BUCKET && pDataTag != null && pDataTag.contains("Variant", 3)) {
-            this.setVariant(pDataTag.getInt("Variant"));
-            if (pDataTag.contains("Age")) {
-                this.setAge(pDataTag.getInt("Age"));}
-            this.setCanGrowUp(pDataTag.getBoolean("CanGrow"));
-        }else{
 
-            if(pReason == MobSpawnType.SPAWN_EGG || (pReason == MobSpawnType.BUCKET && pDataTag == null)){
-                this.setVariant(Util.getRandom(MoonyVariant.values(), this.random).getJoinedVariant());
+        if(reason == MobSpawnType.SPAWN_EGG || reason == MobSpawnType.BUCKET){
+            this.setVariant(Util.getRandom(MoonyVariant.values(), this.random).getJoinedVariant());
+        }else {
+            int variant;
+
+            if (spawnData instanceof MoonyGroupData groupData){
+
+                variant = groupData.getVariant();
+                this.startFollowing(groupData.leader);
+
             }else {
-                int variant;
 
-                if (pSpawnData instanceof MoonyGroupData groupData){
-
-                    variant = groupData.getVariant();
-                    this.startFollowing(groupData.leader);
-
+                if (level.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
+                    variant = switch (this.getRandom().nextInt(0, 4)) {
+                        case 1 -> MoonyVariant.AFRICAN_MOONY_1.getJoinedVariant();
+                        case 2 -> MoonyVariant.DWARF_MOONY_1.getJoinedVariant();
+                        case 3 -> MoonyVariant.DWARF_MOONY_2.getJoinedVariant();
+                        default -> MoonyVariant.AFRICAN_MOONY_2.getJoinedVariant();
+                    };
+                }else if (level.getBiome(this.blockPosition()).is(BiomeTags.IS_OCEAN)){
+                    if (this.getRandom().nextBoolean())
+                        variant = MoonyVariant.SILVER_MOONY.getJoinedVariant();
+                    else
+                        variant = MoonyVariant.FULL_MOONY.getJoinedVariant();
                 }else {
-
-                    if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_BEACH)){
-                        variant = switch (this.getRandom().nextInt(0, 4)) {
-                            case 1 -> MoonyVariant.AFRICAN_MOONY_1.getJoinedVariant();
-                            case 2 -> MoonyVariant.DWARF_MOONY_1.getJoinedVariant();
-                            case 3 -> MoonyVariant.DWARF_MOONY_2.getJoinedVariant();
-                            default -> MoonyVariant.AFRICAN_MOONY_2.getJoinedVariant();
-                        };
-                    }else if (pLevel.getBiome(this.blockPosition()).is(BiomeTags.IS_OCEAN)){
-                        if (this.getRandom().nextBoolean())
-                            variant = MoonyVariant.SILVER_MOONY.getJoinedVariant();
-                        else
-                            variant = MoonyVariant.FULL_MOONY.getJoinedVariant();
-                    }else {
-                        variant = Util.getRandom(MoonyVariant.values(), this.random).getJoinedVariant();
-                    }
-
-                    pSpawnData = new MoonyGroupData(this, variant);
+                    variant = Util.getRandom(MoonyVariant.values(), this.random).getJoinedVariant();
                 }
 
-                this.setVariant(variant);
+                spawnData = new MoonyGroupData(this, variant);
             }
+
+            this.setVariant(variant);
         }
 
-        return pSpawnData;
+        return spawnData;
     }
 
     @Nullable
     @Override
-    public BreedableWaterAnimal getBreedOffspring(ServerLevel pLevel, BreedableWaterAnimal pOtherParent) {
-        Moony baby = FintyEntities.MOONY.get().create(pLevel);
+    public BreedableWaterAnimal getBreedOffspring(ServerLevel level, BreedableWaterAnimal otherParent) {
+        Moony baby = FintyEntities.MOONY.get().create(level);
         if (baby != null){
             baby.setFromBucket(true);
             baby.setVariant(this.getVariant());
@@ -157,9 +157,9 @@ public class Moony extends VariantBoidingFish {
     }
 
     @Override
-    public boolean canMate(BreedableWaterAnimal pOtherAnimal) {
-        Moony mate = (Moony) pOtherAnimal;
-        return super.canMate(pOtherAnimal) && mate.getVariant() == this.getVariant();
+    public boolean canMate(BreedableWaterAnimal otherAnimal) {
+        Moony mate = (Moony) otherAnimal;
+        return super.canMate(otherAnimal) && mate.getVariant() == this.getVariant();
     }
 
     @Override
@@ -170,9 +170,9 @@ public class Moony extends VariantBoidingFish {
     static class MoonyGroupData extends SchoolSpawnGroupData {
         final int variant;
 
-        MoonyGroupData(Moony pLeader, int pVariant) {
-            super(pLeader);
-            this.variant = pVariant;
+        MoonyGroupData(Moony leader, int variant) {
+            super(leader);
+            this.variant = variant;
         }
 
         public int getVariant(){
@@ -221,17 +221,13 @@ public class Moony extends VariantBoidingFish {
         public static final StringRepresentable.EnumCodec<MoonyVariant> CODEC
                 = StringRepresentable.fromEnum(MoonyVariant::values);
 
-        public static MoonyVariant byId(int pId) {
-            return BY_ID.apply(pId);
+        public static MoonyVariant byId(int id) {
+            return BY_ID.apply(id);
         }
 
-        public static MoonyVariant byName(String pName) {
-            return CODEC.byName(pName, DWARF_MOONY_1);
+        public static MoonyVariant byName(String name) {
+            return CODEC.byName(name, DWARF_MOONY_1);
         }
     }
 
-    @Override
-    public boolean canBabiesSchoolWithAdults() {
-        return true;
-    }
 }

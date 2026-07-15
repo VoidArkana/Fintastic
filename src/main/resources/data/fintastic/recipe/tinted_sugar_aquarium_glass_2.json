@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "L": {
+      "tag": "fintastic:sugar_glass"
+    },
+    "G": {
+      "item": "minecraft:tinted_glass"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GLG",
+    "GGG"
+  ],
+  "result": {
+    "id": "fintastic:tinted_sugar_aquarium_glass",
+    "count": 8
+  },
+  "show_notification": true
+}

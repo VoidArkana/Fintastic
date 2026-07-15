@@ -13,16 +13,16 @@ import net.voidarkana.fintastic.common.worldgen.configurations.AlgaeBonemealConf
 
 public class AlgaeBonemealFeature extends Feature<AlgaeBonemealConfig> {
 
-    public AlgaeBonemealFeature(Codec<AlgaeBonemealConfig> p_66361_) {
-        super(p_66361_);
+    public AlgaeBonemealFeature(Codec<AlgaeBonemealConfig> codec) {
+        super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<AlgaeBonemealConfig> pContext) {
-        WorldGenLevel worldgenlevel = pContext.level();
-        BlockPos blockpos = pContext.origin();
+    public boolean place(FeaturePlaceContext<AlgaeBonemealConfig> context) {
+        WorldGenLevel worldgenlevel = context.level();
+        BlockPos blockpos = context.origin();
         BlockState blockstate = worldgenlevel.getBlockState(blockpos.below());
-        AlgaeBonemealConfig algaeBonemealConfig = pContext.config();
-        RandomSource randomsource = pContext.random();
+        AlgaeBonemealConfig algaeBonemealConfig = context.config();
+        RandomSource randomsource = context.random();
         if (!(blockstate.getBlock() instanceof AlgaeLiveRockBlock)) {
             return false;
         } else {

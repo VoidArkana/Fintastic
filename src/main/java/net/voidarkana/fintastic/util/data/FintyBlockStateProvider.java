@@ -1,13 +1,13 @@
 package net.voidarkana.fintastic.util.data;
 
+import java.util.function.Supplier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.block.FintyBlocks;
 
@@ -81,15 +81,15 @@ public class FintyBlockStateProvider extends BlockStateProvider {
                 blockTexture(FintyBlocks.AQUATIC_MOSS_PHYLLID.get())).renderType("cutout"));
     }
 
-    private void leavesBlock(RegistryObject<Block> blockRegistryObject) {
+    private void leavesBlock(Supplier<Block> blockRegistryObject) {
         simpleBlockWithItem(blockRegistryObject.get(),
-                models().singleTexture(ForgeRegistries.BLOCKS.getKey(blockRegistryObject.get()).getPath(), new ResourceLocation("minecraft:block/leaves"),
+                models().singleTexture(BuiltInRegistries.BLOCK.getKey(blockRegistryObject.get()).getPath(), ResourceLocation.parse("minecraft:block/leaves"),
                         "all", blockTexture(blockRegistryObject.get())).renderType("cutout"));
     }
 
-    private void blockItem(RegistryObject<Block> blockRegistryObject) {
+    private void blockItem(Supplier<Block> blockRegistryObject) {
         simpleBlockItem(blockRegistryObject.get(), new ModelFile.UncheckedModelFile(Fintastic.MOD_ID +
-                ":block/" + ForgeRegistries.BLOCKS.getKey(blockRegistryObject.get()).getPath()));
+                ":block/" + BuiltInRegistries.BLOCK.getKey(blockRegistryObject.get()).getPath()));
     }
 
     public void hangingSignBlock(Block signBlock, Block wallSignBlock, ResourceLocation texture) {
@@ -102,24 +102,24 @@ public class FintyBlockStateProvider extends BlockStateProvider {
         simpleBlock(wallSignBlock, sign);
     }
 
-    private void blockWithItem(RegistryObject<Block> blockRegistryObject){
+    private void blockWithItem(Supplier<Block> blockRegistryObject){
         simpleBlockWithItem(blockRegistryObject.get(),
                 cubeAll(blockRegistryObject.get()));
     }
 
-    private void nonRotateablePillarBlock(RegistryObject<Block> blockRegistryObject, String top, String bottom, String side){
-        ResourceLocation rSide = new ResourceLocation(Fintastic.MOD_ID, "block/" + side);
-        ResourceLocation rTop = new ResourceLocation(Fintastic.MOD_ID, "block/" + top);
-        ResourceLocation rBottom = new ResourceLocation(Fintastic.MOD_ID, "block/" + bottom);
+    private void nonRotateablePillarBlock(Supplier<Block> blockRegistryObject, String top, String bottom, String side){
+        ResourceLocation rSide = Fintastic.location("block/" + side);
+        ResourceLocation rTop = Fintastic.location("block/" + top);
+        ResourceLocation rBottom = Fintastic.location("block/" + bottom);
 
         simpleBlockWithItem(blockRegistryObject.get(),
                 models().cubeBottomTop(name(blockRegistryObject.get()), rSide, rBottom, rTop));
     }
 
-    private void nonRotateablePillarBlock(RegistryObject<Block> blockRegistryObject, String top_bottom, String side){
-        ResourceLocation rSide = new ResourceLocation(Fintastic.MOD_ID, "block/" + side);
-        ResourceLocation rTop = new ResourceLocation(Fintastic.MOD_ID, "block/" + top_bottom);
-        ResourceLocation rBottom = new ResourceLocation(Fintastic.MOD_ID, "block/" + top_bottom);
+    private void nonRotateablePillarBlock(Supplier<Block> blockRegistryObject, String top_bottom, String side){
+        ResourceLocation rSide = Fintastic.location("block/" + side);
+        ResourceLocation rTop = Fintastic.location("block/" + top_bottom);
+        ResourceLocation rBottom = Fintastic.location("block/" + top_bottom);
 
         simpleBlockWithItem(blockRegistryObject.get(),
                 models().cubeBottomTop(name(blockRegistryObject.get()), rSide, rBottom, rTop));
@@ -130,6 +130,6 @@ public class FintyBlockStateProvider extends BlockStateProvider {
     }
 
     private ResourceLocation key(Block block) {
-        return ForgeRegistries.BLOCKS.getKey(block);
+        return BuiltInRegistries.BLOCK.getKey(block);
     }
 }

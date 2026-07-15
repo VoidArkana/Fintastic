@@ -1,5 +1,6 @@
 package net.voidarkana.fintastic.common.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -23,41 +24,47 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.voidarkana.fintastic.common.blockentity.custom.BlockEntityBase;
 import net.voidarkana.fintastic.common.blockentity.custom.FishbowlBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class FishbowlBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 
+    public static final MapCodec<FishbowlBlock> CODEC = simpleCodec(FishbowlBlock::new);
+
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    public FishbowlBlock(Properties pProperties) {
-        super(pProperties);
-        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)));
+    public FishbowlBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new FishbowlBlockEntity(pPos, pState);
+    protected @NotNull MapCodec<? extends FishbowlBlock> codec() {
+        return CODEC;
     }
 
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    @Override
+    public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+        return new FishbowlBlockEntity(pos, state);
+    }
+
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Shapes.or(Block.box(0, 2, 0, 16, 13, 16), Block.box(2, 0, 2, 14, 15, 14));
     }
     
     @Override
-    public RenderShape getRenderShape(BlockState pState) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.MODEL;
     }
     @Override
-    public void playerWillDestroy(@NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
+    public @NotNull BlockState playerWillDestroy(@NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
         breakBlock(state, world, pos);
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     @Override
-    public void onBlockExploded(BlockState state, Level world, BlockPos pos, Explosion explosion) {
+    public void onBlockExploded(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Explosion explosion) {
         breakBlock(state, world, pos);
         super.onBlockExploded(state, world, pos, explosion);
     }
@@ -70,49 +77,48 @@ public class FishbowlBlock extends BaseEntityBlock implements SimpleWaterloggedB
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult ray) {
-        if (this instanceof EntityBlock) {
-            BlockEntity te = world.getBlockEntity(pos);
-            if (te instanceof FishbowlBlockEntity tile) {
-                return tile.onActivated(state, pos, player, hand);
-            }
+    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult ray) {
+        InteractionHand hand = InteractionHand.MAIN_HAND;
+        BlockEntity te = world.getBlockEntity(pos);
+        if (te instanceof FishbowlBlockEntity tile) {
+            return tile.onActivated(state, pos, player, hand);
         }
-        return super.use(state, world, pos, player, hand, ray);
+        return super.useWithoutItem(state, world, pos, player, ray);
     }
 
     @Override
-    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+    public boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType type) {
         return false;
     }
 
     @javax.annotation.Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        LevelAccessor levelaccessor = pContext.getLevel();
-        BlockPos blockpos = pContext.getClickedPos();
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        LevelAccessor levelaccessor = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
         boolean flag = levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(flag));
+        return this.defaultBlockState().setValue(WATERLOGGED, flag);
     }
 
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        if (pState.getValue(WATERLOGGED)) {
-            pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
+        if (state.getValue(WATERLOGGED)) {
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        super.createBlockStateDefinition(pBuilder);
-        pBuilder.add(WATERLOGGED);
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(WATERLOGGED);
     }
 
-    public FluidState getFluidState(BlockState pState) {
-        return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+    public @NotNull FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
-    public boolean placeLiquid(LevelAccessor pLevel, BlockPos pPos, BlockState pState, FluidState pFluidState) {
-        if (!pState.getValue(BlockStateProperties.WATERLOGGED) && pFluidState.getType() == Fluids.WATER) {
-            pLevel.setBlock(pPos, pState.setValue(WATERLOGGED, Boolean.valueOf(true)), 3);
-            pLevel.scheduleTick(pPos, pFluidState.getType(), pFluidState.getType().getTickDelay(pLevel));
+    public boolean placeLiquid(@NotNull LevelAccessor level, @NotNull BlockPos pos, BlockState state, @NotNull FluidState fluidState) {
+        if (!state.getValue(BlockStateProperties.WATERLOGGED) && fluidState.getType() == Fluids.WATER) {
+            level.setBlock(pos, state.setValue(WATERLOGGED, Boolean.TRUE), 3);
+            level.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(level));
             return true;
         } else {
             return false;

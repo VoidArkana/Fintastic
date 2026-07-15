@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#fintastic:duckweed_biomes",
+  "features": "fintastic:duckweed_placed",
+  "step": "top_layer_modification"
+}

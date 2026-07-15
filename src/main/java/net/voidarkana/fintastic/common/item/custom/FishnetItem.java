@@ -3,10 +3,14 @@ package net.voidarkana.fintastic.common.item.custom;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -22,6 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -30,11 +35,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyTags;
 
-import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -55,21 +64,19 @@ public class FishnetItem extends Item {
 
         if (!target.getPassengers().isEmpty()) target.ejectPassengers();
 
-        if ((!target.getType().is(FintyTags.EntityType.FISHNET_BLACKLIST) && target instanceof WaterAnimal)
-                || target.getType().is(FintyTags.EntityType.FISHNET_ADDITIONS)) {
+        if ((!target.getType().is(FintyTags.EntityTypes.FISHNET_BLACKLIST) && target instanceof WaterAnimal)
+                || target.getType().is(FintyTags.EntityTypes.FISHNET_ADDITIONS)) {
 
             if (!level.isClientSide) {
 
                 ItemStack stack1 = new ItemStack(FintyItems.FISHNET.get());
 
-                CompoundTag targetTag = target.serializeNBT();
+                CompoundTag targetTag = target.serializeNBT(level.registryAccess());
                 targetTag.putString("OwnerName", player.getName().getString());
-                CompoundTag tag = stack1.getOrCreateTag();
-                tag.put(DATA_CREATURE, targetTag);
-                stack1.setTag(tag);
+                setCreatureTag(stack1, targetTag);
 
                 if (!player.getAbilities().instabuild){
-                    stack.setTag(tag);
+                    setCreatureTag(stack, targetTag);
                 }else {
                     if (!player.getInventory().add(stack1))
                         player.drop(stack1, true);
@@ -120,27 +127,27 @@ public class FishnetItem extends Item {
         Component name2;
 
         if (containsEntity(stack)) {
-            CompoundTag tag = stack.getTag().getCompound(DATA_CREATURE);
+            CompoundTag tag = getCreatureTag(stack);
 
             if (tag.contains("CustomName")) {
-                name2 = Component.Serializer.fromJson(tag.getString("CustomName"));
+                name2 = Component.Serializer.fromJson(tag.getString("CustomName"), registryAccess());
             }
             else {
-                name2 = EntityType.byString(tag.getString("id")).orElse(null).getDescription();
+                name2 = Objects.requireNonNull(EntityType.byString(tag.getString("id")).orElse(null)).getDescription();
             }
 
-            name.append(" of ").append(name2);
+            name.append(" of ").append(Objects.requireNonNull(name2));
         }
         return name;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         if (containsEntity(stack)) {
-            CompoundTag tag = stack.getTag().getCompound(DATA_CREATURE);
+            CompoundTag tag = getCreatureTag(stack);
             Component name;
 
-            name = EntityType.byString(tag.getString("id")).orElse(null).getDescription();
+            name = Objects.requireNonNull(EntityType.byString(tag.getString("id")).orElse(null)).getDescription();
             tooltip.add(name.copy().withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }else {
             ChatFormatting[] achatformatting = new ChatFormatting[]{ChatFormatting.ITALIC, ChatFormatting.GRAY};
@@ -159,13 +166,41 @@ public class FishnetItem extends Item {
 
 
     public static boolean containsEntity(ItemStack stack) {
-        return stack.getTag() != null && stack.hasTag() && stack.getTag().contains(DATA_CREATURE);
+        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).contains(DATA_CREATURE);
+    }
+
+    private static CompoundTag getCreatureTag(ItemStack stack) {
+        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getCompound(DATA_CREATURE);
+    }
+
+    private static void setCreatureTag(ItemStack stack, CompoundTag creatureTag) {
+        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.put(DATA_CREATURE, creatureTag));
+    }
+
+    private static void removeCreatureTag(ItemStack stack) {
+        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.remove(DATA_CREATURE));
+    }
+
+    private static HolderLookup.Provider registryAccess() {
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        if (server != null) {
+            return server.registryAccess();
+        }
+
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            Level level = Fintastic.PROXY.getWorld();
+            if (level != null) {
+                return level.registryAccess();
+            }
+        }
+
+        return RegistryAccess.EMPTY;
     }
 
     private static InteractionResult releaseEntity(Level level, Player player, ItemStack stack, BlockPos pos, Direction direction) {
         if (!containsEntity(stack)) return InteractionResult.PASS;
 
-        CompoundTag tag = stack.getTag().getCompound(DATA_CREATURE);
+        CompoundTag tag = getCreatureTag(stack);
         EntityType<?> type = EntityType.byString(tag.getString("id")).orElse(null);
         LivingEntity entity;
 
@@ -175,7 +210,7 @@ public class FishnetItem extends Item {
 
         EntityDimensions size = entity.getDimensions(entity.getPose());
         if (!level.getBlockState(pos).getCollisionShape(level, pos).isEmpty())
-            pos = pos.relative(direction, (int) (direction.getAxis().isHorizontal() ? size.width : 1));
+            pos = pos.relative(direction, (int) (direction.getAxis().isHorizontal() ? size.width() : 1));
 
         entity.absMoveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         AABB aabb = entity.getBoundingBox();
@@ -186,18 +221,18 @@ public class FishnetItem extends Item {
 
         if (!level.isClientSide) {
             UUID id = entity.getUUID();
-            entity.deserializeNBT(tag);
+            entity.deserializeNBT(level.registryAccess(), tag);
             entity.setUUID(id);
             entity.moveTo(pos.getX(), pos.getY() + direction.getStepY() + 1.0, pos.getZ(), player.getYRot(), 0f);
 
-            if (stack.hasCustomHoverName()) entity.setCustomName(stack.getHoverName());
+            if (stack.has(DataComponents.CUSTOM_NAME)) entity.setCustomName(stack.getHoverName());
 
             if (entity instanceof Bucketable fish){
                 fish.setFromBucket(true);
             }
 
             if (!player.getAbilities().instabuild)
-                stack.removeTagKey(DATA_CREATURE);
+                removeCreatureTag(stack);
 
             level.addFreshEntity(entity);
             level.playSound(null, entity.blockPosition(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.AMBIENT, 1, 1);
@@ -212,7 +247,7 @@ public class FishnetItem extends Item {
         Level world = context.getLevel();
         if (!(world instanceof ServerLevel)) {
             return InteractionResult.SUCCESS;
-        } else if (context.getItemInHand().hasTag()) {
+        } else if (containsEntity(context.getItemInHand())) {
             ItemStack itemstack = context.getItemInHand();
             BlockPos blockpos = context.getClickedPos();
             Direction direction = context.getClickedFace();
@@ -226,21 +261,21 @@ public class FishnetItem extends Item {
             }
 
             ItemStack stack = context.getItemInHand();
-            CompoundTag tag = stack.getTag().getCompound(DATA_CREATURE);
+            CompoundTag tag = getCreatureTag(stack);
             EntityType<?> type = EntityType.byString(tag.getString("id")).orElse(null);
-            LivingEntity entity = (LivingEntity) type.create(context.getLevel());
+            LivingEntity entity = (LivingEntity) Objects.requireNonNull(type).create(context.getLevel());
             if (entity == null) return InteractionResult.FAIL;
 
             UUID id = entity.getUUID();
-            entity.deserializeNBT(tag);
+            entity.deserializeNBT(world.registryAccess(), tag);
             entity.setUUID(id);
 
-            entity.moveTo(blockpos1.getX() + 0.5, blockpos1.getY(), blockpos1.getZ() + 0.5, context.getPlayer().getYRot(), 0f);
+            entity.moveTo(blockpos1.getX() + 0.5, blockpos1.getY(), blockpos1.getZ() + 0.5, Objects.requireNonNull(context.getPlayer()).getYRot(), 0f);
 
-            if (stack.hasCustomHoverName()) entity.setCustomName(stack.getHoverName());
+            if (stack.has(DataComponents.CUSTOM_NAME)) entity.setCustomName(stack.getHoverName());
 
             if (!context.getPlayer().getAbilities().instabuild)
-                stack.removeTagKey(DATA_CREATURE);
+                removeCreatureTag(stack);
 
             if (entity instanceof Bucketable fish){
                 fish.setFromBucket(true);

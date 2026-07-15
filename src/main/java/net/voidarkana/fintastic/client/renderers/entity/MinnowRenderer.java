@@ -22,15 +22,15 @@ public class MinnowRenderer extends MobRenderer<Minnow, FintasticModel<Minnow>> 
     private final MinnowSmallModel<Minnow> minnowSmallModel;
     private final MinnowThinModel<Minnow> minnowThinModel;
 
-    public MinnowRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new MinnowBigModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_BIG_LAYER)), 0.25f);
+    public MinnowRenderer(EntityRendererProvider.Context context) {
+        super(context, new MinnowBigModel<>(context.bakeLayer(FintasticLayers.MINNOW_BIG_LAYER)), 0.25f);
 
-        this.minnowBigModel = new MinnowBigModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_BIG_LAYER));
-        this.minnowHatchetModel = new MinnowHatchetModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_HATCHET_LAYER));
-        this.minnowRoundModel = new MinnowRoundModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_ROUND_LAYER));
-        this.minnowSlimModel = new MinnowSlimModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_SLIM_LAYER));
-        this.minnowSmallModel = new MinnowSmallModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_SMALL_LAYER));
-        this.minnowThinModel = new MinnowThinModel<>(pContext.bakeLayer(FintasticLayers.MINNOW_THIN_LAYER));
+        this.minnowBigModel = new MinnowBigModel<>(context.bakeLayer(FintasticLayers.MINNOW_BIG_LAYER));
+        this.minnowHatchetModel = new MinnowHatchetModel<>(context.bakeLayer(FintasticLayers.MINNOW_HATCHET_LAYER));
+        this.minnowRoundModel = new MinnowRoundModel<>(context.bakeLayer(FintasticLayers.MINNOW_ROUND_LAYER));
+        this.minnowSlimModel = new MinnowSlimModel<>(context.bakeLayer(FintasticLayers.MINNOW_SLIM_LAYER));
+        this.minnowSmallModel = new MinnowSmallModel<>(context.bakeLayer(FintasticLayers.MINNOW_SMALL_LAYER));
+        this.minnowThinModel = new MinnowThinModel<>(context.bakeLayer(FintasticLayers.MINNOW_THIN_LAYER));
     }
 
     @Override
@@ -61,14 +61,14 @@ public class MinnowRenderer extends MobRenderer<Minnow, FintasticModel<Minnow>> 
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Minnow pEntity) {
-        Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(pEntity.getVariant());
-        return new ResourceLocation(Fintastic.MOD_ID,"textures/entity/minnow/"+Minnow.getModelName(minnowVariant.getModel())+"/"+minnowVariant.getSerializedName()+".png");
+    public ResourceLocation getTextureLocation(Minnow entity) {
+        Minnow.MinnowVariant minnowVariant = Minnow.MinnowVariant.byId(entity.getVariant());
+        return Fintastic.location("textures/entity/minnow/"+Minnow.getModelName(minnowVariant.getModel())+"/"+minnowVariant.getSerializedName()+".png");
     }
 
     @Override
-    protected void setupRotations(Minnow pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        pPoseStack.mulPose(Axis.ZP.rotationDegrees(pEntityLiving.currentRoll*360/4));
+    protected void setupRotations(Minnow entityLiving, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks, float scale) {
+        super.setupRotations(entityLiving, poseStack, ageInTicks, rotationYaw, partialTicks, scale);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(entityLiving.currentRoll*360/4));
     }
 }

@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.voidarkana.fintastic.client.animation.GouramiAnims;
 import net.voidarkana.fintastic.client.models.entity.base.FintasticModel;
 import net.voidarkana.fintastic.common.entity.custom.Gourami;
-import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
 
 public class GouramiSmallModel<T extends Gourami> extends FintasticModel<T> {
 
@@ -72,19 +71,19 @@ public class GouramiSmallModel<T extends Gourami> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void setupAnim(Gourami pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+	public void setupAnim(Gourami entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		if (this.young)
-			pLimbSwing /= 2;
-		this.animateIdle(pEntity.idleAnimationState, GouramiAnims.IDLE, pAgeInTicks, 1.0F, Math.max(0, 1-pEntity.getTicksOutsideWater()/3f-Math.abs(pLimbSwingAmount)));
-		this.animateIdle(pEntity.idleAnimationState, GouramiAnims.FLOP, pAgeInTicks, 1.0F,pEntity.getTicksOutsideWater()/3f);
+			limbSwing /= 2;
+		this.animateIdle(entity.idleAnimationState, GouramiAnims.IDLE, ageInTicks, 1.0F, Math.max(0, 1-entity.getTicksOutsideWater()/3f-Math.abs(limbSwingAmount)));
+		this.animateIdle(entity.idleAnimationState, GouramiAnims.FLOP, ageInTicks, 1.0F,entity.getTicksOutsideWater()/3f);
 
-		if (pEntity.isInWaterOrBubble()){
-			this.swim_rot.xRot = pHeadPitch * ((float)Math.PI / 180F);
-			this.swim_rot.zRot = pNetHeadYaw * (((float)Math.PI / 180F)/2);
+		if (entity.isInWaterOrBubble()){
+			this.swim_rot.xRot = headPitch * ((float)Math.PI / 180F);
+			this.swim_rot.zRot = netHeadYaw * (((float)Math.PI / 180F)/2);
 
-			this.animateWalk(GouramiAnims.SWIM, pLimbSwing, pLimbSwingAmount, 2f, 3f);
+			this.animateWalk(GouramiAnims.SWIM, limbSwing, limbSwingAmount, 2f, 3f);
 		}
 		else {
 			this.swim_rot.resetPose();
@@ -93,7 +92,7 @@ public class GouramiSmallModel<T extends Gourami> extends FintasticModel<T> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
 		poseStack.pushPose();
 
 		if (this.young){
@@ -103,7 +102,7 @@ public class GouramiSmallModel<T extends Gourami> extends FintasticModel<T> {
 			poseStack.translate(0, 0.2, 0);
 		}
 
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 		poseStack.popPose();	}
 
 	@Override

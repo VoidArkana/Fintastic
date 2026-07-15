@@ -1,8 +1,6 @@
 package net.voidarkana.fintastic.util;
 
-import com.electronwill.nightconfig.core.ConfigSpec;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import net.neoforged.neoforge.common.NeoForgeConfig;
 
 public class FintyCommonConfig {
     public static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();

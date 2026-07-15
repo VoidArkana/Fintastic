@@ -94,7 +94,7 @@ public class RainbowSharkModel<T extends Sharkminnow> extends FintasticModel<T> 
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
 		poseStack.pushPose();
 
 		if (this.young){
@@ -102,7 +102,7 @@ public class RainbowSharkModel<T extends Sharkminnow> extends FintasticModel<T> 
 			poseStack.translate(0, 1, 0);
 		}
 
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 		poseStack.popPose();
 	}
 

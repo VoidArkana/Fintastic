@@ -18,15 +18,15 @@ import net.voidarkana.fintastic.common.block.custom.AnubiasBlock;
 
 public class AnubiasLogFeature extends Feature<NoneFeatureConfiguration> {
 
-    public AnubiasLogFeature(Codec<NoneFeatureConfiguration> p_66754_) {
-        super(p_66754_);
+    public AnubiasLogFeature(Codec<NoneFeatureConfiguration> codec) {
+        super(codec);
     }
 
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> pContext) {
+    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         boolean flag = false;
-        RandomSource randomsource = pContext.random();
-        WorldGenLevel worldgenlevel = pContext.level();
-        BlockPos blockpos = pContext.origin();
+        RandomSource randomsource = context.random();
+        WorldGenLevel worldgenlevel = context.level();
+        BlockPos blockpos = context.origin();
         int i = randomsource.nextInt(8) - randomsource.nextInt(8);
         int j = randomsource.nextInt(8) - randomsource.nextInt(8);
         int k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + i, blockpos.getZ() + j);

@@ -8,7 +8,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.voidarkana.fintastic.common.entity.custom.ai.FollowIndiscriminateSchoolLeaderGoal;
@@ -21,8 +20,8 @@ public abstract class SchoolingFish extends BucketableFishEntity{
 
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(SchoolingFish.class, EntityDataSerializers.INT);
 
-    protected SchoolingFish(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    protected SchoolingFish(EntityType<? extends BreedableWaterAnimal> entityType, Level level) {
+        super(entityType, level);
     }
 
     protected void registerGoals() {
@@ -31,9 +30,9 @@ public abstract class SchoolingFish extends BucketableFishEntity{
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(VARIANT, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT, 0);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -60,19 +59,19 @@ public abstract class SchoolingFish extends BucketableFishEntity{
 
 
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-        super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+        super.finalizeSpawn(level, difficulty, reason, spawnData);
 
-        if (pReason == MobSpawnType.STRUCTURE){
+        if (reason == MobSpawnType.STRUCTURE){
             this.setFromBucket(true);
         }
-        if (pSpawnData == null) {
-            pSpawnData = new SchoolingFish.SchoolSpawnGroupData(this);
+        if (spawnData == null) {
+            spawnData = new SchoolingFish.SchoolSpawnGroupData(this);
         } else {
-            this.startFollowing(((SchoolingFish.SchoolSpawnGroupData)pSpawnData).leader);
+            this.startFollowing(((SchoolingFish.SchoolSpawnGroupData)spawnData).leader);
         }
 
-        return pSpawnData;
+        return spawnData;
     }
 
 
@@ -92,13 +91,14 @@ public abstract class SchoolingFish extends BucketableFishEntity{
         return this.leader != null && this.leader.isAlive();
     }
 
-    public SchoolingFish startFollowing(SchoolingFish pLeader) {
-        this.leader = pLeader;
-        pLeader.addFollower();
-        return pLeader;
+    public SchoolingFish startFollowing(SchoolingFish leader) {
+        this.leader = leader;
+        leader.addFollower();
+        return leader;
     }
 
     public void stopFollowing() {
+        assert this.leader != null;
         this.leader.removeFollower();
         this.leader = null;
     }
@@ -131,28 +131,26 @@ public abstract class SchoolingFish extends BucketableFishEntity{
     }
 
     public boolean inRangeOfLeader() {
+        assert this.leader != null;
         return this.distanceToSqr(this.leader) <= 121.0D;
     }
 
     public void pathToLeader() {
         if (this.isFollower()) {
+            assert this.leader != null;
             this.getNavigation().moveTo(this.leader, 1.2D);
         }
     }
 
-    public void addFollowers(Stream<? extends SchoolingFish> pFollowers) {
-        pFollowers.limit((long)(this.getMaxSchoolSize() - this.schoolSize)).filter((p_27538_) -> {
-            return p_27538_ != this;
-        }).forEach((fish) -> {
-            fish.startFollowing(this);
-        });
+    public void addFollowers(Stream<? extends SchoolingFish> followers) {
+        followers.limit(this.getMaxSchoolSize() - this.schoolSize).filter((fish) -> fish != this).forEach((fish) -> fish.startFollowing(this));
     }
 
     public static class SchoolSpawnGroupData extends AgeableFishGroupData {
         public final SchoolingFish leader;
-        public SchoolSpawnGroupData(SchoolingFish pLeader) {
+        public SchoolSpawnGroupData(SchoolingFish leader) {
             super(true);
-            this.leader = pLeader;
+            this.leader = leader;
         }
     }
 

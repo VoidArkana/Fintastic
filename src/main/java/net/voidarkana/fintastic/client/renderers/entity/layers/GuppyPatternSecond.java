@@ -16,22 +16,21 @@ public class GuppyPatternSecond<T extends Guppy> extends RenderLayer<T, Fintasti
 
     private final GuppyModel<T> guppyModel;
 
-    public GuppyPatternSecond(RenderLayerParent<T, FintasticModel<T>> pRenderer, EntityRendererProvider.Context pContext) {
-        super(pRenderer);
-        this.guppyModel = new GuppyModel<>(pContext.bakeLayer(FintasticLayers.GUPPY));
+    public GuppyPatternSecond(RenderLayerParent<T, FintasticModel<T>> renderer, EntityRendererProvider.Context context) {
+        super(renderer);
+        this.guppyModel = new GuppyModel<>(context.bakeLayer(FintasticLayers.GUPPY));
     }
 
     @Override
-    public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, T entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 
         if (!entity.isInvisible() && !entity.isBaby() && entity.getHasSecondPattern()) {
-            ResourceLocation texture = new ResourceLocation(Fintastic.MOD_ID,
-                    "textures/entity/guppy/patterns/"+entity.getSecondPatternName(entity.getSecondPattern())
+            ResourceLocation texture = Fintastic.location("textures/entity/guppy/patterns/"+entity.getSecondPatternName(entity.getSecondPattern())
                             +"/guppy_pattern_"+entity.getSecondPatternName(entity.getSecondPattern())+"_"+entity.getSecondPatternColor()+".png");
 
-            coloredCutoutModelCopyLayerRender(this.getParentModel(), guppyModel, texture, pPoseStack, pBuffer, pPackedLight,
-                    entity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch,
-                    pPartialTick, 1, 1, 1);
+            coloredCutoutModelCopyLayerRender(this.getParentModel(), guppyModel, texture, poseStack, buffer, packedLight,
+                    entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch,
+                    partialTick, -1);
         }
     }
 }

@@ -1,19 +1,28 @@
 package net.voidarkana.fintastic.common.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class TintedAquariumGlassBlock extends AquariumGlassBlock{
-    public TintedAquariumGlassBlock(Properties pProperties) {
-        super(pProperties);
+    public static final MapCodec<TintedAquariumGlassBlock> CODEC = simpleCodec(TintedAquariumGlassBlock::new);
+
+    public TintedAquariumGlassBlock(Properties properties) {
+        super(properties);
     }
 
-    public boolean propagatesSkylightDown(BlockState p_154824_, BlockGetter p_154825_, BlockPos p_154826_) {
+    @Override
+    protected @NotNull MapCodec<? extends TintedAquariumGlassBlock> codec() {
+        return CODEC;
+    }
+
+    public boolean propagatesSkylightDown(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return false;
     }
 
-    public int getLightBlock(BlockState p_154828_, BlockGetter p_154829_, BlockPos p_154830_) {
-        return p_154829_.getMaxLightLevel();
+    public int getLightBlock(@NotNull BlockState state, BlockGetter level, @NotNull BlockPos pos) {
+        return level.getMaxLightLevel();
     }
 }

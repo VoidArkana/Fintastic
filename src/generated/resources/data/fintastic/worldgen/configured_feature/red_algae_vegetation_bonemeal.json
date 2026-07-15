@@ -1,0 +1,48 @@
+{
+  "type": "fintastic:algae_bonemeal_feature",
+  "config": {
+    "spread_height": 1,
+    "spread_width": 3,
+    "state_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "fintastic:dragons_breath_algae"
+          },
+          "weight": 17
+        },
+        {
+          "data": {
+            "Name": "fintastic:blue_hypnea"
+          },
+          "weight": 13
+        },
+        {
+          "data": {
+            "Name": "fintastic:red_algae_carpet",
+            "Properties": {
+              "waterlogged": "true"
+            }
+          },
+          "weight": 25
+        },
+        {
+          "data": {
+            "Name": "fintastic:red_algae"
+          },
+          "weight": 30
+        },
+        {
+          "data": {
+            "Name": "fintastic:red_algae_fan",
+            "Properties": {
+              "waterlogged": "true"
+            }
+          },
+          "weight": 25
+        }
+      ]
+    }
+  }
+}
