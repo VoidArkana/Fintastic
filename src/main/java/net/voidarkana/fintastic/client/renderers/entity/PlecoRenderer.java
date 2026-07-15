@@ -31,7 +31,7 @@ public class PlecoRenderer<T extends Pleco> extends MobRenderer<T, PlecoModel<T>
     protected void setupRotations(T pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
 
-        if (pEntityLiving.isAttached()){
+        if (!pEntityLiving.isAttached()){
             pPoseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(Math.max(0, pEntityLiving.getTicksOutsideWater()/3-pEntityLiving.getTicksOnGround()/3), pEntityLiving.currentRoll*360/4, 0)));
         }
     }
