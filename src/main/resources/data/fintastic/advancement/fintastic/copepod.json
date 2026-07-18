@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/creatures",
   "display": {
     "icon": {
-      "item": "fintastic:copepod"
+      "count": 1,
+      "id": "fintastic:copepod"
     },
     "title": {
       "translate": "advancements.fintastic.copepod.title"
@@ -24,7 +25,7 @@
             "entity": "this",
             "predicate": {
               "type_specific": {
-                "type": "player",
+                "type": "minecraft:player",
                 "looking_at": {
                   "type": "fintastic:copepod"
                 }

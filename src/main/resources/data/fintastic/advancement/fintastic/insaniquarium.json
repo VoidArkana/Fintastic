@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/creatures",
   "display": {
     "icon": {
-      "item": "fintastic:arapaima_fishnet"
+      "count": 1,
+      "id": "fintastic:arapaima_fishnet"
     },
     "title": {
       "translate": "advancements.fintastic.insaniquarium.title"

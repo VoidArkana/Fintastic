@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/normal_feed",
   "display": {
     "icon": {
-      "item": "fintastic:premium_feed"
+      "count": 1,
+      "id": "fintastic:premium_feed"
     },
     "title": {
       "translate": "advancements.fintastic.premium_feed.title"

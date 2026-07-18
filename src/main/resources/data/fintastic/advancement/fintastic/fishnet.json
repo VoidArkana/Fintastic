@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/items",
   "display": {
     "icon": {
-      "item": "fintastic:fishnet"
+      "count": 1,
+      "id": "fintastic:fishnet"
     },
     "title": {
       "translate": "advancements.fintastic.fishnet.title"

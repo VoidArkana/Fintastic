@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/items",
   "display": {
     "icon": {
-      "item": "fintastic:aquarium_glass"
+      "count": 1,
+      "id": "fintastic:aquarium_glass"
     },
     "title": {
       "translate": "advancements.fintastic.aquarium_glass.title"
@@ -12,22 +13,21 @@
     },
     "frame": "task",
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
+    "announce_to_chat": true
   },
   "requirements": [
     ["picked_up_item"]
   ],
   "criteria": {
     "picked_up_item": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{
-          "items": [
-            "fintastic:aquarium_glass"
-          ]
-        }]
-      }
+        "items": [
+          {
+            "items": "fintastic:aquarium_glass"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   }
 }

@@ -2,7 +2,6 @@
   "parent": "fintastic:fintastic/root",
   "criteria": {
     "consumed_item": {
-      "conditions": {},
       "trigger": "minecraft:consume_item"
     }
   },
@@ -17,10 +16,9 @@
     "description": {
       "translate": "advancements.fintastic.creatures.description"
     },
-    "frame": "goal",
-    "hidden": false,
     "icon": {
-      "item": "fintastic:featherback_spawn_egg"
+      "count": 1,
+      "id": "fintastic:featherback_spawn_egg"
     },
     "show_toast": false,
     "title": {

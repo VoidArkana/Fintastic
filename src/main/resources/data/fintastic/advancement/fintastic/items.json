@@ -2,7 +2,6 @@
   "parent": "fintastic:fintastic/root",
   "criteria": {
     "consumed_item": {
-      "conditions": {},
       "trigger": "minecraft:consume_item"
     }
   },
@@ -20,7 +19,8 @@
     "frame": "goal",
     "hidden": false,
     "icon": {
-      "item": "fintastic:fishnet"
+      "count": 1,
+      "id": "fintastic:fishnet"
     },
     "show_toast": false,
     "title": {

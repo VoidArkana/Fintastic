@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/creatures",
   "display": {
     "icon": {
-      "item": "fintastic:moony"
+      "count": 1,
+      "id": "fintastic:moony"
     },
     "title": {
       "translate": "advancements.fintastic.moony.title"
@@ -24,7 +25,7 @@
             "entity": "this",
             "predicate": {
               "type_specific": {
-                "type": "player",
+                "type": "minecraft:player",
                 "looking_at": {
                   "type": "fintastic:moony"
                 }

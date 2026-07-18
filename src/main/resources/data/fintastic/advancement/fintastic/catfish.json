@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/creatures",
   "display": {
     "icon": {
-      "item": "fintastic:catfish"
+      "count": 1,
+      "id": "fintastic:catfish"
     },
     "title": {
       "translate": "advancements.fintastic.catfish.title"
@@ -24,7 +25,7 @@
             "entity": "this",
             "predicate": {
               "type_specific": {
-                "type": "player",
+                "type": "minecraft:player",
                 "looking_at": {
                   "type": "fintastic:catfish"
                 }

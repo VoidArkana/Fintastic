@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/creatures",
   "display": {
     "icon": {
-      "item": "fintastic:guppy"
+      "count": 1,
+      "id": "fintastic:guppy"
     },
     "title": {
       "translate": "advancements.fintastic.guppy.title"
@@ -24,7 +25,7 @@
             "entity": "this",
             "predicate": {
               "type_specific": {
-                "type": "player",
+                "type": "minecraft:player",
                 "looking_at": {
                   "type": "fintastic:guppy"
                 }

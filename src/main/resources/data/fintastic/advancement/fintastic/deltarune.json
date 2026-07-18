@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/dwarf_frog",
   "display": {
     "icon": {
-      "item": "fintastic:green_dwarf_froglight"
+      "count": 1,
+      "id": "fintastic:green_dwarf_froglight"
     },
     "title": {
       "translate": "advancements.fintastic.deltarune.title"

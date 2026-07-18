@@ -1,7 +1,6 @@
 {
   "criteria": {
     "consumed_item": {
-      "conditions": {},
       "trigger": "minecraft:consume_item"
     }
   },
@@ -17,10 +16,9 @@
     "description": {
       "translate": "advancements.fintastic.root.description"
     },
-    "frame": "task",
-    "hidden": false,
     "icon": {
-      "item": "fintastic:featherback"
+      "count": 1,
+      "id": "fintastic:featherback"
     },
     "show_toast": false,
     "title": {

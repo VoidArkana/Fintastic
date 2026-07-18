@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/creatures",
   "display": {
     "icon": {
-      "item": "fintastic:dwarf_frog"
+      "count": 1,
+      "id": "fintastic:dwarf_frog"
     },
     "title": {
       "translate": "advancements.fintastic.dwarf_frog.title"
@@ -24,7 +25,7 @@
             "entity": "this",
             "predicate": {
               "type_specific": {
-                "type": "player",
+                "type": "minecraft:player",
                 "looking_at": {
                   "type": "fintastic:dwarf_frog"
                 }

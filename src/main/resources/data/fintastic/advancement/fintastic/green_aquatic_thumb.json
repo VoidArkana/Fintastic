@@ -2,7 +2,8 @@
   "parent": "fintastic:fintastic/items",
   "display": {
     "icon": {
-      "item": "fintastic:lotus_pad"
+      "count": 1,
+      "id": "fintastic:lotus_pad"
     },
     "title": {
       "translate": "advancements.fintastic.green_aquatic_thumb.title"
