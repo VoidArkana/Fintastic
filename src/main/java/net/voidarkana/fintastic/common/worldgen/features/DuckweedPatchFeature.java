@@ -62,11 +62,12 @@ public class DuckweedPatchFeature extends Feature<DuckweedPatchConfiguration> {
                         int gauss_bottom_limit = 1;
                         double mexp = Math.exp(gauss_width*(-mpowx -mpowz));
 
-                        int randomOffset = random.nextInt(-1, 2);
+                        int randomOffset = random.nextBoolean() ? -1 : 1;
                         int duckweedAmount = (int)Math.min(5, Math.round(mexp*gauss_sharpness + gauss_bottom_limit) + (x <= 1 || z <= 1 ? 0 : randomOffset));
                         if (duckweedAmount == 0 && random.nextBoolean()){
                             duckweedAmount = 1;
                         }
+                        //Check why duckweed with fullness of 4 doesn't spawn
 
                         if (duckweedAmount != 0){
                             BlockState duckweed = FintyBlocks.DUCKWEED.get().defaultBlockState().setValue(DuckweedBlock.AMOUNT, duckweedAmount)

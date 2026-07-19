@@ -147,6 +147,16 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         this.entityData.set(ATTACHED_DIRECTION, direction);
     }
 
+    public void detach(){
+        if (this.isAttached())
+            this.setDeltaMovement(new Vec3(this.getAttachedDirection().getOpposite().getStepX()/4D, 0, -this.getAttachedDirection().getOpposite().getStepZ()/4D));
+
+        this.setWantsToAttach(false);
+        this.setSwimming(true);
+        this.setAttachedDirection(Direction.DOWN);
+        this.setPointingDirection(Direction.DOWN);
+    }
+
     public Direction getPointingDirection() {
         return this.entityData.get(POINTING_DIRECTION);
     }
@@ -231,15 +241,11 @@ public class Pleco extends AbstractSwimmingBottomDweller {
         }
 
         if (this.isAttached() && wantsToAttach() && !this.isInWater()){
-            this.setWantsToAttach(false);
-            this.setAttachedDirection(Direction.DOWN);
-            this.setPointingDirection(Direction.DOWN);
+            this.detach();
         }
 
         if (this.isAttached() && this.getRandom().nextInt(1000)==0){
-            this.setWantsToAttach(false);
-            this.setAttachedDirection(Direction.DOWN);
-            this.setPointingDirection(Direction.DOWN);
+            this.detach();
         }
     }
 
@@ -314,7 +320,7 @@ public class Pleco extends AbstractSwimmingBottomDweller {
                 }
 
                 if (counter >= 4){
-                    this.setAttachedDirection(Direction.DOWN);
+                    this.detach();
                 }
             }
             this.yBodyRot = this.getAttachedDirection().toYRot();
@@ -337,8 +343,7 @@ public class Pleco extends AbstractSwimmingBottomDweller {
             }
 
             if (!this.isEyeInFluidType(Fluids.WATER.getFluidType())){
-
-                this.setAttachedDirection(Direction.DOWN);
+                this.detach();
             }
         }
 
@@ -372,9 +377,7 @@ public class Pleco extends AbstractSwimmingBottomDweller {
 
 
         if ((!this.wantsToAttach() || !this.isInWater()) && this.isAttached()){
-            this.setWantsToAttach(false);
-            this.setAttachedDirection(Direction.DOWN);
-            this.setPointingDirection(Direction.DOWN);
+            this.detach();
         }
 
         if (!this.isInWater() && this.wantsToAttach())

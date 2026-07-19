@@ -23,6 +23,7 @@ public class BoidGoal extends Goal {
     private int timeToFindNearbyEntities;
     List<? extends VariantBoidingFish> nearbyMobs;
     private boolean enabled = true;
+    private int timer = 0;
 
     public BoidGoal(VariantBoidingFish mob, float separationInfluence, float separationRange, float alignmentInfluence, float cohesionInfluence) {
         timeToFindNearbyEntities = 0;
@@ -36,12 +37,24 @@ public class BoidGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return this.mob.isInWater() && mob.isFollower(); //(mob.isFollower() || (mob.hasFollowers() && mob.canBeFollowed()));
+        return this.mob.isInWater() && mob.isFollower() && this.enabled; //(mob.isFollower() || (mob.hasFollowers() && mob.canBeFollowed()));
     }
 
     public void tick() {
         if (!enabled) {
             return;
+        }
+
+        if (this.mob.horizontalCollision) {
+            ++this.timer;
+            if (this.timer > 60) {
+                if (this.mob.isFollower())
+                    this.mob.stopFollowing();
+                this.timer = 0;
+                this.enabled = false;
+            }
+        } else {
+            this.timer = 0;
         }
 
         if (--this.timeToFindNearbyEntities <= 0) {
@@ -52,7 +65,6 @@ public class BoidGoal extends Goal {
         }
 
         if (nearbyMobs.isEmpty()) {
-            LOGGER.warn("No nearby entities found. There should always be at least the entity itself. Will disable behavior for this entity instead of crash for compatibility reasons");
             enabled = false;
         }
 
