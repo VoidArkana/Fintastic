@@ -63,7 +63,7 @@ public class Moony extends VariantBoidingFish {
 
         this.goalSelector.addGoal(2, new BoidGoal(this, 0.2f, 0.75f, 8 / 20f, 1 / 20f));
         this.goalSelector.addGoal(2, new StayInWaterGoal(this));
-        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.5f));
+        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.5f, 0.35F));
 
         this.goalSelector.addGoal(6, new RandomSwimmingGoal(this, 1, 10));
     }

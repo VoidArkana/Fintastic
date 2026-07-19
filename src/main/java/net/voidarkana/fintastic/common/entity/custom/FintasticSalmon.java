@@ -19,9 +19,11 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -35,7 +37,12 @@ import net.voidarkana.fintastic.Fintastic;
 import net.voidarkana.fintastic.common.entity.FintyEntities;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishBreedGoal;
 import net.voidarkana.fintastic.common.entity.custom.ai.FishJumpGoal;
+import net.voidarkana.fintastic.common.entity.custom.ai.boids.BoidGoal;
+import net.voidarkana.fintastic.common.entity.custom.ai.boids.LimitSpeedAndLookInVelocityDirectionGoal;
+import net.voidarkana.fintastic.common.entity.custom.ai.boids.OrganizeBoidsVariantGoal;
+import net.voidarkana.fintastic.common.entity.custom.ai.boids.StayInWaterGoal;
 import net.voidarkana.fintastic.common.entity.custom.base.BreedableWaterAnimal;
+import net.voidarkana.fintastic.common.entity.custom.base.VariantBoidingFish;
 import net.voidarkana.fintastic.common.entity.custom.base.VariantSchoolingFish;
 import net.voidarkana.fintastic.common.item.FintyItems;
 import net.voidarkana.fintastic.util.FintyCommonConfig;
@@ -44,7 +51,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.IntFunction;
 
-public class FintasticSalmon extends VariantSchoolingFish {
+public class FintasticSalmon extends VariantBoidingFish {
 
     private static final Ingredient FOOD_ITEMS = Ingredient.of(FintyTags.Items.FISH_FEED);
     private static final EntityDataAccessor<Integer> SIZE = SynchedEntityData.defineId(FintasticSalmon.class, EntityDataSerializers.INT);
@@ -71,10 +78,28 @@ public class FintasticSalmon extends VariantSchoolingFish {
 
     @Override
     protected void registerGoals() {
-        super.registerGoals();
-        this.goalSelector.addGoal(2, new FishBreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 2D, FOOD_ITEMS, false));
+        this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
+        this.targetSelector.addGoal(0, (new HurtByTargetGoal(this)).setAlertOthers());
+
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.5D));
+        this.goalSelector.addGoal(1, new TemptGoal(this, 2D, FOOD_ITEMS, false));
+        this.goalSelector.addGoal(1, new FishBreedGoal(this, 1.5D));
+
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.6D, 1.4D, (entity) -> {
+            if (entity instanceof Player player){
+                return !player.isCreative() && !player.isSpectator() && !player.getItemBySlot(EquipmentSlot.HEAD).is(FintyItems.FISHING_HAT.get());
+            }
+            return false;}));
+
+        this.goalSelector.addGoal(1, new OrganizeBoidsVariantGoal(this));
+
+        this.goalSelector.addGoal(2, new BoidGoal(this, 0.2f, 0.55f, 8 / 20f, 1 / 20f));
+        this.goalSelector.addGoal(2, new StayInWaterGoal(this));
+        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.75f, 0.7F));
+
         this.goalSelector.addGoal(4, new FishJumpGoal(this, 15));
+
+        this.goalSelector.addGoal(6, new RandomSwimmingGoal(this, 1, 10));
     }
 
     @Override

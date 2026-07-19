@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 import net.voidarkana.fintastic.common.entity.custom.base.BucketableFishEntity;
 
 public class FishJumpGoal extends JumpGoal {
-    private static final int[] STEPS_TO_CHECK = new int[]{0, 1, 4, 5, 6, 7};
+    private static final int[] STEPS_TO_CHECK = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
     private final BucketableFishEntity dolphin;
     private final int interval;
     private boolean breached;

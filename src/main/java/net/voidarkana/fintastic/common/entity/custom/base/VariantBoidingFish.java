@@ -102,9 +102,10 @@ public abstract class VariantBoidingFish extends BucketableFishEntity{
     }
 
     public void stopFollowing() {
-        assert this.leader != null;
-        this.leader.removeFollower();
-        this.leader = null;
+        if (this.leader!=null){
+            this.leader.removeFollower();
+            this.leader = null;
+        }
     }
 
     private void addFollower() {
